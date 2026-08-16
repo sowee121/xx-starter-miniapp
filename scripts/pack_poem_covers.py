@@ -10,6 +10,7 @@ from PIL import Image
 
 
 ROOT = Path(__file__).resolve().parents[1]
+# 生成工具默认输出目录；打包时从此读取 cover-*.png
 SRC = Path(
     "/Users/ww/.cursor/projects/Users-ww-Projects-Miniprogram-xx-starter-miniapp/assets"
 )
@@ -18,7 +19,6 @@ RAW = ATOMS / "raw"
 MP_OUT = ROOT / "miniprogram/subpkg/poem/static"
 CLOUD_OUT = ROOT / "cloud-assets/subpkg/poem/static"
 H5_POEM = ROOT / "docs/design/h5/poem"
-PROJECT_ASSETS = ROOT / "assets"
 
 W, H = 640, 480
 ATOMS_W, ATOMS_H = 1280, 960
@@ -56,7 +56,6 @@ def save_palette(im: Image.Image, path: Path) -> None:
 
 
 def pack() -> None:
-    PROJECT_ASSETS.mkdir(parents=True, exist_ok=True)
     RAW.mkdir(parents=True, exist_ok=True)
     ATOMS.mkdir(parents=True, exist_ok=True)
     MP_OUT.mkdir(parents=True, exist_ok=True)
@@ -69,7 +68,7 @@ def pack() -> None:
         if not src.exists():
             raise FileNotFoundError(src)
 
-        shutil.copy2(src, PROJECT_ASSETS / src_name)
+        # 原始全彩稿归档到 atoms/raw，供后续重跑；不再写入仓库根 assets/
         shutil.copy2(src, RAW / dst_name)
 
         cropped = crop_to_43(Image.open(src))

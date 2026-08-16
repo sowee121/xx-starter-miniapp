@@ -7,6 +7,9 @@ project.private.config.json
 # 云开发 / CloudBase CLI 本地状态
 .cloudbase/
 
+# 封面生成等本地草稿（勿入库；产物进 docs/design/atoms 与分包 static）
+/assets/
+
 # 依赖
 node_modules/
 miniprogram_npm/
