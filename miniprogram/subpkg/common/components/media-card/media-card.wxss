@@ -1,0 +1,19 @@
+/* 主体样式复用全局 learning.wxss 的 media-row */
+.media-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.media-card__meta-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.media-card__meta-text {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--ink);
+}

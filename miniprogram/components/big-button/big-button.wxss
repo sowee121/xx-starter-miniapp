@@ -1,0 +1,17 @@
+/* 尺寸与渐变来自全局 .big-btn */
+.big-btn {
+  gap: 14rpx;
+}
+
+.big-btn__icon {
+  width: 40rpx;
+  height: 40rpx;
+  flex-shrink: 0;
+}
+
+.big-btn__text {
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 700;
+  line-height: 1.2;
+}

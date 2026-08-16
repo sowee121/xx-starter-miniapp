@@ -1,0 +1,64 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/coming/coming",
+    "pages/parent/parent"
+  ],
+  "subPackages": [
+    {
+      "root": "subpkg/poem",
+      "name": "poem",
+      "pages": [
+        "poem/poem",
+        "detail/detail"
+      ]
+    },
+    {
+      "root": "subpkg/hanzi",
+      "name": "hanzi",
+      "pages": ["hub/hub", "list/list", "detail/detail"]
+    },
+    {
+      "root": "subpkg/math",
+      "name": "math",
+      "pages": ["hub/hub", "count/count", "calc/calc"]
+    },
+    {
+      "root": "subpkg/english",
+      "name": "english",
+      "pages": ["list/list", "detail/detail"]
+    },
+    {
+      "root": "subpkg/pinyin",
+      "name": "pinyin",
+      "pages": ["list/list", "detail/detail"]
+    },
+    {
+      "root": "subpkg/life",
+      "name": "life",
+      "pages": ["calendar/index", "task/list", "reward/shop"]
+    },
+    {
+      "root": "subpkg/common",
+      "name": "common",
+      "pages": ["bridge/bridge"]
+    }
+  ],
+  "preloadRule": {
+    "pages/home/home": {
+      "network": "wifi",
+      "packages": ["common"]
+    }
+  },
+  "window": {
+    "navigationStyle": "custom",
+    "navigationBarTitleText": "嘻嘻启蒙乐园",
+    "navigationBarBackgroundColor": "#E9F2DC",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#E9F2DC",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

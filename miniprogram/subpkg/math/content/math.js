@@ -1,0 +1,238 @@
+module.exports = {
+  "calcImage": "dog",
+  "fruitPool": [
+    "apple-english",
+    "banana-english",
+    "orange-english",
+    "grape-english"
+  ],
+  "count": [
+    {
+      "id": "c1",
+      "answer": 1,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "c2",
+      "answer": 2,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "c3",
+      "answer": 3,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "c4",
+      "answer": 4,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "c5",
+      "answer": 5,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "id": "c6",
+      "answer": 6,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": "c7",
+      "answer": 7,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "id": "c8",
+      "answer": 8,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "id": "c9",
+      "answer": 9,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "c10",
+      "answer": 10,
+      "prompt": "数一数，有几个？",
+      "choices": [
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "calc": [
+    {
+      "id": "a1",
+      "a": 1,
+      "op": "+",
+      "b": 1,
+      "answer": 2,
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "a2",
+      "a": 1,
+      "op": "+",
+      "b": 2,
+      "answer": 3,
+      "choices": [
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "id": "a3",
+      "a": 2,
+      "op": "+",
+      "b": 2,
+      "answer": 4,
+      "choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "a4",
+      "a": 1,
+      "op": "+",
+      "b": 3,
+      "answer": 4,
+      "choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "a5",
+      "a": 2,
+      "op": "+",
+      "b": 3,
+      "answer": 5,
+      "choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "a6",
+      "a": 4,
+      "op": "+",
+      "b": 1,
+      "answer": 5,
+      "choices": [
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "id": "s1",
+      "a": 2,
+      "op": "−",
+      "b": 1,
+      "answer": 1,
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "s2",
+      "a": 3,
+      "op": "−",
+      "b": 1,
+      "answer": 2,
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "s3",
+      "a": 4,
+      "op": "−",
+      "b": 2,
+      "answer": 2,
+      "choices": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "s4",
+      "a": 5,
+      "op": "−",
+      "b": 2,
+      "answer": 3,
+      "choices": [
+        2,
+        3,
+        4
+      ]
+    }
+  ],
+  "h5Samples": {
+    "count": "c3",
+    "add": "a2",
+    "sub": "s2"
+  }
+}

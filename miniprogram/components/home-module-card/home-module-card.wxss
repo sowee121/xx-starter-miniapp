@@ -1,0 +1,32 @@
+.home-module-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 242rpx;
+  padding: 6rpx 14rpx 10rpx;
+  overflow: hidden;
+  border-radius: 48rpx;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.home-module-card:active {
+  transform: scale(0.985);
+}
+
+.home-module-card__mascot {
+  width: 184rpx;
+  height: 184rpx;
+  margin-bottom: 2rpx;
+}
+
+.home-module-card__label {
+  font-size: 32rpx;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 2rpx;
+  color: #35553f;
+}

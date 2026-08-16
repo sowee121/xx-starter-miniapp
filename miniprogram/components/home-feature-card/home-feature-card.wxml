@@ -1,0 +1,32 @@
+<view class="home-feature-card tone-{{tone}} {{type === 'reward' ? 'is-reward' : ''}}" bindtap="onTap">
+  <image
+    class="home-feature-card__mascot {{type === 'reward' ? 'is-sm' : ''}}"
+    src="{{image}}"
+    mode="aspectFit"
+  />
+  <view class="home-feature-card__copy">
+    <text class="home-feature-card__title">{{title}}</text>
+    <text wx:if="{{subtitle}}" class="home-feature-card__sub">{{subtitle}}</text>
+    <view wx:if="{{type === 'task'}}" class="home-feature-card__sockets">
+      <view
+        wx:for="{{sockets}}"
+        wx:key="index"
+        class="home-feature-card__socket {{item ? 'is-on' : ''}}"
+      >
+        <image
+          wx:if="{{item}}"
+          class="home-feature-card__socket-star"
+          src="{{starIcon}}"
+          mode="aspectFit"
+        />
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{type === 'reward'}}" class="home-feature-card__chip">{{actionText}}</view>
+  <image
+    wx:if="{{type === 'task' && deco}}"
+    class="home-feature-card__deco"
+    src="{{deco}}"
+    mode="aspectFit"
+  />
+</view>

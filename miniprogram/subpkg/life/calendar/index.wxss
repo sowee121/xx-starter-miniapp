@@ -1,0 +1,66 @@
+.calendar-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 30rpx;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.calendar-scene__sky {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 340rpx;
+  height: 250rpx;
+}
+
+.calendar-scene__sky-image {
+  width: 100%;
+  height: 100%;
+}
+
+.calendar-scene__date {
+  margin-top: 24rpx;
+  font-size: 52rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.calendar-scene__week {
+  margin-top: 12rpx;
+  font-size: 32rpx;
+  color: var(--muted);
+}
+
+.calendar-scene__tag {
+  margin-top: 22rpx;
+  padding: 14rpx 42rpx;
+  border-radius: var(--radius-pill);
+  font-size: 30rpx;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+}
+
+.calendar-scene--night {
+  color: #fffaf0;
+}
+
+.calendar-scene--night .calendar-scene__date {
+  margin-top: 12rpx;
+  color: #fffaf0;
+  text-shadow: 0 3rpx 8rpx rgba(12, 18, 46, 0.28);
+}
+
+.calendar-scene--night .calendar-scene__week {
+  color: #dce2fa;
+}
+
+.calendar-scene--night .calendar-scene__tag {
+  color: #fff7cf;
+  background: linear-gradient(180deg, rgba(27, 36, 72, 0.94), rgba(18, 26, 57, 0.94));
+  box-shadow:
+    inset 0 2rpx 4rpx rgba(255, 255, 255, 0.14),
+    0 8rpx 18rpx rgba(10, 15, 39, 0.22);
+}

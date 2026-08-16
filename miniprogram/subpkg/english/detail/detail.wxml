@@ -1,0 +1,19 @@
+<app-shell title="英语" stars="{{stars}}">
+  <view wx:if="{{item}}" class="detail-stack">
+    <view class="detail-big block tone-rose">
+      <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" />
+      <text class="detail-big__title">{{item.word}}</text>
+      <text class="detail-big__sub">{{item.sentence}}</text>
+      <view class="detail-pair is-listen">
+        <view class="play-wrap">
+          <read-button size="lg" data-kind="word" bind:tap="play" />
+          <text class="play-wrap__label">单词</text>
+        </view>
+        <view class="play-wrap">
+          <read-button size="lg" data-kind="sentence" bind:tap="play" />
+          <text class="play-wrap__label">句子</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</app-shell>

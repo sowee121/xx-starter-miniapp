@@ -1,0 +1,63 @@
+<view class="home-page">
+  <image class="home-page__bg" src="{{meadow}}" mode="widthFix" />
+
+  <custom-header
+    variant="home"
+    title="嘻嘻启蒙乐园"
+    stars="{{stars}}"
+    show-home="{{false}}"
+  />
+
+  <view class="home-page__shell" style="padding-top: calc({{headerHeight}}px + 30rpx);">
+    <view class="home-welcome tone-cream">
+      <image class="home-welcome__avatar" src="{{avatar}}" mode="aspectFit" />
+      <view class="home-welcome__copy">
+        <text class="home-welcome__hello">宝贝，你好呀～</text>
+        <text class="home-welcome__sub">一起快乐学习吧！</text>
+      </view>
+      <image class="home-welcome__deco" src="{{daisy}}" mode="aspectFit" />
+    </view>
+
+    <view class="home-page__block">
+      <home-feature-card
+        type="task"
+        module-id="{{task.id}}"
+        title="{{task.title}}"
+        subtitle="{{task.subtitle}}"
+        image="{{task.icon}}"
+        tone="{{task.tint}}"
+        url="{{task.url}}"
+        progress="{{taskProgress}}"
+        deco="{{bigStar}}"
+        bind:tap="onEntry"
+      />
+    </view>
+
+    <view class="home-modules">
+      <view class="home-modules__cell" wx:for="{{modules}}" wx:key="id">
+        <home-module-card
+          module-id="{{item.id}}"
+          title="{{item.title}}"
+          image="{{item.icon}}"
+          tone="{{item.tint}}"
+          url="{{item.url}}"
+          bind:tap="onEntry"
+        />
+      </view>
+    </view>
+
+    <view class="home-page__block">
+      <home-feature-card
+        type="reward"
+        module-id="{{reward.id}}"
+        title="{{reward.title}}"
+        subtitle="{{reward.subtitle}}"
+        image="{{reward.icon}}"
+        tone="{{reward.tint}}"
+        url="{{reward.url}}"
+        action-text="{{reward.actionText}}"
+        bind:tap="onEntry"
+      />
+    </view>
+  </view>
+</view>

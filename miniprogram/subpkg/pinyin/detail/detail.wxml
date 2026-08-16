@@ -1,0 +1,9 @@
+<app-shell title="拼音" stars="{{stars}}">
+  <view wx:if="{{item}}" class="detail-stack">
+    <view class="detail-big block tone-lilac">
+      <image class="detail-big__vowel" src="{{item.image}}" mode="aspectFit" />
+      <text class="detail-big__sub">{{item.hint}}</text>
+      <read-button size="lg" bind:tap="play" />
+    </view>
+  </view>
+</app-shell>

@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# 微信开发者工具本地个人配置
+project.private.config.json
+
+# 云开发 / CloudBase CLI 本地状态
+.cloudbase/
+
+# 依赖
+node_modules/
+miniprogram_npm/
+
+# 日志与临时文件
+*.log
+.tmp/
+.tmp-test/
+__pycache__/
+*.pyc
+
+# 编辑器
+.idea/
+.vscode/
+*.swp
+*.swo

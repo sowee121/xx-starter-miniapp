@@ -1,0 +1,16 @@
+<app-shell
+  title="日历"
+  hint=""
+  stars="{{stars}}"
+  background="{{background}}"
+  night="{{isNight}}"
+>
+  <view class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}">
+    <view class="calendar-scene__sky">
+      <image class="calendar-scene__sky-image" src="{{skyIcon}}" mode="aspectFit" />
+    </view>
+    <text class="calendar-scene__date">{{dateText}}</text>
+    <text class="calendar-scene__week">{{weekday}}</text>
+    <view class="calendar-scene__tag">{{isNight ? '晚上' : '白天'}}</view>
+  </view>
+</app-shell>

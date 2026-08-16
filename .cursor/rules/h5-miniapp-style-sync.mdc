@@ -1,0 +1,31 @@
+---
+description: H5 与小程序样式必须双向同步，避免审查漂移
+alwaysApply: true
+---
+
+# H5 ↔ 小程序样式双向同步
+
+视觉基准是 `docs/design/h5/`（CSS + HTML）与 `miniprogram/` 样式实现；**任一侧改布局/尺寸/色调/间距，另一侧必须同批改完**，禁止只改小程序或只改 H5。
+
+## 改动时必须做
+
+1. **成对修改**：改 `miniprogram/**/*.wxss` / 页面结构时，同步改 `docs/design/h5/css/*.css` 与对应 `docs/design/h5/**/*.html`；反之亦然。
+2. **映射关系**（优先对照）：
+   - `tokens.wxss` ↔ `h5/css/tokens.css`
+   - `cards.wxss` / tones ↔ `h5/css/blocks.css`
+   - `learning.wxss` ↔ `h5/css/pages.css`
+   - `pages/home/*` ↔ `h5/css/home.css` + `h5/home.html`
+   - 各 `subpkg/*/...` 页 ↔ `h5/{poem,hanzi,math,english,pinyin,calendar,task,reward}/`
+3. **单位**：H5 `1px` = 小程序 `1rpx`（画板 750）。
+4. **布局**：同级卡片/选项/网格优先 `display: flex` + `gap`；两侧写法保持一致。
+5. **交付前自检**：列出本次同步的 H5 与小程序文件；若某侧故意不同（如小程序弹层 vs H5 页内表扬卡），必须在回复里写明原因。
+
+## 禁止
+
+- 只改小程序样式、声称「以后再同步 H5」
+- 只改 H5 审查稿、小程序滞后
+- 用「平台差异」掩盖本可对齐的尺寸、色调、间距、结构
+
+## 自检命令
+
+改完样式后必须跑：`npm test`（已含 H5 flex+gap 关键选择器同步检查）。

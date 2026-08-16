@@ -1,0 +1,27 @@
+<app-shell title="数一数" stars="{{stars}}">
+  <view wx:if="{{question}}" class="detail-stack">
+    <view class="quiz-head block tone-cream">
+      <view class="count-stage count-stage--{{count}} count-stage--cols-{{cols}}">
+        <image
+          wx:for="{{items}}"
+          wx:key="index"
+          class="count-item"
+          src="{{item}}"
+          mode="aspectFit"
+        />
+      </view>
+      <text class="quiz-head__title">{{question.prompt}}</text>
+    </view>
+    <view class="options">
+      <view
+        wx:for="{{question.choices}}"
+        wx:key="*this"
+        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}}"
+        data-value="{{item}}"
+        bindtap="choose"
+      >{{item}}</view>
+    </view>
+    <view wx:if="{{retry}}" class="retry-note block tone-butter">再数一数，慢慢来～</view>
+  </view>
+  <praise-sun show="{{praise}}" text="数对啦！" bind:continue="next" />
+</app-shell>

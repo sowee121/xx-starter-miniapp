@@ -1,0 +1,24 @@
+<app-shell title="古诗" stars="{{stars}}">
+  <view class="detail-stack" wx:if="{{poem}}">
+    <view class="hero block tone-peach">
+      <image class="hero__image" src="{{poem.icon}}" mode="widthFix" />
+      <text class="hero__title">{{poem.title}}</text>
+      <text class="hero__sub">{{poem.author}}</text>
+    </view>
+
+    <view
+      wx:for="{{poem.lines}}"
+      wx:key="text"
+      class="poem-line block tone-cream {{activeIndex === index ? 'is-active' : ''}}"
+    >
+      <view class="poem-copy">
+        <text class="poem-copy__text">{{item.text}}</text>
+      </view>
+      <view class="media-play">
+        <read-button compact="{{true}}" index="{{index}}" bind:read="onLineTap" />
+      </view>
+    </view>
+
+    <big-button class="footer-btn" text="听完整首诗" show-play="{{true}}" bind:tap="onFullRead" />
+  </view>
+</app-shell>

@@ -1,0 +1,4 @@
+<view class="star-bar {{night ? 'is-night' : ''}}">
+  <image class="star-bar__icon" src="{{starIcon}}" mode="aspectFit" />
+  <text class="star-bar__count">{{stars}}</text>
+</view>

@@ -1,0 +1,16 @@
+<app-shell title="识字" hint="{{title}}" sub-hint="点一点就能听 · 笔画少到多" stars="{{stars}}">
+  <view class="word-grid">
+    <view
+      wx:for="{{items}}"
+      wx:key="char"
+      class="word-card block tone-{{tone}}"
+      data-char="{{item.char}}"
+      bindtap="open"
+    >
+      <text class="word-card__char">{{item.char}}</text>
+      <view class="play-btn is-sm">
+        <image class="play-btn__icon" src="/static/shared/play.png" mode="aspectFit" />
+      </view>
+    </view>
+  </view>
+</app-shell>

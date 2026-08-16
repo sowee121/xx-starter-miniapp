@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "app-shell": "/components/app-shell/app-shell",
+    "read-button": "/subpkg/common/components/read-button/read-button"
+  },
+  "componentPlaceholder": {
+    "read-button": "view"
+  }
+}

@@ -1,0 +1,431 @@
+/* H5 pages.css · 学习列表 / 详情 / 答题公共结构 */
+
+.media-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12rpx;
+  min-height: 150rpx;
+  padding: 18rpx 18rpx 18rpx 22rpx;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.media-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 22rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.media-main__image {
+  width: 112rpx;
+  height: 112rpx;
+  flex-shrink: 0;
+  border-radius: 28rpx;
+}
+
+.media-main__image--wide {
+  width: 128rpx;
+  height: 96rpx;
+  border-radius: 24rpx;
+}
+
+.media-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.media-copy__title {
+  font-size: 34rpx;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.media-copy__sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+.media-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.duo {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 30rpx;
+}
+
+.duo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc((100% - 30rpx) / 2);
+  min-height: 330rpx;
+  padding: 20rpx;
+  text-align: center;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.duo-card__image {
+  width: 170rpx;
+  height: 170rpx;
+}
+
+.duo-card__emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 148rpx;
+  height: 148rpx;
+  margin-bottom: 8rpx;
+  font-size: 96rpx;
+  line-height: 1;
+}
+
+.duo-card__title {
+  margin-top: 10rpx;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.duo-card__sub {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: var(--muted);
+}
+
+/* 每行 3 卡：横向范围由 app-shell 控制，网格内部只用 gap 分隔 */
+.word-grid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  gap: 30rpx;
+}
+
+.word-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc((100% - 60rpx) / 3);
+  height: 200rpx;
+  font-size: 58rpx;
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.word-card__char {
+  font-size: 58rpx;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.word-card__emoji {
+  margin-bottom: 6rpx;
+  font-size: 42rpx;
+  line-height: 1;
+}
+
+.word-card .play-btn {
+  margin-top: 12rpx;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28rpx;
+  text-align: center;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.hero__image {
+  display: block;
+  align-self: stretch;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: 24rpx;
+}
+
+.hero__title {
+  margin-top: 12rpx;
+  font-size: 48rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.hero__sub {
+  margin-top: 10rpx;
+  font-size: 27rpx;
+  color: var(--muted);
+}
+
+.poem-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 22rpx 18rpx 22rpx 22rpx;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.poem-line.is-active {
+  /* 覆盖 tone-cream，对齐 H5 .poem-line.active */
+  background: linear-gradient(180deg, #fff8ee, #f9edc6) !important;
+}
+
+.poem-copy {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding-right: 8rpx;
+  justify-content: center;
+  min-width: 0;
+}
+
+.poem-copy__text {
+  font-size: 34rpx;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.detail-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.detail-big {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 34rpx;
+  text-align: center;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.detail-big__image {
+  width: 270rpx;
+  height: 270rpx;
+}
+
+.detail-big__vowel {
+  width: 240rpx;
+  height: 240rpx;
+}
+
+.detail-emoji {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 135rpx;
+  height: 135rpx;
+  font-size: 84rpx;
+  line-height: 1;
+}
+
+.detail-big__glyph {
+  margin-top: 8rpx;
+  font-size: 100rpx;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.detail-big__title {
+  margin-top: 14rpx;
+  font-size: 46rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.detail-big__sub {
+  margin-top: 12rpx;
+  font-size: 28rpx;
+  color: var(--muted);
+}
+
+.detail-big .play-btn {
+  margin-top: 20rpx;
+}
+
+.detail-pair {
+  display: flex;
+  flex-direction: row;
+  gap: 38rpx;
+}
+
+.detail-pair__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: calc((100% - 38rpx) / 2);
+  min-height: 130rpx;
+  padding: 18rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.detail-pair__card .play-btn {
+  margin-top: 12rpx;
+}
+
+.detail-pair.is-listen {
+  width: 100%;
+  justify-content: center;
+  gap: 44rpx;
+}
+
+.play-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.play-wrap__label {
+  margin-top: 10rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.quiz-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 34rpx 26rpx;
+  text-align: center;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.quiz-head__image {
+  width: 260rpx;
+  height: 260rpx;
+}
+
+.quiz-head__title {
+  margin-top: 12rpx;
+  font-size: 42rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.quiz-head__equation {
+  margin-top: 12rpx;
+  font-size: 42rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.count-stage {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 560rpx;
+  min-height: 220rpx;
+  max-height: 320rpx;
+  margin: 0 auto;
+  padding: 8rpx;
+  column-gap: 10rpx;
+  row-gap: 12rpx;
+}
+
+.count-item {
+  display: block;
+  width: 92rpx;
+  height: 92rpx;
+}
+
+/* 图标尺寸随数量缩放 */
+.count-stage--1 .count-item { width: 188rpx; height: 188rpx; }
+.count-stage--2 .count-item { width: 148rpx; height: 148rpx; }
+.count-stage--3 .count-item { width: 128rpx; height: 128rpx; }
+.count-stage--4 .count-item { width: 118rpx; height: 118rpx; }
+.count-stage--5 .count-item { width: 92rpx; height: 92rpx; }
+.count-stage--6 .count-item { width: 98rpx; height: 98rpx; }
+.count-stage--7 .count-item { width: 88rpx; height: 88rpx; }
+.count-stage--8 .count-item { width: 84rpx; height: 84rpx; }
+.count-stage--9 .count-item { width: 92rpx; height: 92rpx; }
+.count-stage--10 .count-item { width: 88rpx; height: 88rpx; }
+
+/*
+ * 换行宽度 = 每行列数 × 图标 + gap。
+ * 列数规则：10 的约数中 ≤ 数量的最大者（10→5）：1 / 2 / 5。
+ * 例：3=2+1，4=2+2，7=5+2，10=5+5。
+ */
+.count-stage--1 { max-width: 204rpx; }
+.count-stage--2 { max-width: 322rpx; }
+.count-stage--3 { max-width: 282rpx; }
+.count-stage--4 { max-width: 262rpx; }
+.count-stage--5 { max-width: 516rpx; }
+.count-stage--6 { max-width: 546rpx; }
+.count-stage--7 { max-width: 496rpx; }
+.count-stage--8 { max-width: 476rpx; }
+.count-stage--9 { max-width: 516rpx; }
+.count-stage--10 { max-width: 496rpx; }
+
+
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: 30rpx;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc((100% - 60rpx) / 3);
+  height: 128rpx;
+  font-size: 54rpx;
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.retry-note {
+  padding: 20rpx;
+  text-align: center;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #a97946;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}

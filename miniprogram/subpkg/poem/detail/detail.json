@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "app-shell": "/components/app-shell/app-shell",
+    "big-button": "/components/big-button/big-button",
+    "read-button": "/subpkg/common/components/read-button/read-button"
+  },
+  "navigationBarTitleText": "古诗详情",
+  "componentPlaceholder": {
+    "read-button": "view"
+  }
+}

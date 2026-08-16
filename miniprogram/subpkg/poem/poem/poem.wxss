@@ -1,0 +1,4 @@
+/* 列表样式由全局 learning.wxss / media-card 承担 */
+.poem-list {
+  padding-bottom: 12rpx;
+}

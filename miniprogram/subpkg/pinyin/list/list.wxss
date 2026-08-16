@@ -1,0 +1,6 @@
+/* 拼音字卡：黏土字母图为主 */
+.word-card__image {
+  width: 110rpx;
+  height: 110rpx;
+  margin-bottom: 4rpx;
+}

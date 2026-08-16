@@ -1,0 +1,4 @@
+<view class="home-module-card tone-{{tone}}" bindtap="onTap">
+  <image class="home-module-card__mascot" src="{{image}}" mode="aspectFit" />
+  <text class="home-module-card__label">{{title}}</text>
+</view>

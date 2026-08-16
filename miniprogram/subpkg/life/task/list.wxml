@@ -1,0 +1,22 @@
+<app-shell title="每日任务" hint="今天的任务" sub-hint="慢慢完成就很好" stars="{{stars}}">
+  <view
+    wx:for="{{tasks}}"
+    wx:key="id"
+    class="task-row block {{item.done ? 'tone-mint is-done' : 'tone-cream'}}"
+    data-id="{{item.id}}"
+    bindtap="onTaskTap"
+  >
+    <view class="task-row__tick">
+      <image wx:if="{{item.done}}" class="task-row__check" src="/static/shared/check.png" mode="aspectFit" />
+    </view>
+    <view class="task-row__copy">
+      <text class="task-row__title">{{item.title}}</text>
+      <text wx:if="{{item.showProgress}}" class="task-row__progress">{{item.current}}/{{item.target}}</text>
+    </view>
+    <view class="task-row__reward">
+      <text>+{{item.reward}}</text>
+      <image src="/static/shared/star.png" mode="aspectFit" />
+    </view>
+  </view>
+  <praise-sun show="{{showPraise}}" text="{{praiseText}}" bind:continue="closePraise" />
+</app-shell>

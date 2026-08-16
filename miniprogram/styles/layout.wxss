@@ -1,0 +1,33 @@
+.page-body {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 36rpx;
+}
+
+.page-grid-2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30rpx;
+}
+
+.page-grid-2 > view,
+.page-grid-2 > .block-card {
+  width: calc((100% - 30rpx) / 2);
+}
+
+.page-grid-2__wide {
+  width: 100%;
+}
+
+.page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30rpx;
+}
+
+.page-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

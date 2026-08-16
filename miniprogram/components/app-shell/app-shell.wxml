@@ -1,0 +1,18 @@
+<view class="app-shell {{night ? 'is-night' : ''}}">
+  <view class="app-shell__sky"></view>
+  <image class="app-shell__bg" src="{{background}}" mode="widthFix" />
+  <custom-header
+    title="{{title}}"
+    stars="{{stars}}"
+    show-home="{{showHome}}"
+    night="{{night}}"
+    bind:home="onGoHome"
+  />
+  <view class="app-shell__body" style="padding-top: calc({{headerHeight}}px + 30rpx);">
+    <view wx:if="{{hint}}" class="inner-head">
+      <text class="inner-head__title">{{hint}}</text>
+      <text wx:if="{{subHint}}" class="inner-head__sub">{{subHint}}</text>
+    </view>
+    <slot />
+  </view>
+</view>

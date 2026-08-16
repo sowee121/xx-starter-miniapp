@@ -1,0 +1,67 @@
+.parent__title,
+.parent__desc {
+  display: none;
+}
+
+.parent {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.parent__label {
+  display: block;
+  margin-bottom: 16rpx;
+  color: var(--color-text-strong);
+}
+
+.parent__row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.parent__chip {
+  flex: 1;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  font-size: var(--font-nav);
+}
+
+.parent__chip.is-on {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.parent__danger {
+  position: relative;
+  height: 112rpx;
+  border-radius: var(--radius-xl);
+  background: #e8d5c4;
+  overflow: hidden;
+}
+
+.parent__danger-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: #d4a28a;
+}
+
+.parent__danger-text {
+  position: relative;
+  z-index: 1;
+  font-size: var(--font-body);
+  font-weight: 700;
+}
+
+.parent__about {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.parent__ver {
+  font-size: var(--font-nav);
+  color: var(--color-text);
+}

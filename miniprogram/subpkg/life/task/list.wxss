@@ -1,0 +1,71 @@
+.task-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 18rpx;
+  min-height: 120rpx;
+  padding: 18rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.task-row__tick {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 62rpx;
+  height: 62rpx;
+  border-radius: 31rpx;
+  background: rgba(126, 160, 116, 0.22);
+  box-shadow:
+    inset 0 3rpx 6rpx rgba(255, 255, 255, 0.55),
+    inset 0 -4rpx 8rpx rgba(96, 122, 96, 0.12);
+  flex-shrink: 0;
+}
+
+.is-done .task-row__tick {
+  background: linear-gradient(180deg, #9dcca0, #7bb37f);
+  box-shadow:
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
+    inset 0 -5rpx 10rpx rgba(78, 128, 84, 0.28);
+}
+
+.task-row__check {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.task-row__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.task-row__title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.task-row__progress {
+  font-size: 24rpx;
+  font-weight: 600;
+  color: rgba(53, 85, 63, 0.62);
+}
+
+.task-row__reward {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #b78245;
+  flex-shrink: 0;
+}
+
+.task-row__reward image {
+  width: 42rpx;
+  height: 42rpx;
+}

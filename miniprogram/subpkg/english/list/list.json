@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "app-shell": "/components/app-shell/app-shell",
+    "media-card": "/subpkg/common/components/media-card/media-card"
+  },
+  "componentPlaceholder": {
+    "media-card": "view"
+  }
+}

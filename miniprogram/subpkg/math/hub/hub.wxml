@@ -1,0 +1,14 @@
+<app-shell title="算术" hint="小小数学家" sub-hint="数一数，算一算" stars="{{stars}}">
+  <view class="duo">
+    <view class="duo-card block tone-butter" data-to="count" bindtap="open">
+      <image class="duo-card__image" src="{{countImage}}" mode="aspectFit" />
+      <text class="duo-card__title">数一数</text>
+      <text class="duo-card__sub">1 到 10</text>
+    </view>
+    <view class="duo-card block tone-sky" data-to="calc" bindtap="open">
+      <image class="duo-card__image" src="{{calcImage}}" mode="aspectFit" />
+      <text class="duo-card__title">算一算</text>
+      <text class="duo-card__sub">1 到 5</text>
+    </view>
+  </view>
+</app-shell>

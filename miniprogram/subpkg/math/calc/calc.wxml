@@ -1,0 +1,19 @@
+<app-shell title="算一算" stars="{{stars}}">
+  <view wx:if="{{question}}" class="detail-stack">
+    <view class="quiz-head block tone-sky">
+      <image class="quiz-head__image" src="{{dogImage}}" mode="aspectFit" />
+      <text class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</text>
+    </view>
+    <view class="options">
+      <view
+        wx:for="{{question.choices}}"
+        wx:key="*this"
+        class="option block {{index === 0 ? 'tone-peach' : (index === 1 ? 'tone-butter' : 'tone-lilac')}}"
+        data-value="{{item}}"
+        bindtap="choose"
+      >{{item}}</view>
+    </view>
+    <view wx:if="{{retry}}" class="retry-note block tone-butter">没关系，再想一想～</view>
+  </view>
+  <praise-sun show="{{praise}}" text="算对啦！" bind:continue="next" />
+</app-shell>

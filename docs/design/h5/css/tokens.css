@@ -1,0 +1,23 @@
+:root {
+  --ink: #35553f;
+  --muted: #6e8f76;
+  --board: #e9f2dc;
+  /* 与 meadow 顶部同族，色差压小避免长页渐变「分层带」 */
+  --sky-top: #dcefdc;
+  --sky-mid: #e3f2dc;
+  --night-top: #5e6e91;
+  --night-mid: #566484;
+  --night-deep: #4a587a;
+  --cream: #fffdf7;
+  --matcha: #dcecc4;
+  --sky: #dbeaf7;
+  --butter: #f9edc6;
+  --peach: #f8e2da;
+  --mint: #d3ebe0;
+  --lilac: #e8e1f6;
+  --apricot: #fbe4cb;
+  --rose: #f8dde6;
+  --radius-card: 48px;
+  --radius-pill: 38px;
+  --shadow: 0 10px 20px rgba(96, 122, 96, .12), 0 22px 40px rgba(96, 122, 96, .1);
+}

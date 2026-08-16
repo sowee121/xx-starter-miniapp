@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "custom-header": "/components/custom-header/custom-header",
+    "home-module-card": "/components/home-module-card/home-module-card",
+    "home-feature-card": "/components/home-feature-card/home-feature-card"
+  },
+  "navigationBarTitleText": "嘻嘻启蒙乐园",
+  "navigationStyle": "custom"
+}

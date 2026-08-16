@@ -1,0 +1,246 @@
+const STORAGE_KEY = 'daily_tasks'
+const SCHEMA = 4
+
+/**
+ * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
+ * 古诗 1～2；汉字/算术/英语/拼音 1～5；日历固定 1。
+ * 星星：古诗 = 数量 + 1；其余学习任务 = 数量；日历 = 1。
+ */
+const TEMPLATES = [
+  {
+    id: 'poem',
+    min: 1,
+    max: 2,
+    url: '/subpkg/poem/poem/poem',
+    titleOf: (n) => `读 ${n} 首古诗`,
+    rewardOf: (n) => n + 1,
+  },
+  {
+    id: 'hanzi',
+    min: 1,
+    max: 5,
+    url: '/subpkg/hanzi/hub/hub',
+    titleOf: (n) => `认 ${n} 个汉字`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'math',
+    min: 1,
+    max: 5,
+    url: '/subpkg/math/hub/hub',
+    titleOf: (n) => `做 ${n} 道算术题`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'english',
+    min: 1,
+    max: 5,
+    url: '/subpkg/english/list/list',
+    titleOf: (n) => `学 ${n} 个单词`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'pinyin',
+    min: 1,
+    max: 5,
+    url: '/subpkg/pinyin/list/list',
+    titleOf: (n) => `读 ${n} 个拼音`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'calendar',
+    min: 1,
+    max: 1,
+    url: '/subpkg/life/calendar/index',
+    titleOf: () => '看一看日历',
+    rewardOf: () => 1,
+  },
+]
+
+function randInt(min, max) {
+  return min + Math.floor(Math.random() * (max - min + 1))
+}
+
+function getToday() {
+  const now = new Date()
+  const month = String(now.getMonth() + 1).padStart(2, '0')
+  const day = String(now.getDate()).padStart(2, '0')
+  return `${now.getFullYear()}-${month}-${day}`
+}
+
+function generateTasks() {
+  return TEMPLATES.map((tpl) => {
+    const target = randInt(tpl.min, tpl.max)
+    return {
+      id: tpl.id,
+      target,
+      reward: tpl.rewardOf(target),
+      url: tpl.url,
+      title: tpl.titleOf(target),
+    }
+  })
+}
+
+function emptyDay(date) {
+  return {
+    schema: SCHEMA,
+    date,
+    tasks: generateTasks(),
+    progress: {},
+    done: {},
+    awarded: {},
+  }
+}
+
+function readRaw() {
+  try {
+    return wx.getStorageSync(STORAGE_KEY) || null
+  } catch (error) {
+    return null
+  }
+}
+
+function saveToday(data) {
+  try {
+    wx.setStorageSync(STORAGE_KEY, data)
+  } catch (error) {
+    // 无本地存储时仍可在本次会话使用内存态（调用方持有引用）。
+  }
+}
+
+/** 确保当天任务存在；换日或 schema 变更则清空进度。 */
+function ensureToday() {
+  const date = getToday()
+  const raw = readRaw()
+  if (
+    raw
+    && raw.date === date
+    && raw.schema === SCHEMA
+    && Array.isArray(raw.tasks)
+    && raw.tasks.length === TEMPLATES.length
+  ) {
+    return raw
+  }
+  const day = emptyDay(date)
+  saveToday(day)
+  return day
+}
+
+function readToday() {
+  return ensureToday()
+}
+
+function getTasks() {
+  return ensureToday().tasks
+}
+
+function getProgress() {
+  const day = ensureToday()
+  return day.tasks.filter((task) => day.done[task.id]).length
+}
+
+function getTaskCount() {
+  return TEMPLATES.length
+}
+
+/** 自由学习：任务页始终跳转到模块入口。 */
+function nextUrl(taskId) {
+  const day = ensureToday()
+  const task = day.tasks.find((item) => item.id === taskId)
+  return task ? task.url : ''
+}
+
+function taskList() {
+  const day = ensureToday()
+  return day.tasks.map((task) => {
+    const units = day.progress[task.id] || []
+    const current = Math.min(units.length, task.target)
+    return {
+      ...task,
+      done: !!day.done[task.id],
+      current,
+      showProgress: task.target > 1 && !day.done[task.id],
+      openUrl: nextUrl(task.id),
+    }
+  })
+}
+
+/**
+ * 上报一次有效学习（点读或答对）。
+ * @param {string} taskId
+ * @param {string} unitKey 唯一内容，如诗 id / 汉字 / 单词 / 拼音 / math-correct / open
+ * @returns {{ ok: boolean, completed: boolean, reward: number, current: number, target: number, firstAward: boolean }}
+ */
+function reportUnit(taskId, unitKey) {
+  const day = ensureToday()
+  const task = day.tasks.find((item) => item.id === taskId)
+  if (!task || !unitKey) {
+    return { ok: false, completed: false, reward: 0, current: 0, target: 0, firstAward: false }
+  }
+
+  if (!day.progress[taskId]) day.progress[taskId] = []
+  const units = day.progress[taskId]
+  if (!units.includes(unitKey)) units.push(unitKey)
+
+  let firstAward = false
+  if (units.length >= task.target && !day.done[taskId]) {
+    day.done[taskId] = true
+  }
+  if (day.done[taskId] && !day.awarded[taskId]) {
+    day.awarded[taskId] = true
+    firstAward = true
+  }
+
+  saveToday(day)
+  return {
+    ok: true,
+    completed: !!day.done[taskId],
+    reward: task.reward,
+    current: Math.min(units.length, task.target),
+    target: task.target,
+    firstAward,
+  }
+}
+
+/** 兼容旧日历调用：打开即完成。 */
+function completeCalendar() {
+  return reportUnit('calendar', 'open')
+}
+
+/**
+ * 上报每日任务进度；若首次完成该任务则发星并轻提示。
+ * 放在 daily-tasks（主包首页已引用），避免单独 utils 只被分包使用触发主包未使用 JS 告警。
+ */
+async function trackDaily(taskId, unitKey) {
+  const starsUtil = require('./stars')
+  const result = reportUnit(taskId, unitKey)
+  if (!result.firstAward || !result.reward) return result
+
+  await starsUtil.addStars({
+    delta: result.reward,
+    reason: 'daily_task',
+    ref: `${getToday()}:${taskId}`,
+  })
+  wx.showToast({
+    title: `任务完成 +${result.reward}星`,
+    icon: 'none',
+  })
+  return result
+}
+
+module.exports = {
+  TEMPLATES,
+  TASKS: TEMPLATES,
+  getToday,
+  ensureToday,
+  readToday,
+  saveToday,
+  getProgress,
+  getTaskCount,
+  getTasks,
+  taskList,
+  reportUnit,
+  completeCalendar,
+  nextUrl,
+  trackDaily,
+}

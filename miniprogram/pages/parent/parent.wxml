@@ -1,0 +1,42 @@
+<app-shell title="家长区" hint="长按进入的家长设置" stars="{{stars}}">
+  <view class="parent">
+    <text class="parent__title">家长区</text>
+    <text class="parent__desc">长按星星栏进入。幼儿请勿操作。</text>
+
+    <view class="parent__section card">
+      <text class="parent__label">音量</text>
+      <view class="parent__row">
+        <view
+          wx:for="{{volumes}}"
+          wx:key="*this"
+          class="parent__chip tap-target {{volume === item ? 'is-on' : ''}}"
+          data-value="{{item}}"
+          bindtap="onVolume"
+        >{{item === 0 ? '静音' : item === 0.5 ? '一半' : '正常'}}</view>
+      </view>
+    </view>
+
+    <view class="parent__section card">
+      <text class="parent__label">重置进度（保留星星）</text>
+      <big-button text="{{resetDone ? '已重置' : '重置进度'}}" bind:tap="onResetProgress" />
+    </view>
+
+    <view class="parent__section card">
+      <text class="parent__label">清空积分（长按 3 秒）</text>
+      <view
+        class="parent__danger tap-target"
+        bindtouchstart="onClearStart"
+        bindtouchend="onClearEnd"
+        bindtouchcancel="onClearEnd"
+      >
+        <view class="parent__danger-bar" style="width: {{clearProgress}}%;"></view>
+        <text class="parent__danger-text">{{clearProgress >= 100 ? '已清空' : '按住清空'}}</text>
+      </view>
+    </view>
+
+    <view class="parent__about card">
+      <text>嘻嘻的启蒙乐园</text>
+      <text class="parent__ver">脚手架 P0</text>
+    </view>
+  </view>
+</app-shell>

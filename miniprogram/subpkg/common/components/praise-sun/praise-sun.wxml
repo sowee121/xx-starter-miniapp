@@ -1,0 +1,14 @@
+<view wx:if="{{visible}}" class="praise-sun">
+  <view class="praise-sun__card">
+    <image class="praise-sun__cloud" src="{{cloudIcon}}" mode="aspectFit" />
+    <view class="praise-sun__icon-slot">
+      <image class="praise-sun__icon" src="{{starIcon}}" mode="aspectFit" />
+    </view>
+    <view class="praise-sun__copy">
+      <text class="praise-sun__text">{{text}}</text>
+      <text class="praise-sun__desc">收下一颗闪闪的星星</text>
+    </view>
+    <view class="praise-sun__continue" bindtap="onContinue">继续玩</view>
+    <image class="praise-sun__grass" src="{{grassIcon}}" mode="aspectFit" />
+  </view>
+</view>
