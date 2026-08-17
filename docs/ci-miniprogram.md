@@ -5,7 +5,7 @@
 `miniprogram-ci` 是从微信开发者工具抽离的编译 / 上传模块，可在**不打开开发者工具 GUI** 的情况下完成上传、预览、云函数等操作。本仓库通过 Node 脚本封装常用能力；鉴权统一使用「小程序代码上传密钥」。
 
 > 日常改 UI、看 Console、联调模拟器：仍优先用微信开发者工具 / Nightly `wechatide`。  
-> CI 适合：一键预览码、上传开发版→设体验版、无 GUI 部署云函数、GitHub Actions。
+> 本仓库的 miniprogram-ci **以人工在本机手动跑 npm 脚本为主**（预览码、上传开发版→设体验版、云函数/云存储），不接 GitHub Actions 自动流水线。
 
 ---
 
@@ -137,13 +137,6 @@ node scripts/ci_upload_storage.js subpkg
 
 临时真机看一眼：`npm run mp:preview`。
 
-### 2.8 GitHub Actions（可选）
-
-示例工作流见 [`docs/examples/mp-upload.github-actions.yml`](examples/mp-upload.github-actions.yml)。  
-需要时复制到 `.github/workflows/mp-upload.yml`（推送该路径需要具备 `workflow` scope 的凭据）。
-
-仓库 Secrets：`MP_CI_PRIVATE_KEY` = 私钥全文。Actions 出口 IP 不固定，白名单场景建议自托管 Runner。
-
 ---
 
 ## 3. 可扩展能力（尚未封装）
@@ -206,6 +199,5 @@ node scripts/ci_upload_storage.js subpkg
 | `scripts/ci_deploy_cloud_functions.js` | CI 上传云函数 |
 | `scripts/ci_upload_storage.js` | CI 上传云存储 |
 | `scripts/deploy_cloud_functions.js` | 工具 CLI 上传云函数（非 ci） |
-| `docs/examples/mp-upload.github-actions.yml` | Actions 工作流示例（复制到 `.github/workflows/` 使用） |
 | `cloudfunctions/README.md` | 云函数手动 / 自动化总说明 |
 | `cloud-assets/README.md` | 云存储（tcb / CI 双路径） |
