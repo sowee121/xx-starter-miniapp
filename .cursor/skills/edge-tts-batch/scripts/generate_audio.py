@@ -105,6 +105,22 @@ def slug(s: str) -> str:
     return s.strip("-") or "item"
 
 
+def hanzi_audio_stem(char: str, pinyin: str = "", word_index: int | None = None) -> str:
+    """ASCII-only filename stem for 识字 clips.
+
+    Chinese names such as ``入.mp3`` plus ``encodeURI`` become ``%E5%85%A5.mp3``.
+    WeChat DevTools then returns INNERERRCODE:-1100 / 找不到所请求的 URL.
+    Homophones (天/田, 二/耳) share pinyin, so the Unicode code point is required.
+    """
+    py = slug(pinyin) if pinyin else "zi"
+    if not py.isascii():
+        py = "zi"
+    code = f"u{ord(char):04x}"
+    if word_index is None:
+        return f"{py}-{code}"
+    return f"{py}-{code}-w{word_index + 1}"
+
+
 async def synthesize(text: str, voice: str, out_path: Path) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     last_err: Exception | None = None
@@ -191,7 +207,10 @@ class Generator:
         char = item.get("char", "")
         if not char:
             return False
-        got = await self.gen(char, voice, audio_dir, url, char)
+        pinyin = item.get("pinyin", "")
+        got = await self.gen(
+            char, voice, audio_dir, url, hanzi_audio_stem(char, pinyin)
+        )
         if got and item.get("audio") != got:
             item["audio"] = got
             changed = True
@@ -199,7 +218,13 @@ class Generator:
         word_audios = list(item.get("wordAudios", []))
         word_audios += [""] * (len(words) - len(word_audios))
         for idx, word in enumerate(words):
-            got = await self.gen(word, voice, audio_dir, url, f"{char}-{word}")
+            got = await self.gen(
+                word,
+                voice,
+                audio_dir,
+                url,
+                hanzi_audio_stem(char, pinyin, idx),
+            )
             if got and word_audios[idx] != got:
                 word_audios[idx] = got
                 changed = True

@@ -10,7 +10,7 @@ miniprogram/
     │   └── static/audio/               # yong-e-line-1.mp3 ...
     ├── hanzi/
     │   ├── content/hanzi.js            # poem[] + life[]
-    │   └── static/audio/               # 鹅.mp3, 鹅-白鹅.mp3 ...
+    │   └── static/audio/               # e-u9e45.mp3, e-u9e45-w1.mp3 ...
     ├── english/
     │   ├── content/english.js
     │   └── static/audio/
@@ -58,7 +58,7 @@ module.exports = {
 统一用 `miniprogram/utils/audio.js`：
 
 - `wx.setInnerAudioOption({ obeyMuteSwitch: false })`（`app.js` / `ensureAudioOption`）
-- 路径 `encodeURI`（识字中文文件名）
+- 路径 `encodeURI`（http 地址；识字已改 ASCII 文件名，编码后是恒等）
 - `stop` 后短延迟再设 `src` 并 `play`（避免真机静音失败）
 
 页面 `onUnload` 时调用 `audioUtil.stop()`，避免跨页叠音。
@@ -98,8 +98,8 @@ find miniprogram/subpkg -name "*.mp3" -exec sh -c \
 **连接失败 / 429**
 edge-tts 走微软在线接口，有频率限制。脚本已重试，稍后用 `--only` 重跑即可；避免并行多个进程。
 
-**中文文件名**
-脚本保留中文文件名（如 `鹅-白鹅.mp3`）。开发者工具常能播，**iOS 真机**须经 `encodeURI`（已在 `utils/audio.js`）。
+**识字文件名必须 ASCII**
+不要写成 `鹅-白鹅.mp3`。`encodeURI` 后变成 `%E9%B9%85-...mp3`，开发者工具本地服务返回 INNERERRCODE:-1100 / 「找不到所请求的 URL」。正确示例：`e-u9e45.mp3`、`e-u9e45-w1.mp3`。
 
 **替换为真人录音**
 保持内容文件中 `audio` 路径不变，用同名 MP3 覆盖对应分包目录下的文件即可，代码无需改动。

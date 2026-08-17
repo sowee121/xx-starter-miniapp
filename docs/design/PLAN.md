@@ -20,7 +20,7 @@
 | 设计稿 / 原子素材 | **H5 审查稿 + atoms 已确认可作视觉基准**（`docs/design/h5/`、`docs/design/atoms/`） |
 | 业务页代码      | **八大板块已接入**；样式与 H5 双向同步（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`） |
 | 每日任务       | **已实现**：自由学习按数量累计；数量每天随机（古诗 1～2，字/题/词/拼音 1～5，日历固定 1）；实现 `miniprogram/utils/daily-tasks.js` |
-| 点读音频       | 分包 MP3 + `utils/audio.js`；真机需 `setInnerAudioOption` + 中文路径 `encodeURI` |
+| 点读音频       | 分包 MP3 + `utils/audio.js`；识字文件名须 ASCII（`ru-u5165.mp3`）；真机需 `setInnerAudioOption` |
 | 云端存储（图片） | 环境已配置；默认 `USE_CLOUD = false`（免费套餐 ACL）；手动/自动化见 [`../../cloud-assets/README.md`](../../cloud-assets/README.md) |
 | 云函数         | 源码在 `cloudfunctions/`；手动右键上传或 `npm run cloud:deploy`（见 [`../../cloudfunctions/README.md`](../../cloudfunctions/README.md)）；客户端失败时仍本地兜底 |
 

@@ -384,6 +384,64 @@ function checkMainPackageContentOwnership() {
 }
 
 /**
+ * 题库里的点读路径必须能落到代码包文件，且文件名为 ASCII。
+ * 中文文件名经 encodeURI 后，开发者工具会 404（INNERERRCODE:-1100）。
+ */
+function readContentModule(file) {
+  let text = fs.readFileSync(file, 'utf8').trim()
+  const prefix = 'module.exports = '
+  if (text.startsWith(prefix)) text = text.slice(prefix.length)
+  text = text.replace(/;?\s*$/, '')
+  return JSON.parse(text)
+}
+
+function collectAudioPaths(value, out = []) {
+  if (!value) return out
+  if (typeof value === 'string') {
+    if (/\.(mp3|m4a|wav)$/i.test(value)) out.push(value)
+    return out
+  }
+  if (Array.isArray(value)) {
+    value.forEach((v) => collectAudioPaths(v, out))
+    return out
+  }
+  if (typeof value === 'object') {
+    Object.values(value).forEach((v) => collectAudioPaths(v, out))
+  }
+  return out
+}
+
+function checkContentAudioFiles() {
+  const files = walk(path.join(MP, 'subpkg'), ['.js']).filter((file) =>
+    /\/content\/[^/]+\.js$/.test(file.split(path.sep).join('/'))
+  )
+  for (const file of files) {
+    let data
+    try {
+      data = readContentModule(file)
+    } catch {
+      continue
+    }
+    for (const src of collectAudioPaths(data)) {
+      if (!src.startsWith('/')) {
+        errors.push(`${rel(file)}: 音频路径应为小程序绝对路径 ${src}`)
+        continue
+      }
+      const base = path.basename(src)
+      if (/[^\x00-\x7F]/.test(base)) {
+        errors.push(
+          `${rel(file)}: 音频文件名含非 ASCII（${base}），InnerAudioContext 会 404，请用拼音-unicode`
+        )
+      }
+      const full = path.join(MP, src.replace(/^\//, ''))
+      if (!fs.existsSync(full)) {
+        errors.push(`${rel(file)}: 引用不存在的音频 ${src}`)
+      }
+    }
+  }
+}
+
+/**
  * 代码包内不得放 webp：本地 webp 在真机（尤其 iOS）不渲染，
  * image 的 webp 属性只对网络资源生效，模拟器却能正常显示，极易漏测。
  */
@@ -461,6 +519,7 @@ function main() {
   checkComponentRootWidth()
   checkHomeTwoColumnSync()
   checkMainPackageContentOwnership()
+  checkContentAudioFiles()
   checkNoLocalWebp()
   checkH5FlexGapSync()
 

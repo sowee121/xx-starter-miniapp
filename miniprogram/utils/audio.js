@@ -23,7 +23,11 @@ function ensureAudioOption() {
   })
 }
 
-/** 本地路径含中文（如识字「入.mp3」）时，iOS 真机必须编码。 */
+/**
+ * 对路径做 encodeURI。识字音频必须用 ASCII 文件名（如 ru-u5165.mp3）：
+ * 中文名「入.mp3」编码后变成 %E5%85%A5.mp3，开发者工具会 404
+ *（INNERERRCODE:-1100 找不到所请求的 URL）。纯 ASCII 时 encodeURI 是恒等。
+ */
 function normalizeSrc(src) {
   if (!src) return ''
   try {

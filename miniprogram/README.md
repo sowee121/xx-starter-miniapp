@@ -11,7 +11,7 @@
 - 路径开关：`config/media.js` 的 `USE_CLOUD`（默认 `false`，走本地）
 - 环境 ID：`config/cloud.js` 的 `CLOUD_ENV`
 - 每日任务：`utils/daily-tasks.js`（数量每天随机）
-- 点读：`utils/audio.js`（真机注意静音键与中文路径编码）
+- 点读：`utils/audio.js`（识字音频用 ASCII 文件名，避免开发者工具 404）
 - 云函数本地测试：`npm run test:cloud`
 - 云函数部署：`cloud:deploy`（工具 CLI）或 `cloud:ci-deploy`（miniprogram-ci）
 - 云存储上传：`assets:upload`（tcb）或 `assets:ci-upload`（miniprogram-ci）

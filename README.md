@@ -52,7 +52,7 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 
 **图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `chroma_to_png` / `normalize_atoms`。须关闭「忽略未使用的文件」（已配 `ignoreDevUnusedFiles: false`）。
 
-**点读** — `miniprogram/utils/audio.js`。真机无声时查：`setInnerAudioOption`、中文路径 `encodeURI`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+**点读** — `miniprogram/utils/audio.js`。真机无声时查：`setInnerAudioOption`、家长区音量。识字 MP3 必须用 ASCII 文件名（`ru-u5165.mp3`），中文名会 404。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
 **云开发文档入口**
 

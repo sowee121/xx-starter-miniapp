@@ -93,7 +93,7 @@ module.exports = {
 }
 ```
 
-产出：`{char}.mp3`、`{char}-{word}.mp3`（中文文件名；真机播放须经 `utils/audio.js` 的 `encodeURI`）
+产出：`{pinyin}-u{码点}.mp3`、`{pinyin}-u{码点}-w{n}.mp3`（必须 ASCII。中文文件名经 `encodeURI` 后开发者工具会 404：INNERERRCODE:-1100）
 
 ### english.js
 
@@ -148,7 +148,7 @@ ffmpeg -i in.mp3 -ac 1 -ar 22050 -b:a 24k out.mp3
 3. 确认写回后的文件仍以 `module.exports = ` 开头（脚本会自动保持）
 4. 核对脚本输出的体积报告，超预算的模块先转码再提交
 5. `du -sh miniprogram/subpkg/*/` 自查，P6 前用微信开发者工具「代码依赖分析」复核官方口径
-6. **真机**试听（尤其识字中文文件名）；开发者工具正常不代表 iOS 有声
+6. **真机**试听；识字文件名必须是 ASCII（`ru-u5165.mp3`），不要用「入.mp3」
 
 ## 限流与重试
 

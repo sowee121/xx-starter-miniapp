@@ -9,10 +9,10 @@ module.exports = {
         "入口",
         "进入"
       ],
-      "audio": "/subpkg/hanzi/static/audio/入.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ru-u5165.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/入-入口.mp3",
-        "/subpkg/hanzi/static/audio/入-进入.mp3"
+        "/subpkg/hanzi/static/audio/ru-u5165-w1.mp3",
+        "/subpkg/hanzi/static/audio/ru-u5165-w2.mp3"
       ]
     },
     {
@@ -24,10 +24,10 @@ module.exports = {
         "山川",
         "小川"
       ],
-      "audio": "/subpkg/hanzi/static/audio/川.mp3",
+      "audio": "/subpkg/hanzi/static/audio/chuan-u5ddd.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/川-山川.mp3",
-        "/subpkg/hanzi/static/audio/川-小川.mp3"
+        "/subpkg/hanzi/static/audio/chuan-u5ddd-w1.mp3",
+        "/subpkg/hanzi/static/audio/chuan-u5ddd-w2.mp3"
       ]
     },
     {
@@ -39,10 +39,10 @@ module.exports = {
         "飞鸟",
         "飞机"
       ],
-      "audio": "/subpkg/hanzi/static/audio/飞.mp3",
+      "audio": "/subpkg/hanzi/static/audio/fei-u98de.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/飞-飞鸟.mp3",
-        "/subpkg/hanzi/static/audio/飞-飞机.mp3"
+        "/subpkg/hanzi/static/audio/fei-u98de-w1.mp3",
+        "/subpkg/hanzi/static/audio/fei-u98de-w2.mp3"
       ]
     },
     {
@@ -54,10 +54,10 @@ module.exports = {
         "一千",
         "千万"
       ],
-      "audio": "/subpkg/hanzi/static/audio/千.mp3",
+      "audio": "/subpkg/hanzi/static/audio/qian-u5343.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/千-一千.mp3",
-        "/subpkg/hanzi/static/audio/千-千万.mp3"
+        "/subpkg/hanzi/static/audio/qian-u5343-w1.mp3",
+        "/subpkg/hanzi/static/audio/qian-u5343-w2.mp3"
       ]
     },
     {
@@ -69,10 +69,10 @@ module.exports = {
         "泥土",
         "土地"
       ],
-      "audio": "/subpkg/hanzi/static/audio/土.mp3",
+      "audio": "/subpkg/hanzi/static/audio/tu-u571f.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/土-泥土.mp3",
-        "/subpkg/hanzi/static/audio/土-土地.mp3"
+        "/subpkg/hanzi/static/audio/tu-u571f-w1.mp3",
+        "/subpkg/hanzi/static/audio/tu-u571f-w2.mp3"
       ]
     },
     {
@@ -84,10 +84,10 @@ module.exports = {
         "大风",
         "春风"
       ],
-      "audio": "/subpkg/hanzi/static/audio/风.mp3",
+      "audio": "/subpkg/hanzi/static/audio/feng-u98ce.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/风-大风.mp3",
-        "/subpkg/hanzi/static/audio/风-春风.mp3"
+        "/subpkg/hanzi/static/audio/feng-u98ce-w1.mp3",
+        "/subpkg/hanzi/static/audio/feng-u98ce-w2.mp3"
       ]
     },
     {
@@ -99,10 +99,10 @@ module.exports = {
         "太阳",
         "日出"
       ],
-      "audio": "/subpkg/hanzi/static/audio/日.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ri-u65e5.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/日-太阳.mp3",
-        "/subpkg/hanzi/static/audio/日-日出.mp3"
+        "/subpkg/hanzi/static/audio/ri-u65e5-w1.mp3",
+        "/subpkg/hanzi/static/audio/ri-u65e5-w2.mp3"
       ]
     },
     {
@@ -114,10 +114,10 @@ module.exports = {
         "喝水",
         "河水"
       ],
-      "audio": "/subpkg/hanzi/static/audio/水.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shui-u6c34.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/水-喝水.mp3",
-        "/subpkg/hanzi/static/audio/水-河水.mp3"
+        "/subpkg/hanzi/static/audio/shui-u6c34-w1.mp3",
+        "/subpkg/hanzi/static/audio/shui-u6c34-w2.mp3"
       ]
     },
     {
@@ -129,10 +129,10 @@ module.exports = {
         "蓝天",
         "天空"
       ],
-      "audio": "/subpkg/hanzi/static/audio/天.mp3",
+      "audio": "/subpkg/hanzi/static/audio/tian-u5929.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/天-蓝天.mp3",
-        "/subpkg/hanzi/static/audio/天-天空.mp3"
+        "/subpkg/hanzi/static/audio/tian-u5929-w1.mp3",
+        "/subpkg/hanzi/static/audio/tian-u5929-w2.mp3"
       ]
     },
     {
@@ -144,10 +144,10 @@ module.exports = {
         "月亮",
         "月光"
       ],
-      "audio": "/subpkg/hanzi/static/audio/月.mp3",
+      "audio": "/subpkg/hanzi/static/audio/yue-u6708.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/月-月亮.mp3",
-        "/subpkg/hanzi/static/audio/月-月光.mp3"
+        "/subpkg/hanzi/static/audio/yue-u6708-w1.mp3",
+        "/subpkg/hanzi/static/audio/yue-u6708-w2.mp3"
       ]
     },
     {
@@ -159,10 +159,10 @@ module.exports = {
         "白云",
         "白天"
       ],
-      "audio": "/subpkg/hanzi/static/audio/白.mp3",
+      "audio": "/subpkg/hanzi/static/audio/bai-u767d.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/白-白云.mp3",
-        "/subpkg/hanzi/static/audio/白-白天.mp3"
+        "/subpkg/hanzi/static/audio/bai-u767d-w1.mp3",
+        "/subpkg/hanzi/static/audio/bai-u767d-w2.mp3"
       ]
     },
     {
@@ -174,10 +174,10 @@ module.exports = {
         "小鸟",
         "飞鸟"
       ],
-      "audio": "/subpkg/hanzi/static/audio/鸟.mp3",
+      "audio": "/subpkg/hanzi/static/audio/niao-u9e1f.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/鸟-小鸟.mp3",
-        "/subpkg/hanzi/static/audio/鸟-飞鸟.mp3"
+        "/subpkg/hanzi/static/audio/niao-u9e1f-w1.mp3",
+        "/subpkg/hanzi/static/audio/niao-u9e1f-w2.mp3"
       ]
     },
     {
@@ -189,10 +189,10 @@ module.exports = {
         "抬头",
         "低头"
       ],
-      "audio": "/subpkg/hanzi/static/audio/头.mp3",
+      "audio": "/subpkg/hanzi/static/audio/tou-u5934.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/头-抬头.mp3",
-        "/subpkg/hanzi/static/audio/头-低头.mp3"
+        "/subpkg/hanzi/static/audio/tou-u5934-w1.mp3",
+        "/subpkg/hanzi/static/audio/tou-u5934-w2.mp3"
       ]
     },
     {
@@ -204,10 +204,10 @@ module.exports = {
         "阳光",
         "灯光"
       ],
-      "audio": "/subpkg/hanzi/static/audio/光.mp3",
+      "audio": "/subpkg/hanzi/static/audio/guang-u5149.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/光-阳光.mp3",
-        "/subpkg/hanzi/static/audio/光-灯光.mp3"
+        "/subpkg/hanzi/static/audio/guang-u5149-w1.mp3",
+        "/subpkg/hanzi/static/audio/guang-u5149-w2.mp3"
       ]
     },
     {
@@ -219,10 +219,10 @@ module.exports = {
         "红花",
         "红掌"
       ],
-      "audio": "/subpkg/hanzi/static/audio/红.mp3",
+      "audio": "/subpkg/hanzi/static/audio/hong-u7ea2.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/红-红花.mp3",
-        "/subpkg/hanzi/static/audio/红-红掌.mp3"
+        "/subpkg/hanzi/static/audio/hong-u7ea2-w1.mp3",
+        "/subpkg/hanzi/static/audio/hong-u7ea2-w2.mp3"
       ]
     },
     {
@@ -234,10 +234,10 @@ module.exports = {
         "小花",
         "红花"
       ],
-      "audio": "/subpkg/hanzi/static/audio/花.mp3",
+      "audio": "/subpkg/hanzi/static/audio/hua-u82b1.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/花-小花.mp3",
-        "/subpkg/hanzi/static/audio/花-红花.mp3"
+        "/subpkg/hanzi/static/audio/hua-u82b1-w1.mp3",
+        "/subpkg/hanzi/static/audio/hua-u82b1-w2.mp3"
       ]
     },
     {
@@ -249,10 +249,10 @@ module.exports = {
         "大河",
         "河水"
       ],
-      "audio": "/subpkg/hanzi/static/audio/河.mp3",
+      "audio": "/subpkg/hanzi/static/audio/he-u6cb3.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/河-大河.mp3",
-        "/subpkg/hanzi/static/audio/河-河水.mp3"
+        "/subpkg/hanzi/static/audio/he-u6cb3-w1.mp3",
+        "/subpkg/hanzi/static/audio/he-u6cb3-w2.mp3"
       ]
     },
     {
@@ -264,10 +264,10 @@ module.exports = {
         "下雨",
         "雨水"
       ],
-      "audio": "/subpkg/hanzi/static/audio/雨.mp3",
+      "audio": "/subpkg/hanzi/static/audio/yu-u96e8.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/雨-下雨.mp3",
-        "/subpkg/hanzi/static/audio/雨-雨水.mp3"
+        "/subpkg/hanzi/static/audio/yu-u96e8-w1.mp3",
+        "/subpkg/hanzi/static/audio/yu-u96e8-w2.mp3"
       ]
     },
     {
@@ -279,10 +279,10 @@ module.exports = {
         "春天",
         "春风"
       ],
-      "audio": "/subpkg/hanzi/static/audio/春.mp3",
+      "audio": "/subpkg/hanzi/static/audio/chun-u6625.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/春-春天.mp3",
-        "/subpkg/hanzi/static/audio/春-春风.mp3"
+        "/subpkg/hanzi/static/audio/chun-u6625-w1.mp3",
+        "/subpkg/hanzi/static/audio/chun-u6625-w2.mp3"
       ]
     },
     {
@@ -294,10 +294,10 @@ module.exports = {
         "高楼",
         "上楼"
       ],
-      "audio": "/subpkg/hanzi/static/audio/楼.mp3",
+      "audio": "/subpkg/hanzi/static/audio/lou-u697c.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/楼-高楼.mp3",
-        "/subpkg/hanzi/static/audio/楼-上楼.mp3"
+        "/subpkg/hanzi/static/audio/lou-u697c-w1.mp3",
+        "/subpkg/hanzi/static/audio/lou-u697c-w2.mp3"
       ]
     },
     {
@@ -309,10 +309,10 @@ module.exports = {
         "白鹅",
         "大鹅"
       ],
-      "audio": "/subpkg/hanzi/static/audio/鹅.mp3",
+      "audio": "/subpkg/hanzi/static/audio/e-u9e45.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/鹅-白鹅.mp3",
-        "/subpkg/hanzi/static/audio/鹅-大鹅.mp3"
+        "/subpkg/hanzi/static/audio/e-u9e45-w1.mp3",
+        "/subpkg/hanzi/static/audio/e-u9e45-w2.mp3"
       ]
     }
   ],
@@ -326,10 +326,10 @@ module.exports = {
         "一个",
         "一起"
       ],
-      "audio": "/subpkg/hanzi/static/audio/一.mp3",
+      "audio": "/subpkg/hanzi/static/audio/yi-u4e00.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/一-一个.mp3",
-        "/subpkg/hanzi/static/audio/一-一起.mp3"
+        "/subpkg/hanzi/static/audio/yi-u4e00-w1.mp3",
+        "/subpkg/hanzi/static/audio/yi-u4e00-w2.mp3"
       ]
     },
     {
@@ -341,10 +341,10 @@ module.exports = {
         "两个",
         "二月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/二.mp3",
+      "audio": "/subpkg/hanzi/static/audio/er-u4e8c.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/二-两个.mp3",
-        "/subpkg/hanzi/static/audio/二-二月.mp3"
+        "/subpkg/hanzi/static/audio/er-u4e8c-w1.mp3",
+        "/subpkg/hanzi/static/audio/er-u4e8c-w2.mp3"
       ]
     },
     {
@@ -356,10 +356,10 @@ module.exports = {
         "三个",
         "三月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/三.mp3",
+      "audio": "/subpkg/hanzi/static/audio/san-u4e09.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/三-三个.mp3",
-        "/subpkg/hanzi/static/audio/三-三月.mp3"
+        "/subpkg/hanzi/static/audio/san-u4e09-w1.mp3",
+        "/subpkg/hanzi/static/audio/san-u4e09-w2.mp3"
       ]
     },
     {
@@ -371,10 +371,10 @@ module.exports = {
         "四个",
         "四月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/四.mp3",
+      "audio": "/subpkg/hanzi/static/audio/si-u56db.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/四-四个.mp3",
-        "/subpkg/hanzi/static/audio/四-四月.mp3"
+        "/subpkg/hanzi/static/audio/si-u56db-w1.mp3",
+        "/subpkg/hanzi/static/audio/si-u56db-w2.mp3"
       ]
     },
     {
@@ -386,10 +386,10 @@ module.exports = {
         "五个",
         "五月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/五.mp3",
+      "audio": "/subpkg/hanzi/static/audio/wu-u4e94.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/五-五个.mp3",
-        "/subpkg/hanzi/static/audio/五-五月.mp3"
+        "/subpkg/hanzi/static/audio/wu-u4e94-w1.mp3",
+        "/subpkg/hanzi/static/audio/wu-u4e94-w2.mp3"
       ]
     },
     {
@@ -401,10 +401,10 @@ module.exports = {
         "六个",
         "六月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/六.mp3",
+      "audio": "/subpkg/hanzi/static/audio/liu-u516d.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/六-六个.mp3",
-        "/subpkg/hanzi/static/audio/六-六月.mp3"
+        "/subpkg/hanzi/static/audio/liu-u516d-w1.mp3",
+        "/subpkg/hanzi/static/audio/liu-u516d-w2.mp3"
       ]
     },
     {
@@ -416,10 +416,10 @@ module.exports = {
         "七个",
         "七月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/七.mp3",
+      "audio": "/subpkg/hanzi/static/audio/qi-u4e03.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/七-七个.mp3",
-        "/subpkg/hanzi/static/audio/七-七月.mp3"
+        "/subpkg/hanzi/static/audio/qi-u4e03-w1.mp3",
+        "/subpkg/hanzi/static/audio/qi-u4e03-w2.mp3"
       ]
     },
     {
@@ -431,10 +431,10 @@ module.exports = {
         "八个",
         "八月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/八.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ba-u516b.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/八-八个.mp3",
-        "/subpkg/hanzi/static/audio/八-八月.mp3"
+        "/subpkg/hanzi/static/audio/ba-u516b-w1.mp3",
+        "/subpkg/hanzi/static/audio/ba-u516b-w2.mp3"
       ]
     },
     {
@@ -446,10 +446,10 @@ module.exports = {
         "九个",
         "九月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/九.mp3",
+      "audio": "/subpkg/hanzi/static/audio/jiu-u4e5d.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/九-九个.mp3",
-        "/subpkg/hanzi/static/audio/九-九月.mp3"
+        "/subpkg/hanzi/static/audio/jiu-u4e5d-w1.mp3",
+        "/subpkg/hanzi/static/audio/jiu-u4e5d-w2.mp3"
       ]
     },
     {
@@ -461,10 +461,10 @@ module.exports = {
         "十个",
         "十月"
       ],
-      "audio": "/subpkg/hanzi/static/audio/十.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shi-u5341.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/十-十个.mp3",
-        "/subpkg/hanzi/static/audio/十-十月.mp3"
+        "/subpkg/hanzi/static/audio/shi-u5341-w1.mp3",
+        "/subpkg/hanzi/static/audio/shi-u5341-w2.mp3"
       ]
     },
     {
@@ -476,10 +476,10 @@ module.exports = {
         "大人",
         "小人"
       ],
-      "audio": "/subpkg/hanzi/static/audio/人.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ren-u4eba.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/人-大人.mp3",
-        "/subpkg/hanzi/static/audio/人-小人.mp3"
+        "/subpkg/hanzi/static/audio/ren-u4eba-w1.mp3",
+        "/subpkg/hanzi/static/audio/ren-u4eba-w2.mp3"
       ]
     },
     {
@@ -491,10 +491,10 @@ module.exports = {
         "大象",
         "大人"
       ],
-      "audio": "/subpkg/hanzi/static/audio/大.mp3",
+      "audio": "/subpkg/hanzi/static/audio/da-u5927.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/大-大象.mp3",
-        "/subpkg/hanzi/static/audio/大-大人.mp3"
+        "/subpkg/hanzi/static/audio/da-u5927-w1.mp3",
+        "/subpkg/hanzi/static/audio/da-u5927-w2.mp3"
       ]
     },
     {
@@ -506,10 +506,10 @@ module.exports = {
         "小鸟",
         "小猫"
       ],
-      "audio": "/subpkg/hanzi/static/audio/小.mp3",
+      "audio": "/subpkg/hanzi/static/audio/xiao-u5c0f.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/小-小鸟.mp3",
-        "/subpkg/hanzi/static/audio/小-小猫.mp3"
+        "/subpkg/hanzi/static/audio/xiao-u5c0f-w1.mp3",
+        "/subpkg/hanzi/static/audio/xiao-u5c0f-w2.mp3"
       ]
     },
     {
@@ -521,10 +521,10 @@ module.exports = {
         "大口",
         "小口"
       ],
-      "audio": "/subpkg/hanzi/static/audio/口.mp3",
+      "audio": "/subpkg/hanzi/static/audio/kou-u53e3.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/口-大口.mp3",
-        "/subpkg/hanzi/static/audio/口-小口.mp3"
+        "/subpkg/hanzi/static/audio/kou-u53e3-w1.mp3",
+        "/subpkg/hanzi/static/audio/kou-u53e3-w2.mp3"
       ]
     },
     {
@@ -536,10 +536,10 @@ module.exports = {
         "小手",
         "手心"
       ],
-      "audio": "/subpkg/hanzi/static/audio/手.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shou-u624b.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/手-小手.mp3",
-        "/subpkg/hanzi/static/audio/手-手心.mp3"
+        "/subpkg/hanzi/static/audio/shou-u624b-w1.mp3",
+        "/subpkg/hanzi/static/audio/shou-u624b-w2.mp3"
       ]
     },
     {
@@ -551,10 +551,10 @@ module.exports = {
         "小心",
         "开心"
       ],
-      "audio": "/subpkg/hanzi/static/audio/心.mp3",
+      "audio": "/subpkg/hanzi/static/audio/xin-u5fc3.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/心-小心.mp3",
-        "/subpkg/hanzi/static/audio/心-开心.mp3"
+        "/subpkg/hanzi/static/audio/xin-u5fc3-w1.mp3",
+        "/subpkg/hanzi/static/audio/xin-u5fc3-w2.mp3"
       ]
     },
     {
@@ -566,10 +566,10 @@ module.exports = {
         "目光",
         "耳目"
       ],
-      "audio": "/subpkg/hanzi/static/audio/目.mp3",
+      "audio": "/subpkg/hanzi/static/audio/mu-u76ee.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/目-目光.mp3",
-        "/subpkg/hanzi/static/audio/目-耳目.mp3"
+        "/subpkg/hanzi/static/audio/mu-u76ee-w1.mp3",
+        "/subpkg/hanzi/static/audio/mu-u76ee-w2.mp3"
       ]
     },
     {
@@ -581,10 +581,10 @@ module.exports = {
         "耳朵",
         "耳边"
       ],
-      "audio": "/subpkg/hanzi/static/audio/耳.mp3",
+      "audio": "/subpkg/hanzi/static/audio/er-u8033.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/耳-耳朵.mp3",
-        "/subpkg/hanzi/static/audio/耳-耳边.mp3"
+        "/subpkg/hanzi/static/audio/er-u8033-w1.mp3",
+        "/subpkg/hanzi/static/audio/er-u8033-w2.mp3"
       ]
     },
     {
@@ -596,10 +596,10 @@ module.exports = {
         "妈妈",
         "老妈"
       ],
-      "audio": "/subpkg/hanzi/static/audio/妈.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ma-u5988.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/妈-妈妈.mp3",
-        "/subpkg/hanzi/static/audio/妈-老妈.mp3"
+        "/subpkg/hanzi/static/audio/ma-u5988-w1.mp3",
+        "/subpkg/hanzi/static/audio/ma-u5988-w2.mp3"
       ]
     },
     {
@@ -611,10 +611,10 @@ module.exports = {
         "爸爸",
         "老爸"
       ],
-      "audio": "/subpkg/hanzi/static/audio/爸.mp3",
+      "audio": "/subpkg/hanzi/static/audio/ba-u7238.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/爸-爸爸.mp3",
-        "/subpkg/hanzi/static/audio/爸-老爸.mp3"
+        "/subpkg/hanzi/static/audio/ba-u7238-w1.mp3",
+        "/subpkg/hanzi/static/audio/ba-u7238-w2.mp3"
       ]
     },
     {
@@ -626,10 +626,10 @@ module.exports = {
         "上面",
         "上楼"
       ],
-      "audio": "/subpkg/hanzi/static/audio/上.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shang-u4e0a.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/上-上面.mp3",
-        "/subpkg/hanzi/static/audio/上-上楼.mp3"
+        "/subpkg/hanzi/static/audio/shang-u4e0a-w1.mp3",
+        "/subpkg/hanzi/static/audio/shang-u4e0a-w2.mp3"
       ]
     },
     {
@@ -641,10 +641,10 @@ module.exports = {
         "下面",
         "下楼"
       ],
-      "audio": "/subpkg/hanzi/static/audio/下.mp3",
+      "audio": "/subpkg/hanzi/static/audio/xia-u4e0b.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/下-下面.mp3",
-        "/subpkg/hanzi/static/audio/下-下楼.mp3"
+        "/subpkg/hanzi/static/audio/xia-u4e0b-w1.mp3",
+        "/subpkg/hanzi/static/audio/xia-u4e0b-w2.mp3"
       ]
     },
     {
@@ -656,10 +656,10 @@ module.exports = {
         "大门",
         "开门"
       ],
-      "audio": "/subpkg/hanzi/static/audio/门.mp3",
+      "audio": "/subpkg/hanzi/static/audio/men-u95e8.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/门-大门.mp3",
-        "/subpkg/hanzi/static/audio/门-开门.mp3"
+        "/subpkg/hanzi/static/audio/men-u95e8-w1.mp3",
+        "/subpkg/hanzi/static/audio/men-u95e8-w2.mp3"
       ]
     },
     {
@@ -671,10 +671,10 @@ module.exports = {
         "大山",
         "小山"
       ],
-      "audio": "/subpkg/hanzi/static/audio/山.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shan-u5c71.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/山-大山.mp3",
-        "/subpkg/hanzi/static/audio/山-小山.mp3"
+        "/subpkg/hanzi/static/audio/shan-u5c71-w1.mp3",
+        "/subpkg/hanzi/static/audio/shan-u5c71-w2.mp3"
       ]
     },
     {
@@ -686,10 +686,10 @@ module.exports = {
         "树木",
         "木头"
       ],
-      "audio": "/subpkg/hanzi/static/audio/木.mp3",
+      "audio": "/subpkg/hanzi/static/audio/mu-u6728.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/木-树木.mp3",
-        "/subpkg/hanzi/static/audio/木-木头.mp3"
+        "/subpkg/hanzi/static/audio/mu-u6728-w1.mp3",
+        "/subpkg/hanzi/static/audio/mu-u6728-w2.mp3"
       ]
     },
     {
@@ -701,10 +701,10 @@ module.exports = {
         "大火",
         "小火"
       ],
-      "audio": "/subpkg/hanzi/static/audio/火.mp3",
+      "audio": "/subpkg/hanzi/static/audio/huo-u706b.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/火-大火.mp3",
-        "/subpkg/hanzi/static/audio/火-小火.mp3"
+        "/subpkg/hanzi/static/audio/huo-u706b-w1.mp3",
+        "/subpkg/hanzi/static/audio/huo-u706b-w2.mp3"
       ]
     },
     {
@@ -716,10 +716,10 @@ module.exports = {
         "白云",
         "云朵"
       ],
-      "audio": "/subpkg/hanzi/static/audio/云.mp3",
+      "audio": "/subpkg/hanzi/static/audio/yun-u4e91.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/云-白云.mp3",
-        "/subpkg/hanzi/static/audio/云-云朵.mp3"
+        "/subpkg/hanzi/static/audio/yun-u4e91-w1.mp3",
+        "/subpkg/hanzi/static/audio/yun-u4e91-w2.mp3"
       ]
     },
     {
@@ -731,10 +731,10 @@ module.exports = {
         "石头",
         "小石"
       ],
-      "audio": "/subpkg/hanzi/static/audio/石.mp3",
+      "audio": "/subpkg/hanzi/static/audio/shi-u77f3.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/石-石头.mp3",
-        "/subpkg/hanzi/static/audio/石-小石.mp3"
+        "/subpkg/hanzi/static/audio/shi-u77f3-w1.mp3",
+        "/subpkg/hanzi/static/audio/shi-u77f3-w2.mp3"
       ]
     },
     {
@@ -746,10 +746,10 @@ module.exports = {
         "田地",
         "水田"
       ],
-      "audio": "/subpkg/hanzi/static/audio/田.mp3",
+      "audio": "/subpkg/hanzi/static/audio/tian-u7530.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/田-田地.mp3",
-        "/subpkg/hanzi/static/audio/田-水田.mp3"
+        "/subpkg/hanzi/static/audio/tian-u7530-w1.mp3",
+        "/subpkg/hanzi/static/audio/tian-u7530-w2.mp3"
       ]
     },
     {
@@ -761,10 +761,10 @@ module.exports = {
         "小车",
         "开车"
       ],
-      "audio": "/subpkg/hanzi/static/audio/车.mp3",
+      "audio": "/subpkg/hanzi/static/audio/che-u8f66.mp3",
       "wordAudios": [
-        "/subpkg/hanzi/static/audio/车-小车.mp3",
-        "/subpkg/hanzi/static/audio/车-开车.mp3"
+        "/subpkg/hanzi/static/audio/che-u8f66-w1.mp3",
+        "/subpkg/hanzi/static/audio/che-u8f66-w2.mp3"
       ]
     }
   ]
