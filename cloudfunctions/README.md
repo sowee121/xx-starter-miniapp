@@ -182,8 +182,8 @@ npm run test:cloud
 | 业务 | 覆盖点 |
 | --- | --- |
 | `initDb` | 五个集合创建结果 |
-| `login` / `getProfile` | 首次建档、已有用户读取、日期返回 |
-| `addStars` | 参数拒绝、加星、`clientId` 幂等去重 |
+| `login` / `getProfile` | 首次建档、已有用户读取、日期返回；getProfile 无档案时建档 |
+| `addStars` | 参数拒绝、加星、`clientId` 幂等去重；无档案时建档再加星 |
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
 | `exchangeReward` | 非法奖励、无用户、余额不足、贴纸/徽章兑换 |

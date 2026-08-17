@@ -11,11 +11,24 @@ async function ensureUsers() {
   }
 }
 
-exports.main = async () => {
+async function ensureProfile(openid) {
   await ensureUsers()
+  const users = db.collection('users')
+  const found = await users.where({ _openid: openid }).limit(1).get()
+  if (found.data[0]) return found.data[0]
+  const doc = {
+    stars: 0,
+    stickers: [],
+    badges: [],
+    updatedAt: Date.now(),
+  }
+  const added = await users.add({ data: doc })
+  return { ...doc, _id: added._id, _openid: openid }
+}
+
+exports.main = async () => {
   const { OPENID } = cloud.getWXContext()
-  const found = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
-  const profile = found.data[0] || { stars: 0, stickers: [], badges: [] }
+  const profile = await ensureProfile(OPENID)
   const now = new Date()
   const serverDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
   return {

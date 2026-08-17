@@ -136,6 +136,15 @@ async function testLoginAndProfile() {
   assert.equal(records('users').length, 1)
 }
 
+async function testGetProfileCreatesUser() {
+  reset()
+  const profile = await fn('getProfile')()
+  assert.equal(profile.ok, true)
+  assert.equal(profile.profile.stars, 0)
+  assert.ok(profile.profile._id)
+  assert.equal(records('users').length, 1)
+}
+
 async function testAddStars() {
   reset()
   await fn('login')()
@@ -149,6 +158,20 @@ async function testAddStars() {
   assert.deepEqual(first, { ok: true, duplicated: false, stars: 3 })
   const duplicate = await addStars({ delta: 3, reason: 'math', ref: '1+2', clientId: 'star-1' })
   assert.deepEqual(duplicate, { ok: true, duplicated: true, stars: 3 })
+  assert.equal(records('star_logs').length, 1)
+}
+
+async function testAddStarsCreatesUser() {
+  reset()
+  const result = await fn('addStars')({
+    delta: 2,
+    reason: 'daily_task',
+    ref: '2026-08-17:hanzi',
+    clientId: 'no-login',
+  })
+  assert.deepEqual(result, { ok: true, duplicated: false, stars: 2 })
+  assert.equal(records('users').length, 1)
+  assert.equal(records('users')[0].stars, 2)
   assert.equal(records('star_logs').length, 1)
 }
 
@@ -202,7 +225,9 @@ async function main() {
   const cases = [
     ['initDb 创建全部集合', testInitDb],
     ['login 与 getProfile 用户档案', testLoginAndProfile],
+    ['getProfile 未登录也会建档', testGetProfileCreatesUser],
     ['addStars 参数校验与幂等', testAddStars],
+    ['addStars 未登录也会建档加星', testAddStarsCreatesUser],
     ['completeProgress 与 checkinTask', testProgressAndTasks],
     ['exchangeReward 校验与扣星', testRewards],
   ]

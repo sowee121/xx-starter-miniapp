@@ -23,5 +23,10 @@ App({
       env: CLOUD_ENV,
       traceUser: true,
     })
+    try {
+      require('./utils/stars').bootstrap().catch(() => {})
+    } catch (error) {
+      // 建档失败不影响本地加星
+    }
   },
 })

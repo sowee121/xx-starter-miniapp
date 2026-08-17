@@ -8,10 +8,7 @@ function makeClientId() {
   return `${Date.now()}-${rand}`
 }
 
-function getLocalStars() {
-  const app = getApp()
-  const profile = (app && app.globalData && app.globalData.profile) || {}
-  if (typeof profile.stars === 'number') return profile.stars
+function readStoredStars() {
   try {
     const stars = wx.getStorageSync(STORAGE_KEY)
     return typeof stars === 'number' ? stars : 0
@@ -20,12 +17,32 @@ function getLocalStars() {
   }
 }
 
+/**
+ * 云端未建档时 addStars 会返回 0；不能用它覆盖本地已加的星。
+ * duplicated 时不再本地累加，但仍取 local 与 remote 的较大值。
+ */
+function pickStars(local, remote, { added = 0, duplicated = false } = {}) {
+  const before = typeof local === 'number' ? local : 0
+  const optimistic = before + (duplicated ? 0 : added)
+  const cloudValue = typeof remote === 'number' ? remote : optimistic
+  return Math.max(optimistic, cloudValue)
+}
+
+function getLocalStars() {
+  const app = getApp()
+  const profile = (app && app.globalData && app.globalData.profile) || {}
+  const memory = typeof profile.stars === 'number' ? profile.stars : 0
+  return Math.max(memory, readStoredStars())
+}
+
 function setLocalStars(stars) {
   const app = getApp()
-  if (!app.globalData.profile) {
-    app.globalData.profile = { stars: 0, stickers: [], badges: [] }
+  if (app && app.globalData) {
+    if (!app.globalData.profile) {
+      app.globalData.profile = { stars: 0, stickers: [], badges: [] }
+    }
+    app.globalData.profile.stars = stars
   }
-  app.globalData.profile.stars = stars
   try {
     wx.setStorageSync(STORAGE_KEY, stars)
   } catch (error) {
@@ -36,41 +53,59 @@ function setLocalStars(stars) {
 async function refreshProfile() {
   const { ok, data } = await cloud.call('getProfile')
   if (!ok || !data) return getLocalStars()
+  const profile = data.profile || data
+  const remote = profile && typeof profile.stars === 'number' ? profile.stars : 0
+  const next = Math.max(getLocalStars(), remote)
   const app = getApp()
-  app.globalData.profile = data.profile || data
-  return getLocalStars()
+  if (app && app.globalData) {
+    app.globalData.profile = Object.assign({}, profile, { stars: next })
+  }
+  setLocalStars(next)
+  return next
 }
 
-async function addStars({ delta, reason, ref, clientId }) {
+async function addStars({ delta, reason, ref, clientId, retry }) {
   const id = clientId || makeClientId()
   const payload = { delta, reason, ref, clientId: id }
+  const before = getLocalStars()
   const { ok, data } = await cloud.call('addStars', payload)
   if (!ok) {
-    setLocalStars(getLocalStars() + delta)
-    retryQueue.enqueue(payload)
-    return { ok: false, stars: getLocalStars(), clientId: id, local: true }
+    if (!retry) {
+      const stars = pickStars(before, null, { added: delta })
+      setLocalStars(stars)
+      retryQueue.enqueue(payload)
+      return { ok: false, stars, clientId: id, local: true }
+    }
+    return { ok: false, stars: before, clientId: id, local: true }
   }
-  if (typeof data.stars === 'number') {
-    setLocalStars(data.stars)
-  } else {
-    setLocalStars(getLocalStars() + delta)
-  }
-  return { ok: true, stars: getLocalStars(), clientId: id, duplicated: !!data.duplicated }
+  const stars = pickStars(before, data && data.stars, {
+    added: delta,
+    duplicated: !!(data && data.duplicated),
+  })
+  setLocalStars(stars)
+  return { ok: true, stars, clientId: id, duplicated: !!(data && data.duplicated) }
 }
 
 async function flushRetryQueue() {
   const pending = retryQueue.peekAll()
   for (const item of pending) {
-    const { ok } = await addStars(item)
+    const { ok } = await addStars({ ...item, retry: true })
     if (ok) retryQueue.removeByClientId(item.clientId)
   }
 }
 
+async function bootstrap() {
+  await refreshProfile()
+  await flushRetryQueue()
+}
+
 module.exports = {
   makeClientId,
+  pickStars,
   getLocalStars,
   setLocalStars,
   refreshProfile,
   addStars,
   flushRetryQueue,
+  bootstrap,
 }

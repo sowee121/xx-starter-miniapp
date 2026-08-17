@@ -17,6 +17,35 @@ const REASONS = new Set([
   'calendar_done',
 ])
 
+async function ensureCollection(name) {
+  try {
+    await db.createCollection(name)
+  } catch (error) {
+    // 已存在则忽略
+  }
+}
+
+async function ensureUser(openid) {
+  await ensureCollection('users')
+  const users = db.collection('users')
+  const found = await users.where({ _openid: openid }).limit(1).get()
+  if (found.data[0]) return found.data[0]
+  const doc = {
+    stars: 0,
+    stickers: [],
+    badges: [],
+    updatedAt: Date.now(),
+  }
+  const added = await users.add({ data: doc })
+  return { ...doc, _id: added._id, _openid: openid }
+}
+
+async function readStars(openid, fallback) {
+  const users = await db.collection('users').where({ _openid: openid }).limit(1).get()
+  const stars = users.data[0] && users.data[0].stars
+  return typeof stars === 'number' ? stars : fallback
+}
+
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const delta = Number(event.delta) || 0
@@ -27,6 +56,9 @@ exports.main = async (event) => {
   if (!clientId || !REASONS.has(reason) || delta <= 0 || delta > 5) {
     return { ok: false, error: 'invalid_params' }
   }
+
+  await ensureCollection('star_logs')
+  const user = await ensureUser(OPENID)
 
   try {
     await db.collection('star_logs').add({
@@ -40,11 +72,10 @@ exports.main = async (event) => {
       },
     })
   } catch (e) {
-    const users = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
     return {
       ok: true,
       duplicated: true,
-      stars: (users.data[0] && users.data[0].stars) || 0,
+      stars: await readStars(OPENID, user.stars || 0),
     }
   }
 
@@ -58,10 +89,9 @@ exports.main = async (event) => {
       },
     })
 
-  const users = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
   return {
     ok: true,
     duplicated: false,
-    stars: (users.data[0] && users.data[0].stars) || 0,
+    stars: await readStars(OPENID, (user.stars || 0) + delta),
   }
 }
