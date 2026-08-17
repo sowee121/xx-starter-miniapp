@@ -8,10 +8,16 @@
     "assets:purge": "node scripts/purge_package_media.js",
     "assets:restore": "node scripts/restore_package_media.js",
     "assets:upload": "npx tcb storage upload ./cloud-assets/static static -e cloudbase-d7gygre2uc80dcd42 --times 3 && npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd42 --times 3",
+    "assets:ci-upload": "node scripts/ci_upload_storage.js",
     "cloud:deploy": "node scripts/deploy_cloud_functions.js",
-    "cloud:init": "node scripts/deploy_cloud_functions.js initDb login addStars"
+    "cloud:init": "node scripts/deploy_cloud_functions.js initDb login addStars",
+    "cloud:ci-deploy": "node scripts/ci_deploy_cloud_functions.js",
+    "cloud:ci-init": "node scripts/ci_deploy_cloud_functions.js initDb login addStars",
+    "mp:preview": "node scripts/ci_preview.js",
+    "mp:upload": "node scripts/ci_upload.js"
   },
   "devDependencies": {
-    "@cloudbase/cli": "^3.7.3"
+    "@cloudbase/cli": "^3.7.3",
+    "miniprogram-ci": "^2.1.31"
   }
 }

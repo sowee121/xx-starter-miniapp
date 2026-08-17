@@ -21,7 +21,8 @@ cloud://cloudbase-d7gygre2uc80dcd42.636c-cloudbase-d7gygre2uc80dcd42-1469407935/
 | 场景 | 推荐 |
 | --- | --- |
 | 偶尔传几个文件、在控制台核对路径 | **手动** |
-| 批量同步 `static` / `subpkg`、给 Agent / 日常脚本 | **自动化**（`tcb`） |
+| 已 `tcb login`、日常批量同步 | **`npm run assets:upload`（tcb）** |
+| 无 tcb 登录、与 `mp:upload` 同一套私钥 | **`npm run assets:ci-upload`（miniprogram-ci）** |
 | 免费套餐、尚未能设「所有用户可读」 | 可上传备云，但保持 `USE_CLOUD = false` |
 
 ---
@@ -37,27 +38,41 @@ cloud://cloudbase-d7gygre2uc80dcd42.636c-cloudbase-d7gygre2uc80dcd42-1469407935/
 
 ---
 
-## 二、自动化流程（推荐）
+## 二、自动化流程
 
-在**仓库根目录**执行（不是本目录）：
+在**仓库根目录**执行（不是本目录）。
+
+### A. tcb（原路径）
 
 ```bash
-# 1. 安装依赖（只需一次）
 npm install
-
-# 2. 登录腾讯云开发 CLI（浏览器扫码；过期再执行）
-npx tcb login
-
-# 3. 上传
+npx tcb login          # 浏览器扫码；过期再执行
 npm run assets:upload
 ```
 
-`assets:upload` 实际执行：
+实际执行：
 
 ```bash
 npx tcb storage upload ./cloud-assets/static static -e cloudbase-d7gygre2uc80dcd42 --times 3
 npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd42 --times 3
 ```
+
+### B. miniprogram-ci（与小程序/云函数 CI 同私钥）
+
+```bash
+# 需 secrets/private.<appid>.key（见 docs/ci-miniprogram.md）
+npm run assets:ci-upload              # static + subpkg
+node scripts/ci_upload_storage.js static
+node scripts/ci_upload_storage.js subpkg
+```
+
+脚本：[`scripts/ci_upload_storage.js`](../scripts/ci_upload_storage.js) → `ci.cloud.uploadStorage`  
+远端前缀仍为 `static/`、`subpkg/`，与 `media.js` 一致。
+
+| 命令 | 鉴权 | 何时用 |
+| --- | --- | --- |
+| `assets:upload` | `tcb login` | 已有腾讯云登录态 |
+| `assets:ci-upload` | 小程序代码上传私钥 | 无 tcb、或与 `mp:upload` / `cloud:ci-deploy` 一条链路 |
 
 上传成功后：免费套餐下**保持** `USE_CLOUD = false`，不要 `purge`。
 
@@ -70,13 +85,15 @@ npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd
 ### 命令一览
 
 ```bash
-npm run assets:upload   # 本目录 → 云存储（需先 tcb login）
-npm run assets:purge    # 仅 USE_CLOUD=true 时使用
-npm run assets:restore  # 从本目录拷回 miniprogram
+npm run assets:upload      # tcb：本目录 → 云存储
+npm run assets:ci-upload   # miniprogram-ci：同上路径约定
+npm run assets:purge       # 仅 USE_CLOUD=true 时使用
+npm run assets:restore     # 从本目录拷回 miniprogram
 ```
 
 ### Agent 约定
 
-- 上传前确认已 `tcb login`；失败时提示用户扫码，不要编造已上传成功
+- `assets:upload`：上传前确认已 `tcb login`；失败时提示用户扫码
+- `assets:ci-upload`：确认私钥存在；失败时不要编造已上传成功
 - 默认**不**改 `USE_CLOUD`、**不**执行 `assets:purge`，除非用户确认存储 ACL 已放开
-- 与云函数部署分开：函数用微信 CLI / `npm run cloud:deploy`，媒体用 `tcb storage`
+- 与云函数部署分开：函数用 `cloud:deploy` / `cloud:ci-deploy`，媒体用本目录脚本

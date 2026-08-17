@@ -21,6 +21,30 @@ miniprogram_npm/
 __pycache__/
 *.pyc
 
+# ---------- 密钥 / 凭据（切勿入库）----------
+# miniprogram-ci 代码上传私钥目录（保留空目录占位）
+secrets/**
+!secrets/.gitkeep
+# 预览二维码等 CI 产物
+.ci-output/
+# 常见密钥与证书文件名（任意路径）
+*.key
+*.pem
+*.p12
+*.pfx
+*.p8
+id_rsa
+id_ed25519
+# 环境变量与本地覆盖
+.env
+.env.*
+!.env.example
+*.local
+# CloudBase / 腾讯云本地配置（若含密钥）
+cloudbaserc.local.json
+**/credentials.json
+**/serviceAccount*.json
+
 # 编辑器
 .idea/
 .vscode/

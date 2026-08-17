@@ -58,9 +58,10 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 
 | 能力 | 文档 | 手动 | 自动化 |
 | --- | --- | --- | --- |
-| 云函数 / 集合 | [`cloudfunctions/README.md`](cloudfunctions/README.md) | 右键绑环境 + 上传并部署 | `npm run cloud:deploy` / `cloud:init`（须开服务端口） |
-| 云存储媒体 | [`cloud-assets/README.md`](cloud-assets/README.md) | 控制台上传 | `npx tcb login` → `npm run assets:upload` |
-| 云函数测试 | [`cloudfunctions/README.md#三云函数自动化测试不访问云端`](cloudfunctions/README.md#三云函数自动化测试不访问云端) | 不适用 | `npm run test:cloud`（Mock 云开发 SDK） |
+| 云函数 / 集合 | [`cloudfunctions/README.md`](cloudfunctions/README.md) | 右键绑环境 + 上传并部署 | `cloud:deploy`（工具 CLI）或 `cloud:ci-deploy`（miniprogram-ci） |
+| 云存储媒体 | [`cloud-assets/README.md`](cloud-assets/README.md) | 控制台上传 | `assets:upload`（tcb）或 `assets:ci-upload`（miniprogram-ci） |
+| 云函数测试 | [`cloudfunctions/README.md`](cloudfunctions/README.md) | 不适用 | `npm run test:cloud`（Mock 云开发 SDK） |
+| 小程序 CI（miniprogram-ci） | [`docs/ci-miniprogram.md`](docs/ci-miniprogram.md) | 开发者工具上传 / 预览 | 已接：`mp:preview` / `mp:upload` / `cloud:ci-deploy` / `assets:ci-upload` |
 
 默认 `USE_CLOUD = false`（免费套餐常改不了「所有人可读」）。积分失败会本地兜底，**涨星 ≠ 云已通**。
 

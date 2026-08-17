@@ -114,10 +114,22 @@ wx.cloud.callFunction({ name: 'initDb' }).then(console.log).catch(console.error)
 
 ```bash
 # 仓库根目录
-npm run cloud:deploy          # 部署 cloudfunctions/ 下全部函数
-npm run cloud:init            # 只部署 initDb、login、addStars
+npm run cloud:deploy          # 开发者工具 CLI：部署全部
+npm run cloud:init            # 开发者工具 CLI：initDb / login / addStars
 node scripts/deploy_cloud_functions.js login getProfile   # 指定若干个
+
+# 不打开开发者工具时，用 miniprogram-ci（需 secrets 私钥，与 mp:upload 相同）
+npm run cloud:ci-deploy       # CI：部署全部
+npm run cloud:ci-init         # CI：initDb / login / addStars
+node scripts/ci_deploy_cloud_functions.js login getProfile
 ```
+
+| 命令 | 实现 | 前置 |
+| --- | --- | --- |
+| `cloud:deploy` / `cloud:init` | 微信开发者工具 CLI | 工具打开 + 服务端口 |
+| `cloud:ci-deploy` / `cloud:ci-init` | `miniprogram-ci` → `ci.cloud.uploadFunction` | 上传私钥；可不打开工具 |
+
+二者都传 `--remote-npm-install` / `remoteNpmInstall: true`（云端装依赖，不传本地 `node_modules`）。
 
 等价于：
 
@@ -143,7 +155,7 @@ node scripts/deploy_cloud_functions.js login getProfile   # 指定若干个
 
 | 步骤 | 做法 |
 | --- | --- |
-| 部署 | `npm run cloud:deploy` 或 `node scripts/deploy_cloud_functions.js <名…>` |
+| 部署 | `npm run cloud:deploy`（工具 CLI）或 `npm run cloud:ci-deploy`（miniprogram-ci） |
 | 建表 | 提醒用户在 Console 调 `initDb` / `getProfile`，或引导手动云端测试 |
 | 本地测试 | 先执行 `npm run test:cloud`；通过后才可部署 |
 | 文档与 skill | `.cursor/skills/miniprogram-development`、`cloud-functions`、`cloudbase-cli` |
