@@ -1,17 +1,20 @@
-# 手动触发：用 miniprogram-ci 上传开发版（再去公众平台设体验版）
+# 示例：GitHub Actions 手动上传小程序开发版
+# 使用方式：复制到仓库 `.github/workflows/mp-upload.yml`
+# （需具备 workflow 权限的 token / PAT 才能推送该路径）
+#
+# 仓库 Secrets 需配置：MP_CI_PRIVATE_KEY = 私钥全文
 name: mp-upload
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 版本号（留空则用时间戳）
+        description: 版本号（留空则用脚本默认 1.0.0）
         required: false
         type: string
       desc:
-        description: 版本说明
+        description: 版本说明（留空则用 upload: 时间）
         required: false
-        default: GitHub Actions upload
         type: string
       robot:
         description: CI 机器人编号 1-30

@@ -139,8 +139,10 @@ node scripts/ci_upload_storage.js subpkg
 
 ### 2.8 GitHub Actions（可选）
 
-草稿：[`.github/workflows/mp-upload.yml`](../.github/workflows/mp-upload.yml)（`workflow_dispatch`）  
-Secret：`MP_CI_PRIVATE_KEY` = 私钥全文。Actions 出口 IP 不固定，白名单场景建议自托管 Runner。
+示例工作流见 [`docs/examples/mp-upload.github-actions.yml`](examples/mp-upload.github-actions.yml)。  
+需要时复制到 `.github/workflows/mp-upload.yml`（推送该路径需要具备 `workflow` scope 的凭据）。
+
+仓库 Secrets：`MP_CI_PRIVATE_KEY` = 私钥全文。Actions 出口 IP 不固定，白名单场景建议自托管 Runner。
 
 ---
 
@@ -204,6 +206,6 @@ Secret：`MP_CI_PRIVATE_KEY` = 私钥全文。Actions 出口 IP 不固定，白�
 | `scripts/ci_deploy_cloud_functions.js` | CI 上传云函数 |
 | `scripts/ci_upload_storage.js` | CI 上传云存储 |
 | `scripts/deploy_cloud_functions.js` | 工具 CLI 上传云函数（非 ci） |
-| `.github/workflows/mp-upload.yml` | Actions 上传草稿 |
+| `docs/examples/mp-upload.github-actions.yml` | Actions 工作流示例（复制到 `.github/workflows/` 使用） |
 | `cloudfunctions/README.md` | 云函数手动 / 自动化总说明 |
 | `cloud-assets/README.md` | 云存储（tcb / CI 双路径） |
