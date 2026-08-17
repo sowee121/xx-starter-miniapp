@@ -2,7 +2,7 @@
   "name": "xx-starter-miniapp",
   "private": true,
   "scripts": {
-    "test": "node scripts/check_miniprogram.js",
+    "test": "node scripts/check_miniprogram.js && node scripts/test_math_quiz.js",
     "check": "node scripts/check_miniprogram.js",
     "test:cloud": "node scripts/test_cloudfunctions.js",
     "assets:purge": "node scripts/purge_package_media.js",

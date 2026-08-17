@@ -1,6 +1,11 @@
 const content = require('../content/math')
 const stars = require('../../../utils/stars')
-const { randomCountQuestion } = require('../quiz')
+const {
+  randomCountQuestion,
+  beginFeedback,
+  stopFeedbackTimer,
+  advanceQuestion,
+} = require('../quiz')
 const { mediaUrl } = require('../../../config/media')
 const { trackDaily } = require('../../../utils/daily-tasks')
 
@@ -13,6 +18,7 @@ Page({
     items: [],
     retry: false,
     praise: false,
+    locked: false,
   },
 
   onLoad() {
@@ -21,6 +27,10 @@ Page({
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
+  },
+
+  onUnload() {
+    stopFeedbackTimer(this)
   },
 
   applyQuestion() {
@@ -33,26 +43,28 @@ Page({
       cols: question.cols,
       items: Array.from({ length: question.answer }, () => src),
       retry: false,
+      praise: false,
+      locked: false,
     })
   },
 
-  async choose(e) {
+  choose(e) {
+    if (this.data.locked || !this.data.question) return
     const value = Number(e.currentTarget.dataset.value)
-    if (value !== this.data.question.answer) {
-      this.setData({ retry: true })
-      return
+    const correct = value === this.data.question.answer
+    beginFeedback(this, correct)
+    if (correct) {
+      const qid = this.data.question.id
+      Promise.all([
+        stars.addStars({ delta: 1, reason: 'math', ref: qid }),
+        trackDaily('math', `correct:${qid}`),
+      ]).then(() => {
+        this.setData({ stars: stars.getLocalStars() })
+      })
     }
-    await stars.addStars({ delta: 1, reason: 'math', ref: this.data.question.id })
-    await trackDaily('math', `correct:${this.data.question.id}`)
-    this.setData({
-      stars: stars.getLocalStars(),
-      retry: false,
-      praise: true,
-    })
   },
 
   next() {
-    this.setData({ praise: false, retry: false })
-    this.applyQuestion()
+    advanceQuestion(this)
   },
 })

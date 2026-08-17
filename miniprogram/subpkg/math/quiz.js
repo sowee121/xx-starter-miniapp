@@ -92,6 +92,46 @@ function randomCalcQuestion(preferOp, avoidKey) {
   }
 }
 
+/** 对错反馈停留后再切下一题（低幼能看清，又不必点按钮） */
+const FEEDBACK_MS = 1800
+
+function stopFeedbackTimer(ctx) {
+  if (ctx._feedbackTimer) {
+    clearTimeout(ctx._feedbackTimer)
+    ctx._feedbackTimer = null
+  }
+}
+
+function armNextQuestion(ctx) {
+  stopFeedbackTimer(ctx)
+  ctx._feedbackTimer = setTimeout(() => {
+    ctx._feedbackTimer = null
+    ctx.next()
+  }, FEEDBACK_MS)
+}
+
+function beginFeedback(ctx, correct) {
+  ctx._feedbackFor = ctx.data.question && ctx.data.question.id
+  ctx.setData({
+    locked: true,
+    retry: !correct,
+    praise: !!correct,
+  })
+  armNextQuestion(ctx)
+}
+
+/** 反馈中的那一题只切一次，避免定时器与「继续玩」连跳 */
+function canAdvanceQuestion(feedbackFor) {
+  return Boolean(feedbackFor)
+}
+
+function advanceQuestion(ctx) {
+  stopFeedbackTimer(ctx)
+  if (!canAdvanceQuestion(ctx._feedbackFor)) return
+  ctx._feedbackFor = null
+  ctx.applyQuestion()
+}
+
 module.exports = {
   layoutCols,
   nearbyChoices,
@@ -99,4 +139,10 @@ module.exports = {
   randomCalcQuestion,
   randInt,
   pick,
+  FEEDBACK_MS,
+  stopFeedbackTimer,
+  armNextQuestion,
+  beginFeedback,
+  canAdvanceQuestion,
+  advanceQuestion,
 }
