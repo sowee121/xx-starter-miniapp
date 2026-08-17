@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Batch-generate point-read MP3 for 嘻嘻的启蒙乐园 using edge-tts.
+"""Batch-generate point-read MP3 for 嘻嘻启蒙乐园 using edge-tts.
 
 Audio is written into per-subpackage static dirs so each WeChat subpackage
 stays under its 2MB limit.

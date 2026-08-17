@@ -4,9 +4,12 @@
   "scripts": {
     "test": "node scripts/check_miniprogram.js",
     "check": "node scripts/check_miniprogram.js",
+    "test:cloud": "node scripts/test_cloudfunctions.js",
     "assets:purge": "node scripts/purge_package_media.js",
     "assets:restore": "node scripts/restore_package_media.js",
-    "assets:upload": "npx tcb storage upload ./cloud-assets/static static -e cloudbase-d7gygre2uc80dcd42 --times 3 && npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd42 --times 3"
+    "assets:upload": "npx tcb storage upload ./cloud-assets/static static -e cloudbase-d7gygre2uc80dcd42 --times 3 && npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd42 --times 3",
+    "cloud:deploy": "node scripts/deploy_cloud_functions.js",
+    "cloud:init": "node scripts/deploy_cloud_functions.js initDb login addStars"
   },
   "devDependencies": {
     "@cloudbase/cli": "^3.7.3"

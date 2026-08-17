@@ -3,7 +3,20 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
+const COLLECTIONS = ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs']
+
+async function ensureCollections() {
+  for (const name of COLLECTIONS) {
+    try {
+      await db.createCollection(name)
+    } catch (error) {
+      // 已存在则忽略
+    }
+  }
+}
+
 exports.main = async () => {
+  await ensureCollections()
   const { OPENID } = cloud.getWXContext()
   const users = db.collection('users')
   const found = await users.where({ _openid: OPENID }).limit(1).get()

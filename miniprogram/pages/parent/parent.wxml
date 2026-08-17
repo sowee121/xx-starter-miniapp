@@ -35,7 +35,7 @@
     </view>
 
     <view class="parent__about card">
-      <text>嘻嘻的启蒙乐园</text>
+      <text>嘻嘻启蒙乐园</text>
       <text class="parent__ver">脚手架 P0</text>
     </view>
   </view>

@@ -1,7 +1,7 @@
 ---
 name: edge-tts-batch
 description: >-
-  Batch-generate point-read MP3 audio for 嘻嘻的启蒙乐园 with edge-tts, writing into
+  Batch-generate point-read MP3 audio for 嘻嘻启蒙乐园 with edge-tts, writing into
   per-subpackage static dirs so each WeChat subpackage stays under 2MB. Use when
   generating TTS audio, batch exporting MP3, updating poem/hanzi/english/pinyin
   audio, or when the user mentions edge-tts, 点读, 批量导出, or 语音合成.
@@ -9,7 +9,7 @@ description: >-
 
 # edge-tts 批量导出点读音频
 
-为「嘻嘻的启蒙乐园」微信原生小程序生成点读 MP3。音频**按分包输出**，避免堆进主包撑爆 2MB 限制。
+为「嘻嘻启蒙乐园」微信原生小程序生成点读 MP3。音频**按分包输出**，避免堆进主包撑爆 2MB 限制。
 
 内容文件是 `content/*.js`，格式为 `module.exports = <严格 JSON>`——原生小程序的模块解析器会给 `require` 的路径追加 `.js` 后缀，无法可靠加载裸 `.json` 文件。脚本会剥掉这层包装当 JSON 处理，写回时再套上。
 
