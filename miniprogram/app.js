@@ -1,8 +1,11 @@
 const { CLOUD_ENV } = require('./config/cloud')
+const feedback = require('./utils/feedback')
 
 App({
   globalData: {
     profile: null,
+    // 注册为主包共享服务，确保各业务分包可合法加载同一反馈实现。
+    feedback,
   },
 
   onLaunch() {
@@ -12,6 +15,8 @@ App({
     } catch (error) {
       // ignore
     }
+    // 音效已在主包，启动即建好上下文，各模块首次答题不再等加载
+    feedback.preloadEffects()
 
     if (!wx.cloud) {
       return
@@ -23,5 +28,11 @@ App({
       env: CLOUD_ENV,
       traceUser: true,
     })
+    // 建档 users + 冲刷本地加星队列；onLaunch 内 getApp() 不可用，传入 this
+    try {
+      require('./utils/stars').ensureSession(this)
+    } catch (error) {
+      // ignore
+    }
   },
 })

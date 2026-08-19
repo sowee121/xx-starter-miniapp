@@ -23,7 +23,7 @@
 .parent__chip {
   flex: 1;
   background: var(--color-bg);
-  border-radius: var(--radius-lg);
+  border-radius: 999rpx;
   font-size: var(--font-nav);
 }
 
@@ -35,7 +35,7 @@
 .parent__danger {
   position: relative;
   height: 112rpx;
-  border-radius: var(--radius-xl);
+  border-radius: 999rpx;
   background: #e8d5c4;
   overflow: hidden;
 }

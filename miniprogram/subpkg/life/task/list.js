@@ -1,8 +1,15 @@
 const starsUtil = require('../../../utils/stars')
 const dailyTasks = require('../../../utils/daily-tasks')
+const { taskHead } = require('../../../content/feedback-copy')
 
 Page({
-  data: { stars: 0, tasks: [], progress: 0, showPraise: false, praiseText: '' },
+  data: {
+    stars: 0,
+    tasks: [],
+    progress: 0,
+    pageHint: '今天的任务',
+    pageSubHint: '慢慢完成吧～',
+  },
 
   onShow() {
     this.refresh()
@@ -10,10 +17,14 @@ Page({
 
   refresh() {
     const tasks = dailyTasks.taskList()
+    const progress = tasks.filter((task) => task.done).length
+    const head = taskHead(progress, tasks.length)
     this.setData({
       tasks,
       stars: starsUtil.getLocalStars(),
-      progress: tasks.filter((task) => task.done).length,
+      progress,
+      pageHint: head.hint,
+      pageSubHint: head.subHint,
     })
   },
 
@@ -22,9 +33,5 @@ Page({
     const url = dailyTasks.nextUrl(id)
     if (!url) return
     wx.navigateTo({ url })
-  },
-
-  closePraise() {
-    this.setData({ showPraise: false })
   },
 })

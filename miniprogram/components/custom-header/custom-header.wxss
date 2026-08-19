@@ -42,10 +42,10 @@
 
 .custom-header__home,
 .custom-header__home-spacer {
-  width: 72rpx;
-  height: 72rpx;
+  width: 88rpx;
+  height: 88rpx;
   flex-shrink: 0;
-  margin-right: 18rpx;
+  margin-right: 12rpx;
 }
 
 .custom-header__home {
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: center;
   border: 2rpx solid rgba(255, 255, 255, 0.72);
-  border-radius: 38rpx;
+  border-radius: 50%;
   overflow: hidden;
   box-sizing: border-box;
   background: linear-gradient(145deg, #f7f9e9, #dce9c9);
@@ -64,14 +64,14 @@
 }
 
 .custom-header__home-icon {
-  width: 58rpx;
-  height: 58rpx;
+  width: 64rpx;
+  height: 64rpx;
   flex-shrink: 0;
 }
 
 .custom-header__title {
   position: absolute;
-  left: 120rpx;
+  left: 130rpx;
   right: 260rpx;
   text-align: center;
   font-size: 36rpx;

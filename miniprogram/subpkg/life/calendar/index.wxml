@@ -13,4 +13,12 @@
     <text class="calendar-scene__week">{{weekday}}</text>
     <view class="calendar-scene__tag">{{isNight ? '晚上' : '白天'}}</view>
   </view>
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="closePraise"
+  />
 </app-shell>

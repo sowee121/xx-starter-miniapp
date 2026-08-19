@@ -52,7 +52,7 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 
 **图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `chroma_to_png` / `normalize_atoms`。须关闭「忽略未使用的文件」（已配 `ignoreDevUnusedFiles: false`）。
 
-**点读** — `miniprogram/utils/audio.js`。真机无声时查：`setInnerAudioOption`、中文路径 `encodeURI`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+**点读** — `miniprogram/utils/audio.js`。音频文件名必须纯 ASCII slug（代码包内路径按字面量查，编码后的中文名一定 `readFile:fail`），`npm test` 会拦。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
 **云开发文档入口**
 
@@ -63,7 +63,7 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 | 云函数测试 | [`cloudfunctions/README.md`](cloudfunctions/README.md) | 不适用 | `npm run test:cloud`（Mock 云开发 SDK） |
 | 小程序 CI（miniprogram-ci） | [`docs/ci-miniprogram.md`](docs/ci-miniprogram.md) | 开发者工具上传 / 预览 | 已接：`mp:preview` / `mp:upload` / `cloud:ci-deploy` / `assets:ci-upload` |
 
-默认 `USE_CLOUD = false`（免费套餐常改不了「所有人可读」）。积分失败会本地兜底，**涨星 ≠ 云已通**。
+默认 `USE_CLOUD = false`（免费套餐常改不了「所有人可读」）。加星失败会本地兜底并入队，**下次云通畅时自动冲刷同步**（幂等 `clientId`）；**涨星 ≠ 当时已写入云**。
 
 ---
 
@@ -74,5 +74,5 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 | 八大板块业务页 + TTS | 已落地 |
 | 每日任务（数量每日随机） | 已落地 |
 | 云存储切 `cloud://` | 未开（`USE_CLOUD = false`） |
-| 云函数 | 源码就绪；可用手动或 `npm run cloud:deploy` |
-| 云端为唯一数据源 | 未闭环（仍有本地兜底） |
+| 云函数 | 已全量 `cloud:ci-deploy`；启动 login + 商城兑换 + 任务打卡已接通 |
+| 云端为唯一数据源 | 进行中（加星/进度失败本地队列兜底，云通畅后自动同步） |

@@ -20,11 +20,14 @@ const USE_CLOUD = false
 
 /** 仍建议留在主包内的壳层图（USE_CLOUD=true 且 purge 后生效） */
 const LOCAL_KEEP = new Set([
+  // 答题音效要求零延迟且各分包共用，始终留在主包
+  '/static/shared/sfx-success.wav',
+  '/static/shared/sfx-soft-fail.wav',
   '/static/shared/play.png',
-  '/static/shared/home-clay.png',
-  '/static/shared/star.png',
   '/static/shared/check.png',
+  '/static/shared/meadow.png',
   '/static/icons/home.png',
+  '/static/home/star.png',
 ])
 
 function normalizePath(input) {

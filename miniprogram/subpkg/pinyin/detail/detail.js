@@ -3,9 +3,10 @@ const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
 const { trackDaily } = require('../../../utils/daily-tasks')
-
+const feedback = require('../../../utils/feedback')
+const { INLINE } = require('../../../content/feedback-copy')
 Page({
-  data: { stars: 0, item: null },
+  data: { stars: 0, item: null, softNote: '', feedback: { show: false, closing: false } },
 
   onLoad(q) {
     const key = q.id === 'umlaut-u' ? 'ü' : (q.id || 'a')
@@ -25,15 +26,22 @@ Page({
   async play() {
     const item = this.data.item
     if (!item) return
-    if (item.audio) {
-      audioUtil.play(item.audio)
-    } else {
-      wx.showToast({ title: '语音准备中', icon: 'none' })
+    if (!item.audio) {
+      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
+      return
     }
-    if (item.letter) {
-      await trackDaily('pinyin', item.letter)
-      this.setData({ stars: stars.getLocalStars() })
-    }
+    audioUtil.play(item.audio, {
+      onEnded: async () => {
+        const result = await trackDaily('pinyin', item.letter)
+        this.setData({ stars: stars.getLocalStars() })
+        feedback.showTaskAward(this, result)
+      },
+      onError: feedback.audioFallback(this),
+    })
+  },
+
+  closePraise() {
+    feedback.hideLayer(this)
   },
 
   onUnload() {

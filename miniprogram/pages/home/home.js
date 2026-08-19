@@ -19,13 +19,19 @@ Page({
   },
 
   onLoad() {
-    this.setData({ headerHeight: getNavbar().headerHeight })
+    this.setData({
+      headerHeight: getNavbar().headerHeight,
+      stars: starsUtil.getLocalStars(),
+    })
   },
 
   onShow() {
     this.setData({
       stars: starsUtil.getLocalStars(),
       taskProgress: dailyTasks.getProgress(),
+    })
+    starsUtil.ensureSession().then(() => {
+      this.setData({ stars: starsUtil.getLocalStars() })
     })
   },
 

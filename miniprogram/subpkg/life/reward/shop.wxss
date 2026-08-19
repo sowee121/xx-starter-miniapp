@@ -13,15 +13,15 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 60rpx) / 3);
-  min-height: 256rpx;
+  min-height: 312rpx;
   padding: 16rpx 12rpx;
   text-align: center;
   box-sizing: border-box;
 }
 
 .sticker-card__image {
-  width: 148rpx;
-  height: 148rpx;
+  width: 168rpx;
+  height: 168rpx;
 }
 
 .sticker-card__price {
@@ -30,16 +30,16 @@
   align-items: center;
   justify-content: center;
   gap: 6rpx;
-  height: 34rpx;
+  height: 40rpx;
   margin-top: 8rpx;
   color: #9b7646;
-  font-size: 25rpx;
+  font-size: 28rpx;
   font-weight: 700;
 }
 
 .sticker-card__price image {
-  width: 32rpx;
-  height: 32rpx;
+  width: 38rpx;
+  height: 38rpx;
 }
 
 .chip.is-owned {

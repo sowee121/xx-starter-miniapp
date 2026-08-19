@@ -1,7 +1,7 @@
 <app-shell title="英语" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
     <view class="detail-big block tone-rose">
-      <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" />
+      <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <text class="detail-big__title">{{item.word}}</text>
       <text class="detail-big__sub">{{item.sentence}}</text>
       <view class="detail-pair is-listen">
@@ -15,5 +15,14 @@
         </view>
       </view>
     </view>
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="closePraise"
+  />
 </app-shell>

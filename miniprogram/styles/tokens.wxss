@@ -69,17 +69,21 @@ page {
   --font-body: 34rpx;
   --font-title: 36rpx;
   --font-hello: 36rpx;
-  --font-module: 32rpx;
+  --font-module: 34rpx;
   --font-poem: 68rpx;
   --font-entry: 88rpx;
   --font-hanzi: 160rpx;
+  --font-hint: 30rpx;
+  --font-note: 42rpx;
+  --font-chip: 32rpx;
 
-  --tap-min: 120rpx;
-  --star-bar-height: 60rpx;
+  --tap-min: 152rpx;
+  --tap-min-compact: 128rpx;
+  --star-bar-height: 68rpx;
   --block-gap: 30rpx;
   --page-pad-x: 30rpx;
-  --avatar-size: 96rpx;
-  --module-media: 184rpx;
+  --avatar-size: 112rpx;
+  --module-media: 200rpx;
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);

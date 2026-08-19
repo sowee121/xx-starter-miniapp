@@ -25,8 +25,9 @@ exports.main = async (event) => {
       data: { tasks, updatedAt: Date.now() },
     })
   } else {
+    // 云函数的 add 不会自动注入 _openid，漏写会导致每次打卡都新建一条
     await col.add({
-      data: { date, tasks, starsEarned: 0, updatedAt: Date.now() },
+      data: { _openid: OPENID, date, tasks, starsEarned: 0, updatedAt: Date.now() },
     })
   }
   return { ok: true, duplicated: false, date }

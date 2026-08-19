@@ -208,23 +208,61 @@ function completeCalendar() {
 }
 
 /**
- * 上报每日任务进度；若首次完成该任务则发星并轻提示。
+ * 终身进度只登记有固定内容项的模块（古诗 / 识字 / 英语 / 拼音）。
+ * 算术题目是每次随机生成的一次性 id，登记进去只会无上限堆记录、
+ * 还会把有意义的进度挤出 getProgress 的返回条数；日历只记当天日期。
+ */
+function dailyItemId(taskId, unitKey) {
+  if (taskId === 'math') return ''
+  if (taskId === 'calendar') return getToday()
+  return unitKey
+}
+
+/** 云端进度 / 打卡后台进行；发星立即走 addStars（本地先加，不挡反馈）。 */
+function persistDailyCloud(taskId, unitKey, result) {
+  const starsUtil = require('./stars')
+  const progress = require('./progress')
+  const itemId = dailyItemId(taskId, unitKey)
+
+  if (result.firstAward && result.reward) {
+    void starsUtil.addStars({
+      delta: result.reward,
+      reason: 'daily_task',
+      ref: `${getToday()}:${taskId}`,
+    })
+  }
+
+  Promise.resolve()
+    .then(async () => {
+      if (itemId) {
+        try {
+          await progress.markDone(taskId, itemId)
+        } catch (error) {
+          // ignore
+        }
+      }
+      if (!result.firstAward) return
+      try {
+        await starsUtil.checkinTask(taskId)
+      } catch (error) {
+        // ignore
+      }
+    })
+    .catch(() => {
+      // 云失败已由 markDone / addStars 本地兜底
+    })
+}
+
+/**
+ * 上报每日任务进度；若首次完成该任务则发星。
+ * 本地进度同步返回，云端写入后台进行，避免答题反馈被冷启动拖住。
  * 放在 daily-tasks（主包首页已引用），避免单独 utils 只被分包使用触发主包未使用 JS 告警。
  */
-async function trackDaily(taskId, unitKey) {
-  const starsUtil = require('./stars')
+function trackDaily(taskId, unitKey) {
   const result = reportUnit(taskId, unitKey)
-  if (!result.firstAward || !result.reward) return result
-
-  await starsUtil.addStars({
-    delta: result.reward,
-    reason: 'daily_task',
-    ref: `${getToday()}:${taskId}`,
-  })
-  wx.showToast({
-    title: `任务完成 +${result.reward}星`,
-    icon: 'none',
-  })
+  const task = getTasks().find((item) => item.id === taskId)
+  result.taskTitle = task ? task.title : ''
+  persistDailyCloud(taskId, unitKey, result)
   return result
 }
 

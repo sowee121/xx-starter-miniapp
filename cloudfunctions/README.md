@@ -13,7 +13,7 @@
 当前 envId：`cloudbase-d7gygre2uc80dcd42`  
 AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
-已有函数：`login`、`getProfile`、`addStars`、`checkinTask`、`completeProgress`、`exchangeReward`、`initDb`
+已有函数：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`exchangeReward`、`resetProfile`、`initDb`
 
 | 集合 | 用途 | 谁创建 |
 | --- | --- | --- |
@@ -186,7 +186,9 @@ npm run test:cloud
 | `addStars` | 参数拒绝、加星、`clientId` 幂等去重 |
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
-| `exchangeReward` | 非法奖励、无用户、余额不足、贴纸/徽章兑换 |
+| `exchangeReward` | 非法奖励、无用户、余额不足、贴纸兑换、并发连点只扣一次 |
+| `resetProfile` | 家长区重置：`progress` 只清进度、`stars` 只清积分与贴纸 |
+| 落库归属 | 所有集合的新记录都必须带 `_openid`（云函数 `add` 不会自动注入） |
 
 本地通过只说明业务分支与 SDK 调用形态正确；仍须做下方的**云端自检**，确认环境、权限和已部署函数均正确。
 

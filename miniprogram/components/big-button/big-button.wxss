@@ -4,14 +4,14 @@
 }
 
 .big-btn__icon {
-  width: 40rpx;
-  height: 40rpx;
+  width: 46rpx;
+  height: 46rpx;
   flex-shrink: 0;
 }
 
 .big-btn__text {
   color: #ffffff;
-  font-size: 32rpx;
+  font-size: 38rpx;
   font-weight: 700;
   line-height: 1.2;
 }

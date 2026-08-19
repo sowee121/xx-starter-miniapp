@@ -1,6 +1,7 @@
-<view
-  class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{compact ? 'is-compact' : ''}}"
-  bindtap="onTap"
->
-  <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
+<view class="play-btn-hit" bindtap="onTap">
+  <view
+    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{compact ? 'is-compact' : ''}}"
+  >
+    <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
+  </view>
 </view>

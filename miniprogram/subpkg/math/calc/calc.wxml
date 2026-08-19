@@ -8,12 +8,19 @@
       <view
         wx:for="{{question.choices}}"
         wx:key="*this"
-        class="option block {{index === 0 ? 'tone-peach' : (index === 1 ? 'tone-butter' : 'tone-lilac')}}"
+        class="option block {{index === 0 ? 'tone-peach' : (index === 1 ? 'tone-butter' : 'tone-lilac')}} {{item === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item === pickedValue ? 'is-correct' : ''}}"
         data-value="{{item}}"
         bindtap="choose"
       >{{item}}</view>
     </view>
-    <view wx:if="{{retry}}" class="retry-note block tone-butter">没关系，再想一想～</view>
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
-  <praise-sun show="{{praise}}" text="算对啦！" bind:continue="next" />
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="next"
+  />
 </app-shell>

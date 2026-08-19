@@ -1,0 +1,52 @@
+const feedback = require('../../utils/feedback')
+const stars = require('../../utils/stars')
+const { trackDaily } = require('../../utils/daily-tasks')
+const { INLINE } = require('../../content/feedback-copy')
+
+/** 答对后行内提示停留时长，再自动切下一题 */
+const ADVANCE_DELAY = 1000
+
+function clearAdvanceTimer(page) {
+  if (!page || !page._advanceTimer) return
+  clearTimeout(page._advanceTimer)
+  page._advanceTimer = null
+}
+
+function scheduleAdvance(page, onAdvance) {
+  clearAdvanceTimer(page)
+  page._advanceTimer = setTimeout(() => {
+    page._advanceTimer = null
+    feedback.clearInline(page)
+    if (typeof onAdvance === 'function') onAdvance()
+  }, ADVANCE_DELAY)
+}
+
+function refreshStars(page) {
+  if (!page || typeof page.setData !== 'function') return
+  page.setData({ stars: stars.getLocalStars() })
+}
+
+/**
+ * 先出对错反馈，加星与进度写云放到后台，避免冷启动拖住「答对啦」。
+ */
+function handleCorrect(page, { reason, ref, taskId }) {
+  const result = trackDaily(taskId, `correct:${ref}`)
+  void stars.addStars({ delta: 1, reason, ref }).then(() => refreshStars(page))
+  refreshStars(page)
+  if (result.firstAward) {
+    feedback.showTaskAward(page, result)
+  } else {
+    feedback.showInline(page, INLINE.answerCorrect, 'success')
+    scheduleAdvance(page, () => {
+      page._busy = false
+      page.applyQuestion()
+    })
+  }
+}
+
+module.exports = {
+  ADVANCE_DELAY,
+  clearAdvanceTimer,
+  scheduleAdvance,
+  handleCorrect,
+}

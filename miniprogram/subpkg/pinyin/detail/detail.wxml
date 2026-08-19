@@ -1,9 +1,17 @@
 <app-shell title="拼音" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
     <view class="detail-big block tone-lilac">
-      <image class="detail-big__vowel" src="{{item.image}}" mode="aspectFit" />
+      <image class="detail-big__vowel" src="{{item.image}}" mode="aspectFit" lazy-load />
       <text class="detail-big__sub">{{item.hint}}</text>
       <read-button size="lg" bind:tap="play" />
     </view>
   </view>
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="closePraise"
+  />
 </app-shell>

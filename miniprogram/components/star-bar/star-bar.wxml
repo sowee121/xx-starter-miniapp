@@ -1,4 +1,10 @@
-<view class="star-bar {{night ? 'is-night' : ''}}">
+<view
+  class="star-bar {{night ? 'is-night' : ''}} {{pressing ? 'is-pressing' : ''}}"
+  bindtouchstart="onHoldStart"
+  bindtouchmove="onHoldMove"
+  bindtouchend="onHoldEnd"
+  bindtouchcancel="onHoldEnd"
+>
   <image class="star-bar__icon" src="{{starIcon}}" mode="aspectFit" />
-  <text class="star-bar__count">{{stars}}</text>
+  <text class="star-bar__count">{{displayStars}}</text>
 </view>

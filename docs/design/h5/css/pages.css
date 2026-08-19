@@ -2,7 +2,7 @@
 
 .section-title {
   margin: 0;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--muted);
 }
@@ -30,12 +30,12 @@
   border-radius: 24px;
 }
 .hero h2 { margin-top: 12px; font-size: 48px; }
-.hero p { margin-top: 10px; font-size: 27px; color: var(--muted); }
+.hero p { margin-top: 10px; font-size: var(--font-hint); color: var(--muted); }
 
 .poem-line { display: flex; flex-direction: row; align-items: center; padding: 22px 18px 22px 22px; }
 .poem-line.active { background: linear-gradient(180deg, #fff8ee, #f9edc6); }
 .poem-copy { display: flex; flex-direction: column; flex: 1; padding-right: 8px; justify-content: center; }
-.poem-copy strong { font-size: 34px; line-height: 1.4; }
+.poem-copy strong { font-size: 44px; line-height: 1.4; }
 .poem-line .media-play { margin-left: 4px; }
 
 /* 每行 3 卡：横向范围由 shell 控制，网格内部只用 gap 分隔 */
@@ -54,7 +54,7 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 60px) / 3);
-  height: 200px;
+  height: 216px;
   font-size: 58px;
   font-weight: 700;
   box-sizing: border-box;
@@ -63,19 +63,19 @@
 
 .detail-stack { display: flex; flex-direction: column; gap: 30px; }
 .detail-big { display: flex; flex-direction: column; align-items: center; padding: 34px; text-align: center; }
-.detail-big > img { width: 270px; height: 270px; object-fit: contain; }
+.detail-big > img { width: 300px; height: 300px; object-fit: contain; }
 .detail-big > .pinyin-vowel-image {
-  width: 240px;
-  height: 240px;
+  width: 268px;
+  height: 268px;
   object-fit: contain;
 }
 .detail-big .detail-emoji {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 135px;
-  height: 135px;
-  font-size: 84px;
+  width: 148px;
+  height: 148px;
+  font-size: 92px;
   line-height: 1;
 }
 .detail-big .glyph { font-size: 100px; font-weight: 700; line-height: 1; }
@@ -91,7 +91,7 @@
 }
 
 .detail-big h2 { margin-top: 14px; font-size: 46px; }
-.detail-big p { margin-top: 12px; font-size: 28px; color: var(--muted); }
+.detail-big p { margin-top: 12px; font-size: var(--font-hint); color: var(--muted); }
 .detail-big .play-btn { margin-top: 20px; }
 .detail-pair {
   display: flex;
@@ -104,9 +104,9 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 38px) / 2);
-  min-height: 130px;
+  min-height: 152px;
   padding: 18px;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
 }
 .detail-pair .play-btn { margin-top: 12px; }
@@ -123,14 +123,14 @@
 }
 .play-wrap span {
   margin-top: 10px;
-  font-size: 24px;
+  font-size: var(--font-hint);
   font-weight: 700;
   color: var(--muted);
 }
 
 .quiz-head { display: flex; flex-direction: column; align-items: center; padding: 34px 26px; text-align: center; }
-.quiz-head > img { width: 260px; height: 260px; object-fit: contain; }
-.quiz-head h2 { margin-top: 12px; font-size: 42px; }
+.quiz-head > img { width: 292px; height: 292px; object-fit: contain; }
+.quiz-head h2 { margin-top: 12px; font-size: 44px; }
 
 /* 数一数：flex + gap；列数 = 10 的约数中 ≤ 数量的最大者（10→5+5） */
 .count-stage {
@@ -184,11 +184,44 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 60px) / 3);
-  height: 128px;
-  font-size: 54px;
+  height: 156px;
+  font-size: 58px;
   font-weight: 700;
+  box-sizing: border-box;
+  border-radius: var(--radius-card);
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out, background 120ms ease-out;
 }
-.retry-note { padding: 20px; text-align: center; font-size: 30px; font-weight: 700; color: #a97946; }
+.option:active {
+  transform: scale(0.98);
+}
+.option.is-picked {
+  background: linear-gradient(180deg, #fff8ee, #f9edc6) !important;
+  box-shadow:
+    inset 0 5px 10px rgba(255, 255, 255, 0.95),
+    inset 0 -10px 18px rgba(206, 178, 108, 0.2),
+    0 10px 20px rgba(96, 122, 96, 0.14);
+}
+.option.is-correct {
+  box-shadow:
+    inset 0 5px 10px rgba(255, 255, 255, 0.95),
+    inset 0 -10px 18px rgba(126, 178, 156, 0.22),
+    0 0 0 3px #9bc49a,
+    0 10px 20px rgba(96, 122, 96, 0.14);
+}
+.retry-note,
+.soft-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88px;
+  padding: 28px;
+  text-align: center;
+  font-size: var(--font-note);
+  font-weight: 700;
+  color: #a97946;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
 
 .calendar-scene { display: flex; flex-direction: column; align-items: center; padding: 40px 30px; text-align: center; }
 .calendar-sky-icon {
@@ -197,8 +230,8 @@
   z-index: 1;
   align-items: center;
   justify-content: center;
-  width: 340px;
-  height: 250px;
+  width: 360px;
+  height: 268px;
 }
 .calendar-sky-icon img {
   display: block;
@@ -264,23 +297,28 @@
   flex-direction: row;
   align-items: center;
   gap: 18px;
-  min-height: 120px;
-  padding: 18px 24px;
+  min-height: 152px;
+  padding: 22px 24px;
+  box-sizing: border-box;
+  transition: transform 80ms ease-out;
+}
+.task-row:active {
+  transform: scale(0.985);
 }
 .task-row .tick {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 62px;
-  height: 62px;
-  border-radius: 31px;
+  width: 72px;
+  height: 72px;
+  border-radius: 36px;
   background: rgba(126, 160, 116, 0.22);
   box-shadow: inset 0 3px 6px rgba(255, 255, 255, 0.55), inset 0 -4px 8px rgba(96, 122, 96, 0.12);
 }
 .task-row .tick img {
   display: none;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 .task-row.done .tick {
@@ -296,10 +334,11 @@
   gap: 4px;
   flex: 1;
   min-width: 0;
+  padding-right: 8px;
 }
-.task-row strong { font-size: 30px; }
+.task-row strong { font-size: 34px; }
 .task-row__progress {
-  font-size: 24px;
+  font-size: var(--font-hint);
   font-weight: 600;
   color: rgba(53, 85, 63, 0.62);
 }
@@ -308,11 +347,11 @@
   flex-direction: row;
   align-items: center;
   gap: 8px;
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 700;
   color: #b78245;
 }
-.task-reward img { width: 42px; height: 42px; object-fit: contain; }
+.task-reward img { width: 48px; height: 48px; object-fit: contain; }
 
 .sticker-grid {
   display: flex;
@@ -328,13 +367,13 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 60px) / 3);
-  min-height: 256px;
+  min-height: 312px;
   padding: 16px 12px;
   text-align: center;
 }
 .sticker-card > img {
-  width: 148px;
-  height: 148px;
+  width: 168px;
+  height: 168px;
   object-fit: contain;
 }
 .sticker-price {
@@ -343,14 +382,14 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  height: 34px;
+  height: 40px;
   margin-top: 8px;
   color: #9b7646;
 }
-.sticker-price b { font-size: 25px; line-height: 1; }
+.sticker-price b { font-size: 28px; line-height: 1; }
 .sticker-price img {
-  width: 32px;
-  height: 32px;
+  width: 38px;
+  height: 38px;
   object-fit: contain;
 }
 .muted-action { opacity: 0.55; }

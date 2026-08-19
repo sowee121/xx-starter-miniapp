@@ -1,15 +1,43 @@
 const cloud = require('./cloud')
 const retryQueue = require('./retry-queue')
 
+/** 云端权威值的本地快照（不含未同步增量）。 */
 const STORAGE_KEY = 'local_stars'
+const OWNED_KEY = 'owned_stickers'
+
+/** 冲刷中禁止递归再触发 flush（addStars 成功路径会尝试冲刷）。 */
+let flushing = false
+/** App.onLaunch 内 getApp() 不可用，用模块标志代替 globalData._cloudReady。 */
+let cloudReady = false
+/** 进行中的建档/同步，避免 onLaunch 与首页 onShow 并行打两遍 login/getProfile。 */
+let sessionPromise = null
+/** 已乐观计入展示值、但尚未入队也未被云端确认的在途增量。 */
+let inflightDelta = 0
+
+function getAppSafe() {
+  try {
+    return typeof getApp === 'function' ? getApp() : null
+  } catch (error) {
+    return null
+  }
+}
+
+function ensureProfileBag(app) {
+  if (!app || !app.globalData) return null
+  if (!app.globalData.profile) {
+    app.globalData.profile = { stars: 0, stickers: [], badges: [] }
+  }
+  return app.globalData.profile
+}
 
 function makeClientId() {
   const rand = Math.random().toString(36).slice(2, 8)
   return `${Date.now()}-${rand}`
 }
 
-function getLocalStars() {
-  const app = getApp()
+/** 云端快照：内存优先，回落到本地存储。 */
+function getBaselineStars() {
+  const app = getAppSafe()
   const profile = (app && app.globalData && app.globalData.profile) || {}
   if (typeof profile.stars === 'number') return profile.stars
   try {
@@ -20,12 +48,9 @@ function getLocalStars() {
   }
 }
 
-function setLocalStars(stars) {
-  const app = getApp()
-  if (!app.globalData.profile) {
-    app.globalData.profile = { stars: 0, stickers: [], badges: [] }
-  }
-  app.globalData.profile.stars = stars
+function setBaselineStars(stars) {
+  const profile = ensureProfileBag(getAppSafe())
+  if (profile) profile.stars = stars
   try {
     wx.setStorageSync(STORAGE_KEY, stars)
   } catch (error) {
@@ -33,36 +58,223 @@ function setLocalStars(stars) {
   }
 }
 
+/** 待云端确认的增量：在途请求 + 重试队列。 */
+function pendingDelta() {
+  let queued = 0
+  try {
+    queued = retryQueue.totalDelta()
+  } catch (error) {
+    queued = 0
+  }
+  return inflightDelta + queued
+}
+
+/**
+ * 展示用星星 = 云端快照 + 待确认增量。
+ * 不用「只取较大值」，否则兑换扣星、其他设备的变化永远同步不回来。
+ */
+function getLocalStars() {
+  const total = getBaselineStars() + pendingDelta()
+  return total > 0 ? total : 0
+}
+
+/** 直接落定总数（家长区清零等）；会丢弃尚未同步的增量。 */
+function setLocalStars(stars) {
+  inflightDelta = 0
+  retryQueue.clear()
+  setBaselineStars(stars)
+}
+
+function getOwnedStickers() {
+  const app = getAppSafe()
+  const profile = (app && app.globalData && app.globalData.profile) || {}
+  if (Array.isArray(profile.stickers)) {
+    return profile.stickers.slice()
+  }
+  try {
+    const value = wx.getStorageSync(OWNED_KEY)
+    return Array.isArray(value) ? value : []
+  } catch (error) {
+    return []
+  }
+}
+
+function setOwnedStickers(stickers) {
+  const profile = ensureProfileBag(getAppSafe())
+  if (profile) profile.stickers = stickers.slice()
+  try {
+    wx.setStorageSync(OWNED_KEY, stickers)
+  } catch (error) {
+    // ignore
+  }
+}
+
+function applyProfile(profile) {
+  if (!profile || typeof profile !== 'object') return
+  // 云端值直接作为快照；本地未同步的星由 pendingDelta 叠加，不会被抹掉
+  const next = Object.assign({}, profile)
+  const app = getAppSafe()
+  if (app && app.globalData) {
+    app.globalData.profile = next
+  }
+  if (typeof next.stars === 'number') {
+    try {
+      wx.setStorageSync(STORAGE_KEY, next.stars)
+    } catch (error) {
+      // ignore
+    }
+  }
+  if (Array.isArray(next.stickers)) {
+    try {
+      wx.setStorageSync(OWNED_KEY, next.stickers)
+    } catch (error) {
+      // ignore
+    }
+  }
+}
+
+/**
+ * 云通畅后：冲刷本地队列并拉进度。login 已带回 profile 时不再重复 getProfile。
+ */
+async function syncFromCloud({ skipProfile } = {}) {
+  await flushRetryQueue()
+  try {
+    await require('./progress').syncFromCloud()
+  } catch (error) {
+    // 进度同步失败不挡积分
+  }
+  if (skipProfile) return getLocalStars()
+  return refreshProfile()
+}
+
 async function refreshProfile() {
   const { ok, data } = await cloud.call('getProfile')
   if (!ok || !data) return getLocalStars()
-  const app = getApp()
-  app.globalData.profile = data.profile || data
+  applyProfile(data.profile || data)
   return getLocalStars()
 }
 
-async function addStars({ delta, reason, ref, clientId }) {
+/**
+ * 建档并同步。并发调用（onLaunch 与首页 onShow）合并为一轮，避免重复打云函数；
+ * 每轮结束即释放，后续 onShow 仍能重新同步云端。
+ * @param {WechatMiniprogram.App.Instance<any>} [appInstance] onLaunch 内请传 this，因 getApp() 尚不可用
+ */
+function ensureSession(appInstance) {
+  if (sessionPromise) return sessionPromise
+  sessionPromise = runEnsureSession(appInstance).finally(() => {
+    sessionPromise = null
+  })
+  return sessionPromise
+}
+
+async function runEnsureSession(appInstance) {
+  try {
+    let appliedLoginProfile = false
+    if (!cloudReady) {
+      const { ok, data } = await cloud.call('login')
+      if (!ok) return getLocalStars()
+      cloudReady = true
+      const app = appInstance || getAppSafe()
+      if (app && app.globalData) {
+        app.globalData._cloudReady = true
+      }
+      if (retryQueue.size() === 0 && data) {
+        applyProfile(data.profile || data)
+        appliedLoginProfile = true
+      }
+    }
+    return await syncFromCloud({ skipProfile: appliedLoginProfile && retryQueue.size() === 0 })
+  } catch (error) {
+    return getLocalStars()
+  }
+}
+
+/**
+ * @param {{ delta: number, reason: string, ref?: string, clientId?: string, fromQueue?: boolean }} opts
+ */
+async function addStars({ delta, reason, ref, clientId, fromQueue }) {
   const id = clientId || makeClientId()
-  const payload = { delta, reason, ref, clientId: id }
+  const amount = Number(delta) || 0
+  const payload = { delta: amount, reason, ref, clientId: id }
+  // 队列项已计入 pendingDelta，重复叠加会让展示值虚高
+  const optimistic = !fromQueue && amount > 0
+  if (optimistic) inflightDelta += amount
+
   const { ok, data } = await cloud.call('addStars', payload)
+
   if (!ok) {
-    setLocalStars(getLocalStars() + delta)
-    retryQueue.enqueue(payload)
+    if (optimistic) {
+      // 在途增量交接给队列，展示值不变
+      inflightDelta -= amount
+      retryQueue.enqueue(payload)
+    }
     return { ok: false, stars: getLocalStars(), clientId: id, local: true }
   }
+
+  if (optimistic) inflightDelta -= amount
   if (typeof data.stars === 'number') {
-    setLocalStars(data.stars)
-  } else {
-    setLocalStars(getLocalStars() + delta)
+    setBaselineStars(data.stars)
+  } else if (amount > 0 && !data.duplicated) {
+    setBaselineStars(getBaselineStars() + amount)
+  }
+  // 任意一次加星成功，顺带冲刷积压（幂等靠 clientId）
+  if (!fromQueue && !flushing && retryQueue.size() > 0) {
+    await flushRetryQueue()
   }
   return { ok: true, stars: getLocalStars(), clientId: id, duplicated: !!data.duplicated }
 }
 
+async function exchangeReward(rewardId) {
+  const { ok, data, error } = await cloud.call('exchangeReward', { rewardId })
+  if (!ok) {
+    return { ok: false, error: (data && data.error) || error || 'exchange_failed' }
+  }
+  if (typeof data.stars === 'number') {
+    setBaselineStars(data.stars)
+  }
+  const owned = getOwnedStickers()
+  if (!owned.includes(rewardId)) {
+    setOwnedStickers(owned.concat(rewardId))
+  }
+  if (!flushing && retryQueue.size() > 0) {
+    await flushRetryQueue()
+  }
+  return { ok: true, stars: getLocalStars() }
+}
+
+/** 家长区清空积分：本地与云端一起清，否则下次 getProfile 又把星星拉回来。 */
+async function clearAllStars() {
+  setLocalStars(0)
+  setOwnedStickers([])
+  const { ok } = await cloud.call('resetProfile', { scope: 'stars' })
+  return { ok }
+}
+
+async function checkinTask(taskId) {
+  const result = await cloud.call('checkinTask', { taskId })
+  if (result.ok && !flushing && retryQueue.size() > 0) {
+    await flushRetryQueue()
+  }
+  return result
+}
+
 async function flushRetryQueue() {
+  if (flushing) return
   const pending = retryQueue.peekAll()
-  for (const item of pending) {
-    const { ok } = await addStars(item)
-    if (ok) retryQueue.removeByClientId(item.clientId)
+  if (!pending.length) return
+  flushing = true
+  try {
+    for (const item of pending) {
+      const { ok } = await addStars({ ...item, fromQueue: true })
+      if (ok) {
+        retryQueue.removeByClientId(item.clientId)
+      } else {
+        // 云仍不可用，保留队列，下次通畅再同步
+        break
+      }
+    }
+  } finally {
+    flushing = false
   }
 }
 
@@ -70,7 +282,14 @@ module.exports = {
   makeClientId,
   getLocalStars,
   setLocalStars,
+  getOwnedStickers,
+  setOwnedStickers,
   refreshProfile,
+  syncFromCloud,
+  ensureSession,
   addStars,
+  exchangeReward,
+  checkinTask,
+  clearAllStars,
   flushRetryQueue,
 }

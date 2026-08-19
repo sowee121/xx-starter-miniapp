@@ -7,7 +7,7 @@
       data-id="{{item.id}}"
       bindtap="open"
     >
-      <image class="word-card__image" src="{{item.image}}" mode="aspectFit" />
+      <image class="word-card__image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="play-btn is-sm">
         <image class="play-btn__icon" src="/static/shared/play.png" mode="aspectFit" />
       </view>

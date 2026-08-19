@@ -400,6 +400,44 @@ function checkNoLocalWebp() {
   }
 }
 
+/**
+ * 代码包内文件名必须是纯 ASCII。
+ * 小程序按字面量查代码包内路径，中文文件名一经百分号编码就 readFile:fail，
+ * 而开发者工具有时能放过，只在真机炸；素材一律用 ASCII slug。
+ */
+function checkAsciiAssetNames() {
+  const stack = [MP]
+  while (stack.length) {
+    const dir = stack.pop()
+    for (const name of fs.readdirSync(dir)) {
+      if (name === 'node_modules' || name.startsWith('.')) continue
+      const full = path.join(dir, name)
+      // eslint-disable-next-line no-control-regex
+      if (/[^\x20-\x7e]/.test(name)) {
+        errors.push(`${rel(full)}: 代码包内文件名必须是纯 ASCII（真机 readFile 查不到编码后的路径）`)
+      }
+      if (fs.statSync(full).isDirectory()) stack.push(full)
+    }
+  }
+}
+
+/** 点读音频路径必须真实存在：缺文件只有真机点读才报错，静态挡住 */
+function checkAudioRefs() {
+  const jss = walk(MP, ['.js'])
+  const re = /['"](\/(?:static|subpkg)\/[^'"]+\.(?:mp3|wav))['"]/g
+  for (const file of jss) {
+    const text = fs.readFileSync(file, 'utf8')
+    let m
+    re.lastIndex = 0
+    while ((m = re.exec(text))) {
+      const asset = m[1]
+      if (!fs.existsSync(path.join(MP, asset.replace(/^\//, '')))) {
+        errors.push(`${rel(file)}: 引用不存在的音频 ${asset}`)
+      }
+    }
+  }
+}
+
 /** H5 审查稿必须与小程序共享同一套 flex+gap 网格约定 */
 function checkH5FlexGapSync() {
   const h5CssDir = path.join(ROOT, 'docs/design/h5/css')
@@ -462,6 +500,8 @@ function main() {
   checkHomeTwoColumnSync()
   checkMainPackageContentOwnership()
   checkNoLocalWebp()
+  checkAsciiAssetNames()
+  checkAudioRefs()
   checkH5FlexGapSync()
 
   if (warnings.length) {

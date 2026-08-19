@@ -1,6 +1,6 @@
 <view class="media-row block tone-{{tone || 'cream'}} custom-class" bindtap="onTap">
   <view class="media-main">
-    <image wx:if="{{image}}" class="media-main__image {{wideImage ? 'media-main__image--wide' : ''}}" src="{{image}}" mode="aspectFit" />
+    <image wx:if="{{image}}" class="media-main__image {{wideImage ? 'media-main__image--wide' : ''}}" src="{{image}}" mode="aspectFit" lazy-load />
     <view class="media-copy">
       <text class="media-copy__title">{{title}}</text>
       <text wx:if="{{subtitle}}" class="media-copy__sub">{{subtitle}}</text>

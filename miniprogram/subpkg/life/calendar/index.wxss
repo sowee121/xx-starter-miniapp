@@ -11,8 +11,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 340rpx;
-  height: 250rpx;
+  width: 360rpx;
+  height: 268rpx;
 }
 
 .calendar-scene__sky-image {

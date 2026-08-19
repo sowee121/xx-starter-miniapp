@@ -2,9 +2,16 @@ const { poem, life } = require('../content/hanzi')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { trackDaily } = require('../../../utils/daily-tasks')
+const feedback = require('../../../utils/feedback')
+const { INLINE } = require('../../../content/feedback-copy')
 
 Page({
-  data: { stars: 0, item: null },
+  data: {
+    stars: 0,
+    item: null,
+    softNote: '',
+    feedback: { show: false, closing: false },
+  },
 
   onLoad(q) {
     const char = decodeURIComponent(q.char || '入')
@@ -16,30 +23,38 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
-  async play(e) {
+  play(e) {
     const item = this.data.item
     if (!item) return
 
     const kind = (e.currentTarget && e.currentTarget.dataset.kind) || 'char'
-    let src = item.audio
     if (kind === 'word') {
       const idx = Number(e.currentTarget.dataset.index)
-      src = (item.wordAudios && item.wordAudios[idx]) || ''
-    }
-
-    if (src) {
-      audioUtil.play(src)
-    } else {
-      wx.showToast({ title: '语音准备中', icon: 'none' })
-    }
-
-    if (item.char) {
-      const result = await trackDaily('hanzi', item.char)
-      this.setData({ stars: stars.getLocalStars() })
-      if (!src && result && result.firstAward) {
-        // trackDaily 已 toast 任务完成
+      const src = (item.wordAudios && item.wordAudios[idx]) || ''
+      if (src) {
+        audioUtil.play(src, { onError: feedback.audioFallback(this) })
+      } else {
+        feedback.showInline(this, INLINE.audioUnavailable, 'fail')
       }
+      return
     }
+
+    if (!item.audio) {
+      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
+      return
+    }
+    audioUtil.play(item.audio, {
+      onEnded: async () => {
+        const result = await trackDaily('hanzi', item.char)
+        this.setData({ stars: stars.getLocalStars() })
+        feedback.showTaskAward(this, result)
+      },
+      onError: feedback.audioFallback(this),
+    })
+  },
+
+  closePraise() {
+    feedback.hideLayer(this)
   },
 
   onUnload() {

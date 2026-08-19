@@ -1,7 +1,7 @@
 <app-shell title="古诗" stars="{{stars}}">
   <view class="detail-stack" wx:if="{{poem}}">
     <view class="hero block tone-peach">
-      <image class="hero__image" src="{{poem.icon}}" mode="widthFix" />
+      <image class="hero__image" src="{{poem.icon}}" mode="widthFix" lazy-load />
       <text class="hero__title">{{poem.title}}</text>
       <text class="hero__sub">{{poem.author}}</text>
     </view>
@@ -20,5 +20,14 @@
     </view>
 
     <big-button class="footer-btn" text="听完整首诗" show-play="{{true}}" bind:tap="onFullRead" />
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="closePraise"
+  />
 </app-shell>

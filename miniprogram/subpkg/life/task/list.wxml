@@ -1,4 +1,4 @@
-<app-shell title="每日任务" hint="今天的任务" sub-hint="慢慢完成就很好" stars="{{stars}}">
+<app-shell title="每日任务" hint="{{pageHint}}" sub-hint="{{pageSubHint}}" stars="{{stars}}">
   <view
     wx:for="{{tasks}}"
     wx:key="id"
@@ -15,8 +15,7 @@
     </view>
     <view class="task-row__reward">
       <text>+{{item.reward}}</text>
-      <image src="/static/shared/star.png" mode="aspectFit" />
+      <image src="/static/home/star.png" mode="aspectFit" />
     </view>
   </view>
-  <praise-sun show="{{showPraise}}" text="{{praiseText}}" bind:continue="closePraise" />
 </app-shell>

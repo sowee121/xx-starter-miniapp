@@ -14,7 +14,7 @@ Component({
   },
 
   data: {
-    homeIcon: '/static/shared/home-clay.png',
+    homeIcon: '/static/icons/home.png',
     statusBarHeight: 44,
     menuTop: 48,
     menuHeight: 32,

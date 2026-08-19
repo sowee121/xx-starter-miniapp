@@ -20,4 +20,15 @@
   --radius-card: 48px;
   --radius-pill: 38px;
   --shadow: 0 10px 20px rgba(96, 122, 96, .12), 0 22px 40px rgba(96, 122, 96, .1);
+
+  /* 热区与提示语 token（1px = 1rpx；低幼二次上调） */
+  --tap-min: 152px;
+  --tap-min-compact: 128px;
+  --font-hint: 30px;
+  --font-note: 42px;
+  --font-chip: 32px;
+  --shadow-chip:
+    inset 0 4px 8px rgba(255, 255, 255, 0.4),
+    inset 0 -6px 12px rgba(78, 128, 84, 0.28),
+    0 8px 16px rgba(96, 122, 96, 0.18);
 }

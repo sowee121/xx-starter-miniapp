@@ -47,7 +47,7 @@
   "preloadRule": {
     "pages/home/home": {
       "network": "wifi",
-      "packages": ["common"]
+      "packages": ["common", "hanzi"]
     }
   },
   "window": {
@@ -56,7 +56,8 @@
     "navigationBarBackgroundColor": "#E9F2DC",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#E9F2DC",
-    "backgroundTextStyle": "dark"
+    "backgroundTextStyle": "dark",
+    "pageOrientation": "portrait"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

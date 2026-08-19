@@ -10,7 +10,7 @@ miniprogram/
     │   └── static/audio/               # yong-e-line-1.mp3 ...
     ├── hanzi/
     │   ├── content/hanzi.js            # poem[] + life[]
-    │   └── static/audio/               # 鹅.mp3, 鹅-白鹅.mp3 ...
+    │   └── static/audio/               # e-9e45.mp3, e-9e45-word-1.mp3 ...
     ├── english/
     │   ├── content/english.js
     │   └── static/audio/
@@ -51,6 +51,17 @@ module.exports = {
 
 写入值是**小程序运行时绝对路径**，如 `/subpkg/poem/static/audio/yong-e-line-1.mp3`，页面直接用。
 
+## 文件名规则（硬约束：纯 ASCII）
+
+| 模块 | 文件名 |
+|------|--------|
+| 古诗 | `{id}-line-{n}.mp3`、`{id}-full.mp3` |
+| 汉字 | `{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3` |
+| 英语 | `{word}.mp3`、`{word}-sentence.mp3` |
+| 拼音 | `{letter}.mp3`（`ü` → `umlaut-u.mp3`） |
+
+小程序按字面量查代码包内路径，中文文件名一旦被百分号编码就永远 `readFile:fail`。汉字用「拼音 + Unicode 码点」是因为拼音会重码（爸/八 都是 `ba`），码点保证唯一且与字一一对应。`generate_audio.py` 的 `gen()` 会在非 ASCII 名字上直接退出，`npm test` 也会扫代码包文件名兜底。
+
 定稿**无白话**：不要新增 `plain` / `plainAudio`。若旧数据仍带 `plain`，脚本可能生成 plain 音频，产品侧应逐步清掉。
 
 ## 小程序端播放
@@ -58,10 +69,12 @@ module.exports = {
 统一用 `miniprogram/utils/audio.js`：
 
 - `wx.setInnerAudioOption({ obeyMuteSwitch: false })`（`app.js` / `ensureAudioOption`）
-- 路径 `encodeURI`（识字中文文件名）
+- 代码包内路径**不做**百分号编码，只对 `http(s)` 地址编码
 - `stop` 后短延迟再设 `src` 并 `play`（避免真机静音失败）
 
 页面 `onUnload` 时调用 `audioUtil.stop()`，避免跨页叠音。
+
+点读页把 `onError: feedback.audioFallback(this)` 传给 `audioUtil.play`：缺字段可以提前拦，但取不到文件只有播放时才暴露，必须落到「语音准备中～」的软提示。
 
 ## 手动单条调试
 
@@ -98,8 +111,8 @@ find miniprogram/subpkg -name "*.mp3" -exec sh -c \
 **连接失败 / 429**
 edge-tts 走微软在线接口，有频率限制。脚本已重试，稍后用 `--only` 重跑即可；避免并行多个进程。
 
-**中文文件名**
-脚本保留中文文件名（如 `鹅-白鹅.mp3`）。开发者工具常能播，**iOS 真机**须经 `encodeURI`（已在 `utils/audio.js`）。
+**`readFile:fail ... %E5%85%A5.mp3 not found`**
+路径里出现 `%XX` 说明素材文件名不是 ASCII，或播放前被 `encodeURI` 过。两侧都要修：文件名改 ASCII slug，`utils/audio.js` 只给网络地址编码。
 
 **替换为真人录音**
 保持内容文件中 `audio` 路径不变，用同名 MP3 覆盖对应分包目录下的文件即可，代码无需改动。

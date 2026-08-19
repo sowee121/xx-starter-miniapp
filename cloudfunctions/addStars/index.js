@@ -17,6 +17,21 @@ const REASONS = new Set([
   'calendar_done',
 ])
 
+async function getOrCreateUser(openid) {
+  const col = db.collection('users')
+  const found = await col.where({ _openid: openid }).limit(1).get()
+  if (found.data[0]) return found.data[0]
+  const doc = {
+    stars: 0,
+    stickers: [],
+    badges: [],
+    _openid: openid,
+    updatedAt: Date.now(),
+  }
+  const added = await col.add({ data: doc })
+  return { ...doc, _id: added._id }
+}
+
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const delta = Number(event.delta) || 0
@@ -40,28 +55,26 @@ exports.main = async (event) => {
       },
     })
   } catch (e) {
-    const users = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
+    const user = await getOrCreateUser(OPENID)
     return {
       ok: true,
       duplicated: true,
-      stars: (users.data[0] && users.data[0].stars) || 0,
+      stars: (user.stars || 0),
     }
   }
 
-  await db
-    .collection('users')
-    .where({ _openid: OPENID })
-    .update({
-      data: {
-        stars: _.inc(delta),
-        updatedAt: Date.now(),
-      },
-    })
+  const user = await getOrCreateUser(OPENID)
+  await db.collection('users').doc(user._id).update({
+    data: {
+      stars: _.inc(delta),
+      updatedAt: Date.now(),
+    },
+  })
 
-  const users = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
+  const after = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
   return {
     ok: true,
     duplicated: false,
-    stars: (users.data[0] && users.data[0].stars) || 0,
+    stars: (after.data[0] && after.data[0].stars) || (user.stars || 0) + delta,
   }
 }

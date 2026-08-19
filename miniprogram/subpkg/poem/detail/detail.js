@@ -3,6 +3,8 @@ const starsUtil = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { poemIcon } = require('../../../content/mascots')
 const { trackDaily } = require('../../../utils/daily-tasks')
+const feedback = require('../../../utils/feedback')
+const { INLINE } = require('../../../content/feedback-copy')
 
 Page({
   data: {
@@ -11,6 +13,8 @@ Page({
     poemTitle: '古诗',
     poemAuthor: '',
     activeIndex: -1,
+    softNote: '',
+    feedback: { show: false, closing: false },
   },
 
   onLoad(query) {
@@ -31,42 +35,38 @@ Page({
     this.setData({ stars: starsUtil.getLocalStars() })
   },
 
-  async markPoemRead() {
-    const poem = this.data.poem
-    if (!poem || !poem.id) return null
-    const result = await trackDaily('poem', poem.id)
-    this.setData({ stars: starsUtil.getLocalStars() })
-    return result
-  },
-
   onLineTap(e) {
     const index = Number(e.detail && e.detail.index)
     const line = this.data.poem && this.data.poem.lines[index]
     if (!line) return
     this.setData({ activeIndex: index })
-    this.markPoemRead().then((result) => {
-      if (line.audio) {
-        audioUtil.play(line.audio)
-        return
-      }
-      if (!(result && result.firstAward)) {
-        wx.showToast({ title: '语音准备中', icon: 'none' })
-      }
-    })
+    if (line.audio) {
+      audioUtil.play(line.audio, { onError: feedback.audioFallback(this) })
+    } else {
+      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
+    }
   },
 
   onFullRead() {
     const poem = this.data.poem
+    if (!poem) return
     this.setData({ activeIndex: -1 })
-    this.markPoemRead().then((result) => {
-      if (poem && poem.fullAudio) {
-        audioUtil.play(poem.fullAudio)
-        return
-      }
-      if (!(result && result.firstAward)) {
-        wx.showToast({ title: '语音准备中', icon: 'none' })
-      }
+    if (!poem.fullAudio) {
+      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
+      return
+    }
+    audioUtil.play(poem.fullAudio, {
+      onEnded: async () => {
+        const result = await trackDaily('poem', poem.id)
+        this.setData({ stars: starsUtil.getLocalStars() })
+        feedback.showTaskAward(this, result)
+      },
+      onError: feedback.audioFallback(this),
     })
+  },
+
+  closePraise() {
+    feedback.hideLayer(this)
   },
 
   onUnload() {

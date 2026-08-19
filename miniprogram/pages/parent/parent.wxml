@@ -18,7 +18,7 @@
 
     <view class="parent__section card">
       <text class="parent__label">重置进度（保留星星）</text>
-      <big-button text="{{resetDone ? '已重置' : '重置进度'}}" bind:tap="onResetProgress" />
+      <big-button text="{{resetLabel}}" bind:tap="onResetProgress" />
     </view>
 
     <view class="parent__section card">
@@ -30,7 +30,7 @@
         bindtouchcancel="onClearEnd"
       >
         <view class="parent__danger-bar" style="width: {{clearProgress}}%;"></view>
-        <text class="parent__danger-text">{{clearProgress >= 100 ? '已清空' : '按住清空'}}</text>
+        <text class="parent__danger-text">{{clearLabel}}</text>
       </view>
     </view>
 

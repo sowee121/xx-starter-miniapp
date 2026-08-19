@@ -56,7 +56,7 @@
   display: flex;
   flex-direction: column;
   gap: 30rpx;
-  padding: 0 30rpx 80rpx;
+  padding: 0 30rpx calc(80rpx + env(safe-area-inset-bottom));
 }
 
 .app-shell.is-night .inner-head__title {

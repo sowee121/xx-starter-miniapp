@@ -8,6 +8,7 @@
           class="count-item"
           src="{{item}}"
           mode="aspectFit"
+          lazy-load
         />
       </view>
       <text class="quiz-head__title">{{question.prompt}}</text>
@@ -16,12 +17,19 @@
       <view
         wx:for="{{question.choices}}"
         wx:key="*this"
-        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}}"
+        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item === pickedValue ? 'is-correct' : ''}}"
         data-value="{{item}}"
         bindtap="choose"
       >{{item}}</view>
     </view>
-    <view wx:if="{{retry}}" class="retry-note block tone-butter">再数一数，慢慢来～</view>
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
-  <praise-sun show="{{praise}}" text="数对啦！" bind:continue="next" />
+  <praise-sun
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    bind:continue="next"
+  />
 </app-shell>

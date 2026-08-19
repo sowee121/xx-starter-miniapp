@@ -99,10 +99,23 @@ def write_content(path: Path, data) -> None:
     path.write_text(f"{EXPORT_PREFIX}{body}\n", encoding="utf-8")
 
 
+def codepoints(s: str) -> str:
+    return "-".join(f"{ord(c):04x}" for c in s)
+
+
 def slug(s: str) -> str:
-    s = s.strip().lower()
-    s = re.sub(r"[^\w\u4e00-\u9fff-]+", "-", s, flags=re.UNICODE)
-    return s.strip("-") or "item"
+    """文件名必须是纯 ASCII：小程序 readFile 按字面量查代码包内路径，
+    非 ASCII 文件名一旦被百分号编码就永远 not found。
+    纯中文等无 ASCII 可留的输入退化成码点，仍然稳定且唯一。"""
+    cleaned = re.sub(r"[^a-z0-9-]+", "-", s.strip().lower()).strip("-")
+    return cleaned or codepoints(s.strip()) or "item"
+
+
+def hanzi_slug(char: str, pinyin: str) -> str:
+    """拼音会重码（爸/八 都是 ba），补 Unicode 码点保证唯一且与字一一对应。"""
+    base = re.sub(r"[^a-z0-9]+", "", (pinyin or "").lower())
+    code = codepoints(char)
+    return f"{base}-{code}" if base else code
 
 
 async def synthesize(text: str, voice: str, out_path: Path) -> None:
@@ -134,6 +147,8 @@ class Generator:
         """Synthesize one clip, return its miniprogram runtime path."""
         if not text or not text.strip():
             return None
+        if not name.isascii():
+            raise SystemExit(f"音频文件名必须是 ASCII，收到 {name!r}（小程序 readFile 查不到编码路径）")
         out_path = audio_dir / f"{name}.mp3"
         url = f"{url_prefix}/{name}.mp3"
         if out_path.exists() and not self.force:
@@ -191,15 +206,17 @@ class Generator:
         char = item.get("char", "")
         if not char:
             return False
-        got = await self.gen(char, voice, audio_dir, url, char)
+        key = hanzi_slug(char, item.get("pinyin", ""))
+        got = await self.gen(char, voice, audio_dir, url, key)
         if got and item.get("audio") != got:
             item["audio"] = got
             changed = True
         words = item.get("words", [])
         word_audios = list(item.get("wordAudios", []))
+        word_audios = word_audios[: len(words)]
         word_audios += [""] * (len(words) - len(word_audios))
         for idx, word in enumerate(words):
-            got = await self.gen(word, voice, audio_dir, url, f"{char}-{word}")
+            got = await self.gen(word, voice, audio_dir, url, f"{key}-word-{idx + 1}")
             if got and word_audios[idx] != got:
                 word_audios[idx] = got
                 changed = True

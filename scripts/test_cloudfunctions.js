@@ -17,8 +17,19 @@ function clone(value) {
   return JSON.parse(JSON.stringify(value))
 }
 
+function matchValue(actual, expected) {
+  if (!expected || !expected.__command) return actual === expected
+  if (expected.__command === 'gte') return (Number(actual) || 0) >= expected.value
+  if (expected.__command === 'nin') {
+    const list = expected.value || []
+    const owned = Array.isArray(actual) ? actual : actual === undefined ? [] : [actual]
+    return !owned.some((item) => list.includes(item))
+  }
+  throw new Error(`mock 未支持的查询指令：${expected.__command}`)
+}
+
 function matches(doc, query) {
-  return Object.entries(query).every(([key, value]) => doc[key] === value)
+  return Object.entries(query).every(([key, value]) => matchValue(doc[key], value))
 }
 
 function command(type, value) {
@@ -44,6 +55,8 @@ const cloud = {
     command: {
       inc: (value) => command('inc', value),
       push: (value) => command('push', value),
+      gte: (value) => command('gte', value),
+      nin: (value) => command('nin', value),
     },
     async createCollection(name) {
       if (db.has(name)) throw new Error('collection already exist')
@@ -52,32 +65,59 @@ const cloud = {
     collection(name) {
       if (!db.has(name)) db.set(name, [])
       const docs = db.get(name)
-      const select = (query) => ({
-        limit() {
-          return this
-        },
-        async get() {
-          return { data: docs.filter((doc) => matches(doc, query)).map(clone) }
-        },
-        async update({ data }) {
-          for (const doc of docs.filter((item) => matches(item, query))) applyPatch(doc, data)
-        },
-      })
+      const select = (query) => {
+        let skipCount = 0
+        let limitCount = Infinity
+        const api = {
+          skip(n) {
+            skipCount = Number(n) || 0
+            return api
+          },
+          limit(n) {
+            limitCount = Number(n) || Infinity
+            return api
+          },
+          async get() {
+            const filtered = docs.filter((doc) => matches(doc, query)).map(clone)
+            return { data: filtered.slice(skipCount, skipCount + limitCount) }
+          },
+          async update({ data }) {
+            const hits = docs.filter((item) => matches(item, query))
+            for (const doc of hits) applyPatch(doc, data)
+            return { stats: { updated: hits.length } }
+          },
+          async remove() {
+            const keep = docs.filter((item) => !matches(item, query))
+            const removed = docs.length - keep.length
+            docs.length = 0
+            docs.push(...keep)
+            return { stats: { removed } }
+          },
+        }
+        return api
+      }
       return {
         where: select,
+        // 与云函数一致：wx-server-sdk 的 add 不会自动注入 _openid，
+        // 只有客户端 SDK 才会。这里刻意不补，才能拦住漏写 _openid 的云函数。
         async add({ data }) {
           const doc = { ...clone(data), _id: data._id || `${name}-${docs.length + 1}` }
-          if (!Object.hasOwn(doc, '_openid')) doc._openid = OPENID
           if (docs.some((item) => item._id === doc._id)) throw new Error('duplicate key')
           docs.push(doc)
           return { _id: doc._id }
         },
         doc(id) {
           return {
+            async get() {
+              const item = docs.find((doc) => doc._id === id)
+              if (!item) throw new Error('document.get document not exists')
+              return { data: clone(item) }
+            },
             async update({ data }) {
               const item = docs.find((doc) => doc._id === id)
               assert.ok(item, `${name}/${id} 应存在`)
               applyPatch(item, data)
+              return { stats: { updated: 1 } }
             },
           }
         },
@@ -150,6 +190,14 @@ async function testAddStars() {
   const duplicate = await addStars({ delta: 3, reason: 'math', ref: '1+2', clientId: 'star-1' })
   assert.deepEqual(duplicate, { ok: true, duplicated: true, stars: 3 })
   assert.equal(records('star_logs').length, 1)
+
+  reset()
+  const orphan = await addStars({ delta: 2, reason: 'daily_task', clientId: 'no-login' })
+  assert.equal(orphan.ok, true)
+  assert.equal(orphan.stars, 2)
+  assert.equal(records('users').length, 1)
+  assert.equal(records('users')[0]._openid, OPENID)
+  assert.equal(records('users')[0].stars, 2)
 }
 
 async function testProgressAndTasks() {
@@ -161,6 +209,15 @@ async function testProgressAndTasks() {
   assert.equal(records('progress').length, 1)
   assert.equal(records('progress')[0].done, true)
 
+  await completeProgress({ module: 'hanzi', itemId: '入' })
+  const getProgress = fn('getProgress')
+  const all = await getProgress({})
+  assert.equal(all.ok, true)
+  assert.equal(all.items.length, 2)
+  const poemOnly = await getProgress({ module: 'poem' })
+  assert.equal(poemOnly.items.length, 1)
+  assert.equal(poemOnly.items[0].itemId, 'poem-1')
+
   const checkinTask = fn('checkinTask')
   assert.deepEqual(await checkinTask({}), { ok: false, error: 'invalid_params' })
   const first = await checkinTask({ taskId: 'math' })
@@ -171,6 +228,25 @@ async function testProgressAndTasks() {
   assert.equal(records('task_logs').length, 1)
 }
 
+/** 所有落库记录都必须带 _openid，否则按用户查询会全空（云函数 add 不自动注入）。 */
+async function testOwnership() {
+  reset()
+  await fn('login')()
+  await fn('addStars')({ delta: 1, reason: 'math', clientId: 'own-1' })
+  await fn('completeProgress')({ module: 'poem', itemId: 'poem-1' })
+  await fn('checkinTask')({ taskId: 'poem' })
+  records('users')[0].stars = 12
+  await fn('exchangeReward')({ rewardId: 'rabbit' })
+
+  for (const name of ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs']) {
+    const rows = records(name)
+    assert.ok(rows.length > 0, `${name} 应有记录`)
+    for (const row of rows) {
+      assert.equal(row._openid, OPENID, `${name} 记录缺少 _openid`)
+    }
+  }
+}
+
 async function testRewards() {
   reset()
   const exchangeReward = fn('exchangeReward')
@@ -178,24 +254,74 @@ async function testRewards() {
     ok: false,
     error: 'invalid_reward',
   })
-  assert.deepEqual(await exchangeReward({ rewardId: 'sticker-star' }), {
+  assert.deepEqual(await exchangeReward({ rewardId: 'rabbit' }), {
     ok: false,
     error: 'no_user',
   })
 
   await fn('login')()
-  assert.deepEqual(await exchangeReward({ rewardId: 'sticker-star' }), {
+  assert.deepEqual(await exchangeReward({ rewardId: 'rabbit' }), {
     ok: false,
     error: 'not_enough_stars',
   })
-  records('users')[0].stars = 25
-  assert.deepEqual(await exchangeReward({ rewardId: 'sticker-star' }), { ok: true, stars: 20 })
-  assert.deepEqual(await exchangeReward({ rewardId: 'badge-poem' }), { ok: true, stars: 0 })
-  assert.deepEqual(await exchangeReward({ rewardId: 'badge-poem' }), {
+  records('users')[0].stars = 12
+  assert.deepEqual(await exchangeReward({ rewardId: 'rabbit' }), {
+    ok: true,
+    stars: 10,
+    stickerId: 'rabbit',
+  })
+  assert.deepEqual(await exchangeReward({ rewardId: 'rabbit' }), {
     ok: false,
-    error: 'not_enough_stars',
+    error: 'sticker_owned',
+  })
+  assert.deepEqual(await exchangeReward({ rewardId: 'unicorn' }), {
+    ok: true,
+    stars: 0,
+    stickerId: 'unicorn',
   })
   assert.equal(records('reward_logs').length, 2)
+}
+
+/** 连点/多设备并发：两次请求都能读到旧星数，必须只有一次真正扣星。 */
+async function testRewardRace() {
+  reset()
+  await fn('login')()
+  records('users')[0].stars = 12
+  const exchangeReward = fn('exchangeReward')
+  const results = await Promise.all([
+    exchangeReward({ rewardId: 'bear' }),
+    exchangeReward({ rewardId: 'bear' }),
+  ])
+  assert.equal(results.filter((item) => item.ok).length, 1, '只应成功一次')
+  assert.equal(results.find((item) => !item.ok).error, 'exchange_conflict')
+  assert.equal(records('users')[0].stars, 8, '4 星贴纸只能扣一次')
+  assert.deepEqual(records('users')[0].stickers, ['bear'])
+  assert.equal(records('reward_logs').length, 1)
+}
+
+/** 家长区重置：两个作用域互不越界。 */
+async function testResetProfile() {
+  reset()
+  await fn('login')()
+  await fn('addStars')({ delta: 5, reason: 'math', clientId: 'reset-1' })
+  await fn('completeProgress')({ module: 'poem', itemId: 'poem-1' })
+  await fn('checkinTask')({ taskId: 'poem' })
+  const resetProfile = fn('resetProfile')
+
+  assert.deepEqual(await resetProfile({}), { ok: false, error: 'invalid_params' })
+
+  const cleared = await resetProfile({ scope: 'progress' })
+  assert.equal(cleared.ok, true)
+  assert.equal(records('progress').length, 0)
+  assert.equal(records('users')[0].stars, 5, '重置进度不应动积分')
+  assert.equal(records('task_logs').length, 1, '重置进度不应动今日打卡')
+
+  records('users')[0].stickers = ['rabbit']
+  const wiped = await resetProfile({ scope: 'stars' })
+  assert.equal(wiped.ok, true)
+  assert.equal(records('users')[0].stars, 0)
+  assert.deepEqual(records('users')[0].stickers, [])
+  assert.equal(records('star_logs').length, 0, '余额清零后流水也应清掉')
 }
 
 async function main() {
@@ -205,6 +331,9 @@ async function main() {
     ['addStars 参数校验与幂等', testAddStars],
     ['completeProgress 与 checkinTask', testProgressAndTasks],
     ['exchangeReward 校验与扣星', testRewards],
+    ['exchangeReward 并发只扣一次', testRewardRace],
+    ['resetProfile 分作用域重置', testResetProfile],
+    ['落库记录均带 _openid', testOwnership],
   ]
   for (const [name, run] of cases) {
     await run()

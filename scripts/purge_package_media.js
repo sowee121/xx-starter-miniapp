@@ -10,10 +10,10 @@ const ROOT = path.join(__dirname, '..')
 const MP = path.join(ROOT, 'miniprogram')
 const KEEP = new Set([
   'static/shared/play.png',
-  'static/shared/home-clay.png',
-  'static/shared/star.png',
   'static/shared/check.png',
   'static/icons/home.png',
+  'static/home/star.png',
+  'static/shared/meadow.png',
 ])
 const EXTS = new Set([
   '.jpg', '.jpeg', '.png', '.svg', '.png', '.gif',

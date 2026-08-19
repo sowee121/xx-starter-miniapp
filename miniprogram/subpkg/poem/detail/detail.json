@@ -2,10 +2,12 @@
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
     "big-button": "/components/big-button/big-button",
-    "read-button": "/subpkg/common/components/read-button/read-button"
+    "read-button": "/subpkg/common/components/read-button/read-button",
+    "praise-sun": "/subpkg/common/components/praise-sun/praise-sun"
   },
   "navigationBarTitleText": "古诗详情",
   "componentPlaceholder": {
-    "read-button": "view"
+    "read-button": "view",
+    "praise-sun": "view"
   }
 }

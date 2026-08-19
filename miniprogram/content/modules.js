@@ -50,7 +50,7 @@ const MODULES = {
     icon: MODULE_ICONS.task,
     tint: tintOf('task'),
     url: '/subpkg/life/task/list',
-    subtitle: '今天的任务，慢慢完成',
+    subtitle: '今天的任务，慢慢完成吧',
   },
   reward: {
     id: 'reward',

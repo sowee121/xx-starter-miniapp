@@ -1,10 +1,12 @@
 const { mediaUrl } = require('../config/media')
 
 const HOME_BASE = '/static/home'
+const ICON_BASE = '/static/icons'
+const SHARED_BASE = '/static/shared'
 
 /** 首页确认稿素材（上云） */
 const HOME_ASSETS = {
-  meadow: mediaUrl(`${HOME_BASE}/meadow.png`),
+  meadow: mediaUrl(`${SHARED_BASE}/meadow.png`),
   avatar: mediaUrl(`${HOME_BASE}/avatar.png`),
   star: mediaUrl(`${HOME_BASE}/star.png`),
   daisy: mediaUrl(`${HOME_BASE}/daisy-sprig.png`),
@@ -22,9 +24,6 @@ const HOME_ASSETS = {
  * 全站图标与吉祥物
  * 首页入口统一走 HOME_ASSETS；旧页仍可能引用其它路径。
  */
-const ICON_BASE = '/static/icons'
-
-const SHARED_BASE = '/static/shared'
 
 const ICONS = {
   home: mediaUrl(`${ICON_BASE}/home.png`),

@@ -4,7 +4,7 @@
   flex-direction: row;
   align-items: center;
   gap: 20rpx;
-  height: 180rpx;
+  height: 196rpx;
   padding: 0 30rpx;
   overflow: hidden;
   border-radius: 48rpx;
@@ -13,7 +13,7 @@
 }
 
 .home-feature-card.is-reward {
-  height: 150rpx;
+  height: 164rpx;
 }
 
 .home-feature-card:active {
@@ -21,14 +21,14 @@
 }
 
 .home-feature-card__mascot {
-  width: 156rpx;
-  height: 156rpx;
+  width: 172rpx;
+  height: 172rpx;
   flex-shrink: 0;
 }
 
 .home-feature-card__mascot.is-sm {
-  width: 128rpx;
-  height: 128rpx;
+  width: 140rpx;
+  height: 140rpx;
 }
 
 .home-feature-card__copy {
@@ -37,6 +37,7 @@
   justify-content: center;
   flex: 1;
   min-width: 0;
+  padding-right: 12rpx;
 }
 
 .home-feature-card__title {
@@ -48,9 +49,10 @@
 
 .home-feature-card__sub {
   margin-top: 8rpx;
-  font-size: 25rpx;
+  font-size: var(--font-hint);
   line-height: 1.3;
   color: #6e8f76;
+  white-space: nowrap;
 }
 
 .home-feature-card__sockets {
@@ -58,7 +60,7 @@
   flex-direction: row;
   align-items: center;
   margin-top: 12rpx;
-  gap: 8rpx;
+  gap: 6rpx;
 }
 
 .home-feature-card__socket {
@@ -66,9 +68,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 44rpx;
-  height: 44rpx;
-  border-radius: 22rpx;
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 28rpx;
   background: rgba(154, 182, 138, 0.22);
   box-shadow:
     inset 0 5rpx 9rpx rgba(104, 136, 102, 0.26),
@@ -83,8 +85,8 @@
 }
 
 .home-feature-card__socket-star {
-  width: 34rpx;
-  height: 34rpx;
+  width: 58rpx;
+  height: 58rpx;
 }
 
 .home-feature-card__chip {
@@ -92,11 +94,11 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 168rpx;
-  height: 76rpx;
+  width: 176rpx;
+  height: 88rpx;
   flex-shrink: 0;
-  border-radius: 38rpx;
-  font-size: 26rpx;
+  border-radius: 999rpx;
+  font-size: 30rpx;
   font-weight: 700;
   color: #ffffff;
   background: linear-gradient(180deg, #93c496 0%, #77b07c 100%);
@@ -107,7 +109,7 @@
   position: absolute;
   right: 28rpx;
   top: 28rpx;
-  width: 56rpx;
-  height: 56rpx;
+  width: 64rpx;
+  height: 64rpx;
   pointer-events: none;
 }

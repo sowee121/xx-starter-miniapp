@@ -30,8 +30,8 @@
   flex-shrink: 0;
 }
 .star-pill-icon {
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 .star-pill-num {
@@ -50,13 +50,13 @@
   flex-direction: row;
   align-items: center;
   gap: 22px;
-  height: 132px;
+  height: 156px;
   padding: 0 30px;
-  padding-right: 90px;
+  padding-right: 96px;
 }
 .welcome-avatar {
-  width: 96px;
-  height: 96px;
+  width: 112px;
+  height: 112px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -68,14 +68,14 @@
   min-width: 0;
 }
 .welcome-hello {
-  font-size: 36px;
+  font-size: 40px;
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 6px;
   color: var(--ink);
 }
 .welcome-sub {
-  font-size: 26px;
+  font-size: var(--font-hint);
   line-height: 1.3;
   color: var(--muted);
 }
@@ -83,8 +83,8 @@
   position: absolute;
   right: 28px;
   top: 50%;
-  width: 48px;
-  height: 75px;
+  width: 56px;
+  height: 88px;
   object-fit: contain;
   transform: translateY(-50%);
   pointer-events: none;
@@ -96,12 +96,12 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
-  height: 180px;
+  height: 196px;
   padding: 0 30px;
 }
 .wide-mascot {
-  width: 156px;
-  height: 156px;
+  width: 172px;
+  height: 172px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -110,6 +110,8 @@
   flex-direction: column;
   justify-content: center;
   flex: 1;
+  min-width: 0;
+  padding-right: 12px;
 }
 .wide-title {
   font-size: 36px;
@@ -119,36 +121,37 @@
 }
 .wide-sub {
   margin-top: 8px;
-  font-size: 25px;
+  font-size: var(--font-hint);
   line-height: 1.3;
   color: var(--muted);
+  white-space: nowrap;
 }
 .wide-deco {
   position: absolute;
   right: 28px;
   top: 28px;
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   object-fit: contain;
   pointer-events: none;
 }
 
-/* 星星凹槽 */
+/* 星星凹槽：圆钮加大，星图略超出以吃掉 PNG 透明边 */
 .sockets {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-top: 12px;
-  gap: 8px;
+  gap: 6px;
 }
 .socket {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 22px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
   background: rgba(154, 182, 138, 0.22);
   box-shadow:
     inset 0 5px 9px rgba(104, 136, 102, 0.26),
@@ -161,9 +164,10 @@
     inset 0 -4px 8px rgba(255, 255, 255, 0.8);
 }
 .socket-star {
-  width: 34px;
-  height: 34px;
+  width: 58px;
+  height: 58px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
 /* —— 六个学习积木 —— */
@@ -181,18 +185,18 @@
   align-items: center;
   justify-content: center;
   width: calc((100% - 30px) / 2);
-  height: 242px;
+  height: 256px;
   padding: 6px 14px 10px;
   box-sizing: border-box;
 }
 .module-mascot {
-  width: 184px;
-  height: 184px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   margin-bottom: 2px;
 }
 .module-label {
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: 2px;
@@ -201,11 +205,18 @@
 
 /* —— 积分商城 —— */
 .wide-shop {
-  height: 150px;
+  height: 164px;
 }
 .wide-mascot-sm {
-  width: 128px;
-  height: 128px;
+  width: 140px;
+  height: 140px;
+}
+/* 通栏右侧 Chip 与 8 字副文同一行：收窄宽度，避免「用星星兑换动物贴纸」折行 */
+.wide-shop .chip {
+  width: 176px;
+  height: 88px;
+  flex-shrink: 0;
+  font-size: 30px;
 }
 .chip:active {
   transform: scale(0.97);

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=750" />
+  <title>嘻嘻启蒙乐园 · 家长区（待确认）</title>
+  <link rel="stylesheet" href="css/pages.css" />
+  <style>
+    .parent-stack { display: flex; flex-direction: column; gap: 30px; }
+    .setting-block { display: flex; flex-direction: column; gap: 26px; padding: 30px; }
+    .setting-head { display: flex; align-items: center; gap: 24px; }
+    .setting-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 8px; }
+    .setting-copy strong,
+    .progress-main strong,
+    .volume-option,
+    .reset-chip,
+    .clear-label {
+      font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", sans-serif;
+    }
+    .setting-copy strong, .progress-main strong { font-size: 36px; line-height: 1.2; }
+    .setting-copy span, .progress-main span {
+      color: var(--muted);
+      font-size: var(--font-hint);
+      line-height: 1.45;
+    }
+    .sound-button {
+      display: flex; align-items: center; justify-content: center;
+      width: 112px; height: 112px; flex: 0 0 112px; border-radius: 56px;
+      background: linear-gradient(180deg, #9dcca0, #7bb37f);
+      box-shadow: inset 0 4px 8px rgba(255,255,255,.42),
+                  inset 0 -6px 12px rgba(78,128,84,.28),
+                  0 8px 16px rgba(96,122,96,.16);
+    }
+    .sound-button img { width: 54px; height: 54px; margin-left: 5px; object-fit: contain; }
+    .volume-options {
+      display: flex; gap: 14px; padding: 10px; border-radius: 999px;
+      background: rgba(116,151,126,.12);
+      box-shadow: inset 0 4px 10px rgba(91,123,93,.1);
+    }
+    .volume-option {
+      display: flex; align-items: center; justify-content: center;
+      height: 96px; flex: 1; border: 0; border-radius: 999px;
+      background: transparent; color: var(--ink); font-size: 30px; font-weight: 700;
+      transition: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out;
+    }
+    .volume-option.is-active {
+      color: #fff; background: linear-gradient(180deg, #93c496, #77b07c);
+      box-shadow: inset 0 4px 8px rgba(255,255,255,.4),
+                  inset 0 -6px 12px rgba(78,128,84,.28),
+                  0 8px 16px rgba(96,122,96,.18);
+    }
+    .progress-block {
+      display: flex; min-height: 250px; flex-direction: row; align-items: center;
+      gap: 20px; padding: 22px 26px 22px 16px;
+    }
+    .progress-mascot { width: 180px; height: 180px; flex: 0 0 180px; object-fit: contain; }
+    .progress-main {
+      display: flex; min-width: 0; flex: 1; flex-direction: column;
+      align-items: flex-start; gap: 10px;
+    }
+    .reset-chip {
+      width: 206px; height: 96px; margin-top: 8px; border: 0; border-radius: 999px;
+      background: linear-gradient(180deg, #fffdf7, #f4eddc); color: var(--ink);
+      font-size: 29px; font-weight: 700;
+      box-shadow: inset 0 4px 8px rgba(255,255,255,.92),
+                  inset 0 -6px 12px rgba(170,147,108,.13),
+                  0 8px 16px rgba(96,122,96,.12);
+    }
+    .clear-block { padding: 28px 30px 30px; }
+    .clear-star { width: 112px; height: 112px; flex: 0 0 112px; object-fit: contain; }
+    .clear-groove {
+      position: relative; display: flex; align-items: center; justify-content: center;
+      height: 112px; overflow: hidden; border: 0; border-radius: 999px;
+      background: rgba(183,126,110,.16); color: #7a574d;
+      box-shadow: inset 0 5px 12px rgba(145,94,82,.12),
+                  inset 0 -2px 5px rgba(255,255,255,.58);
+    }
+    .clear-label { position: relative; z-index: 1; font-size: 30px; font-weight: 700; }
+    .parent-about {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      color: var(--muted); font-size: 24px;
+    }
+    .parent-about::before, .parent-about::after {
+      content: ""; width: 50px; height: 2px; border-radius: 1px;
+      background: rgba(110,143,118,.2);
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <img class="page-bg" src="../atoms/meadow.png" alt="" />
+    <div class="shell">
+      <nav class="nav" aria-label="页面导航">
+        <div class="nav-home" aria-label="返回首页"></div>
+        <div class="nav-title">家长区</div>
+        <div class="nav-right">
+          <div class="star-pill"><img src="../atoms/star.png" alt="" /><b>1</b></div>
+          <div class="capsule-slot"></div>
+        </div>
+      </nav>
+      <header class="inner-head"><h1>家长设置</h1><p>陪伴宝贝，轻松调整</p></header>
+      <div class="parent-stack">
+        <section class="setting-block block tone-sky">
+          <div class="setting-head">
+            <span class="sound-button"><img src="../atoms/play.png" alt="" /></span>
+            <div class="setting-copy"><strong>声音大小</strong><span>点读和答题音效一起调整</span></div>
+          </div>
+          <div class="volume-options">
+            <button class="volume-option">静音</button>
+            <button class="volume-option">柔和</button>
+            <button class="volume-option is-active">正常</button>
+          </div>
+        </section>
+        <section class="progress-block block tone-matcha">
+          <img class="progress-mascot" src="../atoms/dino.png" alt="" />
+          <div class="progress-main">
+            <strong>学习进度</strong>
+            <span>清除已学记录<br />星星和贴纸会保留</span>
+            <button class="reset-chip">重置进度</button>
+          </div>
+        </section>
+        <section class="setting-block clear-block block tone-rose">
+          <div class="setting-head">
+            <img class="clear-star" src="../atoms/big-star.png" alt="" />
+            <div class="setting-copy">
+              <strong>清空积分</strong>
+              <span>星星和已兑换贴纸都会清空，不能恢复</span>
+            </div>
+          </div>
+          <button class="clear-groove"><span class="clear-label">按住 3 秒清空</span></button>
+        </section>
+        <footer class="parent-about">嘻嘻启蒙乐园 · 版本 1.0</footer>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

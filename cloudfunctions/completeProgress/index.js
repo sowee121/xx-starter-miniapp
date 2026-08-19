@@ -20,8 +20,10 @@ exports.main = async (event) => {
       data: { done: true, updatedAt: Date.now() },
     })
   } else {
+    // 云函数的 add 不会自动注入 _openid，必须显式写入，否则后续按 _openid 查不到
     await col.add({
       data: {
+        _openid: OPENID,
         module: moduleName,
         itemId,
         done: true,

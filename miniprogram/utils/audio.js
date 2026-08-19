@@ -5,6 +5,8 @@ let queue = []
 let playing = false
 let optionReady = false
 let playToken = 0
+let endedCallback = null
+let errorCallback = null
 
 function getVolume() {
   const v = wx.getStorageSync(VOLUME_KEY)
@@ -23,9 +25,14 @@ function ensureAudioOption() {
   })
 }
 
-/** 本地路径含中文（如识字「入.mp3」）时，iOS 真机必须编码。 */
+/**
+ * 代码包内路径（/subpkg/...）走 readFile，不做百分号编码：
+ * 编码后的文件名会被当成字面量去查，非 ASCII 素材必然 not found。
+ * 素材文件名一律 ASCII slug，这里只给网络地址留编码。
+ */
 function normalizeSrc(src) {
   if (!src) return ''
+  if (!/^https?:/i.test(src)) return src
   try {
     return encodeURI(src)
   } catch (error) {
@@ -44,7 +51,11 @@ function ensureCtx() {
     // ignore
   }
   ctx.onEnded(() => {
+    const callback = endedCallback
+    endedCallback = null
+    errorCallback = null
     playing = false
+    if (callback) callback()
     playNext()
   })
   ctx.onStop(() => {
@@ -52,7 +63,11 @@ function ensureCtx() {
   })
   ctx.onError((err) => {
     console.warn('[audio]', err)
+    const callback = errorCallback
+    endedCallback = null
+    errorCallback = null
     playing = false
+    if (callback) callback(err)
     playNext()
   })
   return ctx
@@ -62,16 +77,25 @@ function ensureCtx() {
  * 真机上 stop 后立刻改 src 再 play 常会静音失败；
  * 换源时先 stop，再短延迟设 src 并 play。
  */
-function startSrc(src) {
+function startSrc(src, options = {}) {
   const audio = ensureCtx()
   const next = normalizeSrc(src)
+  const onEnded = options.onEnded
+  const onError = options.onError
   if (!next) {
     playing = false
+    if (typeof onError === 'function') onError({ errMsg: 'empty src' })
     playNext()
     return
   }
 
   const token = ++playToken
+  endedCallback = typeof onEnded === 'function' ? () => {
+    if (token === playToken) onEnded()
+  } : null
+  errorCallback = typeof onError === 'function' ? (err) => {
+    if (token === playToken) onError(err)
+  } : null
   playing = true
   audio.volume = getVolume()
 
@@ -101,11 +125,14 @@ function playNext() {
   startSrc(src)
 }
 
-/** 立即打断并播放一条 */
-function play(src) {
-  if (!src) return
+/** 立即打断并播放一条；options.onError 用于页面兜底提示 */
+function play(src, options = {}) {
+  if (!src) {
+    if (typeof options.onError === 'function') options.onError({ errMsg: 'empty src' })
+    return
+  }
   queue = []
-  startSrc(src)
+  startSrc(src, options)
 }
 
 /** 串行追加播放（如 star → great） */
@@ -120,6 +147,8 @@ function stop() {
   queue = []
   playing = false
   playToken += 1
+  endedCallback = null
+  errorCallback = null
   if (ctx) ctx.stop()
 }
 

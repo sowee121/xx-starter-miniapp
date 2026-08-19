@@ -1,15 +1,19 @@
 const stars = require('../../../utils/stars')
 const { randomCalcQuestion } = require('../quiz')
 const { mediaUrl } = require('../../../config/media')
-const { trackDaily } = require('../../../utils/daily-tasks')
+const feedback = require('../../../utils/feedback')
+const { INLINE } = require('../../../content/feedback-copy')
+const { clearAdvanceTimer, handleCorrect } = require('../quiz-flow')
 
 Page({
   data: {
     stars: 0,
     question: null,
     dogImage: mediaUrl('/subpkg/math/static/dog.png'),
-    retry: false,
-    praise: false,
+    pickedValue: null,
+    pickedCorrect: false,
+    softNote: '',
+    feedback: { show: false, closing: false },
   },
 
   onLoad() {
@@ -25,27 +29,41 @@ Page({
     const avoidKey = prev ? `${prev.a}${prev.op}${prev.b}` : null
     this.setData({
       question: randomCalcQuestion(null, avoidKey),
-      retry: false,
+      pickedValue: null,
+      pickedCorrect: false,
+      softNote: '',
     })
   },
 
-  async choose(e) {
+  choose(e) {
+    if (this._busy || !this.data.question) return
     const value = Number(e.currentTarget.dataset.value)
-    if (value !== this.data.question.answer) {
-      this.setData({ retry: true })
+    const correct = value === this.data.question.answer
+    this.setData({
+      pickedValue: value,
+      pickedCorrect: correct,
+    })
+    if (!correct) {
+      feedback.showInline(this, INLINE.answerWrong, 'fail')
       return
     }
-    await stars.addStars({ delta: 1, reason: 'math', ref: this.data.question.id })
-    await trackDaily('math', `correct:${this.data.question.id}`)
-    this.setData({
-      stars: stars.getLocalStars(),
-      retry: false,
-      praise: true,
+    this._busy = true
+    handleCorrect(this, {
+      reason: 'math',
+      ref: this.data.question.id,
+      taskId: 'math',
     })
   },
 
   next() {
-    this.setData({ praise: false, retry: false })
+    clearAdvanceTimer(this)
+    this._busy = false
+    feedback.hideLayer(this)
+    feedback.clearInline(this)
     this.applyQuestion()
+  },
+
+  onUnload() {
+    clearAdvanceTimer(this)
   },
 })

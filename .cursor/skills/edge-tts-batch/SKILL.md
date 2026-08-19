@@ -93,7 +93,9 @@ module.exports = {
 }
 ```
 
-产出：`{char}.mp3`、`{char}-{word}.mp3`（中文文件名；真机播放须经 `utils/audio.js` 的 `encodeURI`）
+产出：`{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3`，如 `ru-5165.mp3`、`ru-5165-word-1.mp3`。
+
+**文件名一律 ASCII**：小程序按字面量查代码包内路径，中文文件名一经百分号编码就 `readFile:fail`（开发者工具有时能放过，真机必炸）。拼音会重码（爸/八 都是 `ba`），所以补上汉字 Unicode 码点保证唯一。`words[]` 与 `wordAudios[]` 同序，序号从 1 开始。
 
 ### english.js
 
@@ -146,9 +148,10 @@ ffmpeg -i in.mp3 -ac 1 -ar 22050 -b:a 24k out.mp3
 1. 抽听 3～5 个 MP3，确认发音清晰、无截断
 2. 确认内容文件中 `audio` 字段已写入且以 `/subpkg/` 开头
 3. 确认写回后的文件仍以 `module.exports = ` 开头（脚本会自动保持）
-4. 核对脚本输出的体积报告，超预算的模块先转码再提交
-5. `du -sh miniprogram/subpkg/*/` 自查，P6 前用微信开发者工具「代码依赖分析」复核官方口径
-6. **真机**试听（尤其识字中文文件名）；开发者工具正常不代表 iOS 有声
+4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在
+5. 核对脚本输出的体积报告，超预算的模块先转码再提交
+6. `du -sh miniprogram/subpkg/*/` 自查，P6 前用微信开发者工具「代码依赖分析」复核官方口径
+7. **真机**试听；开发者工具正常不代表 iOS 有声
 
 ## 限流与重试
 
