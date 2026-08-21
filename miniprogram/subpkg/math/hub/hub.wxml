@@ -2,13 +2,13 @@
   <view class="duo">
     <view class="duo-card block tone-butter" data-to="count" bindtap="open">
       <image class="duo-card__image" src="{{countImage}}" mode="aspectFit" />
-      <text class="duo-card__title">数一数</text>
-      <text class="duo-card__sub">1 到 10</text>
+      <view class="duo-card__title">数一数</view>
+      <view class="duo-card__sub">1 到 10</view>
     </view>
     <view class="duo-card block tone-sky" data-to="calc" bindtap="open">
       <image class="duo-card__image" src="{{calcImage}}" mode="aspectFit" />
-      <text class="duo-card__title">算一算</text>
-      <text class="duo-card__sub">1 到 5</text>
+      <view class="duo-card__title">算一算</view>
+      <view class="duo-card__sub">1 到 5</view>
     </view>
   </view>
 </app-shell>

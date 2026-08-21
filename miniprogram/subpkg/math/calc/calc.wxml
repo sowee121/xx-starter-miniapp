@@ -2,7 +2,7 @@
   <view wx:if="{{question}}" class="detail-stack">
     <view class="quiz-head block tone-sky">
       <image class="quiz-head__image" src="{{dogImage}}" mode="aspectFit" />
-      <text class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</text>
+      <view class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</view>
     </view>
     <view class="options">
       <view

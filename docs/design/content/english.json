@@ -4,50 +4,50 @@
       "id": "fruit",
       "title": "水果",
       "items": [
-        { "word": "apple", "sentence": "An apple.", "image": "apple-english" },
-        { "word": "banana", "sentence": "A banana.", "image": "banana-english" },
-        { "word": "orange", "sentence": "An orange.", "image": "orange-english" },
-        { "word": "grape", "sentence": "A grape.", "image": "grape-english" }
+        { "word": "apple", "phonetic": "/ˈæpl/", "sentence": "An apple.", "image": "apple-english" },
+        { "word": "banana", "phonetic": "/bəˈnɑːnə/", "sentence": "A banana.", "image": "banana-english" },
+        { "word": "orange", "phonetic": "/ˈɒrɪndʒ/", "sentence": "An orange.", "image": "orange-english" },
+        { "word": "grape", "phonetic": "/ɡreɪp/", "sentence": "A grape.", "image": "grape-english" }
       ]
     },
     {
       "id": "animal",
       "title": "动物",
       "items": [
-        { "word": "cat", "sentence": "A cat.", "image": "cat" },
-        { "word": "dog", "sentence": "A dog.", "image": "dog" },
-        { "word": "duck", "sentence": "A duck.", "image": "duckling" },
-        { "word": "bird", "sentence": "A bird.", "image": "bird" }
+        { "word": "cat", "phonetic": "/kæt/", "sentence": "A cat.", "image": "cat" },
+        { "word": "dog", "phonetic": "/dɒɡ/", "sentence": "A dog.", "image": "dog" },
+        { "word": "duck", "phonetic": "/dʌk/", "sentence": "A duck.", "image": "duckling" },
+        { "word": "bird", "phonetic": "/bɜːd/", "sentence": "A bird.", "image": "bird" }
       ]
     },
     {
       "id": "color",
       "title": "颜色",
       "items": [
-        { "word": "red", "sentence": "It's red.", "image": "english-red" },
-        { "word": "blue", "sentence": "It's blue.", "image": "english-blue" },
-        { "word": "yellow", "sentence": "It's yellow.", "image": "english-yellow" },
-        { "word": "green", "sentence": "It's green.", "image": "english-green" }
+        { "word": "red", "phonetic": "/red/", "sentence": "It's red.", "image": "english-red" },
+        { "word": "blue", "phonetic": "/bluː/", "sentence": "It's blue.", "image": "english-blue" },
+        { "word": "yellow", "phonetic": "/ˈjeləʊ/", "sentence": "It's yellow.", "image": "english-yellow" },
+        { "word": "green", "phonetic": "/ɡriːn/", "sentence": "It's green.", "image": "english-green" }
       ]
     },
     {
       "id": "body",
       "title": "身体",
       "items": [
-        { "word": "hand", "sentence": "My hand.", "image": "char-hand" },
-        { "word": "eye", "sentence": "My eye.", "image": "english-eye" },
-        { "word": "ear", "sentence": "My ear.", "image": "english-ear" },
-        { "word": "nose", "sentence": "My nose.", "image": "english-nose" }
+        { "word": "hand", "phonetic": "/hænd/", "sentence": "My hand.", "image": "char-hand" },
+        { "word": "eye", "phonetic": "/aɪ/", "sentence": "My eye.", "image": "english-eye" },
+        { "word": "ear", "phonetic": "/ɪə/", "sentence": "My ear.", "image": "english-ear" },
+        { "word": "nose", "phonetic": "/nəʊz/", "sentence": "My nose.", "image": "english-nose" }
       ]
     },
     {
       "id": "transport",
       "title": "交通",
       "items": [
-        { "word": "car", "sentence": "I see a car.", "image": "english-car" },
-        { "word": "bus", "sentence": "I see a bus.", "image": "english-bus" },
-        { "word": "bike", "sentence": "I see a bike.", "image": "english-bike" },
-        { "word": "train", "sentence": "I see a train.", "image": "english-train" }
+        { "word": "car", "phonetic": "/kɑː/", "sentence": "I see a car.", "image": "english-car" },
+        { "word": "bus", "phonetic": "/bʌs/", "sentence": "I see a bus.", "image": "english-bus" },
+        { "word": "bike", "phonetic": "/baɪk/", "sentence": "I see a bike.", "image": "english-bike" },
+        { "word": "train", "phonetic": "/treɪn/", "sentence": "I see a train.", "image": "english-train" }
       ]
     }
   ]

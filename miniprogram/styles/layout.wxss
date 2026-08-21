@@ -1,33 +1,55 @@
-.page-body {
+/* 布局原子：页面与 apply-shared 组件均可使用 */
+
+.page-list,
+.detail-stack,
+.parent-stack,
+.section-list {
   display: flex;
   flex-direction: column;
-  padding-bottom: 36rpx;
+  gap: var(--block-gap);
 }
 
-.page-grid-2 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 30rpx;
-}
-
-.page-grid-2 > view,
-.page-grid-2 > .block-card {
-  width: calc((100% - 30rpx) / 2);
-}
-
-.page-grid-2__wide {
-  width: 100%;
-}
-
-.page-list {
+.media-main__body,
+.home-welcome__body,
+.home-feature-card__body,
+.setting-head__body,
+.task-row__body {
   display: flex;
   flex-direction: column;
-  gap: 30rpx;
-}
-
-.page-center {
-  flex: 1;
-  display: flex;
-  align-items: center;
   justify-content: center;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
+}
+
+.home-welcome__body {
+  gap: var(--gap-snug);
+}
+
+.task-row__body {
+  gap: var(--gap-tight);
+}
+
+.media-main__sub,
+.home-welcome__sub,
+.home-feature-card__sub,
+.hero__sub,
+.duo-card__sub,
+.detail-big__sub,
+.inner-head__sub,
+.setting-head__hint {
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.media-main__title,
+.home-feature-card__title,
+.setting-head__title,
+.duo-card__title,
+.hero__title,
+.detail-big__title {
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
 }

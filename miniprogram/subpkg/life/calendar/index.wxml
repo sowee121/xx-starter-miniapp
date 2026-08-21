@@ -5,13 +5,20 @@
   background="{{background}}"
   night="{{isNight}}"
 >
-  <view class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}">
-    <view class="calendar-scene__sky">
-      <image class="calendar-scene__sky-image" src="{{skyIcon}}" mode="aspectFit" />
+  <view class="detail-stack">
+    <view class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}">
+      <view class="calendar-scene__sky">
+        <image class="calendar-scene__sky-image" src="{{skyIcon}}" mode="aspectFit" />
+      </view>
+      <view class="calendar-scene__date">{{dateText}}</view>
+      <view class="calendar-scene__week">{{weekday}}</view>
+      <view class="calendar-scene__tag">{{isNight ? '晚上' : '白天'}}</view>
     </view>
-    <text class="calendar-scene__date">{{dateText}}</text>
-    <text class="calendar-scene__week">{{weekday}}</text>
-    <view class="calendar-scene__tag">{{isNight ? '晚上' : '白天'}}</view>
+    <big-button
+      text="{{checkedIn ? '今天已打卡' : '打卡'}}"
+      disabled="{{checkedIn}}"
+      bind:tap="onCheckin"
+    />
   </view>
   <praise-sun
     show="{{feedback.show}}"

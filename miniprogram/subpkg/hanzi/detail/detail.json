@@ -1,11 +1,10 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "read-button": "/subpkg/common/components/read-button/read-button",
+    "play-button": "/components/play-button/play-button",
     "praise-sun": "/subpkg/common/components/praise-sun/praise-sun"
   },
   "componentPlaceholder": {
-    "read-button": "view",
     "praise-sun": "view"
   }
 }

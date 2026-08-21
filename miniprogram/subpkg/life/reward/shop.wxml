@@ -3,17 +3,19 @@
     <view
       wx:for="{{stickers}}"
       wx:key="id"
-      class="sticker-card block tone-{{item.tone}} {{item.owned || !item.affordable ? 'muted-action' : ''}}"
-      data-id="{{item.id}}"
-      bindtap="onExchange"
+      class="sticker-card block tone-{{item.tone}} {{item.owned ? 'is-owned' : ''}}"
     >
       <image class="sticker-card__image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="sticker-card__price">
-        <text>{{item.cost}}</text>
+        <view>{{item.cost}}</view>
         <image src="/static/home/star.png" mode="aspectFit" />
       </view>
-      <view class="chip is-compact {{item.owned ? 'is-owned' : (!item.affordable ? 'is-short' : '')}}">
-        {{item.owned ? '已拥有' : (item.affordable ? '兑换' : '再攒一点')}}
+      <view
+        class="chip is-compact {{item.owned ? 'is-owned' : (!item.affordable ? 'is-short' : '')}}"
+        data-id="{{item.id}}"
+        catchtap="onExchange"
+      >
+        {{item.owned ? '已拥有' : (item.affordable ? '兑换' : '星星不足')}}
       </view>
     </view>
   </view>

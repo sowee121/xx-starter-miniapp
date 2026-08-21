@@ -2,24 +2,24 @@
   <view class="detail-stack" wx:if="{{poem}}">
     <view class="hero block tone-peach">
       <image class="hero__image" src="{{poem.icon}}" mode="widthFix" lazy-load />
-      <text class="hero__title">{{poem.title}}</text>
-      <text class="hero__sub">{{poem.author}}</text>
+      <view class="hero__title">{{poem.title}}</view>
+      <view class="hero__sub">{{poem.author}}</view>
     </view>
 
     <view
       wx:for="{{poem.lines}}"
       wx:key="text"
       class="poem-line block tone-cream {{activeIndex === index ? 'is-active' : ''}}"
+      data-index="{{index}}"
+      bindtap="onLineTap"
     >
-      <view class="poem-copy">
-        <text class="poem-copy__text">{{item.text}}</text>
-      </view>
+      <view class="poem-line__text">{{item.text}}</view>
       <view class="media-play">
-        <read-button compact="{{true}}" index="{{index}}" bind:read="onLineTap" />
+        <play-button compact="{{true}}" index="{{index}}" bind:tap="onLineTap" />
       </view>
     </view>
 
-    <big-button class="footer-btn" text="听完整首诗" show-play="{{true}}" bind:tap="onFullRead" />
+    <big-button class="footer-btn" text="整首诗" show-play="{{true}}" bind:tap="onFullRead" />
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
   <praise-sun

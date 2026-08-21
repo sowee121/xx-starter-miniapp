@@ -9,11 +9,11 @@
   />
 
   <view class="home-page__shell" style="padding-top: calc({{headerHeight}}px + 30rpx);">
-    <view class="home-welcome tone-cream">
+    <view class="home-welcome tone-cream" bindtap="onOpenParent" hover-class="home-welcome--pressed">
       <image class="home-welcome__avatar" src="{{avatar}}" mode="aspectFit" />
-      <view class="home-welcome__copy">
-        <text class="home-welcome__hello">宝贝，你好呀～</text>
-        <text class="home-welcome__sub">一起快乐学习吧！</text>
+      <view class="home-welcome__body">
+        <view class="home-welcome__hello">宝贝，你好呀～</view>
+        <view class="home-welcome__sub">一起快乐学习吧</view>
       </view>
       <image class="home-welcome__deco" src="{{daisy}}" mode="aspectFit" />
     </view>

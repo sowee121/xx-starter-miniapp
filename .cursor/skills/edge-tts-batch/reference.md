@@ -58,7 +58,7 @@ module.exports = {
 | 古诗 | `{id}-line-{n}.mp3`、`{id}-full.mp3` |
 | 汉字 | `{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3` |
 | 英语 | `{word}.mp3`、`{word}-sentence.mp3` |
-| 拼音 | `{letter}.mp3`（`ü` → `umlaut-u.mp3`） |
+| 拼音 | `{letter}.mp3`（`ü` → `umlaut-u.mp3`；合成文案为啊/喔/鹅/衣/乌/迂，避免拉丁字母被念成英文） |
 
 小程序按字面量查代码包内路径，中文文件名一旦被百分号编码就永远 `readFile:fail`。汉字用「拼音 + Unicode 码点」是因为拼音会重码（爸/八 都是 `ba`），码点保证唯一且与字一一对应。`generate_audio.py` 的 `gen()` 会在非 ASCII 名字上直接退出，`npm test` 也会扫代码包文件名兜底。
 
@@ -107,6 +107,15 @@ find miniprogram/subpkg -name "*.mp3" -exec sh -c \
 3. 最后手段：该分包的音频改上云存储，内容文件里存 `cloud://` fileID
 
 ## 常见问题
+
+**拼音听起来像英文字母**
+中文音色收到孤立拉丁字母 `a`/`o`/`e`… 时常念英文字母名。必须用 `PINYIN_SPEAK`（啊/喔/鹅/衣/乌/迂）合成，再 `--force --only pinyin`。手动调试：
+
+```bash
+edge-tts -v zh-CN-XiaoxiaoNeural --rate=-10% -t "啊" --write-media /tmp/a.mp3
+# 错误示范（勿用）：-t "a"
+afplay /tmp/a.mp3
+```
 
 **连接失败 / 429**
 edge-tts 走微软在线接口，有频率限制。脚本已重试，稍后用 `--only` 重跑即可；避免并行多个进程。

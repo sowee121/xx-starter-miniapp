@@ -190,6 +190,38 @@ async function testAddStars() {
   const duplicate = await addStars({ delta: 3, reason: 'math', ref: '1+2', clientId: 'star-1' })
   assert.deepEqual(duplicate, { ok: true, duplicated: true, stars: 3 })
   assert.equal(records('star_logs').length, 1)
+  const pinyin = await addStars({ delta: 1, reason: 'pinyin_done', ref: 'a', clientId: 'pinyin-1' })
+  assert.deepEqual(pinyin, { ok: true, duplicated: false, stars: 4 })
+  assert.equal(records('star_logs').length, 2)
+  assert.equal(records('star_logs')[1].credited, true)
+
+  reset()
+  await fn('login')()
+  records('star_logs').push({
+    _id: 'half-1',
+    _openid: OPENID,
+    delta: 2,
+    reason: 'math',
+    ref: '',
+    credited: false,
+    createdAt: Date.now(),
+  })
+  const repaired = await addStars({ delta: 2, reason: 'math', clientId: 'half-1' })
+  assert.deepEqual(repaired, { ok: true, duplicated: false, stars: 2 })
+  assert.equal(records('star_logs')[0].credited, true)
+
+  const daily = await addStars({
+    delta: 2,
+    reason: 'daily_task',
+    clientId: 'daily-2026-08-20-poem',
+  })
+  assert.equal(daily.stars, 4)
+  const dailyDup = await addStars({
+    delta: 2,
+    reason: 'daily_task',
+    clientId: 'daily-2026-08-20-poem',
+  })
+  assert.deepEqual(dailyDup, { ok: true, duplicated: true, stars: 4 })
 
   reset()
   const orphan = await addStars({ delta: 2, reason: 'daily_task', clientId: 'no-login' })
@@ -319,9 +351,34 @@ async function testResetProfile() {
   records('users')[0].stickers = ['rabbit']
   const wiped = await resetProfile({ scope: 'stars' })
   assert.equal(wiped.ok, true)
+  assert.ok(wiped.starsResetAt)
   assert.equal(records('users')[0].stars, 0)
+  assert.equal(records('users')[0].starsResetAt, wiped.starsResetAt)
+  assert.deepEqual(records('users')[0].stickers, ['rabbit'], '清空积分不应动贴纸')
+  assert.equal(records('star_logs').length, 0, '余额清零后发星流水也应清掉')
+
+  const stale = await fn('addStars')({
+    delta: 2,
+    reason: 'math',
+    clientId: `${wiped.starsResetAt - 1000}-old`,
+  })
+  assert.equal(stale.stale, true)
+  assert.equal(stale.stars, 0)
+  assert.equal(records('users')[0].stars, 0)
+
+  const peeled = await resetProfile({ scope: 'stickers' })
+  assert.equal(peeled.ok, true)
   assert.deepEqual(records('users')[0].stickers, [])
-  assert.equal(records('star_logs').length, 0, '余额清零后流水也应清掉')
+  assert.equal(records('users')[0].stars, 0, '清空贴纸不应把积分加回来')
+
+  const fresh = await fn('addStars')({
+    delta: 1,
+    reason: 'math',
+    clientId: `${wiped.starsResetAt + 1}-new`,
+  })
+  assert.equal(fresh.ok, true)
+  assert.equal(fresh.duplicated, false)
+  assert.equal(records('users')[0].stars, 1)
 }
 
 async function main() {

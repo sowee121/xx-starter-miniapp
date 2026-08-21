@@ -3,7 +3,7 @@ const stars = require('../../../utils/stars')
 const { randomCountQuestion } = require('../quiz')
 const { mediaUrl } = require('../../../config/media')
 const feedback = require('../../../utils/feedback')
-const { INLINE } = require('../../../content/feedback-copy')
+const { INLINE } = require('../../../content/feedback')
 const { clearAdvanceTimer, handleCorrect } = require('../quiz-flow')
 
 Page({
@@ -51,7 +51,7 @@ Page({
       pickedCorrect: correct,
     })
     if (!correct) {
-      feedback.showInline(this, INLINE.answerWrong, 'fail')
+      feedback.showInline(this, INLINE.answerWrong)
       return
     }
     this._busy = true

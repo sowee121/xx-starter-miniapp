@@ -3,4 +3,3 @@
 @import "styles/layout.wxss";
 @import "styles/cards.wxss";
 @import "styles/learning.wxss";
-@import "styles/utils.wxss";

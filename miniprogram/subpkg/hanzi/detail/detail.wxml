@@ -1,10 +1,10 @@
 <app-shell title="识字" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-peach">
+    <view class="detail-big block tone-peach" data-kind="char" bindtap="play">
       <view class="detail-emoji">{{item.emoji}}</view>
-      <text class="detail-big__glyph">{{item.char}}</text>
-      <text class="detail-big__sub">{{item.pinyin}} · {{item.strokes}}画</text>
-      <read-button size="lg" data-kind="char" bind:tap="play" />
+      <view class="detail-big__glyph">{{item.char}}</view>
+      <view class="detail-big__sub">{{item.pinyin}} · {{item.strokes}}画</view>
+      <play-button size="lg" data-kind="char" bind:tap="play" />
     </view>
     <view class="detail-pair">
       <view
@@ -13,9 +13,12 @@
         wx:for-index="widx"
         wx:key="*this"
         class="detail-pair__card block tone-cream"
+        data-kind="word"
+        data-index="{{widx}}"
+        bindtap="play"
       >
-        <text>{{word}}</text>
-        <read-button size="sm" data-kind="word" data-index="{{widx}}" bind:tap="play" />
+        <view>{{word}}</view>
+        <play-button compact="{{true}}" size="sm" data-kind="word" data-index="{{widx}}" bind:tap="play" />
       </view>
     </view>
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>

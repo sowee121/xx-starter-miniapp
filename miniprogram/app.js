@@ -15,8 +15,8 @@ App({
     } catch (error) {
       // ignore
     }
-    // 音效已在主包，启动即建好上下文，各模块首次答题不再等加载
-    feedback.preloadEffects()
+    // 答题文字音频在主包，启动即建好上下文，各模块首次答题不再等加载
+    feedback.preloadVoiceAudio()
 
     if (!wx.cloud) {
       return

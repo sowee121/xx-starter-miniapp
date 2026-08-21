@@ -4,9 +4,9 @@
     src="{{image}}"
     mode="aspectFit"
   />
-  <view class="home-feature-card__copy">
-    <text class="home-feature-card__title">{{title}}</text>
-    <text wx:if="{{subtitle}}" class="home-feature-card__sub">{{subtitle}}</text>
+  <view class="home-feature-card__body">
+    <view class="home-feature-card__title">{{title}}</view>
+    <view wx:if="{{subtitle}}" class="home-feature-card__sub">{{subtitle}}</view>
     <view wx:if="{{type === 'task'}}" class="home-feature-card__sockets">
       <view
         wx:for="{{sockets}}"

@@ -15,18 +15,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: var(--gap-inset);
   box-sizing: border-box;
   padding-left: 30rpx;
 }
 
 .custom-header__brand {
   flex: 1;
-  padding-right: 16rpx;
-  font-size: 36rpx;
+  min-width: 0;
+  font-size: var(--font-title);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: 2rpx;
-  color: #35553f;
+  color: var(--ink);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -36,8 +37,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: var(--gap-inset);
   flex-shrink: 0;
-  margin-right: 16rpx;
 }
 
 .custom-header__home,
@@ -45,7 +46,6 @@
   width: 88rpx;
   height: 88rpx;
   flex-shrink: 0;
-  margin-right: 12rpx;
 }
 
 .custom-header__home {
@@ -67,17 +67,17 @@
   width: 64rpx;
   height: 64rpx;
   flex-shrink: 0;
+  transform: translateY(-4rpx);
 }
 
 .custom-header__title {
-  position: absolute;
-  left: 130rpx;
-  right: 260rpx;
-  text-align: center;
-  font-size: 36rpx;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-size: var(--font-title);
   font-weight: 700;
   letter-spacing: 2rpx;
-  color: #35553f;
+  color: var(--ink);
   line-height: 1.2;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -85,17 +85,15 @@
 }
 
 .custom-header__page-stars {
-  position: absolute;
-  right: 16rpx;
-  top: 50%;
-  transform: translateY(-50%);
   display: flex;
+  flex-direction: row;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .custom-header.is-night .custom-header__title,
 .custom-header.is-night .custom-header__brand {
-  color: #fffaf0;
+  color: var(--ink-night);
   text-shadow: 0 2rpx 8rpx rgba(12, 18, 46, 0.35);
 }
 

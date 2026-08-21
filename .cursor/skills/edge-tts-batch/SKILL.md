@@ -39,6 +39,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force
 # 只处理某些模块（名称与脚本 MODULES 键一致）
 python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only poems
 python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only hanzi,english
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin
 ```
 
 脚本结束会打印各模块音频体积与预算对比。
@@ -125,7 +126,20 @@ module.exports = {
 }
 ```
 
-产出：`{letter}.mp3`（`ü` 等特殊字母按脚本规则命名，如 `umlaut-u.mp3`）
+产出：`{letter}.mp3`（`ü` → `umlaut-u.mp3`）
+
+**发音源文（硬约束）**：不能把 `a/o/e/i/u/ü` 拉丁字母直接丢给中文 TTS——`zh-CN-*` 常把孤立拉丁字母念成**英文字母名**。脚本常量 `PINYIN_SPEAK` 用小学单韵母读法汉字：
+
+| letter | 合成文案 | 文件 |
+|--------|---------|------|
+| a | 啊 | `a.mp3` |
+| o | 喔 | `o.mp3` |
+| e | 鹅 | `e.mp3` |
+| i | 衣 | `i.mp3` |
+| u | 乌 | `u.mp3` |
+| ü | 迂 | `umlaut-u.mp3` |
+
+改映射或纠音后必须 `--force --only pinyin` 重生成，并真机抽听。
 
 ## 体积红线
 
@@ -145,7 +159,7 @@ ffmpeg -i in.mp3 -ac 1 -ar 22050 -b:a 24k out.mp3
 
 ## 生成后检查
 
-1. 抽听 3～5 个 MP3，确认发音清晰、无截断
+1. 抽听 3～5 个 MP3，确认发音清晰、无截断；**拼音须确认是韵母音，不是英文字母名**
 2. 确认内容文件中 `audio` 字段已写入且以 `/subpkg/` 开头
 3. 确认写回后的文件仍以 `module.exports = ` 开头（脚本会自动保持）
 4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在

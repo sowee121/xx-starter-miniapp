@@ -55,15 +55,15 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 30rpx;
-  padding: 0 30rpx calc(80rpx + env(safe-area-inset-bottom));
+  gap: var(--block-gap);
+  padding: 0 var(--page-pad-x) calc(80rpx + env(safe-area-inset-bottom));
 }
 
 .app-shell.is-night .inner-head__title {
-  color: #fffaf0;
+  color: var(--ink-night);
   text-shadow: 0 2rpx 8rpx rgba(12, 18, 46, 0.35);
 }
 
 .app-shell.is-night .inner-head__sub {
-  color: #dce2fa;
+  color: var(--muted-night);
 }

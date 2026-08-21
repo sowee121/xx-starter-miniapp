@@ -1,7 +1,7 @@
 const stickers = require('../content/stickers')
 const starsUtil = require('../../../utils/stars')
 const feedback = require('../../../utils/feedback')
-const { LAYERS } = require('../../../content/feedback-copy')
+const { LAYERS } = require('../../../content/feedback')
 
 Page({
   data: {
@@ -37,10 +37,8 @@ Page({
   async onExchange(event) {
     if (this.data.exchanging) return
     const id = event.currentTarget.dataset.id
-    const sticker = stickers.find((item) => item.id === id)
-    const owned = starsUtil.getOwnedStickers()
-    const stars = starsUtil.getLocalStars()
-    if (!sticker || owned.includes(id) || stars < sticker.cost) return
+    const sticker = this.data.stickers.find((item) => item.id === id)
+    if (!sticker || sticker.owned || !sticker.affordable) return
 
     this.setData({ exchanging: true })
     const result = await starsUtil.exchangeReward(id)

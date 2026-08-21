@@ -1,19 +1,18 @@
 <app-shell title="英语" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-rose">
+    <view class="detail-big block tone-rose" data-kind="word" bindtap="play">
       <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" lazy-load />
-      <text class="detail-big__title">{{item.word}}</text>
-      <text class="detail-big__sub">{{item.sentence}}</text>
-      <view class="detail-pair is-listen">
-        <view class="play-wrap">
-          <read-button size="lg" data-kind="word" bind:tap="play" />
-          <text class="play-wrap__label">单词</text>
-        </view>
-        <view class="play-wrap">
-          <read-button size="lg" data-kind="sentence" bind:tap="play" />
-          <text class="play-wrap__label">句子</text>
-        </view>
-      </view>
+      <view class="detail-big__title">{{item.word}}</view>
+      <view class="detail-big__sub">{{item.phonetic}}</view>
+      <play-button size="lg" data-kind="word" bind:tap="play" />
+    </view>
+    <view
+      class="poem-line block tone-cream"
+      data-kind="sentence"
+      bindtap="play"
+    >
+      <view class="poem-line__text">{{item.sentence}}</view>
+      <play-button size="sm" compact="{{true}}" data-kind="sentence" bind:tap="play" />
     </view>
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>

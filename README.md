@@ -2,16 +2,17 @@
 
 面向 2–3 岁半宝宝的微信原生亲子互动小程序。
 
-晨间草地主题、黏土软萌与低饱和配色，保护幼儿视觉。古诗点读、识字组词、数物与简易加减、英语短句、单韵母、昼夜日历；每日任务攒星换小动物贴纸，在游玩中完成认知探索。基于**微信原生小程序 + 云函数**；只增星、不扣分，无负面反馈、无广告/付费。
+晨间草地主题、黏土软萌与低饱和配色，保护幼儿视觉。古诗点读、识字组词、数物与简易加减、英语短句、单韵母、昼夜日历；每日任务攒星换小动物贴纸，在游玩中完成认知探索。基于**微信原生小程序 + 云函数**；幼儿学习流程只增星、不扣分，无广告/付费；家长区可主动清除数据。
 
 | 模块 | 说明 |
 | --- | --- |
-| 古诗 | 6 首；逐句点读 + 全文朗读 |
+| 古诗 | 6 首；逐句点读 + 全文朗读（全文播完发星） |
 | 识字 | 古诗库 21 + 生活库 30；点读与组词 |
-| 算术 | 数一数 / 算一算（结果 1～5） |
+| 算术 | 数一数 / 算一算（结果 1～5）；答对发星 + 行内反馈音 |
 | 英语 | 20 词 + 超短句；词句双点读 |
-| 拼音 | 仅 `a o e i u ü` |
-| 日历 · 任务 · 贴纸 | 昼夜认知；每日随机目标；星星换贴纸 |
+| 拼音 | 仅 `a o e i u ü`；点读按拼音韵母（TTS 用啊/喔/鹅/衣/乌/迂） |
+| 日历 · 任务 · 贴纸 | 页内打卡；每日随机目标；星星换贴纸 |
+| 家长区 | 欢迎卡进入；音量 + 长按清除学习记录/星星/贴纸 |
 
 题库与视觉定稿：[`docs/design/CONTENT.md`](docs/design/CONTENT.md) · 分期：[`docs/design/PLAN.md`](docs/design/PLAN.md)
 
@@ -28,7 +29,7 @@
 ```bash
 npm install
 npm run test:cloud # 云函数本地单元测试（Mock，不访问云端）
-npm test           # 小程序静态检查（含禁止包内 webp）
+npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁止包内 webp）
 ```
 
 ---
@@ -40,7 +41,7 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 | `miniprogram/` | 小程序前端 |
 | `cloudfunctions/` | 云函数源码与[手动/自动化部署](cloudfunctions/README.md) |
 | `cloud-assets/` | 云存储上传源与[手动/自动化上传](cloud-assets/README.md) |
-| `docs/design/` | CONTENT / PLAN / H5 审查稿 / atoms |
+| `docs/design/` | CONTENT / PLAN / H5 审查稿 / atoms / CSS tokens |
 | `docs/` | 需求原文、验收清单、申请文案（`apply/`） |
 | `.cursor/skills/` | 点读 TTS、小程序/云开发 Agent skills |
 
@@ -52,7 +53,11 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 
 **图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `chroma_to_png` / `normalize_atoms`。须关闭「忽略未使用的文件」（已配 `ignoreDevUnusedFiles: false`）。
 
-**点读** — `miniprogram/utils/audio.js`。音频文件名必须纯 ASCII slug（代码包内路径按字面量查，编码后的中文名一定 `readFile:fail`），`npm test` 会拦。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+**样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。Token：`h5/css/tokens.css` ↔ `styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。
+
+**点读** — `utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。**拼音单韵母**须用汉字「啊喔鹅衣乌迂」合成，勿直接喂 `a/o/e…`（易念成英文）。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+
+**反馈** — 任务/兑换用弹层 `praise-sun`；算术对错用行内 soft-note + 共享音效；禁止 Toast。
 
 **云开发文档入口**
 
@@ -72,7 +77,9 @@ npm test           # 小程序静态检查（含禁止包内 webp）
 | 项 | 状态 |
 | --- | --- |
 | 八大板块业务页 + TTS | 已落地 |
-| 每日任务（数量每日随机） | 已落地 |
+| 每日任务（数量每日随机）+ 日历打卡按钮 | 已落地 |
+| 反馈闭环（弹层 / soft-note / 音效） | 已落地 |
+| 家长区（音量 + 清除） | 已落地 |
 | 云存储切 `cloud://` | 未开（`USE_CLOUD = false`） |
-| 云函数 | 已全量 `cloud:ci-deploy`；启动 login + 商城兑换 + 任务打卡已接通 |
+| 云函数 | 已全量部署；login / 加星 / 兑换 / 任务打卡 / 清除已接通 |
 | 云端为唯一数据源 | 进行中（加星/进度失败本地队列兜底，云通畅后自动同步） |

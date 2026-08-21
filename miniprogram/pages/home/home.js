@@ -40,4 +40,8 @@ Page({
     if (!url) return
     wx.navigateTo({ url })
   },
+
+  onOpenParent() {
+    wx.navigateTo({ url: '/pages/parent/parent' })
+  },
 })

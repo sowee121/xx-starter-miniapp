@@ -29,6 +29,18 @@ RATE = "-10%"  # 低幼放慢语速
 MAX_RETRIES = 5
 INTER_ITEM_DELAY = 0.3
 
+# 单韵母不能把拉丁字母直接丢给中文 TTS（会念成英文字母名）。
+# 按小学拼音教法，用同韵母汉字读：啊喔鹅衣乌迂。
+PINYIN_SPEAK = {
+    "a": "啊",
+    "o": "喔",
+    "e": "鹅",
+    "i": "衣",
+    "u": "乌",
+    "ü": "迂",
+}
+
+
 # `module.exports = ` 包装：原生小程序 require 不了 .json，内容存成 .js
 EXPORT_PREFIX = "module.exports = "
 
@@ -173,7 +185,11 @@ class Generator:
             pid = poem.get("id") or slug(poem.get("title", "poem"))
             for i, line in enumerate(poem.get("lines", []), start=1):
                 got = await self.gen(
-                    line.get("text", ""), voice, audio_dir, url, f"{pid}-line-{i}"
+                    line.get("speak") or line.get("text", ""),
+                    voice,
+                    audio_dir,
+                    url,
+                    f"{pid}-line-{i}",
                 )
                 if got and line.get("audio") != got:
                     line["audio"] = got
@@ -264,8 +280,10 @@ class Generator:
             letter = item.get("letter", "")
             if not letter:
                 continue
-            # ü 单字母常被 edge-tts 拒收，改用同韵母「迂」
-            speak = "迂" if letter == "ü" else letter
+            speak = PINYIN_SPEAK.get(letter)
+            if not speak:
+                print(f"  ! 未知韵母 {letter!r}，跳过")
+                continue
             file_key = "umlaut-u" if letter == "ü" else letter
             got = await self.gen(speak, voice, audio_dir, url, file_key)
             if got and item.get("audio") != got:

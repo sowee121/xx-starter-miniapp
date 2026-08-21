@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'daily_tasks'
-const SCHEMA = 4
+const SCHEMA = 5
 
 /**
  * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
@@ -52,7 +52,7 @@ const TEMPLATES = [
     min: 1,
     max: 1,
     url: '/subpkg/life/calendar/index',
-    titleOf: () => '看一看日历',
+    titleOf: () => '日历打卡',
     rewardOf: () => 1,
   },
 ]
@@ -159,7 +159,7 @@ function taskList() {
       ...task,
       done: !!day.done[task.id],
       current,
-      showProgress: task.target > 1 && !day.done[task.id],
+      showProgress: task.target === 1 ? true : !day.done[task.id],
       openUrl: nextUrl(task.id),
     }
   })
@@ -204,7 +204,7 @@ function reportUnit(taskId, unitKey) {
 
 /** 兼容旧日历调用：打开即完成。 */
 function completeCalendar() {
-  return reportUnit('calendar', 'open')
+  return reportUnit('calendar', getToday())
 }
 
 /**
@@ -225,10 +225,12 @@ function persistDailyCloud(taskId, unitKey, result) {
   const itemId = dailyItemId(taskId, unitKey)
 
   if (result.firstAward && result.reward) {
+    const date = getToday()
     void starsUtil.addStars({
       delta: result.reward,
       reason: 'daily_task',
-      ref: `${getToday()}:${taskId}`,
+      ref: `${date}:${taskId}`,
+      clientId: `daily-${date}-${taskId}`,
     })
   }
 
@@ -266,6 +268,8 @@ function trackDaily(taskId, unitKey) {
   return result
 }
 
+const { playPreview, playPrimaryAndAward } = require('./read-award')
+
 module.exports = {
   TEMPLATES,
   TASKS: TEMPLATES,
@@ -281,4 +285,6 @@ module.exports = {
   completeCalendar,
   nextUrl,
   trackDaily,
+  playPreview,
+  playPrimaryAndAward,
 }

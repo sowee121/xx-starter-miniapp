@@ -6,7 +6,7 @@ Component({
     show: { type: Boolean, value: false },
     closing: { type: Boolean, value: false },
     variant: { type: String, value: 'success' },
-    title: { type: String, value: '宝贝真棒！' },
+    title: { type: String, value: '宝贝真棒' },
     desc: { type: String, value: '' },
     image: { type: String, value: '' },
   },

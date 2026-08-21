@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 18rpx;
+  gap: var(--gap-inset);
   min-height: 152rpx;
-  padding: 22rpx 24rpx;
+  padding: var(--pad-card);
   box-sizing: border-box;
   transition: transform 80ms ease-out;
 }
@@ -28,7 +28,7 @@
 }
 
 .is-done .task-row__tick {
-  background: linear-gradient(180deg, #9dcca0, #7bb37f);
+  background: var(--btn-play);
   box-shadow:
     inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
     inset 0 -5rpx 10rpx rgba(78, 128, 84, 0.28);
@@ -39,17 +39,12 @@
   height: 48rpx;
 }
 
-.task-row__copy {
-  display: flex;
-  flex-direction: column;
-  gap: 4rpx;
-  flex: 1;
-  min-width: 0;
+.task-row__body {
   padding-right: 8rpx;
 }
 
 .task-row__title {
-  font-size: 34rpx;
+  font-size: var(--font-body);
   font-weight: 700;
   color: var(--ink);
 }
@@ -64,14 +59,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8rpx;
-  font-size: 32rpx;
+  gap: var(--gap-text);
+  font-size: var(--font-hint);
   font-weight: 700;
   color: #b78245;
   flex-shrink: 0;
 }
 
 .task-row__reward image {
-  width: 48rpx;
-  height: 48rpx;
+  width: var(--star-icon);
+  height: var(--star-icon);
 }

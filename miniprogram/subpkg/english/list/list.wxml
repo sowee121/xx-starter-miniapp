@@ -1,22 +1,19 @@
 <app-shell title="英语" hint="英语小天地" sub-hint="听一听，说一说" stars="{{stars}}">
   <view class="section" wx:for="{{categories}}" wx:key="id">
-    <text class="section-title">{{item.title}}</text>
+    <view class="section-title">{{item.title}}</view>
     <view class="section-list">
-      <view
+      <media-card
         wx:for="{{item.items}}"
         wx:for-item="word"
         wx:key="word"
         data-word="{{word.word}}"
-        bindtap="open"
-      >
-        <media-card
-          title="{{word.word}}"
-          subtitle="{{word.sentence}}"
-          image="{{word.image}}"
-          tone="{{item.tone}}"
-          play="{{true}}"
-        />
-      </view>
+        bind:tap="open"
+        title="{{word.word}}"
+        subtitle="{{word.sentence}}"
+        image="{{word.image}}"
+        tone="{{item.tone}}"
+        play="{{true}}"
+      />
     </view>
   </view>
 </app-shell>

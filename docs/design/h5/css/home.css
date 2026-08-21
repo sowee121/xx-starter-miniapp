@@ -4,38 +4,32 @@
  * 迁 WXSS 约束：卡片组优先 flex + gap；不用 grid / filter / 伪元素承载内容
  */
 
-/* 首页画板固定高度；纵向间距同样只由 shell 的 gap 提供 */
+/* 首页画板最小高度 1624；内容超出时随 shell 撑高，避免底部积木被裁切 */
 .page {
-  height: 1624px;
   min-height: 1624px;
+  overflow: visible;
 }
 .shell {
   width: 100%;
-  height: 100%;
-  min-height: 0;
+  min-height: 100%;
 }
 
-/* 首页导航：左标题、无回首页钮 */
-.nav {
-  justify-content: space-between;
-}
+/* 首页导航：左标题、无回首页钮；间距走 shell .nav 的 gap */
 .nav-title {
   text-align: left;
-  padding-right: 16px;
   line-height: 1.2;
   color: var(--ink);
 }
 .nav-right {
-  margin-left: 0;
   flex-shrink: 0;
 }
 .star-pill-icon {
-  width: 48px;
-  height: 48px;
+  width: var(--star-icon);
+  height: var(--star-icon);
   object-fit: contain;
 }
 .star-pill-num {
-  font-size: 30px;
+  font-size: var(--font-nav);
   font-weight: 700;
   color: var(--ink);
 }
@@ -49,10 +43,12 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 22px;
+  gap: var(--gap-card);
   height: 156px;
-  padding: 0 30px;
-  padding-right: 96px;
+  padding: var(--pad-card);
+  color: inherit;
+  text-decoration: none;
+  flex-shrink: 0;
 }
 .welcome-avatar {
   width: 112px;
@@ -60,33 +56,17 @@
   object-fit: contain;
   flex-shrink: 0;
 }
-.welcome-copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  min-width: 0;
-}
 .welcome-hello {
-  font-size: 40px;
+  font-size: var(--font-hello);
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 6px;
   color: var(--ink);
 }
-.welcome-sub {
-  font-size: var(--font-hint);
-  line-height: 1.3;
-  color: var(--muted);
-}
 .welcome-deco {
-  position: absolute;
-  right: 28px;
-  top: 50%;
   width: 56px;
   height: 88px;
   object-fit: contain;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   pointer-events: none;
 }
 
@@ -95,9 +75,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: var(--gap-card);
   height: 196px;
-  padding: 0 30px;
+  padding: 0 var(--pad-card) 0 0;
+  flex-shrink: 0;
 }
 .wide-mascot {
   width: 172px;
@@ -105,34 +86,17 @@
   object-fit: contain;
   flex-shrink: 0;
 }
-.wide-copy {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  min-width: 0;
-  padding-right: 12px;
-}
 .wide-title {
-  font-size: 36px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--ink);
+  font-size: var(--font-title);
 }
 .wide-sub {
-  margin-top: 8px;
-  font-size: var(--font-hint);
-  line-height: 1.3;
-  color: var(--muted);
   white-space: nowrap;
 }
 .wide-deco {
-  position: absolute;
-  right: 28px;
-  top: 28px;
   width: 64px;
   height: 64px;
   object-fit: contain;
+  flex-shrink: 0;
   pointer-events: none;
 }
 
@@ -141,8 +105,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 12px;
-  gap: 6px;
+  gap: var(--gap-snug);
 }
 .socket {
   display: flex;
@@ -164,8 +127,8 @@
     inset 0 -4px 8px rgba(255, 255, 255, 0.8);
 }
 .socket-star {
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -176,27 +139,30 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: 30px;
+  gap: var(--block-gap);
   flex: 1;
+  min-height: 786px;
+  flex-shrink: 0;
 }
 .module {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: calc((100% - 30px) / 2);
+  justify-content: space-between;
+  gap: var(--gap-text);
+  width: var(--col-2);
   height: 256px;
-  padding: 6px 14px 10px;
+  padding: var(--pad-card-sm);
   box-sizing: border-box;
 }
 .module-mascot {
-  width: 200px;
-  height: 200px;
+  width: 168px;
+  height: 168px;
   object-fit: contain;
-  margin-bottom: 2px;
+  flex-shrink: 0;
 }
 .module-label {
-  font-size: 34px;
+  font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: 2px;
@@ -206,6 +172,7 @@
 /* —— 积分商城 —— */
 .wide-shop {
   height: 164px;
+  flex-shrink: 0;
 }
 .wide-mascot-sm {
   width: 140px;
@@ -216,10 +183,7 @@
   width: 176px;
   height: 88px;
   flex-shrink: 0;
-  font-size: 30px;
-}
-.chip:active {
-  transform: scale(0.97);
+  font-size: var(--font-hint);
 }
 
 .welcome-hello,

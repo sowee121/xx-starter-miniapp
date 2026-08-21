@@ -2,6 +2,9 @@ page {
   /* H5 tokens.css · 750 画板 1px = 1rpx */
   --ink: #35553f;
   --muted: #6e8f76;
+  --ink-night: #fffaf0;
+  --muted-night: #dce2fa;
+  --note: #a97946;
   --board: #e9f2dc;
   --sky-top: #dcefdc;
   --sky-mid: #e3f2dc;
@@ -9,94 +12,72 @@ page {
   --night-mid: #566484;
   --night-deep: #4a587a;
 
-  --cream: #fffdf7;
-  --matcha: #dcecc4;
-  --sky: #dbeaf7;
-  --butter: #f9edc6;
-  --peach: #f8e2da;
-  --mint: #d3ebe0;
-  --lilac: #e8e1f6;
-  --apricot: #fbe4cb;
-  --rose: #f8dde6;
-
-  --color-bg: var(--board);
-  --color-surface: #f7fbf8;
-  --color-block: var(--cream);
-  --color-primary: #7bb37f;
-  --color-primary-dark: var(--ink);
-  --color-primary-soft: rgba(123, 179, 127, 0.18);
-  --color-accent: #f0b429;
-  --color-text: var(--ink);
-  --color-text-strong: var(--ink);
-  --color-text-muted: var(--muted);
-  --color-ok: #9bc49a;
-  --color-white: #ffffff;
-
-  --tint-cream: #f9f2e2;
-  --tint-matcha: var(--matcha);
-  --tint-sky: var(--sky);
-  --tint-butter: var(--butter);
-  --tint-peach: var(--peach);
-  --tint-mint: var(--mint);
-  --tint-lilac: var(--lilac);
-  --tint-apricot: var(--apricot);
-  --tint-rose: var(--rose);
-  --tint-lemon: var(--butter);
-
   --radius-card: 48rpx;
-  --radius-block: 48rpx;
+  --corner-card: squircle;
   --radius-pill: 38rpx;
-  --radius-lg: 40rpx;
-  --radius-xl: 48rpx;
-  --radius-btn: 38rpx;
-  --radius-media: 28rpx;
+  --star-bar-height: 64rpx;
+  --star-icon: 48rpx;
+  --media-row-height: 180rpx;
+  --media-thumb-height: 132rpx;
 
   --shadow:
     0 10rpx 20rpx rgba(96, 122, 96, 0.12),
     0 22rpx 40rpx rgba(96, 122, 96, 0.1);
-  --shadow-block:
-    inset 0 5rpx 10rpx rgba(255, 255, 255, 0.95),
-    inset 0 -12rpx 20rpx rgba(198, 182, 146, 0.16),
-    0 10rpx 20rpx rgba(96, 122, 96, 0.12),
-    0 22rpx 40rpx rgba(96, 122, 96, 0.1);
-  --shadow-nav: 0 8rpx 16rpx rgba(96, 122, 96, 0.12);
+  --shadow-owned:
+    0 16rpx 32rpx rgba(96, 122, 96, 0.36),
+    0 36rpx 64rpx rgba(96, 122, 96, 0.3);
   --shadow-chip:
     inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
     inset 0 -6rpx 12rpx rgba(78, 128, 84, 0.28),
     0 8rpx 16rpx rgba(96, 122, 96, 0.18);
+  --shadow-play:
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.42),
+    inset 0 -6rpx 12rpx rgba(78, 128, 84, 0.28),
+    0 8rpx 16rpx rgba(96, 122, 96, 0.16);
 
-  --font-nav: 24rpx;
+  --btn-green: linear-gradient(180deg, #93c496, #77b07c);
+  --btn-play: linear-gradient(180deg, #9dcca0, #7bb37f);
+  --tone-cream: linear-gradient(180deg, #fffdf7 0%, #f9f2e2 100%);
+  --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%);
+
+  --font-nav: 28rpx;
+  --font-hint: 32rpx;
   --font-body: 34rpx;
   --font-title: 36rpx;
-  --font-hello: 36rpx;
-  --font-module: 34rpx;
-  --font-poem: 68rpx;
-  --font-entry: 88rpx;
-  --font-hanzi: 160rpx;
-  --font-hint: 30rpx;
+  --font-card: 38rpx;
+  --font-hello: 40rpx;
   --font-note: 42rpx;
-  --font-chip: 32rpx;
+  --font-line: 44rpx;
+  --font-inner: 46rpx;
+  --font-hero: 48rpx;
+  --font-date: 52rpx;
+  --font-display: 58rpx;
+  --letter-btn: 2rpx;
+
+  --gap-tight: 8rpx;
+  --gap-snug: 10rpx;
+  --gap-text: 12rpx;
+  --gap-row: 16rpx;
+  --gap-soft: 18rpx;
+  --gap-inset: 24rpx;
+  --gap-card: 28rpx;
+  --gap-block: 32rpx;
+  --block-gap: 30rpx;
+
+  --pad-card-sm: 20rpx;
+  --pad-card: var(--gap-card);
+  --pad-card-lg: 36rpx;
+  --page-pad-x: var(--block-gap);
+
+  --col-2: calc((100% - var(--block-gap)) / 2);
+  --col-3: calc((100% - var(--block-gap) * 2) / 3);
 
   --tap-min: 152rpx;
   --tap-min-compact: 128rpx;
-  --star-bar-height: 68rpx;
-  --block-gap: 30rpx;
-  --page-pad-x: 30rpx;
-  --avatar-size: 112rpx;
-  --module-media: 200rpx;
+  --opacity-disabled: 0.68;
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);
   font-size: var(--font-body);
   font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
-}
-
-.night,
-.is-night {
-  --color-bg: var(--night-deep);
-  --color-surface: var(--night-mid);
-  --color-block: #424a78;
-  --color-text: #fffaf0;
-  --color-text-strong: #fffaf0;
-  --color-text-muted: #dce2fa;
 }

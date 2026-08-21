@@ -2,9 +2,8 @@ const { poems } = require('../content/poems')
 const starsUtil = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { poemIcon } = require('../../../content/mascots')
-const { trackDaily } = require('../../../utils/daily-tasks')
+const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { INLINE } = require('../../../content/feedback-copy')
 
 Page({
   data: {
@@ -24,6 +23,7 @@ Page({
       ...raw,
       icon: raw.icon || poemIcon(raw.id, raw.cover),
     }
+    this._visitStarAwarded = false
     this.setData({
       poem,
       poemTitle: poem.title || '古诗',
@@ -36,32 +36,28 @@ Page({
   },
 
   onLineTap(e) {
-    const index = Number(e.detail && e.detail.index)
+    const detail = e.detail || {}
+    const index = Number(
+      Object.prototype.hasOwnProperty.call(detail, 'index')
+        ? detail.index
+        : e.currentTarget.dataset.index
+    )
     const line = this.data.poem && this.data.poem.lines[index]
     if (!line) return
     this.setData({ activeIndex: index })
-    if (line.audio) {
-      audioUtil.play(line.audio, { onError: feedback.audioFallback(this) })
-    } else {
-      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
-    }
+    playPreview(this, line.audio)
   },
 
   onFullRead() {
     const poem = this.data.poem
     if (!poem) return
     this.setData({ activeIndex: -1 })
-    if (!poem.fullAudio) {
-      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
-      return
-    }
-    audioUtil.play(poem.fullAudio, {
-      onEnded: async () => {
-        const result = await trackDaily('poem', poem.id)
-        this.setData({ stars: starsUtil.getLocalStars() })
-        feedback.showTaskAward(this, result)
-      },
-      onError: feedback.audioFallback(this),
+    playPrimaryAndAward(this, {
+      src: poem.fullAudio,
+      taskId: 'poem',
+      unitKey: poem.id,
+      reason: 'poem_done',
+      ref: poem.id,
     })
   },
 

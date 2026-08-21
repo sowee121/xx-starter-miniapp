@@ -4,6 +4,7 @@ const retryQueue = require('./retry-queue')
 /** 云端权威值的本地快照（不含未同步增量）。 */
 const STORAGE_KEY = 'local_stars'
 const OWNED_KEY = 'owned_stickers'
+const RESET_AT_KEY = 'stars_reset_at'
 
 /** 冲刷中禁止递归再触发 flush（addStars 成功路径会尝试冲刷）。 */
 let flushing = false
@@ -109,8 +110,29 @@ function setOwnedStickers(stickers) {
   }
 }
 
+/** 家长在其他设备清空积分后，丢掉本机过期重试队列，避免旧星复活。 */
+function applyStarsResetAt(resetAt) {
+  const next = Number(resetAt) || 0
+  if (!next) return
+  let prev = 0
+  try {
+    prev = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
+  } catch (error) {
+    prev = 0
+  }
+  if (next <= prev) return
+  inflightDelta = 0
+  retryQueue.clear()
+  try {
+    wx.setStorageSync(RESET_AT_KEY, next)
+  } catch (error) {
+    // ignore
+  }
+}
+
 function applyProfile(profile) {
   if (!profile || typeof profile !== 'object') return
+  applyStarsResetAt(profile.starsResetAt)
   // 云端值直接作为快照；本地未同步的星由 pendingDelta 叠加，不会被抹掉
   const next = Object.assign({}, profile)
   const app = getAppSafe()
@@ -178,6 +200,7 @@ async function runEnsureSession(appInstance) {
       if (app && app.globalData) {
         app.globalData._cloudReady = true
       }
+      if (data && data.profile) applyStarsResetAt(data.profile.starsResetAt)
       if (retryQueue.size() === 0 && data) {
         applyProfile(data.profile || data)
         appliedLoginProfile = true
@@ -187,6 +210,17 @@ async function runEnsureSession(appInstance) {
   } catch (error) {
     return getLocalStars()
   }
+}
+
+/**
+ * 点读详情：同一次进入页面只发 1 星。onLoad 会重置锁；算术答对不走这里。
+ * @returns {boolean} 本次是否真正发星
+ */
+function awardVisitStar(page, opts) {
+  if (!page || page._visitStarAwarded) return false
+  page._visitStarAwarded = true
+  void addStars(opts)
+  return true
 }
 
 /**
@@ -245,8 +279,15 @@ async function exchangeReward(rewardId) {
 /** 家长区清空积分：本地与云端一起清，否则下次 getProfile 又把星星拉回来。 */
 async function clearAllStars() {
   setLocalStars(0)
+  const { ok, data } = await cloud.call('resetProfile', { scope: 'stars' })
+  if (ok && data) applyStarsResetAt(data.starsResetAt)
+  return { ok }
+}
+
+/** 家长区清空贴纸：本地与云端一起清，积分不动。 */
+async function clearAllStickers() {
   setOwnedStickers([])
-  const { ok } = await cloud.call('resetProfile', { scope: 'stars' })
+  const { ok } = await cloud.call('resetProfile', { scope: 'stickers' })
   return { ok }
 }
 
@@ -287,9 +328,11 @@ module.exports = {
   refreshProfile,
   syncFromCloud,
   ensureSession,
+  awardVisitStar,
   addStars,
   exchangeReward,
   checkinTask,
   clearAllStars,
+  clearAllStickers,
   flushRetryQueue,
 }

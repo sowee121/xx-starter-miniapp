@@ -25,7 +25,7 @@
       gap: 24px;
     }
 
-    .setting-copy {
+    .setting-text {
       display: flex;
       min-width: 0;
       flex: 1;
@@ -33,13 +33,13 @@
       gap: 8px;
     }
 
-    .setting-copy strong {
+    .setting-text strong {
       font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", sans-serif;
       font-size: 36px;
       line-height: 1.2;
     }
 
-    .setting-copy span {
+    .setting-text span {
       color: var(--muted);
       font-size: 27px;
       line-height: 1.45;
@@ -265,7 +265,7 @@
             <span class="sound-button" aria-hidden="true">
               <img src="../docs/design/atoms/play.png" alt="" />
             </span>
-            <div class="setting-copy">
+            <div class="setting-text">
               <strong id="volume-title">声音大小</strong>
               <span>点读和答题音效一起调整</span>
             </div>
@@ -281,7 +281,7 @@
           <img class="progress-mascot" src="../docs/design/atoms/dino.png" alt="" />
           <div class="progress-main">
             <strong id="progress-title">学习进度</strong>
-            <span>清除已学记录<br />星星和贴纸会保留</span>
+            <span>清空已学记录，今日任务和积分不变</span>
             <button class="reset-chip">重置进度</button>
           </div>
         </section>
@@ -289,7 +289,7 @@
         <section class="setting-block clear-block block tone-rose" aria-labelledby="clear-title">
           <div class="setting-head">
             <img class="clear-star" src="../docs/design/atoms/big-star.png" alt="" />
-            <div class="setting-copy">
+            <div class="setting-text">
               <strong id="clear-title">清空积分</strong>
               <span>星星和已兑换贴纸都会清空，不能恢复</span>
             </div>

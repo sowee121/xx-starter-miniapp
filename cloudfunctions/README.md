@@ -187,7 +187,7 @@ npm run test:cloud
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
 | `exchangeReward` | 非法奖励、无用户、余额不足、贴纸兑换、并发连点只扣一次 |
-| `resetProfile` | 家长区重置：`progress` 只清进度、`stars` 只清积分与贴纸 |
+| `resetProfile` | 家长区清除：`progress` 只清进度、`stars` 只清积分、`stickers` 只清贴纸（作废旧加星队列） |
 | 落库归属 | 所有集合的新记录都必须带 `_openid`（云函数 `add` 不会自动注入） |
 
 本地通过只说明业务分支与 SDK 调用形态正确；仍须做下方的**云端自检**，确认环境、权限和已部署函数均正确。

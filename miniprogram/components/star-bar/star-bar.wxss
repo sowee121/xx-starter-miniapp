@@ -2,9 +2,9 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 8rpx;
-  height: 68rpx;
+  gap: var(--gap-text);
   padding: 0 24rpx;
+  box-sizing: border-box;
   flex-shrink: 0;
   border-radius: 999rpx;
   background: linear-gradient(180deg, #fffdf7 0%, #fbf4e4 100%);
@@ -12,25 +12,16 @@
     inset 0 4rpx 8rpx rgba(255, 255, 255, 0.95),
     inset 0 -8rpx 14rpx rgba(198, 182, 146, 0.16),
     0 8rpx 16rpx rgba(96, 122, 96, 0.12);
-  transition: transform 120ms ease-out, opacity 120ms ease-out;
-}
-
-/* 长按进入家长区期间的按压反馈，让家长确认手势已生效 */
-.star-bar.is-pressing {
-  transform: scale(0.92);
-  opacity: 0.78;
 }
 
 .star-bar__icon {
-  width: 48rpx;
-  height: 48rpx;
+  flex-shrink: 0;
 }
 
 .star-bar__count {
-  font-size: 32rpx;
   font-weight: 700;
   line-height: 1;
-  color: #35553f;
+  color: var(--ink);
 }
 
 .star-bar.is-night {

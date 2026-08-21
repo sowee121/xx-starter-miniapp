@@ -2,15 +2,16 @@ const { vowels } = require('../content/pinyin')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
-const { trackDaily } = require('../../../utils/daily-tasks')
+const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { INLINE } = require('../../../content/feedback-copy')
+
 Page({
   data: { stars: 0, item: null, softNote: '', feedback: { show: false, closing: false } },
 
   onLoad(q) {
     const key = q.id === 'umlaut-u' ? 'ü' : (q.id || 'a')
     const item = vowels.find((x) => x.letter === key) || vowels[0]
+    this._visitStarAwarded = false
     this.setData({
       item: {
         ...item,
@@ -23,20 +24,15 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
-  async play() {
+  play() {
     const item = this.data.item
     if (!item) return
-    if (!item.audio) {
-      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
-      return
-    }
-    audioUtil.play(item.audio, {
-      onEnded: async () => {
-        const result = await trackDaily('pinyin', item.letter)
-        this.setData({ stars: stars.getLocalStars() })
-        feedback.showTaskAward(this, result)
-      },
-      onError: feedback.audioFallback(this),
+    playPrimaryAndAward(this, {
+      src: item.audio,
+      taskId: 'pinyin',
+      unitKey: item.letter,
+      reason: 'pinyin_done',
+      ref: item.letter,
     })
   },
 

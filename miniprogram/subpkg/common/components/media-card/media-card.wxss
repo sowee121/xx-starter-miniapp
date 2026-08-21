@@ -2,9 +2,8 @@
 .media-card__meta {
   display: flex;
   align-items: center;
-  gap: 6rpx;
+  gap: var(--gap-snug);
   flex-shrink: 0;
-  margin-left: 12rpx;
 }
 
 .media-card__meta-icon {
@@ -13,7 +12,7 @@
 }
 
 .media-card__meta-text {
-  font-size: 30rpx;
+  font-size: var(--font-hint);
   font-weight: 700;
   color: var(--ink);
 }

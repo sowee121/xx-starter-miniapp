@@ -216,6 +216,21 @@ function checkFlexWrapUsesGap() {
   }
 }
 
+/** 禁止负 margin 外扩热区，间距交给 flex + gap / 容器尺寸 */
+function checkNoNegativeMargin() {
+  const files = [
+    ...walk(MP, ['.wxss']),
+    ...walk(path.join(ROOT, 'docs/design/h5/css'), ['.css']),
+  ]
+  const re = /\bmargin(?:-(?:top|right|bottom|left))?\s*:\s*[^;{}]*-\d/
+  for (const file of files) {
+    const text = fs.readFileSync(file, 'utf8')
+    if (re.test(text)) {
+      errors.push(`${rel(file)}: 不得使用负 margin，请用 flex + gap 或容器 padding/尺寸`)
+    }
+  }
+}
+
 /** 纵向间距只能来自容器 gap：积木本身不得带 margin */
 function checkStackSpacingUsesGap() {
   const targets = [
@@ -273,8 +288,8 @@ function checkContentUsesFullShellWidth() {
     if (/\bpadding(?:-left|-right)?\s*:/.test(body)) {
       errors.push(`${rel(file)}: ${selector} 不得设置左右 padding，横向安全区由 shell 统一提供`)
     }
-    if (!/\bgap\s*:\s*30(?:px|rpx)\b/.test(body)) {
-      errors.push(`${rel(file)}: ${selector} 三列卡片应使用 30px/rpx gap`)
+    if (!/\bgap\s*:\s*(?:30(?:px|rpx)|var\(--block-gap\))/.test(body)) {
+      errors.push(`${rel(file)}: ${selector} 三列卡片应使用 --block-gap（30px/rpx）`)
     }
   }
 }
@@ -315,10 +330,12 @@ function checkHomeTwoColumnSync() {
     const text = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const rule = text.match(new RegExp(`${escaped}\\s*\\{([^{}]*)\\}`))
-    const expected = new RegExp(`width\\s*:\\s*calc\\(\\(100% - 30${unit}\\)\\s*/\\s*2\\)`)
+    const expected = new RegExp(
+      `width\\s*:\\s*(?:var\\(--col-2\\)|calc\\(\\(100% - (?:30${unit}|var\\(--block-gap\\))\\)\\s*/\\s*2\\))`
+    )
     if (!rule || !expected.test(rule[1])) {
       errors.push(
-        `${rel(file)}: ${selector} 需要用 calc((100% - 30${unit}) / 2) 定首页两列宽度`
+        `${rel(file)}: ${selector} 需要用 var(--col-2) 或 calc((100% - 30${unit}) / 2) 定首页两列宽度`
       )
     }
   }
@@ -494,6 +511,7 @@ function main() {
   checkStaticRefs()
   checkWxssNoLocalUrl()
   checkFlexWrapUsesGap()
+  checkNoNegativeMargin()
   checkStackSpacingUsesGap()
   checkContentUsesFullShellWidth()
   checkComponentRootWidth()

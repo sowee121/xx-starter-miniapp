@@ -3,8 +3,9 @@
     <view class="detail-big block tone-lilac">
       <image class="detail-big__vowel" src="{{item.image}}" mode="aspectFit" lazy-load />
       <text class="detail-big__sub">{{item.hint}}</text>
-      <read-button size="lg" bind:tap="play" />
+      <play-button size="lg" bind:tap="play" />
     </view>
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

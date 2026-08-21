@@ -1,6 +1,6 @@
 const starsUtil = require('../../../utils/stars')
 const dailyTasks = require('../../../utils/daily-tasks')
-const { taskHead } = require('../../../content/feedback-copy')
+const { taskHead } = require('../../../content/feedback')
 
 Page({
   data: {

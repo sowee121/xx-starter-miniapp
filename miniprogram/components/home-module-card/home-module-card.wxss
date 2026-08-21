@@ -3,12 +3,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: var(--gap-text);
   width: 100%;
   height: 256rpx;
-  padding: 6rpx 14rpx 10rpx;
+  padding: var(--pad-card-sm);
   overflow: hidden;
-  border-radius: 48rpx;
+  border-radius: var(--radius-card);
+  corner-shape: var(--corner-card);
   box-sizing: border-box;
   flex-shrink: 0;
 }
@@ -18,15 +20,15 @@
 }
 
 .home-module-card__mascot {
-  width: 200rpx;
-  height: 200rpx;
-  margin-bottom: 2rpx;
+  width: 168rpx;
+  height: 168rpx;
+  flex-shrink: 0;
 }
 
 .home-module-card__label {
-  font-size: 34rpx;
+  font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: 2rpx;
-  color: #35553f;
+  color: var(--ink);
 }

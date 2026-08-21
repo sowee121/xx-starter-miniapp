@@ -4,12 +4,12 @@
 >
   <view
     class="custom-header__row"
-    style="top: {{menuTop}}px; height: {{menuHeight}}px; padding-right: {{menuRight}}px;"
+    style="top: {{menuTop}}px; height: {{menuHeight}}px; padding-right: {{menuRight + 12}}px;"
   >
     <block wx:if="{{variant === 'home'}}">
-      <text class="custom-header__brand">{{title}}</text>
+      <view class="custom-header__brand">{{title}}</view>
       <view class="custom-header__right">
-        <star-bar stars="{{stars}}" night="{{night}}" />
+        <star-bar stars="{{stars}}" night="{{night}}" capsuleHeight="{{menuHeight}}" />
       </view>
     </block>
     <block wx:else>
@@ -21,9 +21,9 @@
         <image class="custom-header__home-icon" src="{{homeIcon}}" mode="aspectFit" />
       </view>
       <view wx:else class="custom-header__home-spacer"></view>
-      <text class="custom-header__title">{{title}}</text>
-      <view class="custom-header__page-stars" style="right: {{menuRight + 12}}px;">
-        <star-bar stars="{{stars}}" night="{{night}}" />
+      <view class="custom-header__title">{{title}}</view>
+      <view class="custom-header__page-stars">
+        <star-bar stars="{{stars}}" night="{{night}}" capsuleHeight="{{menuHeight}}" />
       </view>
     </block>
   </view>

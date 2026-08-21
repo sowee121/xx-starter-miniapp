@@ -1,0 +1,49 @@
+/* 与 miniprogram/styles/layout.wxss 对齐 */
+
+.page-list,
+.detail-stack,
+.parent-stack,
+.section-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--block-gap);
+}
+
+.media-main__body,
+.welcome__body,
+.wide__body,
+.setting-head__body,
+.task-row__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
+}
+
+.welcome__body { gap: var(--gap-snug); }
+.task-row__body { gap: var(--gap-tight); }
+
+.media-main__body span,
+.welcome-sub,
+.wide-sub,
+.hero p,
+.duo-card span,
+.detail-big p,
+.inner-head p,
+.setting-head__body span {
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.3;
+}
+
+.media-main__body strong,
+.wide-title,
+.duo-card strong,
+.hero h2,
+.setting-head__body strong {
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}

@@ -11,7 +11,7 @@
           lazy-load
         />
       </view>
-      <text class="quiz-head__title">{{question.prompt}}</text>
+      <view class="quiz-head__title">{{question.prompt}}</view>
     </view>
     <view class="options">
       <view

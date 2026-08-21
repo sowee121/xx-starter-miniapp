@@ -10,8 +10,8 @@
   />
   <view class="app-shell__body" style="padding-top: calc({{headerHeight}}px + 30rpx);">
     <view wx:if="{{hint}}" class="inner-head">
-      <text class="inner-head__title">{{hint}}</text>
-      <text wx:if="{{subHint}}" class="inner-head__sub">{{subHint}}</text>
+      <view class="inner-head__title">{{hint}}</view>
+      <view wx:if="{{subHint}}" class="inner-head__sub">{{subHint}}</view>
     </view>
     <slot />
   </view>

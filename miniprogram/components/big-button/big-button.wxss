@@ -1,6 +1,6 @@
 /* 尺寸与渐变来自全局 .big-btn */
 .big-btn {
-  gap: 14rpx;
+  gap: var(--gap-soft);
 }
 
 .big-btn__icon {
@@ -11,7 +11,8 @@
 
 .big-btn__text {
   color: #ffffff;
-  font-size: 38rpx;
+  font-size: var(--font-card);
   font-weight: 700;
   line-height: 1.2;
+  letter-spacing: var(--letter-btn);
 }

@@ -1,18 +1,16 @@
 <view class="media-row block tone-{{tone || 'cream'}} custom-class" bindtap="onTap">
   <view class="media-main">
     <image wx:if="{{image}}" class="media-main__image {{wideImage ? 'media-main__image--wide' : ''}}" src="{{image}}" mode="aspectFit" lazy-load />
-    <view class="media-copy">
-      <text class="media-copy__title">{{title}}</text>
-      <text wx:if="{{subtitle}}" class="media-copy__sub">{{subtitle}}</text>
+    <view class="media-main__body">
+      <view class="media-main__title">{{title}}</view>
+      <view wx:if="{{subtitle}}" class="media-main__sub">{{subtitle}}</view>
     </view>
   </view>
   <view wx:if="{{play}}" class="media-play">
-    <view class="play-btn">
-      <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
-    </view>
+    <play-button passive="{{true}}" />
   </view>
   <view wx:if="{{meta || metaIcon}}" class="media-card__meta">
     <image wx:if="{{metaIcon}}" class="media-card__meta-icon" src="{{metaIcon}}" mode="aspectFit" />
-    <text wx:if="{{meta}}" class="media-card__meta-text">{{meta}}</text>
+    <view wx:if="{{meta}}" class="media-card__meta-text">{{meta}}</view>
   </view>
 </view>

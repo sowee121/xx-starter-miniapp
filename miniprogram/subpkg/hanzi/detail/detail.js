@@ -1,9 +1,8 @@
 const { poem, life } = require('../content/hanzi')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
-const { trackDaily } = require('../../../utils/daily-tasks')
+const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { INLINE } = require('../../../content/feedback-copy')
 
 Page({
   data: {
@@ -16,6 +15,7 @@ Page({
   onLoad(q) {
     const char = decodeURIComponent(q.char || '入')
     const item = poem.concat(life).find((x) => x.char === char) || poem[0]
+    this._visitStarAwarded = false
     this.setData({ item })
   },
 
@@ -30,26 +30,16 @@ Page({
     const kind = (e.currentTarget && e.currentTarget.dataset.kind) || 'char'
     if (kind === 'word') {
       const idx = Number(e.currentTarget.dataset.index)
-      const src = (item.wordAudios && item.wordAudios[idx]) || ''
-      if (src) {
-        audioUtil.play(src, { onError: feedback.audioFallback(this) })
-      } else {
-        feedback.showInline(this, INLINE.audioUnavailable, 'fail')
-      }
+      playPreview(this, (item.wordAudios && item.wordAudios[idx]) || '')
       return
     }
 
-    if (!item.audio) {
-      feedback.showInline(this, INLINE.audioUnavailable, 'fail')
-      return
-    }
-    audioUtil.play(item.audio, {
-      onEnded: async () => {
-        const result = await trackDaily('hanzi', item.char)
-        this.setData({ stars: stars.getLocalStars() })
-        feedback.showTaskAward(this, result)
-      },
-      onError: feedback.audioFallback(this),
+    playPrimaryAndAward(this, {
+      src: item.audio,
+      taskId: 'hanzi',
+      unitKey: item.char,
+      reason: 'char_done',
+      ref: item.char,
     })
   },
 

@@ -2,6 +2,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
+    "big-button": "/components/big-button/big-button",
     "praise-sun": "/subpkg/common/components/praise-sun/praise-sun"
   },
   "componentPlaceholder": {

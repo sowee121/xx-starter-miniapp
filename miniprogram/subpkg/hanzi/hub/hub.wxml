@@ -2,13 +2,13 @@
   <view class="duo">
     <view class="duo-card block tone-sky" data-lib="poem" bindtap="open">
       <image class="duo-card__image" src="{{poemImage}}" mode="aspectFit" lazy-load />
-      <text class="duo-card__title">古诗里的字</text>
-      <text class="duo-card__sub">从古诗里认字</text>
+      <view class="duo-card__title">古诗里的字</view>
+      <view class="duo-card__sub">从古诗里认字</view>
     </view>
     <view class="duo-card block tone-peach" data-lib="life" bindtap="open">
       <image class="duo-card__image" src="{{lifeImage}}" mode="aspectFit" lazy-load />
-      <text class="duo-card__title">生活里的字</text>
-      <text class="duo-card__sub">身边常用字</text>
+      <view class="duo-card__title">生活里的字</view>
+      <view class="duo-card__sub">身边常用字</view>
     </view>
   </view>
 </app-shell>

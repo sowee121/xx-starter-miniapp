@@ -13,9 +13,6 @@ Component({
     tone: { type: String, value: 'cream' },
     wideImage: { type: Boolean, value: false },
   },
-  data: {
-    playIcon: '/static/shared/play.png',
-  },
   methods: {
     onTap() {
       this.triggerEvent('tap')

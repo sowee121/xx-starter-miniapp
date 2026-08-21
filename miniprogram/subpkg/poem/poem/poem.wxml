@@ -1,19 +1,16 @@
 <app-shell title="古诗" hint="选一首来听" sub-hint="一首一首慢慢听" stars="{{stars}}">
   <view class="poem-list page-list">
-    <view
+    <media-card
       wx:for="{{poems}}"
       wx:key="id"
       data-id="{{item.id}}"
-      bindtap="onOpen"
-    >
-      <media-card
-        title="{{item.title}}"
-        subtitle="{{item.author}}"
-        image="{{item.icon}}"
-        tone="{{item.tone}}"
-        play="{{true}}"
-        wide-image="{{true}}"
-      />
-    </view>
+      bind:tap="onOpen"
+      title="{{item.title}}"
+      subtitle="{{item.author}}"
+      image="{{item.icon}}"
+      tone="{{item.tone}}"
+      play="{{true}}"
+      wide-image="{{true}}"
+    />
   </view>
 </app-shell>

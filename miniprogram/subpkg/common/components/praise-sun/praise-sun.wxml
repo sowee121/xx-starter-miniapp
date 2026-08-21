@@ -4,11 +4,11 @@
     <view class="praise-sun__icon-slot">
       <image class="praise-sun__icon" src="{{image || starIcon}}" mode="aspectFit" />
     </view>
-    <view class="praise-sun__copy">
-      <text class="praise-sun__text">{{title}}</text>
-      <text class="praise-sun__desc">{{desc}}</text>
+    <view class="praise-sun__body">
+      <view class="praise-sun__text">{{title}}</view>
+      <view class="praise-sun__desc">{{desc}}</view>
     </view>
-    <view class="praise-sun__continue" bindtap="onContinue">继续玩</view>
+    <view class="praise-sun__continue" bindtap="onContinue">继续学</view>
     <image class="praise-sun__grass" src="{{grassIcon}}" mode="aspectFit" />
   </view>
 </view>

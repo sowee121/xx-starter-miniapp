@@ -1,10 +1,10 @@
 const feedback = require('../../utils/feedback')
 const stars = require('../../utils/stars')
 const { trackDaily } = require('../../utils/daily-tasks')
-const { INLINE } = require('../../content/feedback-copy')
+const { INLINE } = require('../../content/feedback')
 
-/** 答对后行内提示停留时长，再自动切下一题 */
-const ADVANCE_DELAY = 1000
+/** 答对后固定停留，再自动切下一题（对齐提示音约 2s） */
+const ADVANCE_DELAY = 2000
 
 function clearAdvanceTimer(page) {
   if (!page || !page._advanceTimer) return
@@ -35,13 +35,13 @@ function handleCorrect(page, { reason, ref, taskId }) {
   refreshStars(page)
   if (result.firstAward) {
     feedback.showTaskAward(page, result)
-  } else {
-    feedback.showInline(page, INLINE.answerCorrect, 'success')
-    scheduleAdvance(page, () => {
-      page._busy = false
-      page.applyQuestion()
-    })
+    return
   }
+  feedback.showInline(page, INLINE.answerCorrect)
+  scheduleAdvance(page, () => {
+    page._busy = false
+    page.applyQuestion()
+  })
 }
 
 module.exports = {

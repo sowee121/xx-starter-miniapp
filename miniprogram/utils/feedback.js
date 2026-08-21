@@ -1,10 +1,19 @@
 const { mediaUrl } = require('../config/media')
-const { LAYERS, INLINE } = require('../content/feedback-copy')
+const { LAYERS, INLINE } = require('../content/feedback')
 
 const LAYER_TRANSITION = 250
 
-let successAudio = null
-let failAudio = null
+const voiceAudios = {}
+
+function resolveInline(input) {
+  if (input && typeof input === 'object' && input.text) {
+    return input
+  }
+  if (typeof input === 'string') {
+    return { text: input, audio: null }
+  }
+  return { text: '', audio: null }
+}
 
 function getVolume() {
   try {
@@ -14,43 +23,39 @@ function getVolume() {
   }
 }
 
-/**
- * 音效放主包：每个分包页面都要用，放 common 分包时未预载（非 WiFi）会取不到文件。
- * 两个文件合计约 12KB。
- */
-function effectSrc(kind) {
-  return kind === 'fail'
-    ? mediaUrl('/static/shared/sfx-soft-fail.wav')
-    : mediaUrl('/static/shared/sfx-success.wav')
-}
-
-function ensureEffect(kind) {
-  const key = kind === 'fail' ? 'failAudio' : 'successAudio'
-  if (!module.exports[key]) {
+function ensureVoice(src) {
+  if (!src) return null
+  const url = mediaUrl(src)
+  if (!voiceAudios[url]) {
     const ctx = wx.createInnerAudioContext()
     ctx.autoplay = false
-    ctx.src = effectSrc(kind)
-    module.exports[key] = ctx
+    ctx.src = url
+    voiceAudios[url] = ctx
   }
-  return module.exports[key]
+  return voiceAudios[url]
 }
 
-function playEffect(kind) {
+function playVoice(src, onEnded) {
+  const ctx = ensureVoice(src)
+  if (!ctx) return
   try {
-    const ctx = ensureEffect(kind)
     ctx.volume = getVolume()
+    ctx.offEnded()
+    if (typeof onEnded === 'function') {
+      ctx.onEnded(onEnded)
+    }
     ctx.stop()
     if (typeof ctx.seek === 'function') ctx.seek(0)
     ctx.play()
   } catch (error) {
-    // 音效失败不影响反馈 UI。
+    if (typeof onEnded === 'function') onEnded()
   }
 }
 
-function preloadEffects() {
+function preloadVoiceAudio() {
   try {
-    ensureEffect('success')
-    ensureEffect('fail')
+    ensureVoice(INLINE.answerCorrect.audio)
+    ensureVoice(INLINE.answerWrong.audio)
   } catch (error) {
     // ignore
   }
@@ -69,7 +74,6 @@ function showLayer(page, payload) {
       image: payload.image || '',
     },
   })
-  playEffect(payload.variant === 'softFail' ? 'fail' : 'success')
 }
 
 /** L1：单条每日任务首次发星 */
@@ -97,10 +101,13 @@ function hideLayer(page) {
   }, LAYER_TRANSITION)
 }
 
-function showInline(page, text, kind) {
+function showInline(page, input) {
   if (!page) return
+  const { text, audio } = resolveInline(input)
   page.setData({ softNote: text })
-  playEffect(kind === 'fail' ? 'fail' : 'success')
+  if (audio) {
+    playVoice(audio)
+  }
 }
 
 function clearInline(page) {
@@ -113,7 +120,7 @@ function clearInline(page) {
  * 必须在这里出软提示，否则点了没声音也没反馈。
  */
 function audioFallback(page) {
-  return () => showInline(page, INLINE.audioUnavailable, 'fail')
+  return () => showInline(page, INLINE.audioUnavailable)
 }
 
 module.exports = {
@@ -124,9 +131,5 @@ module.exports = {
   showInline,
   clearInline,
   audioFallback,
-  preloadEffects,
-  playSuccess: () => playEffect('success'),
-  playSoftFail: () => playEffect('fail'),
-  successAudio,
-  failAudio,
+  preloadVoiceAudio,
 }

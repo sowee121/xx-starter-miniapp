@@ -9,6 +9,7 @@ const REASONS = new Set([
   'poem_done',
   'char_done',
   'word_done',
+  'pinyin_done',
   'game_clear',
   'task_done',
   'daily_task',
@@ -16,6 +17,12 @@ const REASONS = new Set([
   'sport_done',
   'calendar_done',
 ])
+
+/** 客户端 makeClientId 为 `${Date.now()}-xxxx`，13 位毫秒时间戳。 */
+function clientIssuedAt(clientId) {
+  const n = Number(String(clientId || '').split('-')[0])
+  return Number.isFinite(n) && n > 1e11 ? n : 0
+}
 
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
@@ -32,6 +39,11 @@ async function getOrCreateUser(openid) {
   return { ...doc, _id: added._id }
 }
 
+async function readStars(openid, fallback) {
+  const after = await db.collection('users').where({ _openid: openid }).limit(1).get()
+  return (after.data[0] && after.data[0].stars) || fallback || 0
+}
+
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const delta = Number(event.delta) || 0
@@ -43,6 +55,18 @@ exports.main = async (event) => {
     return { ok: false, error: 'invalid_params' }
   }
 
+  const user = await getOrCreateUser(OPENID)
+  const resetAt = Number(user.starsResetAt) || 0
+  const issuedAt = clientIssuedAt(clientId)
+  if (resetAt && issuedAt && issuedAt < resetAt) {
+    return {
+      ok: true,
+      duplicated: true,
+      stale: true,
+      stars: user.stars || 0,
+    }
+  }
+
   try {
     await db.collection('star_logs').add({
       data: {
@@ -51,30 +75,35 @@ exports.main = async (event) => {
         delta,
         reason,
         ref,
+        credited: false,
         createdAt: Date.now(),
       },
     })
-  } catch (e) {
-    const user = await getOrCreateUser(OPENID)
-    return {
-      ok: true,
-      duplicated: true,
-      stars: (user.stars || 0),
-    }
+  } catch (error) {
+    // 已有流水：下面认领 credited，避免「流水在、余额没加上」被当成重复丢掉
   }
 
-  const user = await getOrCreateUser(OPENID)
-  await db.collection('users').doc(user._id).update({
-    data: {
-      stars: _.inc(delta),
-      updatedAt: Date.now(),
-    },
+  const claim = await db.collection('star_logs').where({
+    _id: clientId,
+    _openid: OPENID,
+    credited: false,
+  }).update({
+    data: { credited: true },
   })
+  const claimed = !!(claim.stats && claim.stats.updated)
 
-  const after = await db.collection('users').where({ _openid: OPENID }).limit(1).get()
+  if (claimed) {
+    await db.collection('users').doc(user._id).update({
+      data: {
+        stars: _.inc(delta),
+        updatedAt: Date.now(),
+      },
+    })
+  }
+
   return {
     ok: true,
-    duplicated: false,
-    stars: (after.data[0] && after.data[0].stars) || (user.stars || 0) + delta,
+    duplicated: !claimed,
+    stars: await readStars(OPENID, (user.stars || 0) + (claimed ? delta : 0)),
   }
 }
