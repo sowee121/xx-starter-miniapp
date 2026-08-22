@@ -1,26 +1,60 @@
-const { poem, life } = require('../content/hanzi')
+const { categories } = require('../content/hanzi')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
+const { stepNavState } = require('../../../utils/trail-nav')
+
+function findCategory(char, catId) {
+  if (catId) {
+    const hit = categories.find((c) => c.id === catId)
+    if (hit && hit.items.some((x) => x.char === char)) return hit
+  }
+  return categories.find((c) => c.items.some((x) => x.char === char)) || categories[0]
+}
 
 Page({
   data: {
     stars: 0,
     item: null,
     softNote: '',
+    nav: stepNavState(0, 0),
     feedback: { show: false, closing: false },
   },
 
   onLoad(q) {
-    const char = decodeURIComponent(q.char || '入')
-    const item = poem.concat(life).find((x) => x.char === char) || poem[0]
-    this._visitStarAwarded = false
-    this.setData({ item })
+    const char = decodeURIComponent(q.char || '一')
+    const cat = findCategory(char, q.cat)
+    this._items = cat.items
+    let index = this._items.findIndex((x) => x.char === char)
+    if (index < 0) index = 0
+    this.applyItem(index)
   },
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
+  },
+
+  applyItem(index) {
+    const item = this._items[index]
+    if (!item) return
+    this._visitStarAwarded = false
+    audioUtil.stop()
+    this.setData({
+      item,
+      softNote: '',
+      nav: stepNavState(index, this._items.length),
+    })
+  },
+
+  goPrev() {
+    if (!this.data.nav.hasPrev) return
+    this.applyItem(this.data.nav.index - 1)
+  },
+
+  goNext() {
+    if (!this.data.nav.hasNext) return
+    this.applyItem(this.data.nav.index + 1)
   },
 
   play(e) {

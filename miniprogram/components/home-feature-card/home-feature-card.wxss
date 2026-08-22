@@ -2,19 +2,13 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-card);
+  justify-content: space-between;
   height: 196rpx;
   padding: 0 var(--pad-card) 0 0;
   overflow: hidden;
   border-radius: var(--radius-card);
-  corner-shape: var(--corner-card);
   box-sizing: border-box;
   flex-shrink: 0;
-}
-
-.home-feature-card.is-reward {
-  height: 164rpx;
-  padding: 0 var(--pad-card) 0 0;
 }
 
 .home-feature-card:active {
@@ -25,11 +19,6 @@
   width: 172rpx;
   height: 172rpx;
   flex-shrink: 0;
-}
-
-.home-feature-card__mascot.is-sm {
-  width: 140rpx;
-  height: 140rpx;
 }
 
 .home-feature-card__title {
@@ -54,18 +43,16 @@
   justify-content: center;
   width: 56rpx;
   height: 56rpx;
-  border-radius: 28rpx;
+  flex-shrink: 0;
+  border-radius: 50%;
   background: rgba(154, 182, 138, 0.22);
   box-shadow:
-    inset 0 5rpx 9rpx rgba(104, 136, 102, 0.26),
-    inset 0 -4rpx 8rpx rgba(255, 255, 255, 0.75);
+    var(--shadow-socket);
 }
 
 .home-feature-card__socket.is-on {
   background: rgba(255, 255, 255, 0.55);
-  box-shadow:
-    inset 0 4rpx 8rpx rgba(104, 136, 102, 0.16),
-    inset 0 -4rpx 8rpx rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-socket-on);
 }
 
 .home-feature-card__socket-star {
@@ -81,7 +68,7 @@
   width: 176rpx;
   height: 88rpx;
   flex-shrink: 0;
-  border-radius: 999rpx;
+  border-radius: var(--radius-pill);
   font-size: var(--font-hint);
   font-weight: 700;
   letter-spacing: var(--letter-btn);

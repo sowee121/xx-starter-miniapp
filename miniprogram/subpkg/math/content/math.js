@@ -3,8 +3,16 @@ module.exports = {
   "fruitPool": [
     "apple-english",
     "banana-english",
+    "cherry-english",
+    "grape-english",
+    "kiwi-english",
+    "lemon-english",
+    "mango-english",
     "orange-english",
-    "grape-english"
+    "peach-english",
+    "pear-english",
+    "strawberry-english",
+    "watermelon-english"
   ],
   "count": [
     {

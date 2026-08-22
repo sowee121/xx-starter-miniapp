@@ -1,0 +1,14 @@
+<app-shell title="英语" hint="字母表" sub-hint="听一听字母" stars="{{stars}}">
+  <view class="word-grid">
+    <view
+      wx:for="{{items}}"
+      wx:key="letter"
+      class="word-card block tone-sky"
+      data-letter="{{item.letter}}"
+      bindtap="open"
+    >
+      <image class="word-card__image" src="{{item.image}}" mode="aspectFit" />
+      <play-button size="sm" passive="{{true}}" />
+    </view>
+  </view>
+</app-shell>

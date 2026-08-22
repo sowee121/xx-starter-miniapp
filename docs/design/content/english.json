@@ -1,53 +1,628 @@
 {
   "categories": [
     {
-      "id": "fruit",
-      "title": "水果",
+      "id": "number",
+      "title": "数字",
       "items": [
-        { "word": "apple", "phonetic": "/ˈæpl/", "sentence": "An apple.", "image": "apple-english" },
-        { "word": "banana", "phonetic": "/bəˈnɑːnə/", "sentence": "A banana.", "image": "banana-english" },
-        { "word": "orange", "phonetic": "/ˈɒrɪndʒ/", "sentence": "An orange.", "image": "orange-english" },
-        { "word": "grape", "phonetic": "/ɡreɪp/", "sentence": "A grape.", "image": "grape-english" }
-      ]
-    },
-    {
-      "id": "animal",
-      "title": "动物",
-      "items": [
-        { "word": "cat", "phonetic": "/kæt/", "sentence": "A cat.", "image": "cat" },
-        { "word": "dog", "phonetic": "/dɒɡ/", "sentence": "A dog.", "image": "dog" },
-        { "word": "duck", "phonetic": "/dʌk/", "sentence": "A duck.", "image": "duckling" },
-        { "word": "bird", "phonetic": "/bɜːd/", "sentence": "A bird.", "image": "bird" }
+        {
+          "word": "one",
+          "phonetic": "/wʌn/",
+          "sentence": "It's one.",
+          "image": "english-one"
+        },
+        {
+          "word": "two",
+          "phonetic": "/tuː/",
+          "sentence": "It's two.",
+          "image": "english-two"
+        },
+        {
+          "word": "three",
+          "phonetic": "/θriː/",
+          "sentence": "It's three.",
+          "image": "english-three"
+        },
+        {
+          "word": "four",
+          "phonetic": "/fɔː/",
+          "sentence": "It's four.",
+          "image": "english-four"
+        },
+        {
+          "word": "five",
+          "phonetic": "/faɪv/",
+          "sentence": "It's five.",
+          "image": "english-five"
+        },
+        {
+          "word": "six",
+          "phonetic": "/sɪks/",
+          "sentence": "It's six.",
+          "image": "english-six"
+        },
+        {
+          "word": "seven",
+          "phonetic": "/ˈsevən/",
+          "sentence": "It's seven.",
+          "image": "english-seven"
+        },
+        {
+          "word": "eight",
+          "phonetic": "/eɪt/",
+          "sentence": "It's eight.",
+          "image": "english-eight"
+        },
+        {
+          "word": "nine",
+          "phonetic": "/naɪn/",
+          "sentence": "It's nine.",
+          "image": "english-nine"
+        },
+        {
+          "word": "ten",
+          "phonetic": "/ten/",
+          "sentence": "It's ten.",
+          "image": "english-ten"
+        },
+        {
+          "word": "hundred",
+          "phonetic": "/ˈhʌndrəd/",
+          "sentence": "It's a hundred.",
+          "image": "english-hundred"
+        },
+        {
+          "word": "thousand",
+          "phonetic": "/ˈθaʊznd/",
+          "sentence": "It's a thousand.",
+          "image": "english-thousand"
+        }
       ]
     },
     {
       "id": "color",
       "title": "颜色",
       "items": [
-        { "word": "red", "phonetic": "/red/", "sentence": "It's red.", "image": "english-red" },
-        { "word": "blue", "phonetic": "/bluː/", "sentence": "It's blue.", "image": "english-blue" },
-        { "word": "yellow", "phonetic": "/ˈjeləʊ/", "sentence": "It's yellow.", "image": "english-yellow" },
-        { "word": "green", "phonetic": "/ɡriːn/", "sentence": "It's green.", "image": "english-green" }
+        {
+          "word": "black",
+          "phonetic": "/blæk/",
+          "sentence": "It's black.",
+          "image": "english-black"
+        },
+        {
+          "word": "blue",
+          "phonetic": "/bluː/",
+          "sentence": "It's blue.",
+          "image": "english-blue"
+        },
+        {
+          "word": "brown",
+          "phonetic": "/braʊn/",
+          "sentence": "It's brown.",
+          "image": "english-brown"
+        },
+        {
+          "word": "gold",
+          "phonetic": "/ɡəʊld/",
+          "sentence": "It's gold.",
+          "image": "english-gold"
+        },
+        {
+          "word": "gray",
+          "phonetic": "/ɡreɪ/",
+          "sentence": "It's gray.",
+          "image": "english-gray"
+        },
+        {
+          "word": "green",
+          "phonetic": "/ɡriːn/",
+          "sentence": "It's green.",
+          "image": "english-green"
+        },
+        {
+          "word": "orange",
+          "phonetic": "/ˈɒrɪndʒ/",
+          "sentence": "It's orange.",
+          "image": "english-orange",
+          "audioKey": "orange-color"
+        },
+        {
+          "word": "pink",
+          "phonetic": "/pɪŋk/",
+          "sentence": "It's pink.",
+          "image": "english-pink"
+        },
+        {
+          "word": "purple",
+          "phonetic": "/ˈpɜːpl/",
+          "sentence": "It's purple.",
+          "image": "english-purple"
+        },
+        {
+          "word": "red",
+          "phonetic": "/red/",
+          "sentence": "It's red.",
+          "image": "english-red"
+        },
+        {
+          "word": "white",
+          "phonetic": "/waɪt/",
+          "sentence": "It's white.",
+          "image": "english-white"
+        },
+        {
+          "word": "yellow",
+          "phonetic": "/ˈjeləʊ/",
+          "sentence": "It's yellow.",
+          "image": "english-yellow"
+        }
+      ]
+    },
+    {
+      "id": "animal",
+      "title": "动物",
+      "items": [
+        {
+          "word": "bear",
+          "phonetic": "/beə/",
+          "sentence": "A bear.",
+          "image": "bear"
+        },
+        {
+          "word": "bird",
+          "phonetic": "/bɜːd/",
+          "sentence": "A bird.",
+          "image": "bird"
+        },
+        {
+          "word": "cat",
+          "phonetic": "/kæt/",
+          "sentence": "A cat.",
+          "image": "cat"
+        },
+        {
+          "word": "dog",
+          "phonetic": "/dɒɡ/",
+          "sentence": "A dog.",
+          "image": "dog"
+        },
+        {
+          "word": "duck",
+          "phonetic": "/dʌk/",
+          "sentence": "A duck.",
+          "image": "duckling"
+        },
+        {
+          "word": "fish",
+          "phonetic": "/fɪʃ/",
+          "sentence": "A fish.",
+          "image": "fish"
+        },
+        {
+          "word": "lion",
+          "phonetic": "/ˈlaɪən/",
+          "sentence": "A lion.",
+          "image": "lion"
+        },
+        {
+          "word": "monkey",
+          "phonetic": "/ˈmʌŋki/",
+          "sentence": "A monkey.",
+          "image": "monkey"
+        },
+        {
+          "word": "panda",
+          "phonetic": "/ˈpændə/",
+          "sentence": "A panda.",
+          "image": "panda"
+        },
+        {
+          "word": "pig",
+          "phonetic": "/pɪɡ/",
+          "sentence": "A pig.",
+          "image": "pig"
+        },
+        {
+          "word": "rabbit",
+          "phonetic": "/ˈræbɪt/",
+          "sentence": "A rabbit.",
+          "image": "rabbit"
+        },
+        {
+          "word": "tiger",
+          "phonetic": "/ˈtaɪɡə/",
+          "sentence": "A tiger.",
+          "image": "tiger"
+        }
       ]
     },
     {
       "id": "body",
       "title": "身体",
       "items": [
-        { "word": "hand", "phonetic": "/hænd/", "sentence": "My hand.", "image": "char-hand" },
-        { "word": "eye", "phonetic": "/aɪ/", "sentence": "My eye.", "image": "english-eye" },
-        { "word": "ear", "phonetic": "/ɪə/", "sentence": "My ear.", "image": "english-ear" },
-        { "word": "nose", "phonetic": "/nəʊz/", "sentence": "My nose.", "image": "english-nose" }
+        {
+          "word": "arm",
+          "phonetic": "/ɑːm/",
+          "sentence": "My arm.",
+          "image": "english-arm"
+        },
+        {
+          "word": "ear",
+          "phonetic": "/ɪə/",
+          "sentence": "My ear.",
+          "image": "english-ear"
+        },
+        {
+          "word": "eye",
+          "phonetic": "/aɪ/",
+          "sentence": "My eye.",
+          "image": "english-eye"
+        },
+        {
+          "word": "face",
+          "phonetic": "/feɪs/",
+          "sentence": "My face.",
+          "image": "english-face"
+        },
+        {
+          "word": "finger",
+          "phonetic": "/ˈfɪŋɡə/",
+          "sentence": "My finger.",
+          "image": "english-finger"
+        },
+        {
+          "word": "foot",
+          "phonetic": "/fʊt/",
+          "sentence": "My foot.",
+          "image": "english-foot"
+        },
+        {
+          "word": "hair",
+          "phonetic": "/heə/",
+          "sentence": "My hair.",
+          "image": "english-hair"
+        },
+        {
+          "word": "hand",
+          "phonetic": "/hænd/",
+          "sentence": "My hand.",
+          "image": "char-hand"
+        },
+        {
+          "word": "head",
+          "phonetic": "/hed/",
+          "sentence": "My head.",
+          "image": "english-head"
+        },
+        {
+          "word": "leg",
+          "phonetic": "/leɡ/",
+          "sentence": "My leg.",
+          "image": "english-leg"
+        },
+        {
+          "word": "mouth",
+          "phonetic": "/maʊθ/",
+          "sentence": "My mouth.",
+          "image": "english-mouth"
+        },
+        {
+          "word": "nose",
+          "phonetic": "/nəʊz/",
+          "sentence": "My nose.",
+          "image": "english-nose"
+        }
+      ]
+    },
+    {
+      "id": "fruit",
+      "title": "水果",
+      "items": [
+        {
+          "word": "apple",
+          "phonetic": "/ˈæpl/",
+          "sentence": "An apple.",
+          "image": "apple-english"
+        },
+        {
+          "word": "banana",
+          "phonetic": "/bəˈnɑːnə/",
+          "sentence": "A banana.",
+          "image": "banana-english"
+        },
+        {
+          "word": "cherry",
+          "phonetic": "/ˈtʃeri/",
+          "sentence": "A cherry.",
+          "image": "cherry-english"
+        },
+        {
+          "word": "grape",
+          "phonetic": "/ɡreɪp/",
+          "sentence": "A grape.",
+          "image": "grape-english"
+        },
+        {
+          "word": "kiwi",
+          "phonetic": "/ˈkiːwiː/",
+          "sentence": "A kiwi.",
+          "image": "kiwi-english"
+        },
+        {
+          "word": "lemon",
+          "phonetic": "/ˈlemən/",
+          "sentence": "A lemon.",
+          "image": "lemon-english"
+        },
+        {
+          "word": "mango",
+          "phonetic": "/ˈmæŋɡəʊ/",
+          "sentence": "A mango.",
+          "image": "mango-english"
+        },
+        {
+          "word": "orange",
+          "phonetic": "/ˈɒrɪndʒ/",
+          "sentence": "An orange.",
+          "image": "orange-english"
+        },
+        {
+          "word": "peach",
+          "phonetic": "/piːtʃ/",
+          "sentence": "A peach.",
+          "image": "peach-english"
+        },
+        {
+          "word": "pear",
+          "phonetic": "/peə/",
+          "sentence": "A pear.",
+          "image": "pear-english"
+        },
+        {
+          "word": "strawberry",
+          "phonetic": "/ˈstrɔːbəri/",
+          "sentence": "A strawberry.",
+          "image": "strawberry-english"
+        },
+        {
+          "word": "watermelon",
+          "phonetic": "/ˈwɔːtəmelən/",
+          "sentence": "A watermelon.",
+          "image": "watermelon-english"
+        }
+      ]
+    },
+    {
+      "id": "food",
+      "title": "食物",
+      "items": [
+        {
+          "word": "bread",
+          "phonetic": "/bred/",
+          "sentence": "Some bread.",
+          "image": "english-bread"
+        },
+        {
+          "word": "cake",
+          "phonetic": "/keɪk/",
+          "sentence": "A cake.",
+          "image": "english-cake"
+        },
+        {
+          "word": "candy",
+          "phonetic": "/ˈkændi/",
+          "sentence": "A candy.",
+          "image": "english-candy"
+        },
+        {
+          "word": "cookie",
+          "phonetic": "/ˈkʊki/",
+          "sentence": "A cookie.",
+          "image": "english-cookie"
+        },
+        {
+          "word": "egg",
+          "phonetic": "/eɡ/",
+          "sentence": "An egg.",
+          "image": "english-egg"
+        },
+        {
+          "word": "juice",
+          "phonetic": "/dʒuːs/",
+          "sentence": "Some juice.",
+          "image": "english-juice"
+        },
+        {
+          "word": "meat",
+          "phonetic": "/miːt/",
+          "sentence": "Some meat.",
+          "image": "english-meat"
+        },
+        {
+          "word": "milk",
+          "phonetic": "/mɪlk/",
+          "sentence": "Some milk.",
+          "image": "english-milk"
+        },
+        {
+          "word": "noodles",
+          "phonetic": "/ˈnuːdlz/",
+          "sentence": "Some noodles.",
+          "image": "english-noodles"
+        },
+        {
+          "word": "pizza",
+          "phonetic": "/ˈpiːtsə/",
+          "sentence": "A pizza.",
+          "image": "english-pizza"
+        },
+        {
+          "word": "rice",
+          "phonetic": "/raɪs/",
+          "sentence": "Some rice.",
+          "image": "english-rice"
+        },
+        {
+          "word": "tea",
+          "phonetic": "/tiː/",
+          "sentence": "I like tea.",
+          "image": "english-tea"
+        }
+      ]
+    },
+    {
+      "id": "nature",
+      "title": "自然",
+      "items": [
+        {
+          "word": "cloud",
+          "phonetic": "/klaʊd/",
+          "sentence": "A cloud.",
+          "image": "english-cloud"
+        },
+        {
+          "word": "flower",
+          "phonetic": "/ˈflaʊə/",
+          "sentence": "A flower.",
+          "image": "english-flower"
+        },
+        {
+          "word": "grass",
+          "phonetic": "/ɡrɑːs/",
+          "sentence": "The grass.",
+          "image": "english-grass"
+        },
+        {
+          "word": "leaf",
+          "phonetic": "/liːf/",
+          "sentence": "A leaf.",
+          "image": "english-leaf"
+        },
+        {
+          "word": "moon",
+          "phonetic": "/muːn/",
+          "sentence": "The moon.",
+          "image": "english-moon"
+        },
+        {
+          "word": "rain",
+          "phonetic": "/reɪn/",
+          "sentence": "The rain.",
+          "image": "english-rain"
+        },
+        {
+          "word": "river",
+          "phonetic": "/ˈrɪvə/",
+          "sentence": "A river.",
+          "image": "english-river"
+        },
+        {
+          "word": "snow",
+          "phonetic": "/snəʊ/",
+          "sentence": "The snow.",
+          "image": "english-snow"
+        },
+        {
+          "word": "star",
+          "phonetic": "/stɑː/",
+          "sentence": "A star.",
+          "image": "english-star"
+        },
+        {
+          "word": "sun",
+          "phonetic": "/sʌn/",
+          "sentence": "The sun.",
+          "image": "english-sun"
+        },
+        {
+          "word": "tree",
+          "phonetic": "/triː/",
+          "sentence": "A tree.",
+          "image": "english-tree"
+        },
+        {
+          "word": "wind",
+          "phonetic": "/wɪnd/",
+          "sentence": "The wind.",
+          "image": "english-wind"
+        }
       ]
     },
     {
       "id": "transport",
       "title": "交通",
       "items": [
-        { "word": "car", "phonetic": "/kɑː/", "sentence": "I see a car.", "image": "english-car" },
-        { "word": "bus", "phonetic": "/bʌs/", "sentence": "I see a bus.", "image": "english-bus" },
-        { "word": "bike", "phonetic": "/baɪk/", "sentence": "I see a bike.", "image": "english-bike" },
-        { "word": "train", "phonetic": "/treɪn/", "sentence": "I see a train.", "image": "english-train" }
+        {
+          "word": "bike",
+          "phonetic": "/baɪk/",
+          "sentence": "I see a bike.",
+          "image": "english-bike"
+        },
+        {
+          "word": "boat",
+          "phonetic": "/bəʊt/",
+          "sentence": "I see a boat.",
+          "image": "english-boat"
+        },
+        {
+          "word": "bus",
+          "phonetic": "/bʌs/",
+          "sentence": "I see a bus.",
+          "image": "english-bus"
+        },
+        {
+          "word": "car",
+          "phonetic": "/kɑː/",
+          "sentence": "I see a car.",
+          "image": "english-car"
+        },
+        {
+          "word": "plane",
+          "phonetic": "/pleɪn/",
+          "sentence": "I see a plane.",
+          "image": "english-plane"
+        },
+        {
+          "word": "rocket",
+          "phonetic": "/ˈrɒkɪt/",
+          "sentence": "I see a rocket.",
+          "image": "english-rocket"
+        },
+        {
+          "word": "ship",
+          "phonetic": "/ʃɪp/",
+          "sentence": "I see a ship.",
+          "image": "english-ship"
+        },
+        {
+          "word": "subway",
+          "phonetic": "/ˈsʌbweɪ/",
+          "sentence": "I see a subway.",
+          "image": "english-subway"
+        },
+        {
+          "word": "taxi",
+          "phonetic": "/ˈtæksi/",
+          "sentence": "I see a taxi.",
+          "image": "english-taxi"
+        },
+        {
+          "word": "train",
+          "phonetic": "/treɪn/",
+          "sentence": "I see a train.",
+          "image": "english-train"
+        },
+        {
+          "word": "truck",
+          "phonetic": "/trʌk/",
+          "sentence": "I see a truck.",
+          "image": "english-truck"
+        },
+        {
+          "word": "van",
+          "phonetic": "/væn/",
+          "sentence": "I see a van.",
+          "image": "english-van"
+        }
       ]
     }
   ]

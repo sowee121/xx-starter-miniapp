@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "app-shell": "/components/app-shell/app-shell"
+    "app-shell": "/components/app-shell/app-shell",
+    "play-button": "/components/play-button/play-button"
   },
   "navigationBarTitleText": "家长区"
 }

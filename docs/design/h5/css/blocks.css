@@ -12,7 +12,8 @@
 .word-card,
 .chip,
 .big-btn,
-.calendar-date {
+.calendar-date,
+.trail-nav__item {
   font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", sans-serif;
 }
 
@@ -20,71 +21,71 @@
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-card);
-  corner-shape: var(--corner-card);
   flex-shrink: 0;
 }
 
+/* 对角 inset = 鹅卵石鼓边（上左高光 / 下右压暗），外阴影托起厚度 */
 .tone-cream {
   background: var(--tone-cream);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(198, 182, 146, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(148, 170, 152, 0.2),
     var(--shadow);
 }
 .tone-matcha {
   background: linear-gradient(180deg, #f4fae8 0%, #dcecc4 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(152, 186, 122, 0.18),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(152, 186, 122, 0.26),
     var(--shadow);
 }
 .tone-sky {
   background: linear-gradient(180deg, #f4fafd 0%, #dbeaf7 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(136, 174, 204, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(136, 174, 204, 0.24),
     var(--shadow);
 }
 .tone-butter {
   background: linear-gradient(180deg, #fefbee 0%, #f9edc6 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(206, 178, 108, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 178, 108, 0.24),
     var(--shadow);
 }
 .tone-peach {
   background: linear-gradient(180deg, #fef7f3 0%, #f8e2da 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(206, 158, 142, 0.15),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 158, 142, 0.22),
     var(--shadow);
 }
 .tone-mint {
   background: linear-gradient(180deg, #f1fbf6 0%, #d3ebe0 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(126, 178, 156, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(126, 178, 156, 0.24),
     var(--shadow);
 }
 .tone-lilac {
   background: linear-gradient(180deg, #f8f5fd 0%, #e8e1f6 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(160, 142, 198, 0.15),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(160, 142, 198, 0.22),
     var(--shadow);
 }
 .tone-apricot {
   background: linear-gradient(180deg, #fff8ee 0%, #fbe4cb 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(210, 164, 112, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(210, 164, 112, 0.24),
     var(--shadow);
 }
 .tone-rose {
-  background: linear-gradient(180deg, #fef5f8 0%, #f8dde6 100%);
+  background: linear-gradient(180deg, #fef5f8 0%, #f6d4e0 100%);
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(206, 148, 170, 0.15),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 148, 170, 0.28),
     var(--shadow);
 }
 .tone-night {
@@ -129,7 +130,7 @@
   display: block;
   width: 44px;
   height: 44px;
-  margin: 0 0 0 3px;
+  margin: 0;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -152,6 +153,97 @@
   height: 36px;
 }
 
+/* 通用石子径：详情切项 / 上一个·下一个；可用 CSS 变量或 .is-sm 覆写尺寸 */
+.trail-nav,
+.pebble-trail {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--trail-gap);
+  margin-top: var(--gap-card);
+  box-sizing: border-box;
+}
+/* 切题钮贴底固定，不与行内提示抢文档流 */
+.trail-nav.is-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(128px + env(safe-area-inset-bottom));
+  z-index: 12;
+  margin-top: 0;
+  padding: 0 var(--page-pad-x);
+  pointer-events: none;
+}
+.trail-nav.is-dock .trail-nav__item {
+  pointer-events: auto;
+}
+.detail-stack.is-docked,
+.section.is-docked {
+  padding-bottom: calc(264px + env(safe-area-inset-bottom));
+}
+.trail-nav__item,
+.pebble {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--trail-size);
+  height: var(--trail-size);
+  /* 单字默认正圆 */
+  border-radius: 999px;
+  border: 0;
+  background: var(--trail-face);
+  box-shadow: var(--shadow-trail);
+  font-size: var(--trail-font);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+/* 墨水区相对字盒偏下：只上移字形，不挪动石子圆面 */
+.trail-nav__glyph {
+  display: block;
+  line-height: 1;
+  transform: translateY(-0.08em);
+}
+.trail-nav__item.is-wide .trail-nav__glyph {
+  transform: none;
+}
+/* 多字（上一个 / 下一个等）：绿色全圆角钮，对齐 chip */
+.trail-nav__item.is-wide,
+.pebble.is-wide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-width: 228px;
+  height: 112px;
+  padding: 0 52px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-body);
+  letter-spacing: var(--letter-btn);
+  color: #ffffff;
+  background: var(--btn-green);
+  box-shadow: var(--shadow-chip);
+}
+.trail-nav__item.is-current,
+.pebble.is-current {
+  box-shadow: var(--shadow-trail-current);
+}
+.trail-nav__item.is-disabled,
+.pebble.is-disabled {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
+}
+.trail-nav.is-sm,
+.pebble-trail.is-sm {
+  --trail-gap: 16px;
+  --trail-size: 76px;
+  --trail-font: 40px;
+}
+
 .chip, .big-btn {
   display: flex;
   flex-direction: row;
@@ -162,7 +254,7 @@
   font-weight: 700;
   letter-spacing: var(--letter-btn);
   color: white;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
@@ -175,9 +267,8 @@
   min-width: 168px;
   width: auto;
   height: 88px;
-  padding: 0 var(--gap-row);
   font-size: var(--font-hint);
-  border-radius: 44px;
+  border-radius: var(--radius-pill);
   white-space: nowrap;
 }
 .chip.is-owned {
@@ -185,8 +276,8 @@
   background: rgba(255, 253, 247, 0.88);
   color: var(--muted);
   box-shadow:
-    inset 0 3px 6px rgba(255, 255, 255, 0.9),
-    inset 0 -4px 8px rgba(198, 182, 146, 0.14);
+    var(--shadow-clay-hi),
+    inset -4px -5px 10px rgba(198, 182, 146, 0.16);
 }
 .chip.is-short {
   opacity: var(--opacity-disabled);
@@ -204,8 +295,8 @@
 }
 .sticker-card.block.is-owned {
   box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(198, 182, 146, 0.16),
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(198, 182, 146, 0.2),
     var(--shadow-owned);
 }
 .big-btn {
@@ -239,6 +330,7 @@
   gap: var(--gap-row);
   min-height: var(--media-row-height);
   padding: var(--pad-card);
+  border-radius: var(--radius-card);
 }
 .media-main {
   display: flex;
@@ -251,14 +343,14 @@
 .media-main > img {
   width: var(--media-thumb-height);
   height: var(--media-thumb-height);
-  object-fit: contain;
+  object-fit: cover;
   flex-shrink: 0;
-  border-radius: 28px;
+  overflow: hidden;
+  border-radius: var(--radius-thumb);
 }
 .media-main > img.media-main__image--wide {
   width: calc(var(--media-thumb-height) * 4 / 3);
   height: var(--media-thumb-height);
-  border-radius: 24px;
 }
 
 .media-main__body strong { font-size: var(--font-card); }
@@ -292,6 +384,8 @@
   min-height: 352px;
   padding: var(--pad-card-sm);
   text-align: center;
+  box-sizing: border-box;
+  border-radius: var(--radius-tile);
 }
 .duo-card img { width: 188px; height: 188px; object-fit: contain; }
 .duo-card strong { font-size: var(--font-card); }
@@ -319,17 +413,13 @@
   gap: var(--gap-block);
   width: 620px;
   min-height: 760px;
-  padding: 56px;
+  padding: var(--pad-card-xl);
   border-radius: var(--radius-card);
-  corner-shape: var(--corner-card);
   box-sizing: border-box;
   overflow: hidden;
   text-align: center;
   background: var(--tone-cream);
-  box-shadow:
-    inset 0 5px 10px rgba(255, 255, 255, 0.95),
-    inset 0 -12px 20px rgba(198, 182, 146, 0.16),
-    var(--shadow);
+  box-shadow: var(--shadow-clay);
 }
 .praise-sun__card.is-soft-fail {
   background: var(--tone-soft-fail);
@@ -404,16 +494,16 @@
   right: 16px;
   width: 140px;
   height: auto;
-  opacity: 0.86;
+  opacity: var(--opacity-soft);
   pointer-events: none;
 }
 .praise-sun__grass {
   position: absolute;
   z-index: 0;
-  bottom: -5px;
+  bottom: -6px;
   left: 16px;
   width: 124px;
   height: auto;
-  opacity: 0.86;
+  opacity: var(--opacity-soft);
   pointer-events: none;
 }

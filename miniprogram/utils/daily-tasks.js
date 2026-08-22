@@ -1,5 +1,5 @@
 const STORAGE_KEY = 'daily_tasks'
-const SCHEMA = 5
+const SCHEMA = 6
 
 /**
  * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
@@ -19,7 +19,7 @@ const TEMPLATES = [
     id: 'hanzi',
     min: 1,
     max: 5,
-    url: '/subpkg/hanzi/hub/hub',
+    url: '/subpkg/hanzi/list/list',
     titleOf: (n) => `认 ${n} 个汉字`,
     rewardOf: (n) => n,
   },
@@ -35,8 +35,8 @@ const TEMPLATES = [
     id: 'english',
     min: 1,
     max: 5,
-    url: '/subpkg/english/list/list',
-    titleOf: (n) => `学 ${n} 个单词`,
+    url: '/subpkg/english/hub/hub',
+    titleOf: (n) => `学 ${n} 个英语`,
     rewardOf: (n) => n,
   },
   {

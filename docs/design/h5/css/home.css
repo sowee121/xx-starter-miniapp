@@ -49,6 +49,7 @@
   color: inherit;
   text-decoration: none;
   flex-shrink: 0;
+  border-radius: var(--radius-card);
 }
 .welcome-avatar {
   width: 112px;
@@ -75,7 +76,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-card);
+  justify-content: space-between;
   height: 196px;
   padding: 0 var(--pad-card) 0 0;
   flex-shrink: 0;
@@ -114,17 +115,14 @@
   justify-content: center;
   width: 56px;
   height: 56px;
-  border-radius: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
   background: rgba(154, 182, 138, 0.22);
-  box-shadow:
-    inset 0 5px 9px rgba(104, 136, 102, 0.26),
-    inset 0 -4px 8px rgba(255, 255, 255, 0.75);
+  box-shadow: var(--shadow-socket);
 }
 .socket-on {
   background: rgba(255, 255, 255, 0.55);
-  box-shadow:
-    inset 0 4px 8px rgba(104, 136, 102, 0.16),
-    inset 0 -4px 8px rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-socket-on);
 }
 .socket-star {
   width: 56px;
@@ -154,6 +152,7 @@
   height: 256px;
   padding: var(--pad-card-sm);
   box-sizing: border-box;
+  border-radius: var(--radius-card);
 }
 .module-mascot {
   width: 168px;
@@ -169,15 +168,6 @@
   color: var(--ink);
 }
 
-/* —— 积分商城 —— */
-.wide-shop {
-  height: 164px;
-  flex-shrink: 0;
-}
-.wide-mascot-sm {
-  width: 140px;
-  height: 140px;
-}
 /* 通栏右侧 Chip 与 8 字副文同一行：收窄宽度，避免「用星星兑换动物贴纸」折行 */
 .wide-shop .chip {
   width: 176px;

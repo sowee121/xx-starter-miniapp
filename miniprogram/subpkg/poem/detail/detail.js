@@ -4,6 +4,15 @@ const audioUtil = require('../../../utils/audio')
 const { poemIcon } = require('../../../content/mascots')
 const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
+const { stepNavState } = require('../../../utils/trail-nav')
+
+function mapPoem(raw) {
+  if (!raw) return null
+  return {
+    ...raw,
+    icon: raw.icon || poemIcon(raw.id, raw.cover),
+  }
+}
 
 Page({
   data: {
@@ -13,26 +22,43 @@ Page({
     poemAuthor: '',
     activeIndex: -1,
     softNote: '',
+    nav: stepNavState(0, 0),
     feedback: { show: false, closing: false },
   },
 
   onLoad(query) {
-    const raw = poems.find((p) => p.id === query.id) || poems[0] || null
-    if (!raw) return
-    const poem = {
-      ...raw,
-      icon: raw.icon || poemIcon(raw.id, raw.cover),
-    }
-    this._visitStarAwarded = false
-    this.setData({
-      poem,
-      poemTitle: poem.title || '古诗',
-      poemAuthor: poem.author || '',
-    })
+    const index = Math.max(0, poems.findIndex((p) => p.id === query.id))
+    this.applyPoem(index >= 0 ? index : 0)
   },
 
   onShow() {
     this.setData({ stars: starsUtil.getLocalStars() })
+  },
+
+  applyPoem(index) {
+    const raw = poems[index]
+    if (!raw) return
+    const poem = mapPoem(raw)
+    this._visitStarAwarded = false
+    audioUtil.stop()
+    this.setData({
+      poem,
+      poemTitle: poem.title || '古诗',
+      poemAuthor: poem.author || '',
+      activeIndex: -1,
+      softNote: '',
+      nav: stepNavState(index, poems.length),
+    })
+  },
+
+  goPrev() {
+    if (!this.data.nav.hasPrev) return
+    this.applyPoem(this.data.nav.index - 1)
+  },
+
+  goNext() {
+    if (!this.data.nav.hasNext) return
+    this.applyPoem(this.data.nav.index + 1)
   },
 
   onLineTap(e) {

@@ -64,7 +64,6 @@ Page({
       { value: 0.5, label: '柔和' },
       { value: 1, label: '正常' },
     ],
-    playIcon: mascots.ICONS.play,
     actions: actionList(),
     volumeThumbStyle: thumbStyleOf(2),
   },

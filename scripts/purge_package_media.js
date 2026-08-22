@@ -14,6 +14,8 @@ const KEEP = new Set([
   'static/icons/home.png',
   'static/home/star.png',
   'static/shared/meadow.png',
+  'static/shared/cloud.png',
+  'static/shared/grass-tuft.png',
 ])
 const EXTS = new Set([
   '.jpg', '.jpeg', '.png', '.svg', '.png', '.gif',

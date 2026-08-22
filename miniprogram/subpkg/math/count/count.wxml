@@ -1,5 +1,5 @@
 <app-shell title="数一数" stars="{{stars}}">
-  <view wx:if="{{question}}" class="detail-stack">
+  <view wx:if="{{question}}" class="detail-stack is-docked">
     <view class="quiz-head block tone-cream">
       <view class="count-stage count-stage--{{count}} count-stage--cols-{{cols}}">
         <image
@@ -23,6 +23,13 @@
       >{{item}}</view>
     </view>
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+    <view class="trail-nav is-dock" aria-label="切题">
+      <view
+        class="trail-nav__item is-wide {{nav.hasPrev ? '' : 'is-disabled'}}"
+        bindtap="goPrev"
+      ><text class="trail-nav__glyph">上一个</text></view>
+      <view class="trail-nav__item is-wide" bindtap="goNext"><text class="trail-nav__glyph">下一个</text></view>
+    </view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

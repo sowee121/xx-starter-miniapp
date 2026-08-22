@@ -3,8 +3,16 @@
   "fruitPool": [
     "apple-english",
     "banana-english",
+    "cherry-english",
+    "grape-english",
+    "kiwi-english",
+    "lemon-english",
+    "mango-english",
     "orange-english",
-    "grape-english"
+    "peach-english",
+    "pear-english",
+    "strawberry-english",
+    "watermelon-english"
   ],
   "count": [
     { "id": "c1", "answer": 1, "prompt": "数一数，有几个？", "choices": [1, 2, 3] },
@@ -28,7 +36,13 @@
     { "id": "s1", "a": 2, "op": "−", "b": 1, "answer": 1, "choices": [1, 2, 3] },
     { "id": "s2", "a": 3, "op": "−", "b": 1, "answer": 2, "choices": [1, 2, 3] },
     { "id": "s3", "a": 4, "op": "−", "b": 2, "answer": 2, "choices": [1, 2, 3] },
-    { "id": "s4", "a": 5, "op": "−", "b": 2, "answer": 3, "choices": [2, 3, 4] }
+    { "id": "s4", "a": 5, "op": "−", "b": 2, "answer": 3, "choices": [2, 3, 4] },
+    { "id": "a7", "a": 4, "op": "+", "b": 4, "answer": 8, "choices": [7, 8, 9] },
+    { "id": "a8", "a": 5, "op": "+", "b": 5, "answer": 10, "choices": [8, 9, 10] },
+    { "id": "a9", "a": 6, "op": "+", "b": 3, "answer": 9, "choices": [8, 9, 10] },
+    { "id": "s5", "a": 7, "op": "−", "b": 2, "answer": 5, "choices": [4, 5, 6] },
+    { "id": "s6", "a": 10, "op": "−", "b": 4, "answer": 6, "choices": [5, 6, 7] },
+    { "id": "s7", "a": 9, "op": "−", "b": 3, "answer": 6, "choices": [5, 6, 7] }
   ],
   "h5Samples": {
     "count": "c3",

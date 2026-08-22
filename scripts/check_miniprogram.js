@@ -393,6 +393,49 @@ function checkMainPackageContentOwnership() {
       queue.push(relPath)
     }
   }
+  // 分包可 require 主包模块；把这类主包 JS 也标为已使用
+  walk(path.join(MP, 'subpkg'), ['.js']).forEach((file) => {
+    const abs = file
+    const text = fs.readFileSync(abs, 'utf8')
+    let m
+    reqRe.lastIndex = 0
+    while ((m = reqRe.exec(text))) {
+      const spec = m[1]
+      if (!spec.startsWith('.')) continue
+      let target = path.resolve(path.dirname(abs), spec)
+      if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
+        target = path.join(target, 'index.js')
+      }
+      if (!path.extname(target)) target = `${target}.js`
+      if (!fs.existsSync(target)) continue
+      const relPath = path.relative(MP, target).split(path.sep).join('/')
+      if (relPath.startsWith('subpkg/') || visited.has(relPath)) continue
+      queue.push(relPath)
+    }
+  })
+  while (queue.length) {
+    const cur = queue.pop()
+    if (visited.has(cur)) continue
+    visited.add(cur)
+    const abs = path.join(MP, cur)
+    if (!fs.existsSync(abs)) continue
+    const text = fs.readFileSync(abs, 'utf8')
+    let m
+    reqRe.lastIndex = 0
+    while ((m = reqRe.exec(text))) {
+      const spec = m[1]
+      if (!spec.startsWith('.')) continue
+      let target = path.resolve(path.dirname(abs), spec)
+      if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
+        target = path.join(target, 'index.js')
+      }
+      if (!path.extname(target)) target = `${target}.js`
+      if (!fs.existsSync(target)) continue
+      const relPath = path.relative(MP, target).split(path.sep).join('/')
+      if (relPath.startsWith('subpkg/') || visited.has(relPath)) continue
+      queue.push(relPath)
+    }
+  }
   for (const file of [...mainJs].sort()) {
     if (!visited.has(file)) {
       errors.push(`${file}: 主包未使用的 JS，请移入分包或并入主包可达模块（开发者工具代码质量）`)
@@ -485,6 +528,64 @@ function checkH5FlexGapSync() {
   }
 }
 
+/** 微信单包上限 2MB；预留下余量，避免临近上限时素材一加就炸 */
+const PACKAGE_SOFT_LIMIT = 1.85 * 1024 * 1024
+const PACKAGE_HARD_LIMIT = 2 * 1024 * 1024
+
+function dirBytes(dir) {
+  let total = 0
+  if (!fs.existsSync(dir)) return 0
+  function walkAll(d) {
+    for (const name of fs.readdirSync(d)) {
+      if (name === 'node_modules' || name.startsWith('.')) continue
+      const full = path.join(d, name)
+      const st = fs.statSync(full)
+      if (st.isDirectory()) walkAll(full)
+      else total += st.size
+    }
+  }
+  walkAll(dir)
+  return total
+}
+
+function mainPackageBytes() {
+  let total = 0
+  for (const name of fs.readdirSync(MP)) {
+    if (name === 'subpkg' || name.startsWith('.')) continue
+    const full = path.join(MP, name)
+    const st = fs.statSync(full)
+    if (st.isDirectory()) total += dirBytes(full)
+    else total += st.size
+  }
+  return total
+}
+
+function checkPackageSizeBudgets() {
+  const app = readJson(path.join(MP, 'app.json'))
+  if (!app || !Array.isArray(app.subPackages)) {
+    errors.push('app.json 缺少 subPackages')
+    return
+  }
+  const packages = [
+    { name: 'main', bytes: mainPackageBytes() },
+    ...app.subPackages.map((pkg) => ({
+      name: pkg.name || pkg.root,
+      bytes: dirBytes(path.join(MP, pkg.root)),
+    })),
+  ]
+  for (const pkg of packages) {
+    const mb = (pkg.bytes / 1024 / 1024).toFixed(2)
+    if (pkg.bytes > PACKAGE_HARD_LIMIT) {
+      errors.push(`${pkg.name}: 体积 ${mb}MB 超过微信 2MB 硬上限`)
+    } else if (pkg.bytes > PACKAGE_SOFT_LIMIT) {
+      warnings.push(`${pkg.name}: 体积 ${mb}MB 超过 1.85MB 软上限，请继续压缩或再拆包`)
+    }
+  }
+  if (fs.existsSync(path.join(MP, 'subpkg/common'))) {
+    errors.push('subpkg/common 已废弃：praise-sun / media-card 应在主包 components/')
+  }
+}
+
 function main() {
   const jsons = walk(MP, ['.json']).filter((f) => {
     const name = path.basename(f)
@@ -521,6 +622,7 @@ function main() {
   checkAsciiAssetNames()
   checkAudioRefs()
   checkH5FlexGapSync()
+  checkPackageSizeBudgets()
 
   if (warnings.length) {
     console.log(`\n⚠ ${warnings.length} 警告：`)

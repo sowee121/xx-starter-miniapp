@@ -6,8 +6,32 @@ const TONE_MAP = {
   fruit: 'rose',
   animal: 'butter',
   color: 'sky',
+  number: 'apricot',
   body: 'matcha',
   transport: 'peach',
+  food: 'cream',
+  nature: 'lilac',
+}
+
+/** 媒体分包：body/transport→english-extra；number/food/nature→english-more */
+const MEDIA_PKG = {
+  body: 'english-extra',
+  transport: 'english-extra',
+  number: 'english-more',
+  food: 'english-more',
+  nature: 'english-more',
+}
+
+function imageUrl(catId, image) {
+  const pkg = MEDIA_PKG[catId] || 'english'
+  return mediaUrl(`/subpkg/${pkg}/static/${image}.png`)
+}
+
+function loadMediaPackages() {
+  if (typeof wx.loadSubpackage !== 'function') return
+  ;['english-extra', 'english-more'].forEach((name) => {
+    wx.loadSubpackage({ name }).catch(() => {})
+  })
 }
 
 Page({
@@ -17,13 +41,14 @@ Page({
   },
 
   onLoad() {
+    loadMediaPackages()
     this.setData({
       categories: categories.map((c) => ({
         ...c,
         tone: TONE_MAP[c.id] || 'cream',
         items: c.items.map((x) => ({
           ...x,
-          image: mediaUrl(`/subpkg/english/static/${x.image}.png`),
+          image: imageUrl(c.id, x.image),
         })),
       })),
     })
@@ -34,8 +59,9 @@ Page({
   },
 
   open(e) {
+    const { word, cat } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/subpkg/english/detail/detail?word=${e.currentTarget.dataset.word}`,
+      url: `/subpkg/english/detail/detail?word=${word}&cat=${cat || ''}`,
     })
   },
 })

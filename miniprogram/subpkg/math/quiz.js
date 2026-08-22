@@ -58,7 +58,7 @@ function randomCountQuestion(fruitPool, avoidAnswer) {
 }
 
 /**
- * 随机加减（结果落在 1～5，适合低幼）。
+ * 随机加减（结果落在 1～10）。
  * preferOp: '+' | '−' | null（各半）
  */
 function randomCalcQuestion(preferOp, avoidKey) {
@@ -70,11 +70,11 @@ function randomCalcQuestion(preferOp, avoidKey) {
   let tries = 0
   do {
     if (op === '+') {
-      a = randInt(1, 4)
-      b = randInt(1, 5 - a)
+      a = randInt(1, 9)
+      b = randInt(1, 10 - a)
       answer = a + b
     } else {
-      a = randInt(2, 5)
+      a = randInt(2, 10)
       b = randInt(1, a - 1)
       answer = a - b
     }
@@ -88,7 +88,7 @@ function randomCalcQuestion(preferOp, avoidKey) {
     op,
     b,
     answer,
-    choices: nearbyChoices(answer, 1, 5),
+    choices: nearbyChoices(answer, 1, 10),
   }
 }
 

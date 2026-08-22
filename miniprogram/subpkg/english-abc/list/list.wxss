@@ -1,0 +1,6 @@
+/* 拼音字卡：黏土字母图为主，尺寸对齐 H5 .word-card__image */
+.word-card__image {
+  width: 100rpx;
+  height: 100rpx;
+  flex-shrink: 0;
+}

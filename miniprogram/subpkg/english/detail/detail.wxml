@@ -1,5 +1,5 @@
 <app-shell title="英语" stars="{{stars}}">
-  <view wx:if="{{item}}" class="detail-stack">
+  <view wx:if="{{item}}" class="detail-stack {{nav.total > 1 ? 'is-docked' : ''}}">
     <view class="detail-big block tone-rose" data-kind="word" bindtap="play">
       <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="detail-big__title">{{item.word}}</view>
@@ -15,6 +15,16 @@
       <play-button size="sm" compact="{{true}}" data-kind="sentence" bind:tap="play" />
     </view>
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+    <view wx:if="{{nav.total > 1}}" class="trail-nav is-dock" aria-label="切题">
+      <view
+        class="trail-nav__item is-wide {{nav.hasPrev ? '' : 'is-disabled'}}"
+        bindtap="goPrev"
+      ><text class="trail-nav__glyph">上一个</text></view>
+      <view
+        class="trail-nav__item is-wide {{nav.hasNext ? '' : 'is-disabled'}}"
+        bindtap="goNext"
+      ><text class="trail-nav__glyph">下一个</text></view>
+    </view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

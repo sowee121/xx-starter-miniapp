@@ -1,6 +1,6 @@
-<view class="home-feature-card tone-{{tone}} {{type === 'reward' ? 'is-reward' : ''}}" bindtap="onTap">
+<view class="home-feature-card tone-{{tone}}" bindtap="onTap">
   <image
-    class="home-feature-card__mascot {{type === 'reward' ? 'is-sm' : ''}}"
+    class="home-feature-card__mascot"
     src="{{image}}"
     mode="aspectFit"
   />

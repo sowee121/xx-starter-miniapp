@@ -40,6 +40,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force
 python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only poems
 python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only hanzi,english
 python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet
 ```
 
 脚本结束会打印各模块音频体积与预算对比。
@@ -49,9 +50,10 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 | 模块 | 内容文件 | 音频输出 | 运行时前缀 |
 |------|---------|----------|-----------|
 | `poems` | `miniprogram/subpkg/poem/content/poems.js` | `miniprogram/subpkg/poem/static/audio/` | `/subpkg/poem/static/audio` |
-| `hanzi` | `miniprogram/subpkg/hanzi/content/hanzi.js`（`poem` + `life` 两库） | 同分包 `static/audio/` | `/subpkg/hanzi/static/audio` |
+| `hanzi` | `miniprogram/subpkg/hanzi/content/hanzi.js`（`categories[].items`） | 同分包 `static/audio/` | `/subpkg/hanzi/static/audio` |
 | `english` | `miniprogram/subpkg/english/content/english.js`（`categories[].items`） | 同分包 `static/audio/` | `/subpkg/english/static/audio` |
 | `pinyin` | `miniprogram/subpkg/pinyin/content/pinyin.js`（`vowels`） | 同分包 `static/audio/` | `/subpkg/pinyin/static/audio` |
+| `alphabet` | `miniprogram/subpkg/english-abc/content/alphabet.js`（`letters`） | `miniprogram/subpkg/english-abc/static/audio/` | `/subpkg/english-abc/static/audio` |
 
 脚本会把生成的运行时路径**写回内容文件**，页面直接读字段播放，无需拼路径。
 
@@ -81,20 +83,23 @@ module.exports = {
 
 产出：`{id}-line-{n}.mp3`、`{id}-full.mp3`
 
-### hanzi.js（单分包两库）
+### hanzi.js（categories 八类）
 
 ```javascript
 module.exports = {
-  "poem": [
-    { "char": "鹅", "words": ["白鹅", "大鹅"] }
-  ],
-  "life": [
-    { "char": "人", "words": ["大人", "小人"] }
+  "categories": [
+    {
+      "id": "number",
+      "title": "数字",
+      "items": [
+        { "char": "一", "pinyin": "yi", "words": ["一个", "一起"] }
+      ]
+    }
   ]
 }
 ```
 
-产出：`{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3`，如 `ru-5165.mp3`、`ru-5165-word-1.mp3`。
+产出：`{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3`，如 `yi-4e00.mp3`、`yi-4e00-word-1.mp3`。
 
 **文件名一律 ASCII**：小程序按字面量查代码包内路径，中文文件名一经百分号编码就 `readFile:fail`（开发者工具有时能放过，真机必炸）。拼音会重码（爸/八 都是 `ba`），所以补上汉字 Unicode 码点保证唯一。`words[]` 与 `wordAudios[]` 同序，序号从 1 开始。
 
@@ -140,6 +145,18 @@ module.exports = {
 | ü | 迂 | `umlaut-u.mp3` |
 
 改映射或纠音后必须 `--force --only pinyin` 重生成，并真机抽听。
+
+### alphabet.js
+
+```javascript
+module.exports = {
+  "letters": [
+    { "letter": "A", "phonetic": "/eɪ/", "image": "english-letter-a" }
+  ]
+}
+```
+
+产出：`{letter}.mp3`（小写文件名，如 `a.mp3`）。合成英文字母名（`en-US-AnaNeural`）；W 文案 `double u`，Z 文案 `zed`（见脚本 `ALPHABET_SPEAK`）。
 
 ## 体积红线
 

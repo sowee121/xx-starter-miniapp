@@ -56,7 +56,6 @@
   padding: var(--pad-card);
   overflow: hidden;
   border-radius: var(--radius-card);
-  corner-shape: var(--corner-card);
   box-sizing: border-box;
   flex-shrink: 0;
 }

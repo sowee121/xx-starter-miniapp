@@ -1,9 +1,6 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "praise-sun": "/subpkg/common/components/praise-sun/praise-sun"
-  },
-  "componentPlaceholder": {
-    "praise-sun": "view"
+    "praise-sun": "/components/praise-sun/praise-sun"
   }
 }

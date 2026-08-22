@@ -241,7 +241,7 @@ async function testProgressAndTasks() {
   assert.equal(records('progress').length, 1)
   assert.equal(records('progress')[0].done, true)
 
-  await completeProgress({ module: 'hanzi', itemId: '入' })
+  await completeProgress({ module: 'hanzi', itemId: '一' })
   const getProgress = fn('getProgress')
   const all = await getProgress({})
   assert.equal(all.ok, true)

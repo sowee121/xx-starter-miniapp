@@ -3,7 +3,7 @@
     <view
       wx:for="{{items}}"
       wx:key="id"
-      class="word-card block tone-lilac"
+      class="word-card block tone-cream"
       data-id="{{item.id}}"
       bindtap="open"
     >

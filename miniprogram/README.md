@@ -16,10 +16,14 @@
 | 云环境 ID | `config/cloud.js` → `CLOUD_ENV` |
 | 设计 token | `styles/tokens.wxss`（与 H5 `docs/design/h5/css/tokens.css` 对齐） |
 | 每日任务 | `utils/daily-tasks.js`（`SCHEMA`、数量每天随机、日历打卡） |
+| 英语入口 | `subpkg/english/hub/hub`（字母表 / 单词） |
+| 字母表 | `subpkg/english-abc/list/list` |
 | 点读 | `utils/audio.js` |
 | 主点读发星 | `utils/read-award.js` |
 | 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（合成文案：啊喔鹅衣乌迂） |
-| 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`subpkg/common/components/praise-sun` |
+| 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet`（字母名；Z=`zed`） |
+| 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/praise-sun`（主包） |
+| 列表媒体卡 | `components/media-card`（主包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |
 | 家长区 | `pages/parent/`（音量 + 长按清除） |
 

@@ -2,9 +2,7 @@
   <view class="parent-stack">
     <view class="setting-block block tone-sky">
       <view class="setting-head">
-        <view class="sound-button">
-          <image class="sound-button__icon" src="{{playIcon}}" mode="aspectFit" />
-        </view>
+        <play-button size="lg" passive="{{true}}" />
         <view class="setting-head__body">
           <view class="setting-head__title">音量大小</view>
           <view class="setting-head__hint">调节点读和答题音量大小</view>

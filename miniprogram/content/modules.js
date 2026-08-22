@@ -14,7 +14,7 @@ const MODULES = {
     title: '识字',
     icon: MODULE_ICONS.hanzi,
     tint: tintOf('hanzi'),
-    url: '/subpkg/hanzi/hub/hub',
+    url: '/subpkg/hanzi/list/list',
   },
   math: {
     id: 'math',
@@ -28,7 +28,7 @@ const MODULES = {
     title: '英语',
     icon: MODULE_ICONS.english,
     tint: tintOf('english'),
-    url: '/subpkg/english/list/list',
+    url: '/subpkg/english/hub/hub',
   },
   pinyin: {
     id: 'pinyin',
@@ -63,11 +63,11 @@ const MODULES = {
   },
 }
 
-/** 首页六宫格学习入口（不含通栏任务/商城） */
-const HOME_MODULE_ENTRIES = ['poem', 'hanzi', 'math', 'english', 'pinyin', 'calendar']
+/** 首页六宫格：语（识字/拼音/古诗/英语）→ 算术 → 日常 */
+const HOME_MODULE_ENTRIES = ['hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar']
 
 /** 兼容旧调用：首页全部八入口顺序 */
-const HOME_ENTRIES = ['task', 'poem', 'hanzi', 'math', 'english', 'pinyin', 'calendar', 'reward']
+const HOME_ENTRIES = ['task', 'hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar', 'reward']
 
 const NAV_ORDER = HOME_ENTRIES.slice()
 

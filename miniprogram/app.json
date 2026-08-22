@@ -16,7 +16,7 @@
     {
       "root": "subpkg/hanzi",
       "name": "hanzi",
-      "pages": ["hub/hub", "list/list", "detail/detail"]
+      "pages": ["list/list", "detail/detail"]
     },
     {
       "root": "subpkg/math",
@@ -26,6 +26,25 @@
     {
       "root": "subpkg/english",
       "name": "english",
+      "pages": [
+        "hub/hub",
+        "list/list",
+        "detail/detail"
+      ]
+    },
+    {
+      "root": "subpkg/english-extra",
+      "name": "english-extra",
+      "pages": ["bridge/bridge"]
+    },
+    {
+      "root": "subpkg/english-more",
+      "name": "english-more",
+      "pages": ["bridge/bridge"]
+    },
+    {
+      "root": "subpkg/english-abc",
+      "name": "english-abc",
       "pages": ["list/list", "detail/detail"]
     },
     {
@@ -37,19 +56,8 @@
       "root": "subpkg/life",
       "name": "life",
       "pages": ["calendar/index", "task/list", "reward/shop"]
-    },
-    {
-      "root": "subpkg/common",
-      "name": "common",
-      "pages": ["bridge/bridge"]
     }
   ],
-  "preloadRule": {
-    "pages/home/home": {
-      "network": "wifi",
-      "packages": ["common", "hanzi"]
-    }
-  },
   "window": {
     "navigationStyle": "custom",
     "navigationBarTitleText": "嘻嘻启蒙乐园",

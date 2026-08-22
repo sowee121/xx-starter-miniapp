@@ -1,20 +1,29 @@
-const { poem, life } = require('../content/hanzi')
+const { categories } = require('../content/hanzi')
 const stars = require('../../../utils/stars')
+
+const TONE_MAP = {
+  number: 'peach',
+  color: 'cream',
+  animal: 'butter',
+  family: 'rose',
+  body: 'matcha',
+  nature: 'lilac',
+  place: 'sky',
+  transport: 'peach',
+}
 
 Page({
   data: {
     stars: 0,
-    title: '古诗里的字',
-    tone: 'sky',
-    items: [],
+    categories: [],
   },
 
-  onLoad(q) {
-    const lib = q.lib === 'life' ? 'life' : 'poem'
+  onLoad() {
     this.setData({
-      title: lib === 'life' ? '生活里的字' : '古诗里的字',
-      tone: lib === 'life' ? 'peach' : 'sky',
-      items: lib === 'life' ? life : poem,
+      categories: categories.map((c) => ({
+        ...c,
+        tone: TONE_MAP[c.id] || 'cream',
+      })),
     })
   },
 
@@ -23,8 +32,9 @@ Page({
   },
 
   open(e) {
+    const { char, cat } = e.currentTarget.dataset
     wx.navigateTo({
-      url: `/subpkg/hanzi/detail/detail?char=${encodeURIComponent(e.currentTarget.dataset.char)}`,
+      url: `/subpkg/hanzi/detail/detail?char=${encodeURIComponent(char)}&cat=${cat}`,
     })
   },
 })

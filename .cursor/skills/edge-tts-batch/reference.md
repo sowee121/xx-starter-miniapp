@@ -9,11 +9,14 @@ miniprogram/
     │   ├── content/poems.js
     │   └── static/audio/               # yong-e-line-1.mp3 ...
     ├── hanzi/
-    │   ├── content/hanzi.js            # poem[] + life[]
+    │   ├── content/hanzi.js            # categories[].items
     │   └── static/audio/               # e-9e45.mp3, e-9e45-word-1.mp3 ...
     ├── english/
     │   ├── content/english.js
     │   └── static/audio/
+    ├── english-abc/
+    │   ├── content/alphabet.js
+    │   └── static/audio/               # 字母名 a.mp3 … z.mp3
     └── pinyin/
         ├── content/pinyin.js           # vowels[]
         └── static/audio/
@@ -48,6 +51,7 @@ module.exports = {
 | 英语单词 | `audio` |
 | 英语短句 | `sentenceAudio` |
 | 拼音韵母 | `vowels[n].audio` |
+| 英文字母名 | `letters[n].audio` |
 
 写入值是**小程序运行时绝对路径**，如 `/subpkg/poem/static/audio/yong-e-line-1.mp3`，页面直接用。
 
@@ -59,6 +63,7 @@ module.exports = {
 | 汉字 | `{pinyin}-{码点}.mp3`、`{pinyin}-{码点}-word-{n}.mp3` |
 | 英语 | `{word}.mp3`、`{word}-sentence.mp3` |
 | 拼音 | `{letter}.mp3`（`ü` → `umlaut-u.mp3`；合成文案为啊/喔/鹅/衣/乌/迂，避免拉丁字母被念成英文） |
+| 字母表 | `{letter}.mp3`（小写 `a.mp3`…`z.mp3`；W=`double u`，Z=`zed`） |
 
 小程序按字面量查代码包内路径，中文文件名一旦被百分号编码就永远 `readFile:fail`。汉字用「拼音 + Unicode 码点」是因为拼音会重码（爸/八 都是 `ba`），码点保证唯一且与字一一对应。`generate_audio.py` 的 `gen()` 会在非 ASCII 名字上直接退出，`npm test` 也会扫代码包文件名兜底。
 

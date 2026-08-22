@@ -1,9 +1,10 @@
-# 嘻嘻启蒙乐园 · 内容与视觉定稿（2026-08-21）
+# 嘻嘻启蒙乐园 · 内容与视觉定稿（2026-08-22）
 
 > 本文件与 [PLAN.md](./PLAN.md)、`docs/design/content/*.json`、`docs/design/h5/` 审查稿一致。  
 > **已用户确认可作开发基准**；后续改内容先改本文件与 JSON，再重生成 H5。
 > 工程实现以 `miniprogram/` 为准；样式须与 H5 **同批双向同步**（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`）。
 > 2026-08-21 增量：拼音点读 TTS 合成文案锁定为「啊喔鹅衣乌迂」（见 §2.5）。
+> 2026-08-22 增量：英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 §2.4）。
 
 ---
 
@@ -31,26 +32,48 @@
 
 ### 2.2 识字
 
-| 库 | 数量 | 排序 | 展示 |
+| 类 | 数量 | 排序 | 展示 |
 | --- | --- | --- | --- |
-| 古诗库 | 21 | 笔画升序，同笔画按拼音 | 积木字卡 |
-| 生活库 | 30 | **一～十数值序在前**；其后：人→大小→口手心目耳→妈爸→上下门→山木火云石田→车；**无「鱼」** | 积木字卡 |
+| 数字 / 颜色 / 动物 / 家人 / 身体 / 自然 / 方位 / 出行 | 各 12，共 96 | 分类按好认先学；类内按关联性 + 常见连读序（见 `hanzi.json`）；数字为一～十 + 百千 | 列表：上 emoji 下汉字；详情：系统 emoji + 积木大字 |
 
-- 每字 2 个极简组词；详情用**系统 emoji** 表意（约 84px），不强制逐字黏土大图  
-- 分库入口：`hanzi-hub-poem.png`（兔+书）、`hanzi-hub-life.png`（猫+「人」字卡）
+- 去掉「古诗里的字」分库；首页直达分类列表（对齐英语）
+- 每字 2 个极简口语组词；详情用**系统 emoji** 表意，不强制逐字黏土大图
+- 详情上下翻只在同类内
 
 ### 2.3 算术
 
 | 玩法 | 题量 | 配图规则 |
 | --- | --- | --- |
 | 数一数 | 每次随机水果 + 1～10 数量 | 每行列数 = 10 的约数中 ≤ 数量的最大者（**3=2+1，4=2+2，7=5+2，10=5+5**）；选项升序；单图随数量缩放 |
-| 算一算 | 每次随机加减（结果 1～5） | **固定** `dog.png`（狗拿算盘）；**选项升序**；题目数字每次随机 |
+| 算一算 | 每次随机加减（结果 1～10） | **固定** `dog.png`（狗拿算盘）；**选项升序**；题目数字每次随机 |
 
-水果池：`apple-english` / `banana-english` / `orange-english` / `grape-english`
+水果池：英语水果词图全部 12 个（`apple` / `banana` / `cherry` / `grape` / `kiwi` / `lemon` / `mango` / `orange` / `peach` / `pear` / `strawberry` / `watermelon`）
 
-### 2.4 英语（20 词 · 五类各 4）
+### 2.4 英语（字母表 + 96 词 · 八类各 12）
 
-水果 · 动物 · 颜色 · 身体 · 交通；一词一句；词/句双点读；专用黏土词图（可复用既有动物/手等原子）
+首页英语先进枢纽（对齐算术）：**字母表** / **单词**。拼音仍是独立板块（单韵母），不与英文字母表混入口。
+
+#### 2.4.1 字母表（26 大写）
+
+`A`–`Z`；一图一字母；详情仅 **黏土字母图 + 字母名音标 + 播放**，无例词、无句子。
+
+- 点读念 **字母名**（A=/eɪ/，B=/biː/…），不是自然拼读音；音标体例跟词库英式 IPA 对齐（O `/əʊ/`、Z `/zed/`）
+- 词图：纯黏土大写 `english-letter-{a…z}.png`，天空浅蓝陶，透明底；与拼音鼠尾草绿小写区分
+- 详情切题用「上一个 / 下一个」，不做 26 格石子径
+- TTS：`en-US-AnaNeural` 念字母名；Z 合成文案为 `zed`（勿喂中文 TTS）。重生成：`python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet`
+- 字母表页、字母图、字母音频同在分包 `english-abc`（微信不允许跨分包引用图片）；枢纽 A 图放在 `english` 包内
+
+#### 2.4.2 单词（96 词 · 八类各 12）
+
+数字 · 颜色 · 动物 · 身体 · 水果 · 食物 · 自然 · 交通；一词一句；词/句双点读；专用黏土词图（可复用既有动物/手等原子）
+
+- **排序**：分类序与识字同原则（好认先学），固定为上列；类内按英文单词 A–Z 落盘（**数字类例外**：按 one→nine 后接 ten / hundred / thousand）；列表与详情 trail 直接遍历，不再二次排序
+- 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
+- **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-more`
+- **媒体分包**（单包 ≤2MB）：`english`（水果/动物/颜色 + 枢纽 A 图）· `english-extra`（身体/交通）· `english-more`（数字/食物/自然）· `english-abc`（字母表页 + 字母图 + 字母音频）
+- **共享 UI**：`praise-sun` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
+- **草地背景**：主包 `static/shared/meadow.png`；日历夜景 `subpkg/life/static/meadow-night.png`（缩小边长后压缩 PNG，不转 JPEG）
+
 
 ### 2.5 拼音（仅 6 单韵母）
 
@@ -74,7 +97,7 @@
 
 ### 2.6 单次学习奖励
 
-每次完整学习立即奖励 **1 颗星星**：算术答对一题、单字点读播完、单词点读播完、单韵母点读播完、整首古诗全文音频播完。逐句古诗、组词和英语句子点读不单独发星。
+每次完整学习立即奖励 **1 颗星星**：算术答对一题、单字点读播完、单词点读播完、字母名点读播完、单韵母点读播完、整首古诗全文音频播完。逐句古诗、组词、英语句子点读不单独发星。
 
 点读详情（古诗 / 识字 / 英语 / 拼音）**同一次进入该页只发 1 星**，反复点读同一内容不再加星；退出后再进可再发 1 星。算术仍是**每答对一题 +1**，与是否换题、是否停留在同一页无关。
 
@@ -84,7 +107,7 @@
 
 ### 2.7 每日任务（自动流转）
 
-每天固定 6 条（一模块一条），**自由学习，不限定当天必须学哪一首诗、哪个字、哪个单词或哪个拼音**；任意不同内容累计达到数量即可。**点读类任务以主点读音频完整播放完成计**（古诗=全文朗读；识字=单字；英语=单词；拼音=韵母）；逐句/组词/句子点读不计进度。
+每天固定 6 条（一模块一条），**自由学习，不限定当天必须学哪一首诗、哪个字、哪个单词或哪个拼音**；任意不同内容累计达到数量即可。**点读类任务以主点读音频完整播放完成计**（古诗=全文朗读；识字=单字；英语=字母名或单词；拼音=韵母）；逐句/组词/句子点读不计进度。
 
 数量**每天首次打开时随机生成**，写入本地后当日不变：
 
@@ -93,13 +116,13 @@
 | 读 N 首古诗 | 1～2 | 听完整首不同诗（全文音频播完） | N+1 |
 | 认 N 个汉字 | 1～5 | 单字点读播完任意 N 个不同汉字 | N |
 | 做 N 道算术题 | 1～5 | 数一数/算一算累计答对 N 题 | N |
-| 学 N 个单词 | 1～5 | 单词点读播完任意 N 个不同单词 | N |
+| 学 N 个英语 | 1～5 | 字母名或单词点读播完任意 N 个不同条目 | N |
 | 读 N 个拼音 | 1～5 | 韵母点读播完任意 N 个不同韵母 | N |
 | 日历打卡 | 1（固定） | 日历页点击「打卡」，每天一次 | +1 |
 
 任务页样式不变：勾选仅展示状态，点击行跳转学习；不可手动点勾完成。任务奖励用固定 `clientId`：`daily-${date}-${taskId}`，与单次学习加星幂等互不覆盖。
 
-实现：`miniprogram/utils/daily-tasks.js`（当前 `SCHEMA = 5`；变更会清空当日进度并重新抽数）。H5 审查页为固定示例日，非当日随机结果。
+实现：`miniprogram/utils/daily-tasks.js`（当前 `SCHEMA = 6`；变更会清空当日进度并重新抽数）。H5 审查页为固定示例日，非当日随机结果。
 
 ### 2.8 反馈与音效
 
@@ -125,12 +148,23 @@
 
 ## 3. 视觉与素材定稿要点
 
-- H5 审查目录：`docs/design/h5/index.html`（约 **20** 页静态帧；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
+- H5 审查目录：`docs/design/h5/index.html`（约 **21** 页静态帧；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
 - 原子素材：`docs/design/atoms/`（一图一主体、透明底；去背用 `scripts/chroma_to_png.py`）
-- 列表媒体缩略图统一圆角；古诗封面统一为 4:3 横版黏土棚拍（左动物右诗意），禁止浮岛底座与旧图混用
-- 背景：草地贴底 + 天空渐变 + mask 淡出；夜景用独立 `meadow-night` + 夜色 token
-- 设计 token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）；正文字号最小 `--font-nav: 28px/28rpx`；禁用态透明度 `--opacity-disabled: 0.68`
-- 热区：默认 ≥ **152rpx**，紧凑点读钮可用 `--tap-min-compact`（128rpx）
+- **素材纪律**（详见 PLAN §2.1.2、`.cursor/rules/image-asset-generation.mdc`）：
+  - 能 CSS 解决的不生图；定稿原子默认只读；未明确要求禁止调生图工具
+  - 必须生图时先按 **`frontend-design`** skill，再原子→去背→归档→合成
+  - **播放钮**：绿底 `--btn-play` + 鼓边 `--shadow-play` + 奶油小三角 `play.png`；禁止整钮合成图；三角原子按 **alpha 重心**居中画布（▶ 视觉居中），CSS 不再用 margin 硬掰
+- 列表媒体缩略图统一 **`--radius-thumb: 28`**（与卡内插图同档）；古诗封面统一为 4:3 横版黏土棚拍（左动物右诗意），禁止浮岛底座与旧图混用
+- 背景：草地贴底 + 天空渐变 + mask 淡出；夜景用独立 `meadow-night.png` + 夜色 token
+- 设计 token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）
+  - 字号下限 `--font-nav: 28`（亦用于导航）；正文默认 `--font-body: 34`；禁用态 `--opacity-disabled: 0.68`
+  - 答题选中 `--tone-picked` / `--ring-picked`（低饱和蜜黄，非大面积刺眼正黄）
+  - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
+  - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡、多字切题钮）
+- 热区：默认 ≥ **152rpx**，紧凑点读 `--tap-min-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
+- 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast
+- 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）
+- 详情主卡（拼音/英语/识字 `.detail-big`）：卡内 `justify-content: center` + `gap`；主图 / 字母图按 H5；**padding 不动**；页底草地留白保留；古诗 hero 4:3 不动
 
 ---
 
@@ -138,12 +172,13 @@
 
 | 用途 | 路径 |
 | --- | --- |
-| 结构化题库（设计源） | `docs/design/content/{poems,hanzi,math,english,pinyin}.json` |
+| 结构化题库（设计源） | `docs/design/content/{poems,hanzi,math,english,alphabet,pinyin}.json` |
 | H5 生成器 | `scripts/generate_h5_inner_pages.py` |
 | 设计 token | `docs/design/h5/css/tokens.css`、`miniprogram/styles/tokens.wxss` |
 | 小程序古诗 | `miniprogram/subpkg/poem/content/poems.js`（6 首、无 plain） |
-| 小程序识字 | `miniprogram/subpkg/hanzi/content/hanzi.js`（`poem` + `life`） |
-| 小程序英语 / 拼音 | `subpkg/english/content/english.js`、`subpkg/pinyin/content/pinyin.js` |
+| 小程序识字 | `miniprogram/subpkg/hanzi/content/hanzi.js`（`categories` 八类） |
+| 小程序英语 | 枢纽 `subpkg/english/hub/`；单词 `subpkg/english/content/english.js`；字母表 `subpkg/english-abc/`（页 + `content/alphabet.js` + 图/音频） |
+| 小程序拼音 | `subpkg/pinyin/content/pinyin.js` |
 | 点读 TTS 批量 | `.cursor/skills/edge-tts-batch/`（拼音 `PINYIN_SPEAK`：啊喔鹅衣乌迂） |
 | 每日任务 | `miniprogram/utils/daily-tasks.js` |
 | 点读播放 | `miniprogram/utils/audio.js` |

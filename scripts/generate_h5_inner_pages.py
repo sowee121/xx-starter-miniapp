@@ -70,6 +70,18 @@ def play(size=""):
     return f'<div class="{cls}" aria-label="播放"><img src="{ASSET}/play.png" alt="" /></div>'
 
 
+def trail_step_nav(current: int = 2, total: int = 5) -> str:
+    """详情底栏：上一个 / 下一个（石子径 wide 项，无中间序号）。"""
+    prev_dis = " is-disabled" if current <= 1 else ""
+    next_dis = " is-disabled" if current >= total else ""
+    return (
+        f'<nav class="trail-nav" aria-label="切题">'
+        f'<span class="trail-nav__item is-wide{prev_dis}"><span class="trail-nav__glyph">上一个</span></span>'
+        f'<span class="trail-nav__item is-wide{next_dis}"><span class="trail-nav__glyph">下一个</span></span>'
+        f"</nav>"
+    )
+
+
 def page(title, body, night=False):
     page_cls = "page is-night" if night else "page"
     meadow = "meadow-night.png" if night else "meadow.png"
@@ -182,39 +194,62 @@ def make_poem():
         f'<h2>{sample["title"]}</h2><p>{sample["author"]}</p></div>'
     )
     footer = f'<div class="footer-btn big-btn"><img src="{ASSET}/play.png" alt="" />整首诗</div>'
+    step = trail_step_nav(2, 6)
     audio_note = '<div class="soft-note block tone-butter">语音准备中～</div>'
     write(
         "poem/detail.html",
         "古诗",
-        section("点读", hero + poem_lines() + footer)
-        + section("点读中", hero + poem_lines(0) + footer)
-        + section("语音准备中", hero + poem_lines() + footer + audio_note),
+        section("点读", hero + poem_lines() + footer + step)
+        + section("点读中", hero + poem_lines(0) + footer + step)
+        + section("语音准备中", hero + poem_lines() + footer + step + audio_note),
     )
     remove_paths("poem/praise.html")
 
 
 def make_hanzi():
     data = load_json("hanzi.json")
-    write("hanzi/hub.html", "识字", f"""<div class="inner-head"><h1>认识汉字</h1><p>看一看，听一听</p></div>
-<div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/hanzi-hub-poem.png" alt="" /><strong>古诗里的字</strong><span>从古诗里认字</span></div><div class="duo-card block tone-peach"><img src="{ASSET}/hanzi-hub-life.png" alt="" /><strong>生活里的字</strong><span>身边常用字</span></div></div>""")
-    poem_chars = sorted(data["poem"], key=lambda c: (c["strokes"], c["pinyin"]))
-    # 生活库：JSON 已按「一～十数值序 + 关联分组」排好，保持原序
-    life_chars = list(data["life"])
-    for path, heading, chars, tone in [
-        ("hanzi/poem-list.html", "古诗里的字", poem_chars, "tone-sky"),
-        ("hanzi/life-list.html", "生活里的字", life_chars, "tone-peach"),
-    ]:
-        words = [x["char"] for x in chars]
-        tip = "点一点就能听 · 笔画少到多" if path.endswith("poem-list.html") else "点一点就能听 · 数字在前"
-        write(path, "识字", f'<div class="inner-head"><h1>{heading}</h1><p>{tip}</p></div>{word_grid(words, tone)}')
-    sample = next(c for c in life_chars if c["char"] == "人")
+    tone_map = {
+        "number": "tone-peach",
+        "color": "tone-cream",
+        "animal": "tone-butter",
+        "family": "tone-rose",
+        "body": "tone-matcha",
+        "nature": "tone-lilac",
+        "place": "tone-sky",
+        "transport": "tone-peach",
+    }
+    sections = []
+    for cat in data["categories"]:
+        tone = tone_map.get(cat["id"], "tone-cream")
+        cards = "".join(
+            f'<div class="word-card word-card--hanzi block {tone}">'
+            f'<div class="word-card__emoji">{item["emoji"]}</div>'
+            f'<div class="word-card__label">{item["char"]}</div></div>'
+            for item in cat["items"]
+        )
+        sections.append(
+            f'<div class="section"><div class="section-title">{cat["title"]}</div>'
+            f'<div class="word-grid">{cards}</div></div>'
+        )
+    write(
+        "hanzi/list.html",
+        "识字",
+        f'<div class="inner-head"><h1>生活里的字</h1><p>看一看，听一听</p></div>{"".join(sections)}',
+    )
+    sample = next(
+        item
+        for cat in data["categories"]
+        for item in cat["items"]
+        if item["char"] == "人"
+    )
+    step = trail_step_nav(1, 12)
     write(
         "hanzi/detail.html",
         "识字",
-        f"""<div class="detail-stack"><div class="detail-big block tone-peach"><div class="detail-emoji" aria-hidden="true">{sample["emoji"]}</div><div class="glyph">{sample["char"]}</div><p>{sample["pinyin"]} · {sample["strokes"]}画</p>{play("is-lg")}</div><div class="detail-pair"><div class="block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div></div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-peach"><div class="detail-emoji" aria-hidden="true">{sample["emoji"]}</div><div class="glyph">{sample["char"]}</div><p>{sample["pinyin"]} · {sample["strokes"]}画</p>{play("is-lg")}</div><div class="detail-pair"><div class="block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
-    remove_paths("hanzi/praise.html")
+    remove_paths("hanzi/hub.html", "hanzi/poem-list.html", "hanzi/life-list.html", "hanzi/praise.html")
 
 
 def count_stage_html(fruit: str, n: int) -> str:
@@ -236,7 +271,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/apple-english.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 5</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/apple-english.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None):
@@ -253,10 +288,12 @@ def make_math():
             parts.append(f'<div class="{cls}">{choice}</div>')
         return "".join(parts)
 
-    def quiz(head, choices, tones, picked=None, correct=None, note=""):
+    def quiz(head, choices, tones, picked=None, correct=None, note="", step=None):
+        nav = step if step is not None else trail_step_nav(1, 5)
         return (
             head
             + f'<div class="options">{options_html(choices, tones, picked, correct)}</div>'
+            + nav
             + note
         )
 
@@ -354,21 +391,68 @@ def make_math():
 
 def make_english():
     data = load_json("english.json")
+    alphabet = load_json("alphabet.json")
+    write(
+        "english/hub.html",
+        "英语",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A 到 Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/apple-english.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
+    )
+
+    abc_cards = "".join(
+        f'<div class="word-card block tone-sky">'
+        f'<img class="word-card__image" src="{ASSET}/{item["image"]}.png" alt="{item["letter"]}" />'
+        f'{play("is-sm")}</div>'
+        for item in alphabet["letters"]
+    )
+    write(
+        "english/alphabet-list.html",
+        "英语",
+        f'<div class="inner-head"><h1>字母表</h1><p>听一听字母</p></div><div class="word-grid">{abc_cards}</div>',
+    )
+
+    abc_sample = alphabet["letters"][0]
+    abc_step = trail_step_nav(1, len(alphabet["letters"]))
+    write(
+        "english/alphabet-detail.html",
+        "英语",
+        f"""<div class="detail-stack"><div class="detail-big block tone-sky pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p>{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
+{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
+    )
+
     sections = []
-    tones = ["tone-rose", "tone-butter", "tone-sky", "tone-matcha", "tone-peach"]
+    tones = [
+        "tone-rose",
+        "tone-butter",
+        "tone-sky",
+        "tone-apricot",
+        "tone-matcha",
+        "tone-peach",
+        "tone-cream",
+        "tone-lilac",
+    ]
     for i, cat in enumerate(data["categories"]):
+        tone = tones[i % len(tones)]
         cards = "".join(
-            media(item["image"], item["word"], item["sentence"], tones[i % len(tones)])
+            (
+                f'<div class="word-card word-card--english block {tone}">'
+                f'<img class="word-card__image" src="{ASSET}/{item["image"]}.png" alt="" />'
+                f'<div class="word-card__label">{item["word"]}</div></div>'
+            )
             for item in cat["items"]
         )
-        sections.append(section(cat["title"], cards))
-    write("english/list.html", "英语", f'<div class="inner-head"><h1>英语小天地</h1><p>听一听，说一说</p></div>{"".join(sections)}')
+        sections.append(section(cat["title"], f'<div class="word-grid">{cards}</div>'))
+    write(
+        "english/list.html",
+        "英语",
+        f'<div class="inner-head"><h1>单词</h1><p>听一听，说一说</p></div>{"".join(sections)}',
+    )
 
     sample = data["categories"][0]["items"][0]
+    step = trail_step_nav(1, len(data["categories"][0]["items"]))
     write(
         "english/detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-big block tone-rose"><img src="{ASSET}/{sample['image']}.png" alt="" /><h2>{sample['word']}</h2><p>{sample['phonetic']}</p>{play("is-lg")}</div><div class="poem-line block tone-cream"><div class="poem-line__text">{sample['sentence']}</div>{play("is-sm")}</div></div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-rose"><img src="{ASSET}/{sample['image']}.png" alt="" /><h2>{sample['word']}</h2><p>{sample['phonetic']}</p>{play("is-lg")}</div><div class="poem-line block tone-cream"><div class="poem-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("english/praise.html")
@@ -377,7 +461,7 @@ def make_english():
 def make_pinyin():
     vowels = load_json("pinyin.json")["vowels"]
     cards = "".join(
-        f'<div class="word-card block tone-lilac">'
+        f'<div class="word-card block tone-cream">'
         f'<img class="word-card__image" src="{ASSET}/{item["asset"]}.png" alt="{item["letter"]}" />'
         f'{play("is-sm")}</div>'
         for item in vowels
@@ -388,18 +472,23 @@ def make_pinyin():
         f'<div class="inner-head"><h1>单韵母</h1><p>听一听小声音</p></div><div class="word-grid">{cards}</div>',
     )
 
-    detail_sections = "".join(
-        section(
-            item["letter"],
-            f"""<div class="detail-big block tone-lilac"><img class="pinyin-vowel-image" src="{ASSET}/{item['asset']}.png" alt="{item['letter']}" /><div class="glyph">{item['letter']}</div><p>{item['hint']}</p>{play("is-lg")}</div>""",
+    sample = vowels[0]
+    pebbles = "".join(
+        (
+            f'<span class="trail-nav__item is-current" aria-current="true"><span class="trail-nav__glyph">{item["letter"]}</span></span>'
+            if item["letter"] == sample["letter"]
+            else f'<span class="trail-nav__item"><span class="trail-nav__glyph">{item["letter"]}</span></span>'
         )
         for item in vowels
     )
+    # 审查：主帧 enrichment（伙伴坞 + 石子径）；第二帧对照 o
+    alt = vowels[1]
     write(
         "pinyin/detail.html",
         "拼音",
-        f'<div class="inner-head"><h1>单韵母详情</h1><p>a o e i u ü</p></div>{detail_sections}'
-        + section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>'),
+        f"""<div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" />{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
+<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" />{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
+{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths(
         "pinyin/praise.html",
@@ -429,7 +518,7 @@ def make_task():
         ("读 2 首古诗", 2, 3),
         ("认 4 个汉字", 4, 4),
         ("做 3 道算术题", 3, 3),
-        ("学 5 个单词", 5, 5),
+        ("学 5 个英语", 5, 5),
         ("读 2 个拼音", 2, 2),
         ("日历打卡", 1, 1),
     ]
@@ -519,7 +608,7 @@ def make_shared():
         ("识字", "认 4 个汉字"),
         ("算术 · 数一数", "做 3 道算术题"),
         ("算术 · 算一算", "做 3 道算术题"),
-        ("英语", "学 5 个单词"),
+        ("英语", "学 5 个英语"),
         ("拼音", "读 2 个拼音"),
         ("日历", "日历打卡"),
     ]
@@ -551,15 +640,16 @@ def make_index():
         ("家长区", "parent.html"),
         ("古诗 · 列表", "poem/list.html"),
         ("古诗 · 详情", "poem/detail.html"),
-        ("识字 · 分库", "hanzi/hub.html"),
-        ("识字 · 古诗字库", "hanzi/poem-list.html"),
-        ("识字 · 生活字库", "hanzi/life-list.html"),
+        ("识字 · 列表", "hanzi/list.html"),
         ("识字 · 详情", "hanzi/detail.html"),
         ("算术 · 入口", "math/hub.html"),
         ("算术 · 数一数", "math/count.html"),
         ("算术 · 算一算", "math/calc.html"),
-        ("英语 · 列表", "english/list.html"),
-        ("英语 · 详情", "english/detail.html"),
+        ("英语 · 入口", "english/hub.html"),
+        ("英语 · 字母表", "english/alphabet-list.html"),
+        ("英语 · 字母详情", "english/alphabet-detail.html"),
+        ("英语 · 单词列表", "english/list.html"),
+        ("英语 · 单词详情", "english/detail.html"),
         ("拼音 · 列表", "pinyin/list.html"),
         ("拼音 · 详情", "pinyin/detail.html"),
         ("日历", "calendar/index.html"),

@@ -12,33 +12,92 @@ page {
   --night-mid: #566484;
   --night-deep: #4a587a;
 
-  --radius-card: 48rpx;
-  --corner-card: squircle;
-  --radius-pill: 38rpx;
+  /* 圆角：普通圆弧。卡内图 = 外圆角 − 内边距（56 − 28） */
+  --radius-card: 56rpx;   /* 大卡：首页全部卡片、通栏、详情、带缩略图列表行 */
+  --radius-tile: 48rpx;   /* 小卡片：字卡、双卡、任务行 */
+  --radius-bar: 40rpx;    /* 矮条：诗行、选项、伙伴坞、软提示 */
+  --radius-thumb: 28rpx; /* 缩略图 / 卡内插图 */
+  --radius-pill: 999rpx; /* 胶囊：chip、星条、气泡、标签 */
   --star-bar-height: 64rpx;
   --star-icon: 48rpx;
   --media-row-height: 180rpx;
   --media-thumb-height: 132rpx;
 
+  /* 通用石子径导航（详情切题 / 上一个下一个） */
+  --trail-gap: 22rpx;
+  --trail-size: 96rpx;
+  --trail-font: 56rpx;
+  --trail-face: linear-gradient(165deg, #fafcf9 0%, #f2f6f1 55%, #e8efe9 100%);
+  --trail-ring-soft: #d7e6c8;
+  --trail-ring: #a8c49a;
+  /* 有机鹅卵石轮廓（非正圆） */
+  --trail-radius: 48% 52% 50% 50% / 52% 48% 50% 50%;
+  --shadow-trail:
+    inset 7rpx 6rpx 12rpx rgba(255, 255, 255, 0.14),
+    inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2),
+    0 1rpx 0 rgba(255, 255, 255, 0.08),
+    0 10rpx 18rpx rgba(96, 122, 96, 0.15),
+    0 18rpx 28rpx rgba(96, 122, 96, 0.08);
+  --shadow-trail-current:
+    inset 7rpx 6rpx 12rpx rgba(255, 255, 255, 0.14),
+    inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2),
+    /* 等宽硬环叠加：内深外浅，无模糊发散 */
+    0 0 0 3rpx #5f8558,
+    0 0 0 6rpx #7a9f72,
+    0 0 0 9rpx #96b68e,
+    0 0 0 12rpx #b3cdb0,
+    0 0 0 15rpx #d0e3ce,
+    0 8rpx 16rpx rgba(96, 122, 96, 0.12);
+
+  /* 外托：鹅卵石浮起 */
   --shadow:
-    0 10rpx 20rpx rgba(96, 122, 96, 0.12),
-    0 22rpx 40rpx rgba(96, 122, 96, 0.1);
+    0 8rpx 14rpx rgba(96, 122, 96, 0.1),
+    0 18rpx 36rpx rgba(96, 122, 96, 0.12),
+    0 28rpx 48rpx rgba(96, 122, 96, 0.08);
+  /* 鼓边上左高光（奶油面易泛白，再压一档） */
+  --shadow-clay-hi: inset 8rpx 7rpx 14rpx rgba(255, 255, 255, 0.1);
+  --shadow-clay-lo: inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2);
+  --shadow-clay:
+    var(--shadow-clay-hi),
+    var(--shadow-clay-lo),
+    var(--shadow);
+  --shadow-clay-leaf:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(112, 145, 91, 0.22),
+    0 8rpx 16rpx rgba(83, 112, 73, 0.14),
+    0 16rpx 28rpx rgba(83, 112, 73, 0.08);
+  --shadow-clay-night:
+    inset 8rpx 8rpx 16rpx rgba(255, 255, 255, 0.22),
+    inset -8rpx -10rpx 18rpx rgba(12, 18, 46, 0.32),
+    0 10rpx 20rpx rgba(18, 26, 57, 0.22),
+    0 22rpx 40rpx rgba(18, 26, 57, 0.14);
   --shadow-owned:
+    var(--shadow-clay-hi),
+    var(--shadow-clay-lo),
     0 16rpx 32rpx rgba(96, 122, 96, 0.36),
     0 36rpx 64rpx rgba(96, 122, 96, 0.3);
   --shadow-chip:
-    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
-    inset 0 -6rpx 12rpx rgba(78, 128, 84, 0.28),
-    0 8rpx 16rpx rgba(96, 122, 96, 0.18);
-  --shadow-play:
-    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.42),
-    inset 0 -6rpx 12rpx rgba(78, 128, 84, 0.28),
-    0 8rpx 16rpx rgba(96, 122, 96, 0.16);
+    inset 7rpx 7rpx 12rpx rgba(255, 255, 255, 0.16),
+    inset -6rpx -8rpx 14rpx rgba(78, 128, 84, 0.3),
+    0 8rpx 16rpx rgba(96, 122, 96, 0.16),
+    0 16rpx 28rpx rgba(96, 122, 96, 0.1);
+  --shadow-play: var(--shadow-chip);
+  --shadow-well:
+    inset 6rpx 6rpx 12rpx rgba(96, 122, 96, 0.14),
+    inset -4rpx -5rpx 10rpx rgba(255, 255, 255, 0.32);
+  --shadow-socket:
+    inset 6rpx 6rpx 11rpx rgba(104, 136, 102, 0.22),
+    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.4);
+  --shadow-socket-on:
+    inset 5rpx 5rpx 10rpx rgba(104, 136, 102, 0.14),
+    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.45);
 
   --btn-green: linear-gradient(180deg, #93c496, #77b07c);
   --btn-play: linear-gradient(180deg, #9dcca0, #7bb37f);
-  --tone-cream: linear-gradient(180deg, #fffdf7 0%, #f9f2e2 100%);
+  --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%);
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%);
+  --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58);
+  --ring-picked: #e0b43c;
 
   --font-nav: 28rpx;
   --font-hint: 32rpx;
@@ -67,6 +126,7 @@ page {
   --pad-card-sm: 20rpx;
   --pad-card: var(--gap-card);
   --pad-card-lg: 36rpx;
+  --pad-card-xl: 56rpx;
   --page-pad-x: var(--block-gap);
 
   --col-2: calc((100% - var(--block-gap)) / 2);
@@ -75,6 +135,7 @@ page {
   --tap-min: 152rpx;
   --tap-min-compact: 128rpx;
   --opacity-disabled: 0.68;
+  --opacity-soft: 0.86;
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);

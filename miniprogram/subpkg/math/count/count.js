@@ -6,6 +6,24 @@ const feedback = require('../../../utils/feedback')
 const { INLINE } = require('../../../content/feedback')
 const { clearAdvanceTimer, handleCorrect } = require('../quiz-flow')
 
+function snapshotCount(page) {
+  return {
+    question: page.data.question,
+    count: page.data.count,
+    cols: page.data.cols,
+    items: page.data.items,
+  }
+}
+
+function navState(step, hasPrev) {
+  return {
+    label: String(step),
+    hasPrev: !!hasPrev,
+    hasNext: true,
+    total: 2,
+  }
+}
+
 Page({
   data: {
     stars: 0,
@@ -16,18 +34,24 @@ Page({
     pickedValue: null,
     pickedCorrect: false,
     softNote: '',
+    nav: navState(1, false),
     feedback: { show: false, closing: false },
   },
 
   onLoad() {
-    this.applyQuestion()
+    this._history = []
+    this._step = 1
+    this.applyQuestion({ pushHistory: false })
   },
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
 
-  applyQuestion() {
+  applyQuestion({ pushHistory } = { pushHistory: true }) {
+    if (pushHistory && this.data.question) {
+      this._history.push(snapshotCount(this))
+    }
     const avoid = this.data.question && this.data.question.answer
     const question = randomCountQuestion(content.fruitPool, avoid)
     const src = mediaUrl(`/subpkg/math/static/${question.fruit}.png`)
@@ -39,7 +63,34 @@ Page({
       pickedValue: null,
       pickedCorrect: false,
       softNote: '',
+      nav: navState(this._step, this._history.length > 0),
     })
+  },
+
+  goPrev() {
+    if (!this._history.length) return
+    clearAdvanceTimer(this)
+    this._busy = false
+    feedback.hideLayer(this)
+    feedback.clearInline(this)
+    const prev = this._history.pop()
+    this._step = Math.max(1, this._step - 1)
+    this.setData({
+      ...prev,
+      pickedValue: null,
+      pickedCorrect: false,
+      softNote: '',
+      nav: navState(this._step, this._history.length > 0),
+    })
+  },
+
+  goNext() {
+    clearAdvanceTimer(this)
+    this._busy = false
+    feedback.hideLayer(this)
+    feedback.clearInline(this)
+    this._step += 1
+    this.applyQuestion({ pushHistory: true })
   },
 
   choose(e) {
@@ -63,11 +114,7 @@ Page({
   },
 
   next() {
-    clearAdvanceTimer(this)
-    this._busy = false
-    feedback.hideLayer(this)
-    feedback.clearInline(this)
-    this.applyQuestion()
+    this.goNext()
   },
 
   onUnload() {

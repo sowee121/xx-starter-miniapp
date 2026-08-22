@@ -31,24 +31,6 @@
   line-height: 1.45;
 }
 
-.sound-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 112rpx;
-  height: 112rpx;
-  flex: 0 0 112rpx;
-  border-radius: 56rpx;
-  background: var(--btn-play);
-  box-shadow: var(--shadow-play);
-}
-
-.sound-button__icon {
-  width: 54rpx;
-  height: 54rpx;
-  margin-left: 5rpx;
-}
-
 .volume-options {
   position: relative;
   display: flex;
@@ -110,7 +92,7 @@
   color: #fff;
   background: linear-gradient(180deg, #e0a4b4, #c88698);
   box-shadow:
-    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.28),
     inset 0 -6rpx 12rpx rgba(160, 90, 110, 0.28),
     0 8rpx 16rpx rgba(180, 120, 140, 0.18);
   transition: transform 80ms ease-out;
@@ -124,7 +106,7 @@
 .clear-groove.is-peach {
   background: linear-gradient(180deg, #deb0a0, #c89888);
   box-shadow:
-    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.4),
+    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.28),
     inset 0 -6rpx 12rpx rgba(140, 90, 78, 0.28),
     0 8rpx 16rpx rgba(170, 120, 100, 0.18);
 }

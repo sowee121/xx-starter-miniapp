@@ -49,16 +49,14 @@ html, body { background: var(--board); color: var(--ink); font-family: "PingFang
 }
 .nav-home {
   display: flex; align-items: center; justify-content: center; width: 88px; height: 88px;
-  flex-shrink: 0; border: 2px solid rgba(255, 255, 255, .72);
+  flex-shrink: 0; border: 0;
   border-radius: 50%; overflow: hidden; font-size: 0;
-  background-color: #e9f1d8;
-  background-image: url("../../atoms/home-clay.png"), linear-gradient(145deg, #f7f9e9, #dce9c9);
+  background-color: #eef3e2;
+  background-image: url("../../atoms/home-clay.png"), linear-gradient(145deg, #f7f9e9, #e6efd6);
   background-position: center 42%, center;
   background-repeat: no-repeat, no-repeat;
   background-size: 64px auto, 100% 100%;
-  box-shadow: inset 0 3px 3px rgba(255, 255, 255, .88),
-              inset 0 -3px 5px rgba(112, 145, 91, .14),
-              0 8px 16px rgba(83, 112, 73, .16);
+  box-shadow: var(--shadow-clay-leaf);
 }
 .nav-title {
   flex: 1;
@@ -78,13 +76,12 @@ html, body { background: var(--board); color: var(--ink); font-family: "PingFang
 .star-pill {
   display: flex; flex-direction: row; align-items: center; gap: var(--gap-text);
   height: var(--star-bar-height); padding: 0 24px;
-  border-radius: 999px; background: linear-gradient(180deg, #fffdf7, #fbf4e4);
-  box-shadow: inset 0 4px 8px rgba(255, 255, 255, 0.95),
-              inset 0 -8px 14px rgba(198, 182, 146, 0.16),
-              0 8px 16px rgba(96,122,96,.12);
+  border-radius: var(--radius-pill);
+  background: linear-gradient(145deg, #f7f9e9, #e6efd6);
+  box-shadow: var(--shadow-clay-leaf);
 }
 .star-pill img { width: var(--star-icon); height: var(--star-icon); object-fit: contain; }
-.star-pill b { font-size: var(--font-nav); }
+.star-pill b { font-size: var(--font-nav); color: var(--ink); }
 .capsule-slot {
   width: 174px; height: var(--star-bar-height); border: 2px solid rgba(126,160,116,.34);
   border-radius: calc(var(--star-bar-height) / 2); background: rgba(255,255,255,.24);

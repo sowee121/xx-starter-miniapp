@@ -1,11 +1,29 @@
 <app-shell title="拼音" stars="{{stars}}">
-  <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-lilac">
-      <image class="detail-big__vowel" src="{{item.image}}" mode="aspectFit" lazy-load />
-      <text class="detail-big__sub">{{item.hint}}</text>
+  <view wx:if="{{item}}" class="detail-stack is-docked">
+    <view class="detail-big block tone-cream pinyin-stage" bindtap="play">
+      <image class="pinyin-vowel-image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <play-button size="lg" bind:tap="play" />
     </view>
+
+    <view class="buddy-dock block tone-cream">
+      <image class="buddy-dock__mascot" src="{{buddyIcon}}" mode="aspectFit" lazy-load />
+      <view class="buddy-dock__bubble">
+        <view class="buddy-dock__bubble-tail" aria-hidden="true"></view>
+        <text class="buddy-dock__bubble-text">{{item.hint}}</text>
+      </view>
+    </view>
+
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+
+    <view class="trail-nav is-dock" aria-label="韵母石子径">
+      <view
+        wx:for="{{trail}}"
+        wx:key="id"
+        class="trail-nav__item {{item.current ? 'is-current' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onTrailTap"
+      ><text class="trail-nav__glyph">{{item.letter}}</text></view>
+    </view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

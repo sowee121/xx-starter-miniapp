@@ -1,9 +1,13 @@
+.detail-stack {
+  gap: var(--gap-block);
+}
+
 .calendar-scene {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gap-row);
-  padding: var(--pad-card);
+  gap: var(--gap-block);
+  padding: var(--pad-card-xl);
   text-align: center;
   box-sizing: border-box;
 }

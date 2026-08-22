@@ -1,5 +1,5 @@
 <app-shell title="算一算" stars="{{stars}}">
-  <view wx:if="{{question}}" class="detail-stack">
+  <view wx:if="{{question}}" class="detail-stack is-docked">
     <view class="quiz-head block tone-sky">
       <image class="quiz-head__image" src="{{dogImage}}" mode="aspectFit" />
       <view class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</view>
@@ -14,6 +14,13 @@
       >{{item}}</view>
     </view>
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+    <view class="trail-nav is-dock" aria-label="切题">
+      <view
+        class="trail-nav__item is-wide {{nav.hasPrev ? '' : 'is-disabled'}}"
+        bindtap="goPrev"
+      ><text class="trail-nav__glyph">上一个</text></view>
+      <view class="trail-nav__item is-wide" bindtap="goNext"><text class="trail-nav__glyph">下一个</text></view>
+    </view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

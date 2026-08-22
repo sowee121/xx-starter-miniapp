@@ -1,7 +1,12 @@
 {
   "description": "嘻嘻启蒙乐园",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "file",
+        "value": "**/.DS_Store"
+      }
+    ],
     "include": []
   },
   "setting": {

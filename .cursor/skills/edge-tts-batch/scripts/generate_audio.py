@@ -40,6 +40,12 @@ PINYIN_SPEAK = {
     "ü": "迂",
 }
 
+# 英文字母名；默认把字母本身喂给英文 TTS。Z 强制英式 zed，W 写成 double u 以免含糊。
+ALPHABET_SPEAK = {
+    "W": "double u",
+    "Z": "zed",
+}
+
 
 # `module.exports = ` 包装：原生小程序 require 不了 .json，内容存成 .js
 EXPORT_PREFIX = "module.exports = "
@@ -77,6 +83,14 @@ MODULES: dict[str, dict[str, str]] = {
         "url": "/subpkg/pinyin/static/audio",
         "voice": VOICE_ZH,
         "budget_mb": "0.8",
+    },
+    "alphabet": {
+        "kind": "alphabet",
+        "content": "miniprogram/subpkg/english-abc/content/alphabet.js",
+        "audio": "miniprogram/subpkg/english-abc/static/audio",
+        "url": "/subpkg/english-abc/static/audio",
+        "voice": VOICE_EN,
+        "budget_mb": "0.6",
     },
 }
 
@@ -241,11 +255,17 @@ class Generator:
         return changed
 
     async def do_hanzi(self, data, voice, audio_dir, url) -> bool:
-        """当前结构：{ poem: [...], life: [...] }"""
+        """当前结构：{ categories: [{ items: [...] }] }；兼容旧 poem/life。"""
         changed = False
-        for key in ("poem", "life"):
-            for item in data.get(key, []):
-                changed = (await self._fill_char_item(item, voice, audio_dir, url)) or changed
+        items = []
+        if data.get("categories"):
+            for cat in data["categories"]:
+                items.extend(cat.get("items", []))
+        else:
+            for key in ("poem", "life", "chars"):
+                items.extend(data.get(key, []))
+        for item in items:
+            changed = (await self._fill_char_item(item, voice, audio_dir, url)) or changed
         return changed
 
     async def do_english(self, data, voice, audio_dir, url) -> bool:
@@ -260,13 +280,24 @@ class Generator:
             if not word:
                 continue
             key = slug(word)
-            got = await self.gen(word, voice, audio_dir, url, key)
+            # 同形异义词 / 分包路径：以已有 audio 字段为准
+            audio_path = item.get("audio") or ""
+            item_audio_dir = audio_dir
+            item_url = url
+            if audio_path:
+                key = Path(audio_path).stem
+                # /subpkg/english-more/static/audio/x.mp3 → 写到对应分包目录
+                rel = audio_path.lstrip("/")
+                if rel.startswith("subpkg/"):
+                    item_audio_dir = self.root / "miniprogram" / Path(rel).parent
+                    item_url = "/" + Path(rel).parent.as_posix()
+            got = await self.gen(word, voice, item_audio_dir, item_url, key)
             if got and item.get("audio") != got:
                 item["audio"] = got
                 changed = True
             if item.get("sentence"):
                 got = await self.gen(
-                    item["sentence"], voice, audio_dir, url, f"{key}-sentence"
+                    item["sentence"], voice, item_audio_dir, item_url, f"{key}-sentence"
                 )
                 if got and item.get("sentenceAudio") != got:
                     item["sentenceAudio"] = got
@@ -285,6 +316,20 @@ class Generator:
                 print(f"  ! 未知韵母 {letter!r}，跳过")
                 continue
             file_key = "umlaut-u" if letter == "ü" else letter
+            got = await self.gen(speak, voice, audio_dir, url, file_key)
+            if got and item.get("audio") != got:
+                item["audio"] = got
+                changed = True
+        return changed
+
+    async def do_alphabet(self, data, voice, audio_dir, url) -> bool:
+        changed = False
+        for item in data.get("letters", []):
+            letter = item.get("letter", "")
+            if not letter:
+                continue
+            speak = ALPHABET_SPEAK.get(letter, letter)
+            file_key = letter.lower()
             got = await self.gen(speak, voice, audio_dir, url, file_key)
             if got and item.get("audio") != got:
                 item["audio"] = got

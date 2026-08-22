@@ -1,0 +1,160 @@
+.praise-sun {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(65, 87, 75, 0.22);
+  opacity: 0;
+  animation: praise-sun-in 250ms ease-out forwards;
+}
+
+.praise-sun__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-block);
+  width: 620rpx;
+  min-height: 760rpx;
+  padding: var(--pad-card-xl);
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+  background: var(--tone-cream);
+  box-shadow: var(--shadow-clay);
+  opacity: 0;
+  transform: translateY(24rpx) scale(0.96);
+  animation: praise-card-in 250ms ease-out forwards;
+}
+
+.praise-sun.is-closing {
+  animation: praise-sun-out 250ms ease-in forwards;
+}
+
+.praise-sun.is-closing .praise-sun__card {
+  animation: praise-card-out 250ms ease-in forwards;
+}
+
+.praise-sun__card.is-soft-fail {
+  background: var(--tone-soft-fail);
+}
+
+.praise-sun__card.is-soft-fail .praise-sun__text {
+  color: #b78245;
+}
+
+.praise-sun__card.is-exchange {
+  background: linear-gradient(180deg, #fff7fb 0%, #fae8ef 100%);
+}
+
+.praise-sun__card.is-exchange .praise-sun__text {
+  color: #7a4f63;
+}
+
+.praise-sun__icon-slot {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 288rpx;
+  height: 288rpx;
+  flex-shrink: 0;
+}
+
+.praise-sun__icon {
+  display: block;
+  width: 288rpx;
+  height: 288rpx;
+  vertical-align: middle;
+}
+
+.praise-sun__body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-soft);
+}
+
+.praise-sun__text {
+  font-size: var(--font-display);
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.praise-sun__desc {
+  color: var(--muted);
+  font-size: var(--font-hint);
+  line-height: 1.3;
+}
+
+.praise-sun__continue {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 220rpx;
+  height: 100rpx;
+  border-radius: 50rpx;
+  background: var(--btn-green);
+  color: #fff;
+  font-size: var(--font-hint);
+  font-weight: 700;
+  letter-spacing: var(--letter-btn);
+  box-shadow: var(--shadow-chip);
+}
+
+.praise-sun__cloud {
+  position: absolute;
+  z-index: 0;
+  top: 16rpx;
+  right: 16rpx;
+  width: 140rpx;
+  height: 104rpx;
+  opacity: var(--opacity-soft);
+  pointer-events: none;
+}
+
+.praise-sun__grass {
+  position: absolute;
+  z-index: 0;
+  bottom: -6rpx;
+  left: 16rpx;
+  width: 124rpx;
+  height: 95rpx;
+  opacity: var(--opacity-soft);
+  pointer-events: none;
+}
+
+@keyframes praise-sun-in {
+  to { opacity: 1; }
+}
+
+@keyframes praise-card-in {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes praise-sun-out {
+  to { opacity: 0; }
+}
+
+@keyframes praise-card-out {
+  to {
+    opacity: 0;
+    transform: translateY(16rpx) scale(0.97);
+  }
+}
