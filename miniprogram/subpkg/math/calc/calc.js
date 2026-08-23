@@ -1,3 +1,4 @@
+const content = require('../content/math')
 const stars = require('../../../utils/stars')
 const { randomCalcQuestion } = require('../quiz')
 const { mediaUrl } = require('../../../config/media')
@@ -18,10 +19,11 @@ Page({
   data: {
     stars: 0,
     question: null,
-    dogImage: mediaUrl('/subpkg/math/static/dog.png'),
+    calcImage: mediaUrl(`/subpkg/math/static/${content.calcImage}.png`),
     pickedValue: null,
     pickedCorrect: false,
     softNote: '',
+    softNoteTone: 'tone-butter',
     nav: navState(1, false),
     feedback: { show: false, closing: false },
   },
@@ -47,6 +49,7 @@ Page({
       pickedValue: null,
       pickedCorrect: false,
       softNote: '',
+      softNoteTone: 'tone-butter',
       nav: navState(this._step, this._history.length > 0),
     })
   },
@@ -64,6 +67,7 @@ Page({
       pickedValue: null,
       pickedCorrect: false,
       softNote: '',
+      softNoteTone: 'tone-butter',
       nav: navState(this._step, this._history.length > 0),
     })
   },
@@ -103,5 +107,6 @@ Page({
 
   onUnload() {
     clearAdvanceTimer(this)
+    require('../../../utils/audio').stop()
   },
 })

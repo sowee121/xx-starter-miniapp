@@ -9,6 +9,7 @@
   border-radius: var(--radius-card);
   box-sizing: border-box;
   flex-shrink: 0;
+  transition: var(--motion-tap);
 }
 
 .home-feature-card:active {
@@ -48,6 +49,7 @@
   background: rgba(154, 182, 138, 0.22);
   box-shadow:
     var(--shadow-socket);
+  transition: var(--motion-tap);
 }
 
 .home-feature-card__socket.is-on {
@@ -73,7 +75,8 @@
   font-weight: 700;
   letter-spacing: var(--letter-btn);
   color: #ffffff;
-  background: var(--btn-green);
+  background-color: #77b07c;
+  background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
 

@@ -1,12 +1,11 @@
-/* 布局原子：页面与 apply-shared 组件均可使用 */
+/* 布局原子：页面与组件均可使用 */
 
 .page-list,
 .detail-stack,
-.parent-stack,
-.section-list {
+.parent-stack {
   display: flex;
   flex-direction: column;
-  gap: var(--block-gap);
+  gap: var(--gap-block);
 }
 
 .media-main__body,
@@ -52,4 +51,83 @@
   font-weight: 700;
   color: var(--ink);
   line-height: 1.2;
+}
+
+/* 底部黏土草地：只铺原图裁出的丘坡，天空仍用页面渐变 */
+.scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene__meadow {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  height: 390rpx;
+  display: block;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 14%,
+    rgba(0, 0, 0, 0.62) 32%,
+    #000 52%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 14%,
+    rgba(0, 0, 0, 0.62) 32%,
+    #000 52%,
+    #000 100%
+  );
+}
+
+.scene__blend {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  height: 390rpx;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--board) 0%,
+    rgba(233, 242, 220, 0.78) 16%,
+    rgba(233, 242, 220, 0.28) 38%,
+    rgba(233, 242, 220, 0) 58%
+  );
+}
+
+.scene__dusk {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 750rpx;
+  height: 390rpx;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(94, 110, 145, 0.08) 0%, rgba(58, 72, 112, 0.52) 100%);
+}
+
+.app-shell.is-night .scene__meadow {
+  filter: brightness(0.7) saturate(0.55);
+}
+
+.app-shell.is-night .scene__blend {
+  background: linear-gradient(
+    180deg,
+    var(--night-top) 0%,
+    rgba(94, 110, 145, 0.28) 40%,
+    rgba(94, 110, 145, 0.42) 100%
+  );
+}
+
+.app-shell.is-night .scene__dusk {
+  opacity: 0;
 }

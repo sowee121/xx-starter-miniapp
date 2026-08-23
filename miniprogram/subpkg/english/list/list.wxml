@@ -9,8 +9,7 @@
         class="word-card word-card--english block tone-{{item.tone}}"
         data-word="{{word.word}}"
         data-cat="{{item.id}}"
-        bindtap="open"
-      >
+        bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
         <image class="word-card__image" src="{{word.image}}" mode="aspectFit" />
         <view class="word-card__label">{{word.word}}</view>
       </view>

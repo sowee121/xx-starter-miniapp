@@ -1,8 +1,0 @@
-<app-shell title="即将开放" hint="敬请期待" stars="{{stars}}">
-  <view class="coming">
-    <image class="coming__mascot" src="{{mascot}}" mode="aspectFit" />
-    <view class="coming__headline">这里还在长大</view>
-    <view class="coming__sub">{{title}}马上就来，先去听古诗吧</view>
-    <big-button class="coming__btn" text="回到首页" bind:tap="onGoHome" />
-  </view>
-</app-shell>

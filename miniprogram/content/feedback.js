@@ -3,16 +3,25 @@ const LAYERS = {
     variant: 'success',
     title: '宝贝真棒',
     desc: (taskTitle) => `「${taskTitle}」任务完成啦～`,
+    action: '继续学',
+  },
+  checkinDone: {
+    variant: 'success',
+    title: '宝贝真棒',
+    desc: '「日历打卡」任务完成啦～',
+    action: '好的',
   },
   exchangeSuccess: {
     variant: 'exchange',
     title: '兑换成功',
     desc: '新的动物贴纸送给你～',
+    action: '收下啦',
   },
   exchangeFailed: {
     variant: 'softFail',
     title: '兑换失败',
     desc: '稍后再来兑贴纸吧～',
+    action: '再看看',
   },
 }
 
@@ -20,10 +29,12 @@ const INLINE = {
   answerCorrect: {
     text: '答对啦！你真棒！',
     audio: '/static/shared/answer-correct.mp3',
+    tone: 'tone-matcha',
   },
   answerWrong: {
     text: '答错啦！再试一次吧～',
     audio: '/static/shared/answer-wrong.mp3',
+    tone: 'tone-butter',
   },
   audioUnavailable: '语音准备中～',
 }

@@ -1,9 +1,10 @@
 const STORAGE_KEY = 'daily_tasks'
-const SCHEMA = 6
+const SCHEMA = 8
 
 /**
  * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
  * 古诗 1～2；汉字/算术/英语/拼音 1～5；日历固定 1。
+ * 英语：字母名点读与单词点读都计入同一条（字母歌不计）。
  * 星星：古诗 = 数量 + 1；其余学习任务 = 数量；日历 = 1。
  */
 const TEMPLATES = [
@@ -139,10 +140,6 @@ function getProgress() {
   return day.tasks.filter((task) => day.done[task.id]).length
 }
 
-function getTaskCount() {
-  return TEMPLATES.length
-}
-
 /** 自由学习：任务页始终跳转到模块入口。 */
 function nextUrl(taskId) {
   const day = ensureToday()
@@ -168,14 +165,14 @@ function taskList() {
 /**
  * 上报一次有效学习（点读或答对）。
  * @param {string} taskId
- * @param {string} unitKey 唯一内容，如诗 id / 汉字 / 单词 / 拼音 / math-correct / open
- * @returns {{ ok: boolean, completed: boolean, reward: number, current: number, target: number, firstAward: boolean }}
+ * @param {string} unitKey 唯一内容，如诗 id / 汉字 / letter:A / 单词 / 拼音 / math-correct / open
+ * @returns {{ ok: boolean, completed: boolean, reward: number, current: number, target: number, firstAward: boolean, taskId: string, taskTitle: string }}
  */
 function reportUnit(taskId, unitKey) {
   const day = ensureToday()
   const task = day.tasks.find((item) => item.id === taskId)
   if (!task || !unitKey) {
-    return { ok: false, completed: false, reward: 0, current: 0, target: 0, firstAward: false }
+    return { ok: false, completed: false, reward: 0, current: 0, target: 0, firstAward: false, taskId: taskId || '', taskTitle: '' }
   }
 
   if (!day.progress[taskId]) day.progress[taskId] = []
@@ -199,12 +196,9 @@ function reportUnit(taskId, unitKey) {
     current: Math.min(units.length, task.target),
     target: task.target,
     firstAward,
+    taskId,
+    taskTitle: task.title,
   }
-}
-
-/** 兼容旧日历调用：打开即完成。 */
-function completeCalendar() {
-  return reportUnit('calendar', getToday())
 }
 
 /**
@@ -271,20 +265,10 @@ function trackDaily(taskId, unitKey) {
 const { playPreview, playPrimaryAndAward } = require('./read-award')
 
 module.exports = {
-  TEMPLATES,
-  TASKS: TEMPLATES,
   getToday,
-  ensureToday,
   readToday,
-  saveToday,
   getProgress,
-  getTaskCount,
-  getTasks,
   taskList,
-  reportUnit,
-  completeCalendar,
   nextUrl,
   trackDaily,
-  playPreview,
-  playPrimaryAndAward,
 }

@@ -3,8 +3,6 @@ const { LAYERS, INLINE } = require('../content/feedback')
 
 const LAYER_TRANSITION = 250
 
-const voiceAudios = {}
-
 function resolveInline(input) {
   if (input && typeof input === 'object' && input.text) {
     return input
@@ -15,47 +13,18 @@ function resolveInline(input) {
   return { text: '', audio: null }
 }
 
-function getVolume() {
-  try {
-    return require('./audio').getVolume()
-  } catch (error) {
-    return 1
-  }
-}
-
-function ensureVoice(src) {
-  if (!src) return null
-  const url = mediaUrl(src)
-  if (!voiceAudios[url]) {
-    const ctx = wx.createInnerAudioContext()
-    ctx.autoplay = false
-    ctx.src = url
-    voiceAudios[url] = ctx
-  }
-  return voiceAudios[url]
-}
-
 function playVoice(src, onEnded) {
-  const ctx = ensureVoice(src)
-  if (!ctx) return
-  try {
-    ctx.volume = getVolume()
-    ctx.offEnded()
-    if (typeof onEnded === 'function') {
-      ctx.onEnded(onEnded)
-    }
-    ctx.stop()
-    if (typeof ctx.seek === 'function') ctx.seek(0)
-    ctx.play()
-  } catch (error) {
-    if (typeof onEnded === 'function') onEnded()
-  }
+  if (!src) return
+  const audio = require('./audio')
+  const url = mediaUrl(src)
+  audio.play(url, {
+    onEnded: typeof onEnded === 'function' ? onEnded : null,
+  })
 }
 
 function preloadVoiceAudio() {
   try {
-    ensureVoice(INLINE.answerCorrect.audio)
-    ensureVoice(INLINE.answerWrong.audio)
+    require('./audio').ensureAudioOption()
   } catch (error) {
     // ignore
   }
@@ -72,6 +41,7 @@ function showLayer(page, payload) {
       title: payload.title,
       desc: payload.desc,
       image: payload.image || '',
+      action: payload.action || '',
     },
   })
 }
@@ -79,10 +49,12 @@ function showLayer(page, payload) {
 /** L1：单条每日任务首次发星 */
 function showTaskAward(page, result) {
   if (!page || !result || !result.firstAward) return
+  const layer = result.taskId === 'calendar' ? LAYERS.checkinDone : LAYERS.taskDone
   showLayer(page, {
-    variant: LAYERS.taskDone.variant,
-    title: LAYERS.taskDone.title,
-    desc: LAYERS.taskDone.desc(result.taskTitle || ''),
+    variant: layer.variant,
+    title: layer.title,
+    desc: typeof layer.desc === 'function' ? layer.desc(result.taskTitle || '') : layer.desc,
+    action: layer.action,
   })
 }
 
@@ -103,15 +75,18 @@ function hideLayer(page) {
 
 function showInline(page, input) {
   if (!page) return
-  const { text, audio } = resolveInline(input)
-  page.setData({ softNote: text })
+  const { text, audio, tone } = resolveInline(input)
+  page.setData({
+    softNote: text,
+    softNoteTone: tone || 'tone-butter',
+  })
   if (audio) {
     playVoice(audio)
   }
 }
 
 function clearInline(page) {
-  if (page) page.setData({ softNote: '' })
+  if (page) page.setData({ softNote: '', softNoteTone: 'tone-butter' })
 }
 
 /**

@@ -2,11 +2,10 @@
 
 .page-list,
 .detail-stack,
-.parent-stack,
-.section-list {
+.parent-stack {
   display: flex;
   flex-direction: column;
-  gap: var(--block-gap);
+  gap: var(--gap-block);
 }
 
 .media-main__body,
@@ -29,6 +28,7 @@
 .welcome-sub,
 .wide-sub,
 .hero p,
+.hero__sub,
 .duo-card span,
 .detail-big p,
 .inner-head p,
@@ -42,6 +42,7 @@
 .wide-title,
 .duo-card strong,
 .hero h2,
+.hero__title,
 .setting-head__body strong {
   font-weight: 700;
   color: var(--ink);

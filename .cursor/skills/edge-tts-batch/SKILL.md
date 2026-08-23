@@ -150,13 +150,14 @@ module.exports = {
 
 ```javascript
 module.exports = {
+  "songAudio": "/subpkg/english-abc/static/audio/alphabet-song.mp3",
   "letters": [
     { "letter": "A", "phonetic": "/eɪ/", "image": "english-letter-a" }
   ]
 }
 ```
 
-产出：`{letter}.mp3`（小写文件名，如 `a.mp3`）。合成英文字母名（`en-US-AnaNeural`）；W 文案 `double u`，Z 文案 `zed`（见脚本 `ALPHABET_SPEAK`）。
+产出：`{letter}.mp3`（小写文件名，如 `a.mp3`）。合成英文字母名（`en-US-AnaNeural`）；W 文案 `double u`，Z 文案 `zed`（见脚本 `ALPHABET_SPEAK`）。字母歌不走 TTS，用现成 `alphabet-song.mp3`。
 
 ## 体积红线
 
@@ -179,7 +180,7 @@ ffmpeg -i in.mp3 -ac 1 -ar 22050 -b:a 24k out.mp3
 1. 抽听 3～5 个 MP3，确认发音清晰、无截断；**拼音须确认是韵母音，不是英文字母名**
 2. 确认内容文件中 `audio` 字段已写入且以 `/subpkg/` 开头
 3. 确认写回后的文件仍以 `module.exports = ` 开头（脚本会自动保持）
-4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在
+4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在。新生成的 TTS 会裁首尾静音并转到 24kbps（字母歌除外）
 5. 核对脚本输出的体积报告，超预算的模块先转码再提交
 6. `du -sh miniprogram/subpkg/*/` 自查，P6 前用微信开发者工具「代码依赖分析」复核官方口径
 7. **真机**试听；开发者工具正常不代表 iOS 有声

@@ -1,7 +1,6 @@
 {
   "pages": [
     "pages/home/home",
-    "pages/coming/coming",
     "pages/parent/parent"
   ],
   "subPackages": [

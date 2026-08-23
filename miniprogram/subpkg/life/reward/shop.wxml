@@ -13,8 +13,7 @@
       <view
         class="chip is-compact {{item.owned ? 'is-owned' : (!item.affordable ? 'is-short' : '')}}"
         data-id="{{item.id}}"
-        catchtap="onExchange"
-      >
+        catchtap="onExchange" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
         {{item.owned ? '已拥有' : (item.affordable ? '兑换' : '星星不足')}}
       </view>
     </view>
@@ -25,6 +24,7 @@
     variant="{{feedback.variant}}"
     title="{{feedback.title}}"
     desc="{{feedback.desc}}"
+    action="{{feedback.action}}"
     bind:continue="closePraise"
   />
 </app-shell>

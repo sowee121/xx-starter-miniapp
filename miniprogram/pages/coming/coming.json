@@ -1,6 +1,0 @@
-{
-  "usingComponents": {
-    "app-shell": "/components/app-shell/app-shell",
-    "big-button": "/components/big-button/big-button"
-  }
-}

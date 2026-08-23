@@ -1,6 +1,6 @@
 page {
   /* H5 tokens.css · 750 画板 1px = 1rpx */
-  --ink: #35553f;
+  --ink: #4d6f58;
   --muted: #6e8f76;
   --ink-night: #fffaf0;
   --muted-night: #dce2fa;
@@ -23,7 +23,7 @@ page {
   --media-row-height: 180rpx;
   --media-thumb-height: 132rpx;
 
-  /* 通用石子径导航（详情切题 / 上一个下一个） */
+  /* 通用石子径导航（详情切题箭头 / 拼音字母） */
   --trail-gap: 22rpx;
   --trail-size: 96rpx;
   --trail-font: 56rpx;
@@ -39,15 +39,10 @@ page {
     0 10rpx 18rpx rgba(96, 122, 96, 0.15),
     0 18rpx 28rpx rgba(96, 122, 96, 0.08);
   --shadow-trail-current:
-    inset 7rpx 6rpx 12rpx rgba(255, 255, 255, 0.14),
-    inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2),
-    /* 等宽硬环叠加：内深外浅，无模糊发散 */
-    0 0 0 3rpx #5f8558,
-    0 0 0 6rpx #7a9f72,
-    0 0 0 9rpx #96b68e,
-    0 0 0 12rpx #b3cdb0,
-    0 0 0 15rpx #d0e3ce,
-    0 8rpx 16rpx rgba(96, 122, 96, 0.12);
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
+    0 0 0 6rpx var(--ring-ok),
+    var(--shadow);
 
   /* 外托：鹅卵石浮起 */
   --shadow:
@@ -92,12 +87,15 @@ page {
     inset 5rpx 5rpx 10rpx rgba(104, 136, 102, 0.14),
     inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.45);
 
-  --btn-green: linear-gradient(180deg, #93c496, #77b07c);
-  --btn-play: linear-gradient(180deg, #9dcca0, #7bb37f);
+  --btn-green: linear-gradient(180deg, #88c08d, #77b07c);
+  --btn-play: var(--btn-green);
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%);
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%);
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58);
   --ring-picked: #e0b43c;
+  --tone-ok: linear-gradient(180deg, #e4f5c4, #9fce6e);
+  --ring-ok: #62a05e;
+  --motion-tap: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out, color 120ms ease-out;
 
   --font-nav: 28rpx;
   --font-hint: 32rpx;
@@ -121,24 +119,27 @@ page {
   --gap-inset: 24rpx;
   --gap-card: 28rpx;
   --gap-block: 32rpx;
+  --gap-pair: 38rpx;
   --block-gap: 30rpx;
 
   --pad-card-sm: 20rpx;
-  --pad-card: var(--gap-card);
+  --pad-card: 28rpx;
   --pad-card-lg: 36rpx;
   --pad-card-xl: 56rpx;
-  --page-pad-x: var(--block-gap);
+  --page-pad-x: 30rpx;
 
-  --col-2: calc((100% - var(--block-gap)) / 2);
-  --col-3: calc((100% - var(--block-gap) * 2) / 3);
+  --col-2: calc((100% - 30rpx) / 2);
+  --col-3: calc((100% - 30rpx * 2) / 3);
 
   --tap-min: 152rpx;
   --tap-min-compact: 128rpx;
   --opacity-disabled: 0.68;
   --opacity-soft: 0.86;
+  /* 有圆体用圆体（Mac/iOS）；微信无此字时落到苹方 */
+  --font-ui: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif;
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);
   font-size: var(--font-body);
-  font-family: "PingFang SC", "Hiragino Sans GB", sans-serif;
+  font-family: var(--font-ui);
 }

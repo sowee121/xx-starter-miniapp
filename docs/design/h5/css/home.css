@@ -34,10 +34,6 @@
   color: var(--ink);
 }
 
-.block:active {
-  transform: scale(0.985);
-}
-
 /* —— 欢迎卡 —— */
 .welcome {
   display: flex;
@@ -119,6 +115,7 @@
   border-radius: 50%;
   background: rgba(154, 182, 138, 0.22);
   box-shadow: var(--shadow-socket);
+  transition: var(--motion-tap);
 }
 .socket-on {
   background: rgba(255, 255, 255, 0.55);
@@ -176,9 +173,3 @@
   font-size: var(--font-hint);
 }
 
-.welcome-hello,
-.wide-title,
-.module-label,
-.star-pill-num {
-  font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", sans-serif;
-}

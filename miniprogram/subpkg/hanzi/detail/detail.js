@@ -1,9 +1,10 @@
 const { categories } = require('../content/hanzi')
+const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { stepNavState } = require('../../../utils/trail-nav')
+const { stepNavState } = require('../../../utils/navbar')
 
 function findCategory(char, catId) {
   if (catId) {
@@ -17,6 +18,7 @@ Page({
   data: {
     stars: 0,
     item: null,
+    tone: 'cream',
     softNote: '',
     nav: stepNavState(0, 0),
     feedback: { show: false, closing: false },
@@ -25,6 +27,7 @@ Page({
   onLoad(q) {
     const char = decodeURIComponent(q.char || '一')
     const cat = findCategory(char, q.cat)
+    this._catId = cat.id
     this._items = cat.items
     let index = this._items.findIndex((x) => x.char === char)
     if (index < 0) index = 0
@@ -42,6 +45,7 @@ Page({
     audioUtil.stop()
     this.setData({
       item,
+      tone: toneOf(this._catId),
       softNote: '',
       nav: stepNavState(index, this._items.length),
     })

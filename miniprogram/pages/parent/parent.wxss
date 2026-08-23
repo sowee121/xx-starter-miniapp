@@ -12,12 +12,6 @@
   gap: var(--gap-card);
 }
 
-.setting-head__title,
-.volume-option,
-.clear-label {
-  font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", sans-serif;
-}
-
 .volume-option,
 .clear-label {
   letter-spacing: var(--letter-btn);
@@ -46,7 +40,8 @@
   bottom: 10rpx;
   width: calc((100% - 20rpx) / 3);
   border-radius: 999rpx;
-  background: var(--btn-green);
+  background-color: #77b07c;
+  background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
   transition: left 120ms ease-out;
 }
@@ -64,6 +59,7 @@
   font-weight: 700;
   position: relative;
   z-index: 1;
+  transition: var(--motion-tap);
 }
 
 .volume-option.is-active {
@@ -95,11 +91,12 @@
     inset 0 4rpx 8rpx rgba(255, 255, 255, 0.28),
     inset 0 -6rpx 12rpx rgba(160, 90, 110, 0.28),
     0 8rpx 16rpx rgba(180, 120, 140, 0.18);
-  transition: transform 80ms ease-out;
+  transition: var(--motion-tap);
 }
 
 .clear-groove.is-matcha {
-  background: var(--btn-green);
+  background-color: #77b07c;
+  background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
 

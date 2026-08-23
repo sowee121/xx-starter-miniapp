@@ -29,7 +29,7 @@ ANIMALS = [
     "chicken", "sheep", "cow", "pig", "bird", "fish", "fox", "panda",
     "elephant", "giraffe", "lion", "tiger", "monkey", "dolphin", "otter", "hamster",
 ]
-CENTERED = ["star", "avatar"]
+CENTERED = ["star", "avatar", "arrow"]
 
 
 def load_raw(name: str) -> Image.Image:

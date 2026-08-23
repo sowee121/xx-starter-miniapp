@@ -4,31 +4,37 @@
     {
       "letter": "a",
       "asset": "pinyin-a",
+      "phonetic": "/ɑ/",
       "hint": "张大嘴巴，a a a"
     },
     {
       "letter": "o",
       "asset": "pinyin-o",
+      "phonetic": "/o/",
       "hint": "圆圆嘴巴，o o o"
     },
     {
       "letter": "e",
       "asset": "pinyin-e",
+      "phonetic": "/ɤ/",
       "hint": "嘴巴扁扁，e e e"
     },
     {
       "letter": "i",
       "asset": "pinyin-i",
+      "phonetic": "/i/",
       "hint": "牙齿对齐，i i i"
     },
     {
       "letter": "u",
       "asset": "pinyin-u",
+      "phonetic": "/u/",
       "hint": "小嘴突出，u u u"
     },
     {
       "letter": "ü",
       "asset": "pinyin-umlaut-u",
+      "phonetic": "/y/",
       "hint": "小鱼吐泡，ü ü ü"
     }
   ]

@@ -1,12 +1,21 @@
 const VOLUME_KEY = 'audio_volume'
 
 let ctx = null
-let queue = []
 let playing = false
+let currentSrc = ''
 let optionReady = false
 let playToken = 0
 let endedCallback = null
 let errorCallback = null
+/** stop() 在部分机型会误发 onEnded；新一次 play 真正开始前忽略 ended */
+let endedArmed = false
+/** 本次 play 已真正响起；之后的 onError 视为误报 */
+let playAlive = false
+/** 同一次 src 遇到误报 onError 时只重试一次 */
+let retriedPlay = false
+let errorRetryTimer = null
+let lifeBound = false
+const stopWatchers = []
 
 function getVolume() {
   const v = wx.getStorageSync(VOLUME_KEY)
@@ -15,8 +24,59 @@ function getVolume() {
   return 1
 }
 
-/** 真机（尤其 iOS）需全局设置；实例上的 obeyMuteSwitch 自基础库 2.3.0 起无效。 */
-function ensureAudioOption() {
+function clearErrorRetry() {
+  if (errorRetryTimer) {
+    clearTimeout(errorRetryTimer)
+    errorRetryTimer = null
+  }
+}
+
+function dropNativeSrc() {
+  if (!ctx) return
+  try {
+    ctx.src = ''
+  } catch (error) {
+    // ignore
+  }
+}
+
+function notifyStopWatchers() {
+  stopWatchers.slice().forEach((fn) => {
+    try {
+      fn()
+    } catch (error) {
+      // ignore
+    }
+  })
+}
+
+/** 页面用来把「停止方块」收回播放三角；仅导出的 stop() 会通知，换源时的 ctx.stop 不会。 */
+function watchStop(fn) {
+  if (typeof fn !== 'function') return () => {}
+  stopWatchers.push(fn)
+  return () => {
+    const index = stopWatchers.indexOf(fn)
+    if (index >= 0) stopWatchers.splice(index, 1)
+  }
+}
+
+/** 微信切后台、关掉小程序、来电等打断时停掉长音频。 */
+function bindAppLifecycle() {
+  if (lifeBound) return
+  lifeBound = true
+  if (typeof wx.onAppHide === 'function') {
+    wx.onAppHide(() => {
+      destroy()
+    })
+  }
+  if (typeof wx.onAudioInterruptionBegin === 'function') {
+    wx.onAudioInterruptionBegin(() => {
+      stop()
+    })
+  }
+}
+
+function applyAudioOption() {
   if (optionReady || typeof wx.setInnerAudioOption !== 'function') return
   optionReady = true
   wx.setInnerAudioOption({
@@ -25,10 +85,16 @@ function ensureAudioOption() {
   })
 }
 
+/** 真机（尤其 iOS）需全局设置；实例上的 obeyMuteSwitch 自基础库 2.3.0 起无效。 */
+function ensureAudioOption() {
+  bindAppLifecycle()
+  applyAudioOption()
+  ensureCtx()
+}
+
 /**
- * 代码包内路径（/subpkg/...）走 readFile，不做百分号编码：
+ * 代码包内路径（/subpkg/...）走本地文件，不做百分号编码：
  * 编码后的文件名会被当成字面量去查，非 ASCII 素材必然 not found。
- * 素材文件名一律 ASCII slug，这里只给网络地址留编码。
  */
 function normalizeSrc(src) {
   if (!src) return ''
@@ -42,40 +108,75 @@ function normalizeSrc(src) {
 
 function ensureCtx() {
   if (ctx) return ctx
-  ensureAudioOption()
+  bindAppLifecycle()
+  applyAudioOption()
   ctx = wx.createInnerAudioContext()
-  // 旧基础库兜底；新版本以 setInnerAudioOption 为准
   try {
     ctx.obeyMuteSwitch = false
   } catch (error) {
     // ignore
   }
+  ctx.onPlay(() => {
+    playAlive = true
+  })
   ctx.onEnded(() => {
+    if (!endedArmed) return
+    endedArmed = false
+    playAlive = false
+    retriedPlay = false
     const callback = endedCallback
     endedCallback = null
     errorCallback = null
     playing = false
+    currentSrc = ''
+    dropNativeSrc()
     if (callback) callback()
-    playNext()
   })
   ctx.onStop(() => {
-    // stop 后勿立刻认为可播下一条，由 play()/playNext 自己推进
+    // stop 后不要立刻改 src；换源由 play() 自己延迟推进
   })
   ctx.onError((err) => {
-    console.warn('[audio]', err)
+    // 首次进页 / 分包音频刚就绪：微信常先 onError 再出声
+    if (playAlive) return
+    const token = playToken
     const callback = errorCallback
-    endedCallback = null
-    errorCallback = null
-    playing = false
-    if (callback) callback(err)
-    playNext()
+    if (ctx && currentSrc && !retriedPlay) {
+      retriedPlay = true
+      try {
+        ctx.play()
+      } catch (error) {
+        // ignore
+      }
+      clearErrorRetry()
+      errorRetryTimer = setTimeout(() => {
+        errorRetryTimer = null
+        if (token !== playToken || playAlive) return
+        finishError(err, callback)
+      }, 480)
+      return
+    }
+    finishError(err, callback)
   })
   return ctx
 }
 
+function finishError(err, callback) {
+  console.warn('[audio]', err)
+  clearErrorRetry()
+  endedArmed = false
+  playAlive = false
+  retriedPlay = false
+  endedCallback = null
+  errorCallback = null
+  playing = false
+  currentSrc = ''
+  dropNativeSrc()
+  if (callback) callback(err)
+}
+
 /**
  * 真机上 stop 后立刻改 src 再 play 常会静音失败；
- * 换源时先 stop，再短延迟设 src 并 play。
+ * 换源时先 stop，再短延迟设 src 并 play。首次播放不要空 stop，以免误报 onError。
  */
 function startSrc(src, options = {}) {
   const audio = ensureCtx()
@@ -84,45 +185,46 @@ function startSrc(src, options = {}) {
   const onError = options.onError
   if (!next) {
     playing = false
+    currentSrc = ''
     if (typeof onError === 'function') onError({ errMsg: 'empty src' })
-    playNext()
     return
   }
 
+  const needStop = playing || !!currentSrc
   const token = ++playToken
-  endedCallback = typeof onEnded === 'function' ? () => {
-    if (token === playToken) onEnded()
-  } : null
-  errorCallback = typeof onError === 'function' ? (err) => {
-    if (token === playToken) onError(err)
-  } : null
-  playing = true
+  endedArmed = false
+  playAlive = false
+  retriedPlay = false
+  endedCallback = null
+  errorCallback = null
+  clearErrorRetry()
   audio.volume = getVolume()
 
   const doPlay = () => {
     if (token !== playToken) return
+    endedCallback = typeof onEnded === 'function' ? () => {
+      if (token === playToken) onEnded()
+    } : null
+    errorCallback = typeof onError === 'function' ? (err) => {
+      if (token === playToken) onError(err)
+    } : null
+    playing = true
+    currentSrc = next
+    endedArmed = true
     audio.src = next
     audio.play()
   }
 
-  try {
-    audio.stop()
-  } catch (error) {
-    // ignore
-  }
-
-  // 开发者工具几乎即时；真机需要一点间隔
-  setTimeout(doPlay, 30)
-}
-
-function playNext() {
-  if (playing || !queue.length) return
-  const src = queue.shift()
-  if (!src) {
-    playNext()
+  if (needStop) {
+    try {
+      audio.stop()
+    } catch (error) {
+      // ignore
+    }
+    setTimeout(doPlay, 30)
     return
   }
-  startSrc(src)
+  doPlay()
 }
 
 /** 立即打断并播放一条；options.onError 用于页面兜底提示 */
@@ -131,41 +233,60 @@ function play(src, options = {}) {
     if (typeof options.onError === 'function') options.onError({ errMsg: 'empty src' })
     return
   }
-  queue = []
   startSrc(src, options)
 }
 
-/** 串行追加播放（如 star → great） */
-function playSequence(srcs) {
-  const list = (srcs || []).filter(Boolean)
-  if (!list.length) return
-  queue = queue.concat(list)
-  if (!playing) playNext()
-}
-
 function stop() {
-  queue = []
+  const hadPlayback = playing || !!currentSrc
   playing = false
+  currentSrc = ''
   playToken += 1
+  endedArmed = false
+  playAlive = false
+  retriedPlay = false
   endedCallback = null
   errorCallback = null
-  if (ctx) ctx.stop()
+  clearErrorRetry()
+  // 空闲时 stop 会在部分机型误报 onError，详情页第一次点播放就会闪「语音准备中」
+  if (ctx && hadPlayback) {
+    try {
+      ctx.stop()
+    } catch (error) {
+      // ignore
+    }
+    dropNativeSrc()
+  }
+  notifyStopWatchers()
+}
+
+function isPlayingSrc(src) {
+  if (!playing || !currentSrc || !src) return false
+  return currentSrc === normalizeSrc(src)
 }
 
 function destroy() {
   stop()
-  if (ctx) {
+  if (!ctx) return
+  try {
+    if (typeof ctx.offPlay === 'function') ctx.offPlay()
+    if (typeof ctx.offEnded === 'function') ctx.offEnded()
+    if (typeof ctx.offStop === 'function') ctx.offStop()
+    if (typeof ctx.offError === 'function') ctx.offError()
     ctx.destroy()
-    ctx = null
+  } catch (error) {
+    // ignore
   }
+  ctx = null
 }
 
 module.exports = {
   play,
-  playSequence,
   stop,
   destroy,
+  isPlayingSrc,
   getVolume,
   VOLUME_KEY,
   ensureAudioOption,
+  bindAppLifecycle,
+  watchStop,
 }

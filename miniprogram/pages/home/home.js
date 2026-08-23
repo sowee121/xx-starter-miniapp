@@ -26,6 +26,11 @@ Page({
   },
 
   onShow() {
+    try {
+      require('../../utils/audio').stop()
+    } catch (error) {
+      // ignore
+    }
     this.setData({
       stars: starsUtil.getLocalStars(),
       taskProgress: dailyTasks.getProgress(),

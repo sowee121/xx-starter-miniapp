@@ -1,6 +1,10 @@
 <view class="app-shell {{night ? 'is-night' : ''}}">
   <view class="app-shell__sky"></view>
-  <image class="app-shell__bg" src="{{background}}" mode="widthFix" />
+  <view class="scene" aria-hidden="true">
+    <image class="scene__meadow" src="{{background}}" mode="widthFix" />
+    <view class="scene__blend"></view>
+    <view class="scene__dusk"></view>
+  </view>
   <custom-header
     title="{{title}}"
     stars="{{stars}}"

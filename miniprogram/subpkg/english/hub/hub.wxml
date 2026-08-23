@@ -1,11 +1,11 @@
 <app-shell title="英语" hint="英语小天地" sub-hint="字母表，学单词" stars="{{stars}}">
   <view class="duo">
-    <view class="duo-card block tone-sky" data-to="alphabet" bindtap="open">
+    <view class="duo-card block tone-sky" data-to="alphabet" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="duo-card__image" src="{{abcImage}}" mode="aspectFit" />
       <view class="duo-card__title">字母表</view>
       <view class="duo-card__sub">A 到 Z</view>
     </view>
-    <view class="duo-card block tone-rose" data-to="words" bindtap="open">
+    <view class="duo-card block tone-rose" data-to="words" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="duo-card__image" src="{{wordImage}}" mode="aspectFit" />
       <view class="duo-card__title">单词</view>
       <view class="duo-card__sub">听一听，说一说</view>

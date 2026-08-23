@@ -27,6 +27,11 @@ Component({
 
   methods: {
     onGoHome() {
+      try {
+        require('../../utils/audio').stop()
+      } catch (error) {
+        // ignore
+      }
       wx.reLaunch({ url: '/pages/home/home' })
     },
   },

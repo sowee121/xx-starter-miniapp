@@ -1,5 +1,6 @@
 {
-  "_note": "26 个大写字母名点读；音标为英式字母名 IPA，对齐现有词库。TTS 用 en-US-AnaNeural 念字母名（Z 合成文案 zed）。",
+  "_note": "26 个大写字母名点读；音标为英式字母名 IPA，对齐现有词库。TTS 用 en-US-AnaNeural 念字母名（Z 合成文案 zed）。字母歌 songAudio 在 Z 后的 ABC 卡片上播放，对应 english-abc/static/audio/alphabet-song.mp3。",
+  "songAudio": "/subpkg/english-abc/static/audio/alphabet-song.mp3",
   "letters": [
     { "letter": "A", "phonetic": "/eɪ/", "image": "english-letter-a" },
     { "letter": "B", "phonetic": "/biː/", "image": "english-letter-b" },

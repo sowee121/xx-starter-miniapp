@@ -16,8 +16,7 @@
       <view
         wx:if="{{showHome}}"
         class="custom-header__home"
-        bindtap="onHome"
-      >
+        bindtap="onHome" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
         <image class="custom-header__home-icon" src="{{homeIcon}}" mode="aspectFit" />
       </view>
       <view wx:else class="custom-header__home-spacer"></view>

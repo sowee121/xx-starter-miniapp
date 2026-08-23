@@ -58,16 +58,6 @@ function markLocal(moduleName, itemId) {
   saveMap(map)
 }
 
-function isDone(moduleName, itemId) {
-  const map = loadMap()
-  return !!(map[moduleName] && map[moduleName][itemId])
-}
-
-function getDoneIds(moduleName) {
-  const map = loadMap()
-  return Object.keys((map[moduleName] && map[moduleName]) || {})
-}
-
 function mergeCloudItems(items) {
   if (!Array.isArray(items) || !items.length) return
   const map = loadMap()
@@ -146,10 +136,6 @@ async function syncFromCloud() {
 
 module.exports = {
   markDone,
-  isDone,
-  getDoneIds,
-  flushRetryQueue,
-  pullFromCloud,
   syncFromCloud,
   clearAll,
 }

@@ -1,10 +1,11 @@
 const { categories } = require('../content/english')
+const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
 const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { stepNavState } = require('../../../utils/trail-nav')
+const { stepNavState } = require('../../../utils/navbar')
 
 const MEDIA_PKG = {
   body: 'english-extra',
@@ -34,6 +35,7 @@ Page({
   data: {
     stars: 0,
     item: null,
+    tone: 'cream',
     softNote: '',
     nav: stepNavState(0, 0),
     feedback: { show: false, closing: false },
@@ -65,6 +67,7 @@ Page({
     audioUtil.stop()
     this.setData({
       item: mapItem(raw, this._catId),
+      tone: toneOf(this._catId),
       softNote: '',
       nav: stepNavState(index, this._items.length),
     })

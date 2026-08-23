@@ -4,7 +4,7 @@ const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
 const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { stepNavState } = require('../../../utils/trail-nav')
+const { stepNavState } = require('../../../utils/navbar')
 
 function mapItem(item) {
   return {
@@ -64,7 +64,7 @@ Page({
     playPrimaryAndAward(this, {
       src: item.audio,
       taskId: 'english',
-      unitKey: item.letter,
+      unitKey: `letter:${item.letter}`,
       reason: 'letter_done',
       ref: item.letter,
     })

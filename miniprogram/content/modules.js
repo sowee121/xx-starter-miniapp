@@ -66,42 +66,15 @@ const MODULES = {
 /** 首页六宫格：语（识字/拼音/古诗/英语）→ 算术 → 日常 */
 const HOME_MODULE_ENTRIES = ['hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar']
 
-/** 兼容旧调用：首页全部八入口顺序 */
-const HOME_ENTRIES = ['task', 'hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar', 'reward']
-
-const NAV_ORDER = HOME_ENTRIES.slice()
-
 function getModule(id) {
   return MODULES[id] || null
-}
-
-function homeEntries() {
-  return HOME_ENTRIES.map((id) => MODULES[id])
 }
 
 function homeModuleEntries() {
   return HOME_MODULE_ENTRIES.map((id) => MODULES[id])
 }
 
-function navItems() {
-  return NAV_ORDER.map((id) => {
-    const mod = MODULES[id]
-    return {
-      id: mod.id,
-      label: mod.title,
-      icon: mod.icon,
-      url: mod.url,
-    }
-  })
-}
-
 module.exports = {
-  MODULES,
-  HOME_ENTRIES,
-  HOME_MODULE_ENTRIES,
-  NAV_ORDER,
   getModule,
-  homeEntries,
   homeModuleEntries,
-  navItems,
 }

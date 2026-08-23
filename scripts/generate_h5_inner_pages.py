@@ -55,36 +55,45 @@ def load_json(name: str):
     return json.loads((CONTENT / name).read_text(encoding="utf-8"))
 
 
-def stable_pick(pool: list[str], key: str, avoid: set[str] | None = None) -> str:
-    """Deterministic image pick from pool based on question id."""
-    avoid = avoid or set()
-    candidates = [x for x in pool if x not in avoid] or list(pool)
-    h = 0
-    for ch in key:
-        h = (h * 131 + ord(ch)) & 0xFFFFFFFF
-    return candidates[h % len(candidates)]
-
-
-def play(size=""):
+def play(size="", playing=False):
     cls = "play-btn" if not size else f"play-btn {size}"
-    return f'<div class="{cls}" aria-label="播放"><img src="{ASSET}/play.png" alt="" /></div>'
+    if playing:
+        cls += " is-playing"
+        icon = "stop.png"
+        label = "停止"
+    else:
+        icon = "play.png"
+        label = "播放"
+    return f'<div class="{cls}" aria-label="{label}"><img src="{ASSET}/{icon}" alt="" /></div>'
 
 
 def trail_step_nav(current: int = 2, total: int = 5) -> str:
-    """详情底栏：上一个 / 下一个（石子径 wide 项，无中间序号）。"""
+    """详情底栏：左右黏土箭头（一图翻转）。"""
     prev_dis = " is-disabled" if current <= 1 else ""
     next_dis = " is-disabled" if current >= total else ""
+    src = f"{ASSET}/arrow.png"
     return (
-        f'<nav class="trail-nav" aria-label="切题">'
-        f'<span class="trail-nav__item is-wide{prev_dis}"><span class="trail-nav__glyph">上一个</span></span>'
-        f'<span class="trail-nav__item is-wide{next_dis}"><span class="trail-nav__glyph">下一个</span></span>'
+        f'<nav class="trail-nav is-step" aria-label="切题">'
+        f'<span class="trail-nav__item{prev_dis}" aria-label="上一题">'
+        f'<img class="trail-nav__arrow is-flip" src="{src}" alt="" /></span>'
+        f'<span class="trail-nav__item{next_dis}" aria-label="下一题">'
+        f'<img class="trail-nav__arrow" src="{src}" alt="" /></span>'
         f"</nav>"
+    )
+
+
+def scene_html(night=False, asset=ASSET):
+    return (
+        '<div class="scene" aria-hidden="true">'
+        f'<img class="scene__meadow" src="{asset}/meadow-hill.png" alt="" />'
+        '<div class="scene__blend"></div>'
+        '<div class="scene__dusk"></div>'
+        "</div>"
     )
 
 
 def page(title, body, night=False):
     page_cls = "page is-night" if night else "page"
-    meadow = "meadow-night.png" if night else "meadow.png"
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -95,7 +104,7 @@ def page(title, body, night=False):
 </head>
 <body>
   <div class="{page_cls}">
-    <img class="page-bg" src="{ASSET}/{meadow}" alt="" />
+    {scene_html(night)}
     <div class="shell">
       <div class="nav">
         <div class="nav-home" aria-label="返回首页"></div>
@@ -127,23 +136,22 @@ def media(image, title, sub, tone="tone-cream", wide=False):
 </div>"""
 
 
-def word_grid(items, tone):
-    cards = "".join(
-        f'<div class="word-card block {tone}">{x}{play("is-sm")}</div>'
-        for x in items
-    )
-    return f'<div class="word-grid">{cards}</div>'
-
-
-def praise_layer(title: str, desc: str, variant: str = "") -> str:
+def praise_layer(title: str, desc: str, variant: str = "", action: str = "") -> str:
     """静态审查：弹层已打开态（对齐小程序 praise-sun）。"""
     card_cls = "praise-sun__card"
     icon = "big-star"
+    actions = {
+        "": "继续学",
+        "success": "继续学",
+        "exchange": "收下啦",
+        "softFail": "再看看",
+    }
     if variant == "softFail":
         card_cls += " is-soft-fail"
         icon = "rabbit"
     elif variant == "exchange":
         card_cls += " is-exchange"
+    label = action or actions.get(variant, "继续学")
     return f"""<div class="feedback-frame"><div class="praise-sun"><div class="{card_cls}">
   <img class="praise-sun__cloud" src="{ASSET}/cloud.png" alt="" />
   <div class="praise-sun__icon-slot"><img class="praise-sun__icon" src="{ASSET}/{icon}.png" alt="" /></div>
@@ -151,7 +159,7 @@ def praise_layer(title: str, desc: str, variant: str = "") -> str:
     <div class="praise-sun__text">{title}</div>
     <div class="praise-sun__desc">{desc}</div>
   </div>
-  <div class="praise-sun__continue">继续学</div>
+  <div class="praise-sun__continue">{label}</div>
   <img class="praise-sun__grass" src="{ASSET}/grass-tuft.png" alt="" />
 </div></div></div>"""
 
@@ -176,7 +184,10 @@ def make_poem():
     )
     write("poem/list.html", "古诗", f'<div class="inner-head"><h1>选一首来听</h1><p>一首一首慢慢听</p></div>{cards}')
 
-    sample = next(p for p in poems if p["id"] == "deng-guan-que-lou")
+    sample_i, sample = next(
+        (i, p) for i, p in enumerate(poems) if p["id"] == "deng-guan-que-lou"
+    )
+    sample_tone = POEM_TONES[sample_i % len(POEM_TONES)]
 
     def poem_lines(active=None):
         parts = []
@@ -190,18 +201,20 @@ def make_poem():
         return "".join(parts)
 
     hero = (
-        f'<div class="hero block tone-peach"><img src="{ASSET}/{sample["cover"]}.png" alt="" />'
-        f'<h2>{sample["title"]}</h2><p>{sample["author"]}</p></div>'
+        f'<div class="hero block {sample_tone}"><img src="{ASSET}/{sample["cover"]}.png" alt="" />'
+        f'<div class="hero__bar"><h2 class="hero__title">{sample["title"]}</h2>'
+        f'<p class="hero__sub">{sample["author"]}</p>'
+        f'<div class="hero__play">{play("is-lg")}</div></div></div>'
     )
-    footer = f'<div class="footer-btn big-btn"><img src="{ASSET}/play.png" alt="" />整首诗</div>'
     step = trail_step_nav(2, 6)
     audio_note = '<div class="soft-note block tone-butter">语音准备中～</div>'
     write(
         "poem/detail.html",
         "古诗",
-        section("点读", hero + poem_lines() + footer + step)
-        + section("点读中", hero + poem_lines(0) + footer + step)
-        + section("语音准备中", hero + poem_lines() + footer + step + audio_note),
+        section("点读", hero + poem_lines() + step)
+        + section("点读中", hero + poem_lines(0) + step)
+        + section("整首播放中", hero + poem_lines() + step)
+        + section("语音准备中", hero + poem_lines() + step + audio_note),
     )
     remove_paths("poem/praise.html")
 
@@ -246,7 +259,7 @@ def make_hanzi():
     write(
         "hanzi/detail.html",
         "识字",
-        f"""<div class="detail-stack"><div class="detail-big block tone-peach"><div class="detail-emoji" aria-hidden="true">{sample["emoji"]}</div><div class="glyph">{sample["char"]}</div><p>{sample["pinyin"]} · {sample["strokes"]}画</p>{play("is-lg")}</div><div class="detail-pair"><div class="block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-rose"><div class="detail-emoji" aria-hidden="true">{sample["emoji"]}</div><div class="glyph">{sample["char"]}</div><p>{sample["pinyin"]} · {sample["strokes"]} 画</p>{play("is-lg")}</div><div class="detail-pair"><div class="detail-pair__card block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="detail-pair__card block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("hanzi/hub.html", "hanzi/poem-list.html", "hanzi/life-list.html", "hanzi/praise.html")
@@ -254,7 +267,7 @@ def make_hanzi():
 
 def count_stage_html(fruit: str, n: int) -> str:
     """同一水果原子重复 n 次。
-    换行由 CSS max-width 控制：列数 = 10 的约数中 ≤ n 的最大者（n=10 → 5）。
+    换行由 CSS max-width 控制（5=3+2、7=4+3 末行居中，6=3×2，10=5×2）。
     """
     items = "".join(
         f'<img class="count-item" src="{ASSET}/{fruit}.png" alt="" />' for _ in range(n)
@@ -264,14 +277,14 @@ def count_stage_html(fruit: str, n: int) -> str:
 
 def make_math():
     data = load_json("math.json")
-    fruits = data["fruitPool"]
+    fruit = data["fruitImage"]
     by_id = {q["id"]: q for q in data["count"] + data["calc"]}
     samples = data["h5Samples"]
 
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/apple-english.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None):
@@ -298,15 +311,14 @@ def make_math():
         )
 
     retry_note = '<div class="soft-note block tone-butter">答错啦！再试一次吧～</div>'
-    correct_note = '<div class="soft-note block tone-butter">答对啦！你真棒！</div>'
+    correct_note = '<div class="soft-note block tone-matcha">答对啦！你真棒！</div>'
 
-    # 数一数审查帧：固定样例；真机每次随机水果+数量
+    # 数一数审查帧：固定苹果样例；真机只换数量，水果固定苹果
     count_q = by_id[samples["count"]]
-    fruit = stable_pick(fruits, count_q["id"])
     n = int(count_q["answer"])
     count_tones = ["tone-sky", "tone-butter", "tone-peach"]
     count_head = (
-        f'<div class="quiz-head block tone-cream">{count_stage_html(fruit, n)}'
+        f'<div class="quiz-head block tone-butter">{count_stage_html(fruit, n)}'
         f"<h2>数一数，有几个？</h2></div>"
     )
     count_wrong = next(c for c in sorted(count_q["choices"]) if c != n)
@@ -345,13 +357,13 @@ def make_math():
             section(
                 f"数 {q['answer']} 个",
                 quiz(
-                    f'<div class="quiz-head block tone-cream">{count_stage_html(stable_pick(fruits, qid), int(q["answer"]))}'
+                    f'<div class="quiz-head block tone-butter">{count_stage_html(fruit, int(q["answer"]))}'
                     f"<h2>数一数，有几个？</h2></div>",
                     q["choices"],
                     count_tones,
                 ),
             )
-            for qid in ("c1", "c6", "c10")
+            for qid in (f"c{i}" for i in range(1, 11))
             for q in [by_id[qid]]
         ),
     )
@@ -395,7 +407,7 @@ def make_english():
     write(
         "english/hub.html",
         "英语",
-        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A 到 Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/apple-english.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A 到 Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
     )
 
     abc_cards = "".join(
@@ -404,10 +416,21 @@ def make_english():
         f'{play("is-sm")}</div>'
         for item in alphabet["letters"]
     )
+    song_card = (
+        f'<div class="word-card is-song block tone-sky">'
+        f'<img class="word-card__image" src="{ASSET}/english-abc.png" alt="ABC Song" />'
+        f'{play("is-sm")}</div>'
+    )
+    song_card_stop = (
+        f'<div class="word-card is-song block tone-sky">'
+        f'<img class="word-card__image" src="{ASSET}/english-abc.png" alt="ABC Song" />'
+        f'{play("is-sm", playing=True)}</div>'
+    )
     write(
         "english/alphabet-list.html",
         "英语",
-        f'<div class="inner-head"><h1>字母表</h1><p>听一听字母</p></div><div class="word-grid">{abc_cards}</div>',
+        f'<div class="inner-head"><h1>字母表</h1><p>听一听字母</p></div><div class="word-grid">{abc_cards}{song_card}</div>'
+        + section("字母歌播放中", f'<div class="word-grid">{abc_cards}{song_card_stop}</div>'),
     )
 
     abc_sample = alphabet["letters"][0]
@@ -420,18 +443,18 @@ def make_english():
     )
 
     sections = []
-    tones = [
-        "tone-rose",
-        "tone-butter",
-        "tone-sky",
-        "tone-apricot",
-        "tone-matcha",
-        "tone-peach",
-        "tone-cream",
-        "tone-lilac",
-    ]
-    for i, cat in enumerate(data["categories"]):
-        tone = tones[i % len(tones)]
+    tone_map = {
+        "fruit": "tone-rose",
+        "animal": "tone-butter",
+        "color": "tone-sky",
+        "number": "tone-apricot",
+        "body": "tone-matcha",
+        "transport": "tone-peach",
+        "food": "tone-cream",
+        "nature": "tone-lilac",
+    }
+    for cat in data["categories"]:
+        tone = tone_map.get(cat["id"], "tone-cream")
         cards = "".join(
             (
                 f'<div class="word-card word-card--english block {tone}">'
@@ -452,7 +475,7 @@ def make_english():
     write(
         "english/detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-big block tone-rose"><img src="{ASSET}/{sample['image']}.png" alt="" /><h2>{sample['word']}</h2><p>{sample['phonetic']}</p>{play("is-lg")}</div><div class="poem-line block tone-cream"><div class="poem-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-apricot"><img src="{ASSET}/{sample['image']}.png" alt="" /><h2>{sample['word']}</h2><p>{sample['phonetic']}</p><p class="detail-big__meaning">{sample.get('meaning', '')}</p>{play("is-lg")}</div><div class="poem-line block tone-cream"><div class="poem-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("english/praise.html")
@@ -486,8 +509,8 @@ def make_pinyin():
     write(
         "pinyin/detail.html",
         "拼音",
-        f"""<div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" />{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
-<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" />{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p>{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
+<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p>{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths(
@@ -502,8 +525,8 @@ def make_pinyin():
 
 
 def make_calendar():
-    day = f"""<div class="calendar-scene block tone-butter"><div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div><div class="calendar-date">2026年8月15日</div><div class="calendar-week">星期六</div><div class="calendar-tag">白天</div></div><div class="big-btn">打卡</div>"""
-    night = f"""<div class="calendar-scene calendar-scene-night block tone-night"><div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div><div class="calendar-date">2026年8月15日</div><div class="calendar-week">星期六</div><div class="calendar-tag">晚上</div></div><div class="big-btn is-disabled">今天已打卡</div>"""
+    day = f"""<div class="calendar-scene block tone-butter"><div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">白天</div></div><div class="big-btn">打卡</div>"""
+    night = f"""<div class="calendar-scene calendar-scene-night block tone-night"><div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">晚上</div></div><div class="big-btn is-disabled">今天已打卡</div>"""
     write(
         "calendar/index.html",
         "日历",
@@ -617,7 +640,11 @@ def make_shared():
         + "".join(
             section(
                 label,
-                praise_layer("宝贝真棒", f"「{task}」任务完成啦～"),
+                praise_layer(
+                    "宝贝真棒",
+                    f"「{task}」任务完成啦～",
+                    action="好的" if label == "日历" else "继续学",
+                ),
             )
             for label, task in task_awards
         )
@@ -658,7 +685,7 @@ def make_index():
         ("任务完成反馈", "shared/feedback.html"),
     ]
     tiles = "".join(f'<a href="{url}">{name}</a>' for name, url in links)
-    content = f"""<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=750"><title>嘻嘻启蒙乐园 · 设计目录</title><link rel="stylesheet" href="css/pages.css"></head><body><div class="page"><img class="page-bg" src="../atoms/meadow.png" alt=""><div class="shell"><div class="inner-head"><h1>设计审核目录</h1><p>八大板块静态 H5</p></div><div class="page-links">{tiles}</div></div></div></body></html>"""
+    content = f"""<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=750"><title>嘻嘻启蒙乐园 · 设计目录</title><link rel="stylesheet" href="css/pages.css"></head><body><div class="page">{scene_html(asset="../atoms")}<div class="shell"><div class="inner-head"><h1>设计审核目录</h1><p>八大板块静态 H5</p></div><div class="page-links">{tiles}</div></div></div></body></html>"""
     (ROOT / "index.html").write_text(content, encoding="utf-8")
 
 

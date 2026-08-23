@@ -107,7 +107,8 @@
   width: 220rpx;
   height: 100rpx;
   border-radius: 50rpx;
-  background: var(--btn-green);
+  background-color: #77b07c;
+  background-image: var(--btn-green);
   color: #fff;
   font-size: var(--font-hint);
   font-weight: 700;

@@ -1,4 +1,5 @@
 module.exports = {
+  "songAudio": "/subpkg/english-abc/static/audio/alphabet-song.mp3",
   "letters": [
     {
       "letter": "A",

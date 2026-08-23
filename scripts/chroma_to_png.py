@@ -81,6 +81,17 @@ def _magenta_mask(r: np.ndarray, g: np.ndarray, b: np.ndarray) -> tuple[np.ndarr
     return mag, strength
 
 
+def _bg_mask(r: np.ndarray, g: np.ndarray, b: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """幕布：洋红，以及边连的纯白/纯黑（生成器常无视 #FF00FF）。"""
+    mag, strength = _magenta_mask(r, g, b)
+    # 只抠纯白/纯黑幕；不抠奶油色，避免误伤香草/杏仁字母
+    white = (r > 242) & (g > 242) & (b > 242)
+    black = (r.astype(np.int16) + g + b) < 36
+    is_bg = mag | white | black
+    strength = np.where(white | black, np.maximum(strength, 1.0), strength)
+    return is_bg, strength
+
+
 def _flood_bg(mag: np.ndarray) -> np.ndarray:
     h, w = mag.shape
     seen = np.zeros((h, w), dtype=np.uint8)
@@ -140,18 +151,31 @@ def clean_fringe(rgba: Image.Image, *, kill_alpha: int = 28) -> Image.Image:
     fringe = (a > 0) & (a < 250)
     r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
     lo = np.minimum(r, b)
+    lum = (r + g + b) / 3.0
+    inner_lum = float(lum[solid].mean()) if solid.any() else 200.0
     dirty = fringe & (
         ((lo > g + 18) & (lo > 50))  # 洋红残留
         | ((r + g + b) < 320)  # 半透明发灰/发暗（幕布晕）
         | ((np.maximum(r, b) - g) > 18)
+        | (lum < inner_lum * 0.82)  # 黑幕抗锯齿镶边
     )
     # fringe 一律用邻近实体色，避免缩图后的灰黑镶边
     rgb = np.where(fringe[..., None], filled, rgb)
     # 额外兜底：仍标 dirty 的也强制实体色（同上）
     rgb = np.where(dirty[..., None], filled, rgb)
 
+    # 实心外圈若明显比内部暗，换成内部色（黑底生成器描边）
+    rim = np.zeros_like(solid)
+    rim[:-1] |= solid[:-1] & ~solid[1:]
+    rim[1:] |= solid[1:] & ~solid[:-1]
+    rim[:, :-1] |= solid[:, :-1] & ~solid[:, 1:]
+    rim[:, 1:] |= solid[:, 1:] & ~solid[:, :-1]
+    rim &= solid
+    dark_rim = rim & (lum < inner_lum * 0.88)
+    rgb = np.where(dark_rim[..., None], filled, rgb)
+
     # 砍掉过弱半透明，奶油底上更干净
-    a = np.where(a < max(kill_alpha, 48), 0.0, a)
+    a = np.where(a < max(kill_alpha, 72), 0.0, a)
     out = np.dstack([np.clip(rgb, 0, 255).astype(np.uint8), np.clip(a, 0, 255).astype(np.uint8)])
     return Image.fromarray(out, mode="RGBA")
 
@@ -166,17 +190,24 @@ def soft_matte(
     """软边缘去背：连续洋红强度 + 泛洪幕布 + 羽化，避免硬切毛刺。"""
     arr = np.asarray(rgb.convert("RGB"), dtype=np.int16)
     r, g, b = arr[:, :, 0], arr[:, :, 1], arr[:, :, 2]
-    mag, strength = _magenta_mask(r, g, b)
-    bg = _flood_bg(mag)
+    is_bg, strength = _bg_mask(r, g, b)
+    bg = _flood_bg(is_bg)
     if clear_holes:
-        bg = bg | mag
+        # 封闭镂空：只抠够洋红的封闭区；抠中的像素必须 alpha=0，
+        # 否则 strength 低时会留下半透明洋红泥边。
+        lo = np.minimum(r, b)
+        hole = (lo > 100) & (g < lo - 70)
+        hole = hole & ~bg
+        bg = bg | hole
+        strength = np.where(hole, 1.0, strength)
 
-    alpha = np.where(bg, (1.0 - strength) * 255.0, 255.0).astype(np.float32)
-    alpha = np.where(strength > 0.88, 0.0, alpha)
+    # 判定为幕布/镂空的像素一律挖空，再用很轻的羽化，避免泥边
+    alpha = np.where(bg, 0.0, 255.0).astype(np.float32)
 
     a_img = Image.fromarray(np.clip(alpha, 0, 255).astype(np.uint8), mode="L")
-    if blur > 0:
-        a_img = a_img.filter(ImageFilter.GaussianBlur(blur))
+    edge_blur = min(blur, 0.55) if clear_holes else blur
+    if edge_blur > 0:
+        a_img = a_img.filter(ImageFilter.GaussianBlur(edge_blur))
     alpha = np.asarray(a_img, dtype=np.float32)
 
     out = arr.astype(np.float32).copy()
@@ -220,7 +251,7 @@ def extract(
     out = tone(out, desat, light)
     out = fit_canvas(out, size, align=align)
     # 最终再清一次弱边（缩图可能重新引入）
-    out = clean_fringe(out, kill_alpha=56)
+    out = clean_fringe(out, kill_alpha=72)
     dst_path.parent.mkdir(parents=True, exist_ok=True)
     out.save(dst_path, format="PNG", optimize=True)
     print(dst_path, out.size)

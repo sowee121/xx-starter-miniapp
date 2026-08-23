@@ -1,11 +1,12 @@
+const content = require('../content/math')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 
 Page({
   data: {
     stars: 0,
-    countImage: mediaUrl('/subpkg/math/static/apple-english.png'),
-    calcImage: mediaUrl('/subpkg/math/static/dog.png'),
+    fruitImage: mediaUrl(`/subpkg/math/static/${content.fruitImage}.png`),
+    calcImage: mediaUrl(`/subpkg/math/static/${content.calcImage}.png`),
   },
   onShow() {
     this.setData({ stars: stars.getLocalStars() })

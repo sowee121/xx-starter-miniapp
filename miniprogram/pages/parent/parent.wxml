@@ -21,8 +21,7 @@
           wx:key="value"
           class="volume-option {{volume === item.value ? 'is-active' : ''}}"
           data-value="{{item.value}}"
-          bindtap="onVolume"
-        >{{item.label}}</view>
+          bindtap="onVolume" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item.label}}</view>
       </view>
     </view>
 

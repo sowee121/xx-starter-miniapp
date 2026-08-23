@@ -27,12 +27,11 @@ Page({
     const isNight = now.getHours() < 6 || now.getHours() >= 18
     this.setData({
       stars: starsUtil.getLocalStars(),
-      dateText: `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`,
+      dateText: `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日`,
       weekday: WEEKDAYS[now.getDay()],
       isNight,
       checkedIn: calendarCheckedIn(),
       skyIcon: mediaUrl(isNight ? '/subpkg/life/static/moon-stars.png' : '/subpkg/life/static/sun.png'),
-      background: mediaUrl(isNight ? '/subpkg/life/static/meadow-night.png' : '/static/shared/meadow.png'),
     })
   },
 

@@ -26,6 +26,7 @@
     variant="{{feedback.variant}}"
     title="{{feedback.title}}"
     desc="{{feedback.desc}}"
+    action="{{feedback.action}}"
     bind:continue="closePraise"
   />
 </app-shell>

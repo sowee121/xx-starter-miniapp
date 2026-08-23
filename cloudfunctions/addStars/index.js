@@ -9,6 +9,7 @@ const REASONS = new Set([
   'poem_done',
   'char_done',
   'word_done',
+  'letter_done',
   'pinyin_done',
   'game_clear',
   'task_done',

@@ -159,6 +159,21 @@ async def synthesize(text: str, voice: str, out_path: Path) -> None:
     raise RuntimeError(f"合成失败: {text[:30]!r} -> {out_path}") from last_err
 
 
+def _trim_tts(path: Path) -> None:
+    """裁首尾静音并转到 16kbps。字母歌不裁静音，但会降码率。"""
+    scripts = find_project_root() / "scripts"
+    if str(scripts) not in sys.path:
+        sys.path.insert(0, str(scripts))
+    try:
+        from trim_package_audio import encode_mp3_16k, trim_mp3_file
+
+        if path.name != "alphabet-song.mp3":
+            trim_mp3_file(path)
+        encode_mp3_16k(path)
+    except Exception as e:
+        print(f"  (trim skip) {e}")
+
+
 class Generator:
     def __init__(self, root: Path, force: bool) -> None:
         self.root = root
@@ -182,6 +197,7 @@ class Generator:
             return url
         try:
             await synthesize(text.strip(), voice, out_path)
+            _trim_tts(out_path)
             self.generated += 1
             print(f"  OK {url}")
             await asyncio.sleep(INTER_ITEM_DELAY)

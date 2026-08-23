@@ -1,9 +1,14 @@
 <app-shell title="古诗" stars="{{stars}}">
   <view class="detail-stack" wx:if="{{poem}}">
-    <view class="hero block tone-peach">
+    <view class="hero block tone-{{poem.tone}}" bindtap="onFullPlay" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="hero__image" src="{{poem.icon}}" mode="widthFix" lazy-load />
-      <view class="hero__title">{{poem.title}}</view>
-      <view class="hero__sub">{{poem.author}}</view>
+      <view class="hero__bar">
+        <view class="hero__title">{{poem.title}}</view>
+        <view class="hero__sub">{{poem.author}}</view>
+        <view class="hero__play">
+          <play-button size="lg" playing="{{longPlaying}}" passive="{{true}}" />
+        </view>
+      </view>
     </view>
 
     <view
@@ -11,25 +16,27 @@
       wx:key="text"
       class="poem-line block tone-cream {{activeIndex === index ? 'is-active' : ''}}"
       data-index="{{index}}"
-      bindtap="onLineTap"
-    >
+      bindtap="onLineTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <view class="poem-line__text">{{item.text}}</view>
       <view class="media-play">
-        <play-button compact="{{true}}" index="{{index}}" bind:tap="onLineTap" />
+        <play-button compact="{{true}}" passive="{{true}}" />
       </view>
     </view>
 
-    <big-button class="footer-btn" text="整首诗" show-play="{{true}}" bind:tap="onFullRead" />
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
-    <view wx:if="{{nav.total > 1}}" class="trail-nav" aria-label="切题">
+    <view wx:if="{{nav.total > 1}}" class="trail-nav is-step" aria-label="切题">
       <view
-        class="trail-nav__item is-wide {{nav.hasPrev ? '' : 'is-disabled'}}"
-        bindtap="goPrev"
-      ><text class="trail-nav__glyph">上一个</text></view>
+        class="trail-nav__item {{nav.hasPrev ? '' : 'is-disabled'}}"
+        bindtap="goPrev" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80"
+        aria-label="上一题">
+        <image class="trail-nav__arrow is-flip" src="/static/shared/arrow.png" mode="aspectFit" />
+      </view>
       <view
-        class="trail-nav__item is-wide {{nav.hasNext ? '' : 'is-disabled'}}"
-        bindtap="goNext"
-      ><text class="trail-nav__glyph">下一个</text></view>
+        class="trail-nav__item {{nav.hasNext ? '' : 'is-disabled'}}"
+        bindtap="goNext" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80"
+        aria-label="下一题">
+        <image class="trail-nav__arrow" src="/static/shared/arrow.png" mode="aspectFit" />
+      </view>
     </view>
   </view>
   <praise-sun
@@ -38,6 +45,7 @@
     variant="{{feedback.variant}}"
     title="{{feedback.title}}"
     desc="{{feedback.desc}}"
+    action="{{feedback.action}}"
     bind:continue="closePraise"
   />
 </app-shell>

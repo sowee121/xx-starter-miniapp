@@ -8,7 +8,11 @@
   flex-shrink: 0;
   border-radius: var(--radius-pill);
   background: linear-gradient(145deg, #f7f9e9, #e6efd6);
-  box-shadow: var(--shadow-clay-leaf);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -4rpx -10rpx 16rpx rgba(112, 145, 91, 0.14),
+    -2rpx 8rpx 14rpx rgba(83, 112, 73, 0.1),
+    -2rpx 14rpx 22rpx rgba(83, 112, 73, 0.06);
 }
 
 .star-bar__icon {

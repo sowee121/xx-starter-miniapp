@@ -192,7 +192,13 @@ async function testAddStars() {
   assert.equal(records('star_logs').length, 1)
   const pinyin = await addStars({ delta: 1, reason: 'pinyin_done', ref: 'a', clientId: 'pinyin-1' })
   assert.deepEqual(pinyin, { ok: true, duplicated: false, stars: 4 })
-  assert.equal(records('star_logs').length, 2)
+  const letter = await addStars({ delta: 1, reason: 'letter_done', ref: 'A', clientId: 'letter-1' })
+  assert.deepEqual(letter, { ok: true, duplicated: false, stars: 5 })
+  assert.deepEqual(await addStars({ delta: 1, reason: 'letter_skip', clientId: 'letter-bad' }), {
+    ok: false,
+    error: 'invalid_params',
+  })
+  assert.equal(records('star_logs').length, 3)
   assert.equal(records('star_logs')[1].credited, true)
 
   reset()

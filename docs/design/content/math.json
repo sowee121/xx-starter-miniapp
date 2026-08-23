@@ -1,19 +1,6 @@
 {
   "calcImage": "dog",
-  "fruitPool": [
-    "apple-english",
-    "banana-english",
-    "cherry-english",
-    "grape-english",
-    "kiwi-english",
-    "lemon-english",
-    "mango-english",
-    "orange-english",
-    "peach-english",
-    "pear-english",
-    "strawberry-english",
-    "watermelon-english"
-  ],
+  "fruitImage": "english-fruit-apple",
   "count": [
     { "id": "c1", "answer": 1, "prompt": "数一数，有几个？", "choices": [1, 2, 3] },
     { "id": "c2", "answer": 2, "prompt": "数一数，有几个？", "choices": [1, 2, 3] },

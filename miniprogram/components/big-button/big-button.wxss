@@ -1,12 +1,15 @@
-/* 尺寸与渐变来自全局 .big-btn */
-.big-btn {
-  gap: var(--gap-soft);
+/* 绿面写在组件内，避免自定义组件吃不到 app 里的渐变变量 */
+:host {
+  display: block;
+  width: 100%;
 }
 
-.big-btn__icon {
-  width: 46rpx;
-  height: 46rpx;
-  flex-shrink: 0;
+.big-btn {
+  gap: var(--gap-soft);
+  color: #ffffff;
+  background-color: #77b07c;
+  background-image: var(--btn-green);
+  box-shadow: var(--shadow-chip);
 }
 
 .big-btn__text {

@@ -34,6 +34,7 @@ Page({
     pickedValue: null,
     pickedCorrect: false,
     softNote: '',
+    softNoteTone: 'tone-butter',
     nav: navState(1, false),
     feedback: { show: false, closing: false },
   },
@@ -53,8 +54,8 @@ Page({
       this._history.push(snapshotCount(this))
     }
     const avoid = this.data.question && this.data.question.answer
-    const question = randomCountQuestion(content.fruitPool, avoid)
-    const src = mediaUrl(`/subpkg/math/static/${question.fruit}.png`)
+    const question = randomCountQuestion(content.fruitImage, avoid)
+    const src = mediaUrl(`/subpkg/math/static/${question.fruitImage}.png`)
     this.setData({
       question,
       count: question.answer,
@@ -63,6 +64,7 @@ Page({
       pickedValue: null,
       pickedCorrect: false,
       softNote: '',
+      softNoteTone: 'tone-butter',
       nav: navState(this._step, this._history.length > 0),
     })
   },
@@ -80,6 +82,7 @@ Page({
       pickedValue: null,
       pickedCorrect: false,
       softNote: '',
+      softNoteTone: 'tone-butter',
       nav: navState(this._step, this._history.length > 0),
     })
   },
@@ -119,5 +122,6 @@ Page({
 
   onUnload() {
     clearAdvanceTimer(this)
+    require('../../../utils/audio').stop()
   },
 })

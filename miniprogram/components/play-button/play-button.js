@@ -1,3 +1,5 @@
+const { ICONS } = require('../../content/mascots')
+
 Component({
   options: {
     styleIsolation: 'apply-shared',
@@ -12,9 +14,18 @@ Component({
     passive: { type: Boolean, value: false },
     /** 点读序号，经 tap 事件 detail.index 回传 */
     index: { type: Number, value: -1 },
+    /** 长播中显示停止方块 */
+    playing: { type: Boolean, value: false },
   },
   data: {
-    playIcon: '/static/shared/play.png',
+    playIcon: ICONS.play,
+  },
+  observers: {
+    playing(playing) {
+      this.setData({
+        playIcon: playing ? ICONS.stop : ICONS.play,
+      })
+    },
   },
   methods: {
     onTap() {

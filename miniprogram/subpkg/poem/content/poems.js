@@ -1,5 +1,6 @@
-module.exports = {
-  "poems": [
+const TONES = ['sky', 'lilac', 'butter', 'matcha', 'peach', 'mint']
+
+const RAW = [
     {
       "id": "yong-e",
       "title": "咏鹅",
@@ -156,5 +157,8 @@ module.exports = {
       "fullText": "日照香炉生紫烟，遥看瀑布挂前川。飞流直下三千尺，疑是银河落九天。",
       "fullAudio": "/subpkg/poem/static/audio/wang-lu-shan-pu-bu-full.mp3"
     }
-  ]
+]
+
+module.exports = {
+  poems: RAW.map((p, i) => ({ ...p, tone: TONES[i % TONES.length] })),
 }

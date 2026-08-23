@@ -1,16 +1,31 @@
 const { poems } = require('../content/poems')
 const starsUtil = require('../../../utils/stars')
-const audioUtil = require('../../../utils/audio')
 const { poemIcon } = require('../../../content/mascots')
-const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
+const {
+  playPreview,
+  toggleLongPlay,
+  attachLongPlay,
+  detachLongPlay,
+} = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
-const { stepNavState } = require('../../../utils/trail-nav')
+const { stepNavState } = require('../../../utils/navbar')
 
 function mapPoem(raw) {
   if (!raw) return null
   return {
     ...raw,
     icon: raw.icon || poemIcon(raw.id, raw.cover),
+    tone: raw.tone || 'peach',
+  }
+}
+
+function fullAward(poem) {
+  if (!poem) return null
+  return {
+    taskId: 'poem',
+    unitKey: poem.id,
+    reason: 'poem_done',
+    ref: poem.id,
   }
 }
 
@@ -24,6 +39,8 @@ Page({
     softNote: '',
     nav: stepNavState(0, 0),
     feedback: { show: false, closing: false },
+    fullAward: null,
+    longPlaying: false,
   },
 
   onLoad(query) {
@@ -32,6 +49,7 @@ Page({
   },
 
   onShow() {
+    attachLongPlay(this)
     this.setData({ stars: starsUtil.getLocalStars() })
   },
 
@@ -40,13 +58,14 @@ Page({
     if (!raw) return
     const poem = mapPoem(raw)
     this._visitStarAwarded = false
-    audioUtil.stop()
     this.setData({
       poem,
       poemTitle: poem.title || '古诗',
       poemAuthor: poem.author || '',
       activeIndex: -1,
       softNote: '',
+      fullAward: fullAward(poem),
+      longPlaying: false,
       nav: stepNavState(index, poems.length),
     })
   },
@@ -74,24 +93,22 @@ Page({
     playPreview(this, line.audio)
   },
 
-  onFullRead() {
+  onFullPlay() {
     const poem = this.data.poem
     if (!poem) return
     this.setData({ activeIndex: -1 })
-    playPrimaryAndAward(this, {
-      src: poem.fullAudio,
-      taskId: 'poem',
-      unitKey: poem.id,
-      reason: 'poem_done',
-      ref: poem.id,
-    })
+    toggleLongPlay(this, { src: poem.fullAudio, award: this.data.fullAward })
   },
 
   closePraise() {
     feedback.hideLayer(this)
   },
 
+  onHide() {
+    detachLongPlay(this)
+  },
+
   onUnload() {
-    audioUtil.stop()
+    detachLongPlay(this)
   },
 })

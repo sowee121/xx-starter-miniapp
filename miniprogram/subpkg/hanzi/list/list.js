@@ -1,16 +1,6 @@
 const { categories } = require('../content/hanzi')
+const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
-
-const TONE_MAP = {
-  number: 'peach',
-  color: 'cream',
-  animal: 'butter',
-  family: 'rose',
-  body: 'matcha',
-  nature: 'lilac',
-  place: 'sky',
-  transport: 'peach',
-}
 
 Page({
   data: {
@@ -22,7 +12,7 @@ Page({
     this.setData({
       categories: categories.map((c) => ({
         ...c,
-        tone: TONE_MAP[c.id] || 'cream',
+        tone: toneOf(c.id),
       })),
     })
   },

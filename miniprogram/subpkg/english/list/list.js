@@ -1,17 +1,7 @@
 const { categories } = require('../content/english')
+const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
-
-const TONE_MAP = {
-  fruit: 'rose',
-  animal: 'butter',
-  color: 'sky',
-  number: 'apricot',
-  body: 'matcha',
-  transport: 'peach',
-  food: 'cream',
-  nature: 'lilac',
-}
 
 /** 媒体分包：body/transport→english-extra；number/food/nature→english-more */
 const MEDIA_PKG = {
@@ -45,7 +35,7 @@ Page({
     this.setData({
       categories: categories.map((c) => ({
         ...c,
-        tone: TONE_MAP[c.id] || 'cream',
+        tone: toneOf(c.id),
         items: c.items.map((x) => ({
           ...x,
           image: imageUrl(c.id, x.image),

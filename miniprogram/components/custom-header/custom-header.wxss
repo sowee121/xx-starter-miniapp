@@ -57,14 +57,18 @@
   overflow: hidden;
   box-sizing: border-box;
   background: linear-gradient(145deg, #f7f9e9, #e6efd6);
-  box-shadow: var(--shadow-clay-leaf);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -4rpx -10rpx 16rpx rgba(112, 145, 91, 0.14),
+    -2rpx 8rpx 14rpx rgba(83, 112, 73, 0.1),
+    -2rpx 14rpx 22rpx rgba(83, 112, 73, 0.06);
 }
 
 .custom-header__home-icon {
-  width: 64rpx;
-  height: 64rpx;
+  width: 74rpx;
+  height: 74rpx;
   flex-shrink: 0;
-  transform: translateY(-4rpx);
+  transform: translateY(-2rpx);
 }
 
 .custom-header__title {

@@ -38,6 +38,7 @@ const ICONS = {
   star: HOME_ASSETS.star,
   avatar: HOME_ASSETS.avatar,
   play: mediaUrl(`${SHARED_BASE}/play.png`),
+  stop: mediaUrl(`${SHARED_BASE}/stop.png`),
   bigStar: mediaUrl(`${SHARED_BASE}/big-star.png`),
 }
 
@@ -79,10 +80,6 @@ const POEM_ICONS = {
   'chun-xiao': HOME_ASSETS.rabbit,
 }
 
-function iconOf(moduleId) {
-  return MODULE_ICONS[moduleId] || ICONS.home
-}
-
 function poemIcon(poemId, cover) {
   if (cover) return poemCover(cover)
   return POEM_ICONS[poemId] || ICONS.poem
@@ -93,16 +90,9 @@ function tintOf(moduleId) {
 }
 
 module.exports = {
-  HOME_BASE,
   HOME_ASSETS,
-  ICON_BASE,
-  SHARED_BASE,
   ICONS,
   MODULE_ICONS,
-  MODULE_TINTS,
-  POEM_ICONS,
-  iconOf,
   poemIcon,
-  poemCover,
   tintOf,
 }

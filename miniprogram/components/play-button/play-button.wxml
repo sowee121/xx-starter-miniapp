@@ -5,7 +5,7 @@
   aria-label="播放"
 >
   <view
-    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}}"
+    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
     <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
   </view>
@@ -15,10 +15,9 @@
   class="play-btn-hit {{compact ? 'is-flush' : ''}} custom-class"
   catchtap="onTap"
   aria-role="button"
-  aria-label="播放"
->
+  aria-label="播放" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
   <view
-    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}}"
+    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
     <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
   </view>

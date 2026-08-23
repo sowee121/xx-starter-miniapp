@@ -1,44 +1,37 @@
 /**
  * 数一数 / 算一算出题与布局。
  *
- * 数一数排列：每行列数 = 10 的约数中 ≤ 数量的最大者；
- * 数量为 10 时用 5（上 5 下 5），避免一行过挤。
- * 例：3→2+1，4→2+2，7→5+2，10→5+5。
+ * 数一数：尽量每行数量相同；5=3+2、7=4+3（末行居中）。
+ * 1 / 2 / 3 单行；4=2×2；5=3+2；6=3×2；7=4+3；8=4×2；9=3×3；10=5×2。
  */
 
 function randInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
 
-function pick(list) {
-  return list[randInt(0, list.length - 1)]
-}
+/** 每行数量相同：下标即数量 1～10 */
+const COUNT_COLS = [0, 1, 2, 3, 2, 3, 3, 4, 4, 3, 5]
 
-/** 10 的约数中 ≤ n 的最大者；n=10 时退回 5 */
 function layoutCols(n) {
-  const count = Math.max(1, Number(n) || 1)
-  const divisors = [1, 2, 5, 10]
-  let cols = 1
-  for (let i = 0; i < divisors.length; i += 1) {
-    if (divisors[i] <= count) cols = divisors[i]
-  }
-  if (cols === 10) return 5
-  return cols
+  const count = Math.max(1, Math.min(10, Number(n) || 1))
+  return COUNT_COLS[count]
 }
 
-/** 正确答案附近的 3 个选项，升序；优先答案±1 */
-function nearbyChoices(answer, min, max) {
-  const set = new Set([answer])
-  for (const delta of [-1, 1, -2, 2]) {
-    if (set.size >= 3) break
-    const v = answer + delta
-    if (v >= min && v <= max) set.add(v)
+/** 3 个选项：必含正确答案，其余从 1～10 随机抽，升序排列。 */
+function randomChoices(answer, min, max, count = 3) {
+  const pool = []
+  for (let v = min; v <= max; v += 1) {
+    if (v !== answer) pool.push(v)
   }
-  for (let v = min; set.size < 3 && v <= max; v += 1) set.add(v)
-  return Array.from(set).sort((a, b) => a - b)
+  const picks = [answer]
+  while (picks.length < count && pool.length) {
+    const i = Math.floor(Math.random() * pool.length)
+    picks.push(pool.splice(i, 1)[0])
+  }
+  return picks.sort((a, b) => a - b)
 }
 
-function randomCountQuestion(fruitPool, avoidAnswer) {
+function randomCountQuestion(fruitImage, avoidAnswer) {
   let answer = randInt(1, 10)
   if (avoidAnswer != null) {
     let tries = 0
@@ -51,8 +44,8 @@ function randomCountQuestion(fruitPool, avoidAnswer) {
     id: `c-rand-${Date.now()}-${answer}`,
     answer,
     prompt: '数一数，有几个？',
-    choices: nearbyChoices(answer, 1, 10),
-    fruit: pick(fruitPool),
+    choices: randomChoices(answer, 1, 10),
+    fruitImage,
     cols: layoutCols(answer),
   }
 }
@@ -88,15 +81,11 @@ function randomCalcQuestion(preferOp, avoidKey) {
     op,
     b,
     answer,
-    choices: nearbyChoices(answer, 1, 10),
+    choices: randomChoices(answer, 1, 10),
   }
 }
 
 module.exports = {
-  layoutCols,
-  nearbyChoices,
   randomCountQuestion,
   randomCalcQuestion,
-  randInt,
-  pick,
 }

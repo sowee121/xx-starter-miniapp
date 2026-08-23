@@ -7,7 +7,7 @@
   padding: var(--pad-card);
   border-radius: var(--radius-tile);
   box-sizing: border-box;
-  transition: transform 80ms ease-out;
+  transition: var(--motion-tap);
 }
 
 .task-row:active {
@@ -26,13 +26,13 @@
     inset 0 3rpx 6rpx rgba(255, 255, 255, 0.28),
     inset 0 -4rpx 8rpx rgba(96, 122, 96, 0.12);
   flex-shrink: 0;
+  transition: var(--motion-tap);
 }
 
 .is-done .task-row__tick {
-  background: var(--btn-play);
-  box-shadow:
-    inset 0 4rpx 8rpx rgba(255, 255, 255, 0.28),
-    inset 0 -5rpx 10rpx rgba(78, 128, 84, 0.28);
+  background-color: #77b07c;
+  background-image: var(--btn-green);
+  box-shadow: var(--shadow-chip);
 }
 
 .task-row__check {

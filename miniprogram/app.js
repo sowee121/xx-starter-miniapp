@@ -35,4 +35,12 @@ App({
       // ignore
     }
   },
+
+  onHide() {
+    try {
+      require('./utils/audio').destroy()
+    } catch (error) {
+      // ignore
+    }
+  },
 })
