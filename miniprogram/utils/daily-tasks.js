@@ -97,17 +97,24 @@ function emptyDay(date) {
   }
 }
 
-/** 读本地任务原文 */
-function readRaw() {
+/** 内存缓存，避免同一帧内多次读 storage（onShow / getProgress / trackDaily 反复触发） */
+let memCache = null
+
+/** 读取今日任务记录：内存优先，回落 storage（返回原始值，可能为 null）。 */
+function readToday() {
+  if (memCache) return memCache
   try {
-    return wx.getStorageSync(STORAGE_KEY) || null
+    const raw = wx.getStorageSync(STORAGE_KEY)
+    if (raw && typeof raw === 'object') memCache = raw
   } catch (error) {
-    return null
+    // ignore
   }
+  return memCache
 }
 
-/** 保存今日任务 */
+/** 保存今日任务（内存 + storage） */
 function saveToday(data) {
+  memCache = data
   try {
     wx.setStorageSync(STORAGE_KEY, data)
   } catch (error) {
@@ -115,27 +122,39 @@ function saveToday(data) {
   }
 }
 
-/** 确保当天任务存在；换日或 schema 变更则清空进度。 */
+/** 确保当天任务存在；换日或 schema 变更则清空进度。节流：同一帧重复调用只读一次 storage。 */
 function ensureToday() {
+  if (memCache) {
+    const date = getToday()
+    if (
+      memCache.date === date
+      && memCache.schema === SCHEMA
+      && Array.isArray(memCache.tasks)
+      && memCache.tasks.length === TEMPLATES.length
+    ) {
+      return memCache
+    }
+  }
+  // 缓存未命中或已过期：从 storage 读
   const date = getToday()
-  const raw = readRaw()
-  if (
-    raw
-    && raw.date === date
-    && raw.schema === SCHEMA
-    && Array.isArray(raw.tasks)
-    && raw.tasks.length === TEMPLATES.length
-  ) {
-    return raw
+  try {
+    const raw = wx.getStorageSync(STORAGE_KEY)
+    if (
+      raw
+      && raw.date === date
+      && raw.schema === SCHEMA
+      && Array.isArray(raw.tasks)
+      && raw.tasks.length === TEMPLATES.length
+    ) {
+      memCache = raw
+      return raw
+    }
+  } catch (error) {
+    // ignore
   }
   const day = emptyDay(date)
   saveToday(day)
   return day
-}
-
-/** 读取今日任务记录 */
-function readToday() {
-  return ensureToday()
 }
 
 /** 今日任务列表 */
@@ -272,8 +291,6 @@ function trackDaily(taskId, unitKey) {
   return result
 }
 
-const { playPreview, playPrimaryAndAward } = require('./read-award')
-
 module.exports = {
   getToday,
   readToday,
@@ -282,3 +299,5 @@ module.exports = {
   nextUrl,
   trackDaily,
 }
+
+require('./read-award')

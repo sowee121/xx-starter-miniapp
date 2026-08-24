@@ -2,18 +2,24 @@ const STORAGE_KEY = 'star_retry_queue'
 /** 长期离线时避免无限增长（队列总额会计入界面展示值）。 */
 const MAX_SIZE = 200
 
+/** 内存缓存，避免同一帧反复 load/save storage */
+let memCache = null
+
 /** 读出队列 */
 function load() {
+  if (memCache) return memCache
   try {
     const list = wx.getStorageSync(STORAGE_KEY)
-    return Array.isArray(list) ? list : []
+    memCache = Array.isArray(list) ? list : []
   } catch (e) {
-    return []
+    memCache = []
   }
+  return memCache
 }
 
 /** 写回队列 */
 function save(list) {
+  memCache = list
   try {
     wx.setStorageSync(STORAGE_KEY, list)
   } catch (e) {
@@ -39,9 +45,16 @@ function peekAll() {
   return load()
 }
 
-/** 按 id 移除 */
+/** 按 id 移除（单个） */
 function removeByClientId(clientId) {
   save(load().filter((item) => item.clientId !== clientId))
+}
+
+/** 批量移除（flush 用：一次 load → filter → save，避免逐项写 storage） */
+function removeBatch(clientIds) {
+  if (!Array.isArray(clientIds) || !clientIds.length) return
+  const ids = new Set(clientIds)
+  save(load().filter((item) => !ids.has(item.clientId)))
 }
 
 /** 队列长度 */
@@ -63,6 +76,7 @@ module.exports = {
   enqueue,
   peekAll,
   removeByClientId,
+  removeBatch,
   size,
   totalDelta,
   clear,

@@ -43,6 +43,7 @@ function handleCorrect(page, { reason, ref, taskId }) {
   feedback.showInline(page, INLINE.answerCorrect)
   scheduleAdvance(page, () => {
     page._busy = false
+    if (typeof page.clearPick === 'function') page.clearPick()
     page.applyQuestion()
   })
 }

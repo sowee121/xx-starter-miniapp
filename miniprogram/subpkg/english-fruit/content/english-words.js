@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           "word": "banana",
-          "phonetic": "/bəˈnɑːnə/",
+          "phonetic": "/bəˈnænə/",
           "meaning": "香蕉",
           "sentence": "A banana.",
           "image": "english-fruit-banana",
@@ -60,7 +60,7 @@ module.exports = {
         },
         {
           "word": "mango",
-          "phonetic": "/ˈmæŋɡəʊ/",
+          "phonetic": "/ˈmæŋɡoʊ/",
           "meaning": "芒果",
           "sentence": "A mango.",
           "image": "english-fruit-mango",
@@ -69,7 +69,7 @@ module.exports = {
         },
         {
           "word": "orange",
-          "phonetic": "/ˈɒrɪndʒ/",
+          "phonetic": "/ˈɔrɪndʒ/",
           "meaning": "橙子",
           "sentence": "An orange.",
           "image": "english-fruit-orange",
@@ -87,7 +87,7 @@ module.exports = {
         },
         {
           "word": "pear",
-          "phonetic": "/peə/",
+          "phonetic": "/per/",
           "meaning": "梨",
           "sentence": "A pear.",
           "image": "english-fruit-pear",
@@ -96,7 +96,7 @@ module.exports = {
         },
         {
           "word": "strawberry",
-          "phonetic": "/ˈstrɔːbəri/",
+          "phonetic": "/ˈstrɔberi/",
           "meaning": "草莓",
           "sentence": "A strawberry.",
           "image": "english-fruit-strawberry",
@@ -105,7 +105,7 @@ module.exports = {
         },
         {
           "word": "watermelon",
-          "phonetic": "/ˈwɔːtəmelən/",
+          "phonetic": "/ˈwɔtərmelən/",
           "meaning": "西瓜",
           "sentence": "A watermelon.",
           "image": "english-fruit-watermelon",

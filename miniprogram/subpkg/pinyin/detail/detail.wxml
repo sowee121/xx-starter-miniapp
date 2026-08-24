@@ -14,8 +14,6 @@
       </view>
     </view>
 
-    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
-
     <view class="trail-nav" aria-label="韵母石子径">
       <view
         wx:for="{{trail}}"
@@ -24,6 +22,9 @@
         data-id="{{item.id}}"
         bindtap="onTrailTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80"><text class="trail-nav__glyph">{{item.letter}}</text></view>
     </view>
+
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+
   </view>
   <praise-sun
     show="{{feedback.show}}"

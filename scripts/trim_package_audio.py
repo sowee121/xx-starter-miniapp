@@ -107,7 +107,8 @@ def trim_window(duration: float, regions: list[tuple[float, float]]) -> tuple[fl
     end = duration
     if regions and regions[0][0] <= 0.03:
         start = max(0.0, regions[0][1] - KEEP_HEAD)
-    if regions and regions[-1][1] >= duration - 0.08:
+    # 句末长静音仍裁；KEEP_TAIL 保住字尾。短于 1.2s 的不裁尾，以免切掉韵母。
+    if duration >= 1.2 and regions and regions[-1][1] >= duration - 0.08:
         end = min(duration, regions[-1][0] + KEEP_TAIL)
     if end - start < MIN_NEW_DUR:
         return None

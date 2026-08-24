@@ -8,7 +8,7 @@ const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四
 /** 今日是否已打卡 */
 function calendarCheckedIn() {
   const day = readToday()
-  return !!(day.done && day.done.calendar)
+  return !!(day && day.done && day.done.calendar)
 }
 
 Page({
@@ -19,7 +19,7 @@ Page({
     isNight: false,
     checkedIn: false,
     skyIcon: mediaUrl('/subpkg/calendar/static/sun.png'),
-    background: mediaUrl('/static/shared/meadow.jpg'),
+    background: mediaUrl('/static/shared/meadow.png'),
     feedback: { show: false, closing: false },
   },
 

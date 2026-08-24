@@ -14,6 +14,7 @@ import argparse
 import asyncio
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -24,10 +25,13 @@ except ImportError:
     sys.exit(1)
 
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
-VOICE_EN = "en-US-AnaNeural"
+VOICE_EN = "en-US-EmmaNeural"
+# Emma 念孤立字母会变成气声（有效发音约 0.1s）；字母名用 Jenny。
+VOICE_EN_LETTER = "en-US-JennyNeural"
 # 注音须用台湾音色：晓晓对 ㄛㄜㄧㄨㄩ 会合成失败（无音频）。
 VOICE_PINYIN = "zh-TW-HsiaoChenNeural"
-RATE = "-10%"  # 低幼放慢语速
+RATE = "-30%"  # 诗句、识字、单词
+RATE_SHORT = "-10%"  # 单韵母、字母名
 MAX_RETRIES = 5
 INTER_ITEM_DELAY = 0.3
 
@@ -42,10 +46,10 @@ PINYIN_SPEAK = {
     "ü": "ㄩ",
 }
 
-# 英文字母名；默认把字母本身喂给英文 TTS。Z 强制英式 zed，W 写成 double u 以免含糊。
+# 英文字母名；默认把字母本身喂给英文 TTS。Z 强制美式 zee，W 写成 double u 以免含糊。
 ALPHABET_SPEAK = {
     "W": "double u",
-    "Z": "zed",
+    "Z": "zee",
 }
 
 
@@ -84,6 +88,7 @@ MODULES: dict[str, dict[str, str]] = {
         "audio": "miniprogram/subpkg/pinyin/static/audio",
         "url": "/subpkg/pinyin/static/audio",
         "voice": VOICE_PINYIN,
+        "rate": RATE_SHORT,
         "budget_mb": "0.8",
     },
     "alphabet": {
@@ -91,7 +96,8 @@ MODULES: dict[str, dict[str, str]] = {
         "content": "miniprogram/subpkg/english-abc/content/alphabet.js",
         "audio": "miniprogram/subpkg/english-abc/static/audio",
         "url": "/subpkg/english-abc/static/audio",
-        "voice": VOICE_EN,
+        "voice": VOICE_EN_LETTER,
+        "rate": RATE_SHORT,
         "budget_mb": "0.6",
     },
 }
@@ -108,18 +114,20 @@ def find_project_root() -> Path:
 
 
 def read_content(path: Path):
-    """Load a `module.exports = <strict JSON>` module into a dict."""
+    """Load content JS: strict `module.exports = JSON`，或古诗 `const RAW = [...]`。"""
     text = path.read_text(encoding="utf-8").strip()
     if text.startswith(EXPORT_PREFIX):
-        text = text[len(EXPORT_PREFIX) :]
-    text = text.rstrip().rstrip(";")
-    try:
-        return json.loads(text)
-    except json.JSONDecodeError as e:
-        raise SystemExit(
-            f"{path} 解析失败：`module.exports = ` 后面必须是严格 JSON"
-            f"（双引号、无尾逗号、无 // 注释）。{e}"
-        ) from e
+        body = text[len(EXPORT_PREFIX) :].rstrip().rstrip(";")
+        try:
+            return json.loads(body)
+        except json.JSONDecodeError:
+            pass
+    m = re.search(r"const RAW\s*=\s*(\[[\s\S]*\n\])\s*(?:;|\nmodule\.exports)", text)
+    if m:
+        return {"poems": json.loads(m.group(1))}
+    raise SystemExit(
+        f"{path} 解析失败：需要 `module.exports = ` 严格 JSON，或古诗 `const RAW = [...]`。"
+    )
 
 
 def write_content(path: Path, data) -> None:
@@ -146,12 +154,13 @@ def hanzi_slug(char: str, pinyin: str) -> str:
     return f"{base}-{code}" if base else code
 
 
-async def synthesize(text: str, voice: str, out_path: Path) -> None:
+async def synthesize(text: str, voice: str, out_path: Path, rate: str | None = None) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     last_err: Exception | None = None
+    use_rate = rate or RATE
     for attempt in range(MAX_RETRIES):
         try:
-            await edge_tts.Communicate(text, voice, rate=RATE).save(str(out_path))
+            await edge_tts.Communicate(text, voice, rate=use_rate).save(str(out_path))
             return
         except Exception as e:
             last_err = e
@@ -161,25 +170,59 @@ async def synthesize(text: str, voice: str, out_path: Path) -> None:
     raise RuntimeError(f"合成失败: {text[:30]!r} -> {out_path}") from last_err
 
 
-def _trim_tts(path: Path) -> None:
-    """裁首尾静音并转到 16kbps。字母歌不裁静音，但会降码率。"""
+def _pad_tail(path: Path, seconds: float) -> None:
+    """短音频尾部留一点静音，避免播放器切掉字尾。"""
+    tmp = path.with_suffix(".pad.mp3")
+    subprocess.check_call(
+        [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-loglevel",
+            "error",
+            "-i",
+            str(path),
+            "-af",
+            f"apad=pad_dur={seconds}",
+            "-c:a",
+            "libmp3lame",
+            "-b:a",
+            "16k",
+            "-ac",
+            "1",
+            "-ar",
+            "16000",
+            str(tmp),
+        ]
+    )
+    tmp.replace(path)
+
+
+def _trim_tts(path: Path, *, skip_trim: bool = False, tail_pad: float = 0.0) -> None:
+    """裁首尾静音并转到 16kbps。字母歌不裁静音。"""
     scripts = find_project_root() / "scripts"
     if str(scripts) not in sys.path:
         sys.path.insert(0, str(scripts))
     try:
         from trim_package_audio import encode_mp3_16k, trim_mp3_file
 
-        if path.name != "alphabet-song.mp3":
+        if path.name != "alphabet-song.mp3" and not skip_trim:
             trim_mp3_file(path)
         encode_mp3_16k(path)
+        if tail_pad > 0:
+            _pad_tail(path, tail_pad)
     except Exception as e:
         print(f"  (trim skip) {e}")
 
 
 class Generator:
-    def __init__(self, root: Path, force: bool) -> None:
+    def __init__(self, root: Path, force: bool, only_id: str = "") -> None:
         self.root = root
         self.force = force
+        self.only_id = only_id.strip()
+        self.rate = RATE
+        self.skip_trim = False
+        self.tail_pad = 0.0
         self.generated = 0
         self.skipped = 0
         self.failed: list[str] = []
@@ -198,8 +241,8 @@ class Generator:
             self.skipped += 1
             return url
         try:
-            await synthesize(text.strip(), voice, out_path)
-            _trim_tts(out_path)
+            await synthesize(text.strip(), voice, out_path, rate=self.rate)
+            _trim_tts(out_path, skip_trim=self.skip_trim, tail_pad=self.tail_pad)
             self.generated += 1
             print(f"  OK {url}")
             await asyncio.sleep(INTER_ITEM_DELAY)
@@ -215,6 +258,8 @@ class Generator:
         changed = False
         for poem in data.get("poems", []):
             pid = poem.get("id") or slug(poem.get("title", "poem"))
+            if self.only_id and pid != self.only_id:
+                continue
             for i, line in enumerate(poem.get("lines", []), start=1):
                 got = await self.gen(
                     line.get("speak") or line.get("text", ""),
@@ -234,8 +279,10 @@ class Generator:
                         line["plainAudio"] = got
                         changed = True
             if poem.get("fullText"):
+                title = (poem.get("title") or "").strip()
+                speak_full = f"{title}。{poem['fullText']}" if title else poem["fullText"]
                 got = await self.gen(
-                    poem["fullText"], voice, audio_dir, url, f"{pid}-full"
+                    speak_full, voice, audio_dir, url, f"{pid}-full"
                 )
                 if got and poem.get("fullAudio") != got:
                     poem["fullAudio"] = got
@@ -374,15 +421,22 @@ class Generator:
         if not content_path.exists():
             print(f"\n[{name}] 跳过，未找到 {cfg['content']}")
             return
-        print(f"\n[{name}] {cfg['content']}")
+        self.rate = cfg.get("rate") or RATE
+        self.skip_trim = False
+        self.tail_pad = 0.0
+        print(f"\n[{name}] {cfg['content']}  语速 {self.rate}")
         data = read_content(content_path)
         handler = getattr(self, f"do_{cfg['kind']}")
         changed = await handler(
             data, cfg["voice"], self.root / cfg["audio"], cfg["url"]
         )
         if changed:
-            write_content(content_path, data)
-            print(f"  已写回 {cfg['content']}")
+            head = content_path.read_text(encoding="utf-8")[:80]
+            if "const RAW" in head:
+                print(f"  路径已变但保留 RAW 包装，未写回 {cfg['content']}")
+            else:
+                write_content(content_path, data)
+                print(f"  已写回 {cfg['content']}")
 
     def report_size(self, only: set[str]) -> None:
         print("\n音频体积（分包上限 2MB，含图片与代码）:")
@@ -425,7 +479,20 @@ def main() -> None:
         default="",
         help="仅处理模块，逗号分隔: " + ",".join(MODULES),
     )
+    parser.add_argument(
+        "--id",
+        default="",
+        help="仅处理该条目 id（古诗 id，如 yong-e）",
+    )
+    parser.add_argument(
+        "--rate",
+        default="",
+        help="覆盖语速，如 -20%%（默认用脚本常量）",
+    )
     args = parser.parse_args()
+    global RATE
+    if args.rate:
+        RATE = args.rate if str(args.rate).endswith("%") else f"{args.rate}%"
     root = args.root or find_project_root()
     only = {x.strip() for x in args.only.split(",") if x.strip()}
     unknown = only - set(MODULES)
@@ -433,7 +500,8 @@ def main() -> None:
         print(f"未知模块: {', '.join(sorted(unknown))}", file=sys.stderr)
         sys.exit(2)
     print(f"项目根: {root}")
-    asyncio.run(Generator(root, args.force).run(only))
+    print(f"语速: {RATE}")
+    asyncio.run(Generator(root, args.force, only_id=args.id).run(only))
 
 
 if __name__ == "__main__":

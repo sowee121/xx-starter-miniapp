@@ -12,7 +12,7 @@ Component({
     stars: { type: Number, value: 0 },
     showHome: { type: Boolean, value: true },
     night: { type: Boolean, value: false },
-    background: { type: String, value: require('../../config/media').mediaUrl('/static/shared/meadow.jpg') },
+    background: { type: String, value: require('../../config/media').mediaUrl('/static/shared/meadow.png') },
   },
 
   data: {

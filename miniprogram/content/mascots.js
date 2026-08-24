@@ -6,7 +6,7 @@ const SHARED_BASE = '/static/shared'
 
 /** 首页确认稿素材（上云） */
 const HOME_ASSETS = {
-  meadow: mediaUrl(`${SHARED_BASE}/meadow.jpg`),
+  meadow: mediaUrl(`${SHARED_BASE}/meadow.png`),
   avatar: mediaUrl(`${HOME_BASE}/avatar.png`),
   star: mediaUrl(`${HOME_BASE}/star.png`),
   daisy: mediaUrl(`${HOME_BASE}/daisy-sprig.png`),
@@ -47,7 +47,7 @@ const ICONS = {
 function poemCover(cover) {
   if (!cover) return HOME_ASSETS.rabbit
   if (cover.startsWith('/') || cover.startsWith('cloud://')) return mediaUrl(cover)
-  return mediaUrl(`/subpkg/poem/static/${cover}.jpg`)
+  return mediaUrl(`/subpkg/poem/static/${cover}.png`)
 }
 
 /** 八大板块 + 壳层入口 */

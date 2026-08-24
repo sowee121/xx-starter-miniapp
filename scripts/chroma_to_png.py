@@ -36,6 +36,35 @@ def tone(img: Image.Image, desat: float, light: float) -> Image.Image:
     return Image.merge("RGBA", (r, g, b, a))
 
 
+def resize_premul(
+    img: Image.Image, size: tuple[int, int], *, kill_alpha: int = 36
+) -> Image.Image:
+    """预乘 alpha 后 LANCZOS 缩放，避免透明边与黑底混出脏边。不抠幕、不改构图。"""
+    img = img.convert("RGBA")
+    w, h = img.size
+    nw, nh = size
+    if (nw, nh) == (w, h):
+        return img
+    arr = np.asarray(img, dtype=np.float32)
+    rgb, a = arr[:, :, :3], arr[:, :, 3:4] / 255.0
+    premul = np.dstack([rgb * a, arr[:, :, 3]])
+    premul_img = Image.fromarray(np.clip(premul, 0, 255).astype(np.uint8), mode="RGBA")
+    premul_img = premul_img.resize((nw, nh), Image.Resampling.LANCZOS)
+    out_a = np.asarray(premul_img, dtype=np.float32)
+    a2 = out_a[:, :, 3:4] / 255.0
+    rgb2 = np.divide(
+        out_a[:, :, :3],
+        np.maximum(a2, 1e-4),
+        out=np.zeros_like(out_a[:, :, :3]),
+        where=a2 > 1e-4,
+    )
+    out = Image.fromarray(
+        np.dstack([np.clip(rgb2, 0, 255), out_a[:, :, 3]]).astype(np.uint8),
+        mode="RGBA",
+    )
+    return clean_fringe(out, kill_alpha=kill_alpha)
+
+
 def fit_canvas(
     img: Image.Image, canvas: int, *, align: str = "center", bottom_pad: int = 12
 ) -> Image.Image:
@@ -45,24 +74,7 @@ def fit_canvas(
     scale = min(target / w, target / h)
     nw, nh = max(1, round(w * scale)), max(1, round(h * scale))
     if (nw, nh) != (w, h):
-        arr = np.asarray(img.convert("RGBA"), dtype=np.float32)
-        rgb, a = arr[:, :, :3], arr[:, :, 3:4] / 255.0
-        premul = np.dstack([rgb * a, arr[:, :, 3]])
-        premul_img = Image.fromarray(np.clip(premul, 0, 255).astype(np.uint8), mode="RGBA")
-        premul_img = premul_img.resize((nw, nh), Image.Resampling.LANCZOS)
-        out_a = np.asarray(premul_img, dtype=np.float32)
-        a2 = out_a[:, :, 3:4] / 255.0
-        rgb2 = np.divide(
-            out_a[:, :, :3],
-            np.maximum(a2, 1e-4),
-            out=np.zeros_like(out_a[:, :, :3]),
-            where=a2 > 1e-4,
-        )
-        img = Image.fromarray(
-            np.dstack([np.clip(rgb2, 0, 255), out_a[:, :, 3]]).astype(np.uint8),
-            mode="RGBA",
-        )
-        img = clean_fringe(img, kill_alpha=36)
+        img = resize_premul(img, (nw, nh))
     out = Image.new("RGBA", (canvas, canvas), (0, 0, 0, 0))
     x = (canvas - nw) // 2
     if align == "bottom":

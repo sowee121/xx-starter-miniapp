@@ -87,7 +87,7 @@ module.exports = {
     },
     {
       "letter": "O",
-      "phonetic": "/əʊ/",
+      "phonetic": "/oʊ/",
       "image": "english-letter-o",
       "audio": "/subpkg/english-abc/static/audio/o.mp3"
     },
@@ -105,7 +105,7 @@ module.exports = {
     },
     {
       "letter": "R",
-      "phonetic": "/ɑː/",
+      "phonetic": "/ɑr/",
       "image": "english-letter-r",
       "audio": "/subpkg/english-abc/static/audio/r.mp3"
     },
@@ -153,7 +153,7 @@ module.exports = {
     },
     {
       "letter": "Z",
-      "phonetic": "/zed/",
+      "phonetic": "/ziː/",
       "image": "english-letter-z",
       "audio": "/subpkg/english-abc/static/audio/z.mp3"
     }

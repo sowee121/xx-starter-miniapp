@@ -19,14 +19,17 @@ description: >-
 python3 -m pip install -r .cursor/skills/edge-tts-batch/scripts/requirements.txt
 ```
 
-音色与语速（在 `scripts/generate_audio.py` 顶部常量可改）：
+音色与语速（在 `scripts/generate_audio.py` 顶部常量可改；产品定稿见 `docs/design/CONTENT.md` §2.10）：
 
-| 项 | 值 |
-|----|-----|
-| 中文 | `zh-CN-XiaoxiaoNeural` |
-| 拼音 | `zh-TW-HsiaoChenNeural`（注音 ㄚㄛㄜㄧㄨㄩ；大陆音色会合成失败） |
-| 英文 | `en-US-AnaNeural` |
-| 语速 | `-10%`（低幼放慢） |
+| 音频 | 音色 | 语速 |
+|----|-----|------|
+| 古诗逐句 / 全文 | `zh-CN-XiaoxiaoNeural` | `-30%` |
+| 识字单字 / 组词 | `zh-CN-XiaoxiaoNeural` | `-30%` |
+| 英语单词 / 短句 | `en-US-EmmaNeural` | `-30%` |
+| 字母名 A–Z | `en-US-JennyNeural` | `-10%`（W=`double u`，Z=`zee`；Emma 会吞孤立字母） |
+| 拼音单韵母 | `zh-TW-HsiaoChenNeural` | `-10%`（注音 ㄚㄛㄜㄧㄨㄩ；裁首尾静音） |
+| 字母歌 | 现成 `alphabet-song.mp3` | 不走 TTS |
+| 算术答对 / 再试 | `zh-CN-XiaoxiaoNeural`（`scripts/generate_feedback_audio.py`） | 快于点读（`+20%`～`+60%`） |
 
 ## 执行
 
@@ -82,7 +85,7 @@ module.exports = {
 }
 ```
 
-产出：`{id}-line-{n}.mp3`、`{id}-full.mp3`
+产出：`{id}-line-{n}.mp3`、`{id}-full.mp3`。整首朗读文案为「诗名。+ fullText」，逐句不含诗名。
 
 ### hanzi.js（categories 八类）
 
@@ -158,7 +161,7 @@ module.exports = {
 }
 ```
 
-产出：`{letter}.mp3`（小写文件名，如 `a.mp3`）。合成英文字母名（`en-US-AnaNeural`）；W 文案 `double u`，Z 文案 `zed`（见脚本 `ALPHABET_SPEAK`）。字母歌不走 TTS，用现成 `alphabet-song.mp3`。
+产出：`{letter}.mp3`（小写文件名，如 `a.mp3`）。合成英文字母名（`en-US-JennyNeural`）；W 文案 `double u`，Z 文案 `zee`（见脚本 `ALPHABET_SPEAK`）。字母歌不走 TTS，用现成 `alphabet-song.mp3`。
 
 ## 体积红线
 
@@ -181,7 +184,7 @@ ffmpeg -i in.mp3 -ac 1 -ar 22050 -b:a 24k out.mp3
 1. 抽听 3～5 个 MP3，确认发音清晰、无截断；**拼音须确认是韵母音，不是英文字母名**
 2. 确认内容文件中 `audio` 字段已写入且以 `/subpkg/` 开头
 3. 确认写回后的文件仍以 `module.exports = ` 开头（脚本会自动保持）
-4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在。新生成的 TTS 会裁首尾静音并转到 24kbps（字母歌除外）
+4. 跑 `npm test`：会校验代码包内文件名纯 ASCII，且内容文件里的音频路径真实存在。新生成的 TTS 会裁首尾静音并转到 16kbps（字母歌除外）
 5. 核对脚本输出的体积报告，超预算的模块先转码再提交
 6. `du -sh miniprogram/subpkg/*/` 自查，P6 前用微信开发者工具「代码依赖分析」复核官方口径
 7. **真机**试听；开发者工具正常不代表 iOS 有声

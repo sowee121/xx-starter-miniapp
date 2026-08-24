@@ -23,7 +23,6 @@
       </view>
     </view>
 
-    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
     <trail-nav
       show="{{nav.total > 1}}"
       has-prev="{{nav.hasPrev}}"
@@ -31,6 +30,7 @@
       bind:prev="goPrev"
       bind:next="goNext"
     />
+    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

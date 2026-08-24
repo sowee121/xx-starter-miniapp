@@ -590,7 +590,7 @@ function checkEnglishMediaOwnership() {
       const thumb = path.join(MP, 'subpkg/english/static/list', `${item.image}.png`)
       if (!fs.existsSync(thumb)) {
         errors.push(
-          `英语列表缩略图缺失: subpkg/english/static/list/${item.image}.png（列表必须用 96px 小图）`
+          `英语列表缩略图缺失: subpkg/english/static/list/${item.image}.png（列表必须用本包 128px 小图）`
         )
       }
       for (const key of ['audio', 'sentenceAudio']) {

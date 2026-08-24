@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           "word": "boat",
-          "phonetic": "/bəʊt/",
+          "phonetic": "/boʊt/",
           "meaning": "船",
           "sentence": "I see a boat.",
           "image": "english-transport-boat",
@@ -33,7 +33,7 @@ module.exports = {
         },
         {
           "word": "car",
-          "phonetic": "/kɑː/",
+          "phonetic": "/kɑr/",
           "meaning": "汽车",
           "sentence": "I see a car.",
           "image": "english-transport-car",
@@ -51,7 +51,7 @@ module.exports = {
         },
         {
           "word": "rocket",
-          "phonetic": "/ˈrɒkɪt/",
+          "phonetic": "/ˈrɑkɪt/",
           "meaning": "火箭",
           "sentence": "I see a rocket.",
           "image": "english-transport-rocket",

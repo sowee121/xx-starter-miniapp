@@ -7,17 +7,12 @@ button {
   box-sizing: border-box;
 }
 
-page,
-view,
-text,
-button {
-  letter-spacing: var(--letter-btn); /* 全站字距 */
-}
-
 page {
   height: 100%;
   font-weight: 600;
   line-height: 1.4;
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-btn);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -29,6 +24,7 @@ button {
   border-radius: 0;
   line-height: inherit;
   font-weight: inherit;
+  font-family: inherit;
 }
 
 button::after {

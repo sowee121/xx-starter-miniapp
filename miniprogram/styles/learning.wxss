@@ -484,7 +484,8 @@
   color: var(--ink);
   border-radius: var(--radius-bar);
   box-sizing: border-box;
-  transition: var(--motion-tap);
+  /* 切题时立刻摘掉选中环，只保留按下缩放 */
+  transition: transform 80ms ease-out;
 }
 
 .option:active {

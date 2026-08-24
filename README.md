@@ -57,7 +57,7 @@ npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁�
 
 **样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。H5 **只出静态 UI**，点读与点击只做小程序（`.cursor/rules/h5-static-review.mdc`）。Token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。
 
-**点读** — `miniprogram/utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。**拼音单韵母**须用注音「ㄚㄛㄜㄧㄨㄩ」合成，勿直接喂 `a/o/e…`（易念成英文）。**英文字母名**用 `en-US-AnaNeural`（Z=`zed`）。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+**点读** — `miniprogram/utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。音色与语速：古诗/识字/英语词句为晓晓或 Emma **`-30%`**；拼音韵母为晓辰 **`-10%`**；字母名为 Jenny **`-10%`**（详见 [CONTENT §2.10](docs/design/CONTENT.md)）。**拼音**喂注音「ㄚㄛㄜㄧㄨㄩ」；**字母 Z** 念 `zee`。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
 **反馈** — 任务/兑换用弹层 `praise-sun`；算术对错用行内 soft-note + 共享音效；禁止 Toast。
 

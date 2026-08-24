@@ -28,7 +28,7 @@ const LOCAL_KEEP = new Set([
   '/static/shared/stop.png',
   '/static/shared/check.png',
   '/static/shared/arrow.png',
-  '/static/shared/meadow.jpg',
+  '/static/shared/meadow.png',
   '/static/shared/cloud.png',
   '/static/shared/grass-tuft.png',
   '/static/icons/home.png',

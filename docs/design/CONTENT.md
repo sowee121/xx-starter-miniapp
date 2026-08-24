@@ -6,6 +6,7 @@
 > 2026-08-21 增量：拼音点读 TTS 合成文案锁定为注音「ㄚㄛㄜㄧㄨㄩ」（见 §2.5）。
 > 2026-08-22 增量：英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 §2.4）。
 > 2026-08-24 增量：字母点读发星 `reason: letter_done` 已写入云函数 `addStars` 白名单并完成部署。
+> 2026-08-24 增量：点读/反馈音频的音色与语速定稿见 §2.10（晓晓 / Emma / Jenny / 晓辰；词句 `-30%`，拼音与字母名 `-10%`）。
 
 ---
 
@@ -29,8 +30,8 @@
 
 `yong-e` 咏鹅 · `jing-ye-si` 静夜思 · `min-nong` 悯农 · `chun-xiao` 春晓 · `deng-guan-que-lou` 登鹳雀楼 · `wang-lu-shan-pu-bu` 望庐山瀑布  
 
-- 逐句点读 + 全文朗读；**六首统一 4 行**（一句一行）；数据与 UI **均无 `plain` 白话**
-- 封面：`atoms/poem-*.png`（统一 4:3 横版黏土场景；6 首 6 动物：鹅/猫/牛/鸟/狐狸/熊猫；不用浮岛）；代码包同步为 400×300 JPEG（不透明，与草地同一套路）
+- 逐句点读 + 全文朗读；**六首统一 4 行**（一句一行）；数据与 UI **均无 `plain` 白话**；TTS 为晓晓 `-30%`（见 §2.10）
+- 封面：`atoms/poem-*.png`（统一 4:3 横版黏土场景；6 首 6 动物：鹅/猫/牛/鸟/狐狸/熊猫；不用浮岛）；代码包同步为 PNG，保持原图比例，最长边 560（6 张再大会超分包 2MB）
 - **整首诗**在封面大卡放圆形播放钮（`play-button` lg）：点卡或点钮播全文；播放中再点即停止（三角换成 `stop.png`）；点读单句会打断长播；中途停止不加星、不计任务
 - **长播复位**：进页、离开、后退、回首页、微信切后台/关掉、来电等音频打断时一律停播，按钮回到播放三角；中途打断不加星
 
@@ -41,7 +42,7 @@
 | 数字 / 颜色 / 动物 / 家人 / 身体 / 自然 / 方位 / 出行 | 各 12，共 96 | 分类按好认先学；类内按关联性 + 常见连读序（见 `hanzi.json`）；数字为一～十 + 百千 | 列表：上 emoji 下汉字；详情：系统 emoji + 积木大字 |
 
 - 去掉「古诗里的字」分库；首页直达分类列表（对齐英语）
-- 每字 2 个极简口语组词；详情用**系统 emoji** 表意，不强制逐字黏土大图
+- 每字 2 个极简口语组词；详情用**系统 emoji** 表意，不强制逐字黏土大图；单字/组词 TTS 为晓晓 `-30%`（见 §2.10）
 - 详情上下翻只在同类内
 
 ### 2.3 算术
@@ -61,24 +62,26 @@
 
 `A`–`Z`；一图一字母；详情仅 **黏土字母图 + 字母名音标 + 播放**，无例词、无句子。
 
-- 点读念 **字母名**（A=/eɪ/，B=/biː/…），不是自然拼读音；音标体例跟词库英式 IPA 对齐（O `/əʊ/`、Z `/zed/`）
+- 点读念 **字母名**（A=/eɪ/，B=/biː/…），不是自然拼读音；音标体例跟词库美式 IPA 对齐（O `/oʊ/`、Z `/ziː/`）
 - 词图：纯黏土大写 `english-letter-{a…z}.png`，法式马卡龙色（草莓粉、柠檬、开心果等，26 色各不相同），透明底；与拼音草木/果色小写区分
 - 详情切题用底栏左右黏土箭头（`arrow.png` 一图翻转），不做 26 格石子径
 - **字母歌**：列表末张 `word-card is-song` 圆形播放钮；音频 `/subpkg/english-abc/static/audio/alphabet-song.mp3`；只播放，不加星、不计每日任务条数；播放中再点即停止并恢复三角；离开页面或小程序中断时同样停播并复位按钮
-- TTS：`en-US-AnaNeural` 念字母名；Z 合成文案为 `zed`（勿喂中文 TTS）。重生成：`python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet`
+- TTS：`en-US-JennyNeural`、语速 `-10%` 念字母名；Z 合成文案为 `zee`（勿喂中文 TTS）。Emma 只用于单词/短句。**裁首尾静音**。总表见 §2.10。重生成：`python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet`
 - 字母表页、字母图、字母音频同在分包 `english-abc`（微信不允许跨分包引用图片）；枢纽 A 图放在 `english` 包内
 
 #### 2.4.2 单词（96 词 · 八类各 12）
 
 数字 · 颜色 · 动物 · 身体 · 水果 · 食物 · 自然 · 交通；一词一句；词/句双点读；详情展示中文释义；专用黏土词图（可复用既有动物/手等原子）
 
+- **读音**：美式 IPA + `en-US-EmmaNeural`、语速 `-30%`；字母歌仍用现成曲，不走 TTS。总表见 §2.10
+
 - **词图命名**：一律 `english-{分类}-{名称}`，分类取题库 id（`number/color/animal/body/fruit/food/nature/transport`）。字母表为 `english-letter-{a…z}`。同词异义靠分类区分：颜色 `english-color-orange`，水果 `english-fruit-orange`
 - **排序**：分类序与识字同原则（好认先学），固定为上列；类内按英文单词 A–Z 落盘（**数字类例外**：按 one→nine 后接 ten / hundred / thousand）；列表与详情 trail 直接遍历，不再二次排序
 - 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
-- **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-more`
-- **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（水果/动物/颜色 + 枢纽 A 图 + extra/more 的列表缩略图；详情页）· `english-extra`（身体/交通详情页 + 大图/音频）· `english-more`（数字/食物/自然详情页 + 大图/音频）· `english-abc`（字母表页 + 字母图 + 字母音频 + 字母歌）
+- **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-number`
+- **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（枢纽 + 128px 列表缩略图，缩略图从原子直接生成）· `english-{fruit,animal,color,body,transport,number,food,nature}`（各类详情 320px 大图/音频）· `english-abc`（字母表页 + 272px 字母图 + 字母音频 + 字母歌）。详情边长由 `scripts/sync_package_images.py` 从原子下采样，禁止再压到 160px
 - **共享 UI**：`praise-sun` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
-- **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 JPEG（`meadow.jpg`）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
+- **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 PNG（`meadow.png`，750×390）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
 
 
 ### 2.5 拼音（仅 6 单韵母）
@@ -89,7 +92,7 @@
 - 详情展示单韵母 **发音音标**（a `/ɑ/`、o `/o/`、e `/ɤ/`、i `/i/`、u `/u/`、ü `/y/`）  
 - 无声母、无复韵母、无拼读  
 - 点读音频：`miniprogram/subpkg/pinyin/static/audio/{letter}.mp3`（`ü` → `umlaut-u.mp3`）；**进详情即播当前韵母**，点石子径切换后播对应韵母  
-- **合成规则**（`generate_audio.py` 的 `PINYIN_SPEAK`）：中文 TTS **禁止**直接喂拉丁字母（易念成英文字母名）；用注音符号 + `zh-TW-HsiaoChenNeural`（大陆音色不认注音）：
+- **合成规则**（`generate_audio.py` 的 `PINYIN_SPEAK`）：中文 TTS **禁止**直接喂拉丁字母（易念成英文字母名）；用注音符号 + `zh-TW-HsiaoChenNeural`、语速 `-10%`（大陆音色不认注音）。总表见 §2.10：
 
 | 字母 | 合成文案 | 音频文件 |
 | --- | --- | --- |
@@ -140,7 +143,7 @@
 | 算术答对 / 再试 | 行内 `soft-note` + 音效 | `answer-correct.mp3` / `answer-wrong.mp3` |
 | 点读音频缺失 | 行内 soft-note | 「语音准备中～」 |
 
-文案与音频入口：`miniprogram/content/feedback.js`；编排：`miniprogram/utils/feedback.js`。H5 审查：`docs/design/h5/shared/feedback.html`。
+文案与音频入口：`miniprogram/content/feedback.js`；编排：`miniprogram/utils/feedback.js`。H5 审查：`docs/design/h5/shared/feedback.html`。答题音效音色见 §2.10。
 
 ### 2.9 家长区（非学习模块）
 
@@ -150,6 +153,50 @@
 2. **清除**（长按 3 秒，文案统一用「清除」）：学习记录、星星积分、已兑换贴纸（不可恢复）
 
 幼儿学习流程仍**只增星、不扣分**；清除仅家长主动触发，走云函数 `resetProfile`。
+
+### 2.10 点读与反馈音频（音色 / 语速）
+
+实现以 `.cursor/skills/edge-tts-batch/scripts/generate_audio.py` 顶部常量为准。改音色或语速必须改常量后 `--force` 重生成对应模块，并同步本表。
+
+**常量**
+
+| 常量 | 值 | 用途 |
+| --- | --- | --- |
+| `VOICE_ZH` | `zh-CN-XiaoxiaoNeural` | 古诗、识字 |
+| `VOICE_EN` | `en-US-EmmaNeural` | 英语单词/短句 |
+| `VOICE_EN_LETTER` | `en-US-JennyNeural` | 字母名（Emma 会吞孤立字母） |
+| `VOICE_PINYIN` | `zh-TW-HsiaoChenNeural` | 拼音单韵母（大陆音色不认注音） |
+| `RATE` | `-30%` | 诗句、识字、单词、短句 |
+| `RATE_SHORT` | `-10%` | 拼音韵母、字母名 |
+
+**分条对照**
+
+| 音频 | 音色 | 语速 | 合成规则 |
+| --- | --- | --- | --- |
+| 古诗逐句 | 晓晓 `zh-CN-XiaoxiaoNeural` | `-30%` | 诗句原文；不含诗名 |
+| 古诗全文 | 晓晓 | `-30%` | 「诗名。」+ 全文 |
+| 识字单字 | 晓晓 | `-30%` | 汉字 |
+| 识字组词 | 晓晓 | `-30%` | 组词 |
+| 英语单词 | Emma `en-US-EmmaNeural` | `-30%` | 单词原文 |
+| 英语短句 | Emma | `-30%` | 短句原文 |
+| 字母名 A–Z | Jenny `en-US-JennyNeural` | `-10%` | 字母名；W 文案 `double u`，Z 文案 `zee`。Emma 念孤立字母会气声吞音，字母名不用 Emma。**裁首尾静音** |
+| 拼音单韵母 | 晓辰 `zh-TW-HsiaoChenNeural` | `-10%` | 注音 ㄚㄛㄜㄧㄨㄩ，禁止喂拉丁字母；裁首尾静音 |
+| 字母歌 | 现成曲 | — | 不走 TTS；`alphabet-song.mp3` |
+| 算术答对 / 再试 | 晓晓 | 快于点读 | `scripts/generate_feedback_audio.py`：文案「答对啦！你真棒！」「答错啦！再试一次吧～」；在 `+20%`～`+60%` 中取时长 ≤2s |
+| 家长区音量预览 | 音效 | — | `volume-preview.mp3`，非 TTS |
+| 算术题干 | — | — | 无语音，只出题面 |
+
+英语**音标与发音**统一美式：音标用 GA IPA（O `/oʊ/`、Z `/ziː/`）；单词/短句 Emma，字母名 Jenny（Z 念 `zee`）。
+
+重生成：
+
+```bash
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only poems
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only hanzi
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only english
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet
+python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin
+```
 
 ---
 
@@ -188,7 +235,7 @@
 | 小程序识字 | `miniprogram/subpkg/hanzi/content/hanzi.js`（`categories` 八类） |
 | 小程序英语 | 枢纽 `subpkg/english/hub/`；单词 `subpkg/english/content/english-words.js`；字母表 `subpkg/english-abc/`（点读 `letter_done`） |
 | 小程序拼音 | `subpkg/pinyin/content/pinyin.js` |
-| 点读 TTS 批量 | `.cursor/skills/edge-tts-batch/`（拼音 `PINYIN_SPEAK`：ㄚㄛㄜㄧㄨㄩ） |
+| 点读 TTS 批量 | `.cursor/skills/edge-tts-batch/`（音色/语速见 §2.10；拼音 `PINYIN_SPEAK`：ㄚㄛㄜㄧㄨㄩ） |
 | 每日任务 | `miniprogram/utils/daily-tasks.js` |
 | 点读播放 | `miniprogram/utils/audio.js` |
 | 主点读发星 | `miniprogram/utils/read-award.js` |

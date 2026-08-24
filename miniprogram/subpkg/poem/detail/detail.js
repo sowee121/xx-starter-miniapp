@@ -7,6 +7,7 @@ const {
   attachLongPlay,
   detachLongPlay,
 } = require('../../../utils/read-award')
+const audioUtil = require('../../../utils/audio')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
@@ -59,6 +60,7 @@ Page({
 
   /** 渲染当前古诗 */
   applyPoem(index) {
+    audioUtil.stop()
     const raw = poems[index]
     if (!raw) return
     const poem = mapPoem(raw)

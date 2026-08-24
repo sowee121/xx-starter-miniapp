@@ -33,7 +33,7 @@ module.exports = {
         },
         {
           "word": "gold",
-          "phonetic": "/ɡəʊld/",
+          "phonetic": "/ɡoʊld/",
           "meaning": "金色",
           "sentence": "It's gold.",
           "image": "english-color-gold",
@@ -60,7 +60,7 @@ module.exports = {
         },
         {
           "word": "orange",
-          "phonetic": "/ˈɒrɪndʒ/",
+          "phonetic": "/ˈɔrɪndʒ/",
           "meaning": "橙色",
           "sentence": "It's orange.",
           "image": "english-color-orange",
@@ -79,7 +79,7 @@ module.exports = {
         },
         {
           "word": "purple",
-          "phonetic": "/ˈpɜːpl/",
+          "phonetic": "/ˈpɜrpl/",
           "meaning": "紫色",
           "sentence": "It's purple.",
           "image": "english-color-purple",
@@ -106,7 +106,7 @@ module.exports = {
         },
         {
           "word": "yellow",
-          "phonetic": "/ˈjeləʊ/",
+          "phonetic": "/ˈjeloʊ/",
           "meaning": "黄色",
           "sentence": "It's yellow.",
           "image": "english-color-yellow",

@@ -310,7 +310,7 @@
 
 .section-title {
   margin: 0;
-  font-size: var(--font-hint);
+  font-size: var(--font-title);
   font-weight: 700;
   color: var(--muted);
 }

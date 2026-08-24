@@ -20,8 +20,9 @@
 | 字母表 | `subpkg/english-abc/list/list`（点读发星 `reason: letter_done`） |
 | 点读 | `utils/audio.js` |
 | 主点读发星 | `utils/read-award.js` |
-| 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（合成文案：ㄚㄛㄜㄧㄨㄩ） |
-| 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet`（字母名；Z=`zed`） |
+| 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（晓辰 `-10%`；注音 ㄚㄛㄜㄧㄨㄩ） |
+| 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet`（Jenny `-10%`；Z=`zee`） |
+| 点读音色/语速 | 见仓库 `docs/design/CONTENT.md` §2.10 |
 | 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/praise-sun`（主包） |
 | 列表媒体卡 | `components/media-card`（主包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |

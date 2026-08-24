@@ -1,5 +1,5 @@
 {
-  "_note": "26 个大写字母名点读；音标为英式字母名 IPA，对齐现有词库。TTS 用 en-US-AnaNeural 念字母名（Z 合成文案 zed）。字母歌 songAudio 在 Z 后的 ABC 卡片上播放，对应 english-abc/static/audio/alphabet-song.mp3。",
+  "_note": "26 个大写字母名点读；音标为美式字母名 IPA，对齐词库。TTS 用 en-US-JennyNeural 念字母名（Z 合成文案 zee）。字母歌 songAudio 在 Z 后的 ABC 卡片上播放，对应 english-abc/static/audio/alphabet-song.mp3。",
   "songAudio": "/subpkg/english-abc/static/audio/alphabet-song.mp3",
   "letters": [
     { "letter": "A", "phonetic": "/eɪ/", "image": "english-letter-a" },
@@ -16,10 +16,10 @@
     { "letter": "L", "phonetic": "/el/", "image": "english-letter-l" },
     { "letter": "M", "phonetic": "/em/", "image": "english-letter-m" },
     { "letter": "N", "phonetic": "/en/", "image": "english-letter-n" },
-    { "letter": "O", "phonetic": "/əʊ/", "image": "english-letter-o" },
+    { "letter": "O", "phonetic": "/oʊ/", "image": "english-letter-o" },
     { "letter": "P", "phonetic": "/piː/", "image": "english-letter-p" },
     { "letter": "Q", "phonetic": "/kjuː/", "image": "english-letter-q" },
-    { "letter": "R", "phonetic": "/ɑː/", "image": "english-letter-r" },
+    { "letter": "R", "phonetic": "/ɑr/", "image": "english-letter-r" },
     { "letter": "S", "phonetic": "/es/", "image": "english-letter-s" },
     { "letter": "T", "phonetic": "/tiː/", "image": "english-letter-t" },
     { "letter": "U", "phonetic": "/juː/", "image": "english-letter-u" },
@@ -27,6 +27,6 @@
     { "letter": "W", "phonetic": "/ˈdʌbljuː/", "image": "english-letter-w" },
     { "letter": "X", "phonetic": "/eks/", "image": "english-letter-x" },
     { "letter": "Y", "phonetic": "/waɪ/", "image": "english-letter-y" },
-    { "letter": "Z", "phonetic": "/zed/", "image": "english-letter-z" }
+    { "letter": "Z", "phonetic": "/ziː/", "image": "english-letter-z" }
   ]
 }

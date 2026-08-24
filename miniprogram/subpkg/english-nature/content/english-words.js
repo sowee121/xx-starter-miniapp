@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           "word": "flower",
-          "phonetic": "/ˈflaʊə/",
+          "phonetic": "/ˈflaʊər/",
           "meaning": "花",
           "sentence": "A flower.",
           "image": "english-nature-flower",
@@ -24,7 +24,7 @@ module.exports = {
         },
         {
           "word": "grass",
-          "phonetic": "/ɡrɑːs/",
+          "phonetic": "/ɡræs/",
           "meaning": "草",
           "sentence": "The grass.",
           "image": "english-nature-grass",
@@ -60,7 +60,7 @@ module.exports = {
         },
         {
           "word": "river",
-          "phonetic": "/ˈrɪvə/",
+          "phonetic": "/ˈrɪvər/",
           "meaning": "河",
           "sentence": "A river.",
           "image": "english-nature-river",
@@ -69,7 +69,7 @@ module.exports = {
         },
         {
           "word": "snow",
-          "phonetic": "/snəʊ/",
+          "phonetic": "/snoʊ/",
           "meaning": "雪",
           "sentence": "The snow.",
           "image": "english-nature-snow",
@@ -78,7 +78,7 @@ module.exports = {
         },
         {
           "word": "star",
-          "phonetic": "/stɑː/",
+          "phonetic": "/stɑr/",
           "meaning": "星星",
           "sentence": "A star.",
           "image": "english-nature-star",

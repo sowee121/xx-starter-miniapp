@@ -6,7 +6,7 @@ Page({
   data: {
     stars: 0,
     abcImage: mediaUrl('/subpkg/english/static/english-letter-a.png'),
-    wordImage: mediaUrl('/subpkg/english/static/list/english-fruit-apple.png'),
+    wordImage: mediaUrl('/subpkg/english/static/english-fruit-apple.png'),
   },
 
   onShow() {

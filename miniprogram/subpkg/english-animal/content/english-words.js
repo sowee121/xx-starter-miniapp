@@ -6,7 +6,7 @@ module.exports = {
       "items": [
         {
           "word": "bear",
-          "phonetic": "/beə/",
+          "phonetic": "/ber/",
           "meaning": "熊",
           "sentence": "A bear.",
           "image": "english-animal-bear",
@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           "word": "bird",
-          "phonetic": "/bɜːd/",
+          "phonetic": "/bɜrd/",
           "meaning": "鸟",
           "sentence": "A bird.",
           "image": "english-animal-bird",
@@ -33,7 +33,7 @@ module.exports = {
         },
         {
           "word": "dog",
-          "phonetic": "/dɒɡ/",
+          "phonetic": "/dɑɡ/",
           "meaning": "狗",
           "sentence": "A dog.",
           "image": "english-animal-dog",
@@ -105,7 +105,7 @@ module.exports = {
         },
         {
           "word": "tiger",
-          "phonetic": "/ˈtaɪɡə/",
+          "phonetic": "/ˈtaɪɡər/",
           "meaning": "老虎",
           "sentence": "A tiger.",
           "image": "english-animal-tiger",

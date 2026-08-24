@@ -226,7 +226,7 @@ def make_poem():
         section("点读", hero + poem_lines() + step)
         + section("点读中", hero + poem_lines(0) + step)
         + section("整首播放中", hero + poem_lines() + step)
-        + section("语音准备中", hero + poem_lines() + audio_note + step),
+        + section("语音准备中", hero + poem_lines() + step + audio_note),
     )
     remove_paths("poem/praise.html")
 
@@ -318,8 +318,8 @@ def make_math():
         return (
             head
             + f'<div class="options">{options_html(choices, tones, picked, correct)}</div>'
-            + note
             + nav
+            + note
         )
 
     retry_note = '<div class="soft-note block tone-butter">答错啦！再试一次吧～</div>'

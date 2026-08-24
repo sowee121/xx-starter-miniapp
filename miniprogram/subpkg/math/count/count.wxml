@@ -15,19 +15,19 @@
     </view>
     <view class="options">
       <view
-        wx:for="{{question.choices}}"
-        wx:key="*this"
-        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item === pickedValue ? 'is-correct' : ''}}"
-        data-value="{{item}}"
-        bindtap="choose" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item}}</view>
+        wx:for="{{choices}}"
+        wx:key="key"
+        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="choose" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item.value}}</view>
     </view>
-    <view wx:if="{{softNote}}" class="soft-note block {{softNoteTone}}">{{softNote}}</view>
     <trail-nav
       has-prev="{{nav.hasPrev}}"
       has-next="{{true}}"
       bind:prev="goPrev"
       bind:next="goNext"
     />
+    <view wx:if="{{softNote}}" class="soft-note block {{softNoteTone}}">{{softNote}}</view>
   </view>
   <praise-sun
     show="{{feedback.show}}"

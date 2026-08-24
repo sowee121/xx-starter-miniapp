@@ -87,7 +87,7 @@ module.exports = {
         },
         {
           "word": "pizza",
-          "phonetic": "/ˈpiːtsə/",
+          "phonetic": "/ˈpitsə/",
           "meaning": "披萨",
           "sentence": "A pizza.",
           "image": "english-food-pizza",

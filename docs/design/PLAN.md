@@ -6,7 +6,7 @@
 > - `[小程序开发核对清单（最终验收版）.txt](../小程序开发核对清单（最终验收版）.txt)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
 >
-> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。
+> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。
 
 ---
 
@@ -22,7 +22,7 @@
 | 每日任务       | **已实现**：自由学习按数量累计；数量每天随机（古诗 1～2，字/题/英语/拼音 1～5，日历固定 1「日历打卡」）；英语任务名「学 N 个英语」，字母名与单词计入同一条；实现 `miniprogram/utils/daily-tasks.js`（`SCHEMA = 8`） |
 | 反馈闭环       | **已实现**：任务/兑换弹层 `praise-sun`；算术 soft-note + 成败音效；禁 Toast（见 CONTENT §2.8） |
 | 家长区         | **已实现**：欢迎卡进入；音量三档；长按 3 秒「清除」学习记录 / 星星 / 贴纸（`resetProfile`） |
-| 点读音频       | 分包 MP3 + `utils/audio.js` + `read-award.js`；拼音合成文案为注音「ㄚㄛㄜㄧㄨㄩ」（勿喂拉丁字母）；英文字母名为 `en-US-AnaNeural`（Z=`zed`）；文件名 ASCII slug；真机需 `setInnerAudioOption`；失败落「语音准备中～」 |
+| 点读音频       | 分包 MP3 + `utils/audio.js` + `read-award.js`；音色/语速见 [CONTENT §2.10](./CONTENT.md)；拼音喂注音「ㄚㄛㄜㄧㄨㄩ」；字母 Z=`zee`；文件名 ASCII slug；真机需 `setInnerAudioOption`；失败落「语音准备中～」 |
 | 设计 token     | `docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`；字号下限 28（`--font-nav`）；禁用态 opacity 0.68；答题选中 `--tone-picked` |
 | 云端存储（图片） | 环境已配置；默认 `USE_CLOUD = false`（免费套餐 ACL）；手动/自动化见 [`../../cloud-assets/README.md`](../../cloud-assets/README.md) |
 | 云函数         | **已部署并对齐本地**：`login` / `getProfile` / `getProgress` / `addStars`（含 `letter_done`）/ `checkinTask` / `completeProgress` / `exchangeReward` / `resetProfile` / `initDb`。启动同步积分/进度；云为主存，加星/进度失败时本地队列兜底并冲刷 |
@@ -111,7 +111,16 @@
 
 - 仅支持**选择题、拖拽**；禁止手写/键盘/拼写
 - 答错：无扣分、无红字、无刺耳音、无负面话术；仅温柔正向鼓励
-- 点读：慢速标准童声；文字/图/词/诗句支持单点独立发声
+- 点读：各条音频独立发声；**音色与语速定稿**（改常量须 `--force` 重生成，详见 CONTENT §2.10）：
+
+| 音频 | 音色 | 语速 |
+| --- | --- | --- |
+| 古诗逐句 / 全文、识字单字 / 组词 | `zh-CN-XiaoxiaoNeural` | `-30%` |
+| 英语单词 / 短句 | `en-US-EmmaNeural` | `-30%` |
+| 字母名 A–Z | `en-US-JennyNeural` | `-10%`（Z 文案 `zee`；Emma 会吞孤立字母） |
+| 拼音单韵母 | `zh-TW-HsiaoChenNeural` | `-10%`（注音 ㄚㄛㄜㄧㄨㄩ） |
+| 字母歌 | 现成曲，不走 TTS | — |
+| 算术答对 / 再试 | `zh-CN-XiaoxiaoNeural` | 快于点读（`+20%`～`+60%`，时长 ≤2s） |
 
 
 

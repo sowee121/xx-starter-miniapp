@@ -310,22 +310,24 @@ async function checkinTask(taskId) {
   return result
 }
 
-/** 冲刷重试队列 */
+/** 冲刷重试队列（批量移除，避免逐项 load/save storage） */
 async function flushRetryQueue() {
   if (flushing) return
   const pending = retryQueue.peekAll()
   if (!pending.length) return
   flushing = true
   try {
+    const done = []
     for (const item of pending) {
       const { ok } = await addStars({ ...item, fromQueue: true })
       if (ok) {
-        retryQueue.removeByClientId(item.clientId)
+        done.push(item.clientId)
       } else {
         // 云仍不可用，保留队列，下次通畅再同步
         break
       }
     }
+    if (done.length) retryQueue.removeBatch(done)
   } finally {
     flushing = false
   }

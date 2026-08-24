@@ -15,7 +15,7 @@ const KEEP = new Set([
   'static/shared/arrow.png',
   'static/icons/home.png',
   'static/home/star.png',
-  'static/shared/meadow.jpg',
+  'static/shared/meadow.png',
   'static/shared/cloud.png',
   'static/shared/grass-tuft.png',
 ])

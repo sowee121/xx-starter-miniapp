@@ -23,6 +23,16 @@ function resetPick() {
   }
 }
 
+/** 选项带本题唯一 key，避免 wx:key 复用节点把选中环带到下一题 */
+function stampChoices(page, patch) {
+  const round = (page._choiceRound = (page._choiceRound || 0) + 1)
+  const choices = ((patch.question && patch.question.choices) || []).map((value, i) => ({
+    value,
+    key: `${round}-${i}`,
+  }))
+  return { ...patch, choices }
+}
+
 /**
  * 口算 / 数数共用切题与作答。出题差异由 makeQuestion / snapshot 注入。
  * 必须留在 math 分包内，不能进主包。
@@ -32,6 +42,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
     data: {
       stars: 0,
       question: null,
+      choices: [],
       ...resetPick(),
       nav: navState(1, false),
       feedback: { show: false, closing: false },
@@ -58,10 +69,15 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
         this._history.push(this.data.question)
       }
       this.setData({
-        ...makeQuestion(this),
+        ...stampChoices(this, makeQuestion(this)),
         ...resetPick(),
         nav: navState(this._step, this._history.length > 0),
       })
+    },
+
+    /** 立刻摘掉选中环 */
+    clearPick() {
+      this.setData(resetPick())
     },
 
     /** 上一题 */
@@ -71,11 +87,12 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       this._busy = false
       feedback.hideLayer(this)
       feedback.clearInline(this)
+      this.clearPick()
       const prev = this._history.pop()
       this._step = Math.max(1, this._step - 1)
       const restored = snapshot ? prev : { question: prev }
       this.setData({
-        ...restored,
+        ...stampChoices(this, restored),
         ...resetPick(),
         nav: navState(this._step, this._history.length > 0),
       })
@@ -87,6 +104,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       this._busy = false
       feedback.hideLayer(this)
       feedback.clearInline(this)
+      this.clearPick()
       this._step += 1
       this.applyQuestion({ pushHistory: true })
     },

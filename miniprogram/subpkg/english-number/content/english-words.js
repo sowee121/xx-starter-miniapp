@@ -33,7 +33,7 @@ module.exports = {
         },
         {
           "word": "four",
-          "phonetic": "/fɔː/",
+          "phonetic": "/fɔr/",
           "meaning": "四",
           "sentence": "It's four.",
           "image": "english-number-four",

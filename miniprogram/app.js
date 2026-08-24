@@ -1,4 +1,4 @@
-const { CLOUD_ENV } = require('./config/cloud')
+const cloud = require('./utils/cloud')
 const feedback = require('./utils/feedback')
 
 App({
@@ -17,22 +17,23 @@ App({
     }
     // 答题文字音频在主包，启动即建好上下文，各模块首次答题不再等加载
     feedback.preloadVoiceAudio()
+    // 点读加星被多个分包引用；主包显式加载，避免代码质量报未使用
+    require('./utils/read-award')
 
-    if (!wx.cloud) {
-      return
+    const bootCloud = () => {
+      if (!cloud.init()) return
+      // 建档 users + 冲刷本地加星队列；onLaunch 内 getApp() 不可用，传入 this
+      try {
+        require('./utils/stars').ensureSession(this)
+      } catch (error) {
+        // ignore
+      }
     }
-    if (!CLOUD_ENV) {
-      return
-    }
-    wx.cloud.init({
-      env: CLOUD_ENV,
-      traceUser: true,
-    })
-    // 建档 users + 冲刷本地加星队列；onLaunch 内 getApp() 不可用，传入 this
-    try {
-      require('./utils/stars').ensureSession(this)
-    } catch (error) {
-      // ignore
+    // 等基础库挂上 FileSystemManager，避免 init 内部 stat 报 undefined
+    if (typeof wx.nextTick === 'function') {
+      wx.nextTick(bootCloud)
+    } else {
+      setTimeout(bootCloud, 0)
     }
   },
 

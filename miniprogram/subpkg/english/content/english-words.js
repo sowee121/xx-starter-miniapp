@@ -33,7 +33,7 @@ module.exports = {
         },
         {
           "word": "four",
-          "phonetic": "/fɔː/",
+          "phonetic": "/fɔr/",
           "meaning": "四",
           "sentence": "It's four.",
           "image": "english-number-four",
@@ -147,7 +147,7 @@ module.exports = {
         },
         {
           "word": "gold",
-          "phonetic": "/ɡəʊld/",
+          "phonetic": "/ɡoʊld/",
           "meaning": "金色",
           "sentence": "It's gold.",
           "image": "english-color-gold",
@@ -174,7 +174,7 @@ module.exports = {
         },
         {
           "word": "orange",
-          "phonetic": "/ˈɒrɪndʒ/",
+          "phonetic": "/ˈɔrɪndʒ/",
           "meaning": "橙色",
           "sentence": "It's orange.",
           "image": "english-color-orange",
@@ -193,7 +193,7 @@ module.exports = {
         },
         {
           "word": "purple",
-          "phonetic": "/ˈpɜːpl/",
+          "phonetic": "/ˈpɜrpl/",
           "meaning": "紫色",
           "sentence": "It's purple.",
           "image": "english-color-purple",
@@ -220,7 +220,7 @@ module.exports = {
         },
         {
           "word": "yellow",
-          "phonetic": "/ˈjeləʊ/",
+          "phonetic": "/ˈjeloʊ/",
           "meaning": "黄色",
           "sentence": "It's yellow.",
           "image": "english-color-yellow",
@@ -235,7 +235,7 @@ module.exports = {
       "items": [
         {
           "word": "bear",
-          "phonetic": "/beə/",
+          "phonetic": "/ber/",
           "meaning": "熊",
           "sentence": "A bear.",
           "image": "english-animal-bear",
@@ -244,7 +244,7 @@ module.exports = {
         },
         {
           "word": "bird",
-          "phonetic": "/bɜːd/",
+          "phonetic": "/bɜrd/",
           "meaning": "鸟",
           "sentence": "A bird.",
           "image": "english-animal-bird",
@@ -262,7 +262,7 @@ module.exports = {
         },
         {
           "word": "dog",
-          "phonetic": "/dɒɡ/",
+          "phonetic": "/dɑɡ/",
           "meaning": "狗",
           "sentence": "A dog.",
           "image": "english-animal-dog",
@@ -334,7 +334,7 @@ module.exports = {
         },
         {
           "word": "tiger",
-          "phonetic": "/ˈtaɪɡə/",
+          "phonetic": "/ˈtaɪɡər/",
           "meaning": "老虎",
           "sentence": "A tiger.",
           "image": "english-animal-tiger",
@@ -349,7 +349,7 @@ module.exports = {
       "items": [
         {
           "word": "arm",
-          "phonetic": "/ɑːm/",
+          "phonetic": "/ɑrm/",
           "meaning": "胳膊",
           "sentence": "My arm.",
           "image": "english-body-arm",
@@ -358,7 +358,7 @@ module.exports = {
         },
         {
           "word": "ear",
-          "phonetic": "/ɪə/",
+          "phonetic": "/ɪr/",
           "meaning": "耳朵",
           "sentence": "My ear.",
           "image": "english-body-ear",
@@ -385,7 +385,7 @@ module.exports = {
         },
         {
           "word": "finger",
-          "phonetic": "/ˈfɪŋɡə/",
+          "phonetic": "/ˈfɪŋɡər/",
           "meaning": "手指",
           "sentence": "My finger.",
           "image": "english-body-finger",
@@ -403,7 +403,7 @@ module.exports = {
         },
         {
           "word": "hair",
-          "phonetic": "/heə/",
+          "phonetic": "/her/",
           "meaning": "头发",
           "sentence": "My hair.",
           "image": "english-body-hair",
@@ -448,7 +448,7 @@ module.exports = {
         },
         {
           "word": "nose",
-          "phonetic": "/nəʊz/",
+          "phonetic": "/noʊz/",
           "meaning": "鼻子",
           "sentence": "My nose.",
           "image": "english-body-nose",
@@ -472,7 +472,7 @@ module.exports = {
         },
         {
           "word": "banana",
-          "phonetic": "/bəˈnɑːnə/",
+          "phonetic": "/bəˈnænə/",
           "meaning": "香蕉",
           "sentence": "A banana.",
           "image": "english-fruit-banana",
@@ -517,7 +517,7 @@ module.exports = {
         },
         {
           "word": "mango",
-          "phonetic": "/ˈmæŋɡəʊ/",
+          "phonetic": "/ˈmæŋɡoʊ/",
           "meaning": "芒果",
           "sentence": "A mango.",
           "image": "english-fruit-mango",
@@ -526,7 +526,7 @@ module.exports = {
         },
         {
           "word": "orange",
-          "phonetic": "/ˈɒrɪndʒ/",
+          "phonetic": "/ˈɔrɪndʒ/",
           "meaning": "橙子",
           "sentence": "An orange.",
           "image": "english-fruit-orange",
@@ -544,7 +544,7 @@ module.exports = {
         },
         {
           "word": "pear",
-          "phonetic": "/peə/",
+          "phonetic": "/per/",
           "meaning": "梨",
           "sentence": "A pear.",
           "image": "english-fruit-pear",
@@ -553,7 +553,7 @@ module.exports = {
         },
         {
           "word": "strawberry",
-          "phonetic": "/ˈstrɔːbəri/",
+          "phonetic": "/ˈstrɔberi/",
           "meaning": "草莓",
           "sentence": "A strawberry.",
           "image": "english-fruit-strawberry",
@@ -562,7 +562,7 @@ module.exports = {
         },
         {
           "word": "watermelon",
-          "phonetic": "/ˈwɔːtəmelən/",
+          "phonetic": "/ˈwɔtərmelən/",
           "meaning": "西瓜",
           "sentence": "A watermelon.",
           "image": "english-fruit-watermelon",
@@ -658,7 +658,7 @@ module.exports = {
         },
         {
           "word": "pizza",
-          "phonetic": "/ˈpiːtsə/",
+          "phonetic": "/ˈpitsə/",
           "meaning": "披萨",
           "sentence": "A pizza.",
           "image": "english-food-pizza",
@@ -700,7 +700,7 @@ module.exports = {
         },
         {
           "word": "flower",
-          "phonetic": "/ˈflaʊə/",
+          "phonetic": "/ˈflaʊər/",
           "meaning": "花",
           "sentence": "A flower.",
           "image": "english-nature-flower",
@@ -709,7 +709,7 @@ module.exports = {
         },
         {
           "word": "grass",
-          "phonetic": "/ɡrɑːs/",
+          "phonetic": "/ɡræs/",
           "meaning": "草",
           "sentence": "The grass.",
           "image": "english-nature-grass",
@@ -745,7 +745,7 @@ module.exports = {
         },
         {
           "word": "river",
-          "phonetic": "/ˈrɪvə/",
+          "phonetic": "/ˈrɪvər/",
           "meaning": "河",
           "sentence": "A river.",
           "image": "english-nature-river",
@@ -754,7 +754,7 @@ module.exports = {
         },
         {
           "word": "snow",
-          "phonetic": "/snəʊ/",
+          "phonetic": "/snoʊ/",
           "meaning": "雪",
           "sentence": "The snow.",
           "image": "english-nature-snow",
@@ -763,7 +763,7 @@ module.exports = {
         },
         {
           "word": "star",
-          "phonetic": "/stɑː/",
+          "phonetic": "/stɑr/",
           "meaning": "星星",
           "sentence": "A star.",
           "image": "english-nature-star",
@@ -814,7 +814,7 @@ module.exports = {
         },
         {
           "word": "boat",
-          "phonetic": "/bəʊt/",
+          "phonetic": "/boʊt/",
           "meaning": "船",
           "sentence": "I see a boat.",
           "image": "english-transport-boat",
@@ -832,7 +832,7 @@ module.exports = {
         },
         {
           "word": "car",
-          "phonetic": "/kɑː/",
+          "phonetic": "/kɑr/",
           "meaning": "汽车",
           "sentence": "I see a car.",
           "image": "english-transport-car",
@@ -850,7 +850,7 @@ module.exports = {
         },
         {
           "word": "rocket",
-          "phonetic": "/ˈrɒkɪt/",
+          "phonetic": "/ˈrɑkɪt/",
           "meaning": "火箭",
           "sentence": "I see a rocket.",
           "image": "english-transport-rocket",

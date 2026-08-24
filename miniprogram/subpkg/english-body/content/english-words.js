@@ -6,7 +6,7 @@ module.exports = {
       "items": [
         {
           "word": "arm",
-          "phonetic": "/ɑːm/",
+          "phonetic": "/ɑrm/",
           "meaning": "胳膊",
           "sentence": "My arm.",
           "image": "english-body-arm",
@@ -15,7 +15,7 @@ module.exports = {
         },
         {
           "word": "ear",
-          "phonetic": "/ɪə/",
+          "phonetic": "/ɪr/",
           "meaning": "耳朵",
           "sentence": "My ear.",
           "image": "english-body-ear",
@@ -42,7 +42,7 @@ module.exports = {
         },
         {
           "word": "finger",
-          "phonetic": "/ˈfɪŋɡə/",
+          "phonetic": "/ˈfɪŋɡər/",
           "meaning": "手指",
           "sentence": "My finger.",
           "image": "english-body-finger",
@@ -60,7 +60,7 @@ module.exports = {
         },
         {
           "word": "hair",
-          "phonetic": "/heə/",
+          "phonetic": "/her/",
           "meaning": "头发",
           "sentence": "My hair.",
           "image": "english-body-hair",
@@ -105,7 +105,7 @@ module.exports = {
         },
         {
           "word": "nose",
-          "phonetic": "/nəʊz/",
+          "phonetic": "/noʊz/",
           "meaning": "鼻子",
           "sentence": "My nose.",
           "image": "english-body-nose",

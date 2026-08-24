@@ -325,7 +325,7 @@ a.block:active,
   pointer-events: none;
 }
 
-.section-title { font-size: var(--font-body); font-weight: 700; }
+.section-title { font-size: var(--font-title); font-weight: 700; }
 
 .media-row {
   display: flex;
