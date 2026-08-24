@@ -5,6 +5,18 @@
       {
         "type": "file",
         "value": "**/.DS_Store"
+      },
+      {
+        "type": "suffix",
+        "value": ".md"
+      },
+      {
+        "type": "suffix",
+        "value": ".map"
+      },
+      {
+        "type": "folder",
+        "value": "node_modules"
       }
     ],
     "include": []
@@ -21,7 +33,7 @@
     "scopeDataCheck": false,
     "checkInvalidKey": true,
     "checkSiteMap": true,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "compileHotReLoad": true,
     "babelSetting": {
       "ignore": [],
@@ -30,7 +42,7 @@
     },
     "compileWorklet": false,
     "uglifyFileName": false,
-    "enhance": false,
+    "enhance": true,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
@@ -41,7 +53,8 @@
     "condition": false,
     "swc": false,
     "disableSWC": true,
-    "ignoreDevUnusedFiles": false
+    "ignoreDevUnusedFiles": true,
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
   "libVersion": "3.5.5",

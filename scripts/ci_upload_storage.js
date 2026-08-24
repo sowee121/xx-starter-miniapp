@@ -23,6 +23,7 @@ const DEFAULT_JOBS = [
   { local: 'subpkg', remote: 'subpkg' },
 ]
 
+/** 拆出上传任务 */
 function resolveJobs(argv) {
   if (!argv.length) return DEFAULT_JOBS
   return argv.map((name) => {
@@ -32,6 +33,7 @@ function resolveJobs(argv) {
   })
 }
 
+/** 上传一个云函数或目录 */
 async function uploadOne(project, { local, remote }) {
   const localPath = path.join(ASSETS_ROOT, local)
   if (!fs.existsSync(localPath)) {
@@ -47,6 +49,7 @@ async function uploadOne(project, { local, remote }) {
   console.log(`✓ ${local} → ${remote}/`)
 }
 
+/** 云函数入口 */
 async function main() {
   if (!ENV) {
     console.error('缺少 CLOUD_ENV（miniprogram/config/cloud.js 或环境变量）')

@@ -9,7 +9,7 @@ Component({
     subtitle: { type: String, value: '' },
     image: { type: String, value: '' },
     tone: { type: String, value: 'matcha' },
-    /** task | reward */
+    /** 入口类型 */
     type: { type: String, value: 'task' },
     actionText: { type: String, value: '去兑换' },
     /** 已点亮星数，0–6（每日任务六模块） */
@@ -24,6 +24,7 @@ Component({
     sockets: [false, false, false, false, false, false],
   },
   observers: {
+    /** 任务进度变化 */
     progress(val) {
       const n = Math.max(0, Math.min(6, Number(val) || 0))
       this.setData({
@@ -40,6 +41,7 @@ Component({
     },
   },
   methods: {
+    /** 点击播放钮 */
     onTap() {
       this.triggerEvent('tap', {
         id: this.data.moduleId,

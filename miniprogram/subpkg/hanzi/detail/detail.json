@@ -2,6 +2,7 @@
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
     "play-button": "/components/play-button/play-button",
-    "praise-sun": "/components/praise-sun/praise-sun"
+    "praise-sun": "/components/praise-sun/praise-sun",
+    "trail-nav": "/components/trail-nav/trail-nav"
   }
 }

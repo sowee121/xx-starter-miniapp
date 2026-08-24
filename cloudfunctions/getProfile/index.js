@@ -3,6 +3,7 @@ const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 
+/** 确保 users 集合 */
 async function ensureUsers() {
   try {
     await db.createCollection('users')
@@ -11,6 +12,7 @@ async function ensureUsers() {
   }
 }
 
+/** 读取或创建用户 */
 async function getOrCreateUser(openid) {
   const users = db.collection('users')
   const found = await users.where({ _openid: openid }).limit(1).get()
@@ -26,6 +28,7 @@ async function getOrCreateUser(openid) {
   return { ...doc, _id: added._id }
 }
 
+/** 云函数入口 */
 exports.main = async () => {
   await ensureUsers()
   const { OPENID } = cloud.getWXContext()

@@ -28,13 +28,14 @@ const LOCAL_KEEP = new Set([
   '/static/shared/stop.png',
   '/static/shared/check.png',
   '/static/shared/arrow.png',
-  '/static/shared/meadow.png',
+  '/static/shared/meadow.jpg',
   '/static/shared/cloud.png',
   '/static/shared/grass-tuft.png',
   '/static/icons/home.png',
   '/static/home/star.png',
 ])
 
+/** 规范化媒体路径 */
 function normalizePath(input) {
   if (!input) return ''
   if (/^(cloud:|https?:|wxfile:|data:)/.test(input)) return input

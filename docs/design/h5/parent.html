@@ -97,7 +97,7 @@
           btn.classList.add('is-holding')
           bar.classList.add('is-filling')
           btn.setPointerCapture(event.pointerId)
-          timer = setTimeout(reset, HOLD_MS)
+          timer = setTimeout(reset, HOLD_MS + 120)
         })
         function endHold() {
           reset()

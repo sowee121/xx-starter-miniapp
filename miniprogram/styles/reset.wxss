@@ -7,6 +7,13 @@ button {
   box-sizing: border-box;
 }
 
+page,
+view,
+text,
+button {
+  letter-spacing: var(--letter-btn); /* 全站字距 */
+}
+
 page {
   height: 100%;
   font-weight: 600;

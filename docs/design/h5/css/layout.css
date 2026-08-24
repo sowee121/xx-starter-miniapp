@@ -1,18 +1,27 @@
 /* 与 miniprogram/styles/layout.wxss 对齐 */
 
-.page-list,
-.detail-stack,
-.parent-stack {
+.page-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-grid);
+}
+
+.detail-stack {
   display: flex;
   flex-direction: column;
   gap: var(--gap-block);
 }
 
+.parent-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-grid);
+}
+
 .media-main__body,
 .welcome__body,
 .wide__body,
-.setting-head__body,
-.task-row__body {
+.setting-head__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,8 +30,14 @@
   min-width: 0;
 }
 
-.welcome__body { gap: var(--gap-snug); }
-.task-row__body { gap: var(--gap-tight); }
+.task-row__body {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
+}
 
 .media-main__body span,
 .welcome-sub,

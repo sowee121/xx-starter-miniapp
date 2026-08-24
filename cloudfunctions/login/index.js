@@ -5,6 +5,7 @@ const db = cloud.database()
 
 const COLLECTIONS = ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs']
 
+/** 确保云库集合存在 */
 async function ensureCollections() {
   for (const name of COLLECTIONS) {
     try {
@@ -15,6 +16,7 @@ async function ensureCollections() {
   }
 }
 
+/** 读取或创建用户 */
 async function getOrCreateUser(openid) {
   const users = db.collection('users')
   const found = await users.where({ _openid: openid }).limit(1).get()
@@ -30,6 +32,7 @@ async function getOrCreateUser(openid) {
   return { ...doc, _id: added._id }
 }
 
+/** 云函数入口 */
 exports.main = async () => {
   await ensureCollections()
   const { OPENID } = cloud.getWXContext()

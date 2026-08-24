@@ -6,12 +6,14 @@ const { INLINE } = require('../../content/feedback')
 /** 答对后固定停留，再自动切下一题（对齐提示音约 2s） */
 const ADVANCE_DELAY = 2000
 
+/** 取消自动切题定时器 */
 function clearAdvanceTimer(page) {
   if (!page || !page._advanceTimer) return
   clearTimeout(page._advanceTimer)
   page._advanceTimer = null
 }
 
+/** 答对后延迟切题 */
 function scheduleAdvance(page, onAdvance) {
   clearAdvanceTimer(page)
   page._advanceTimer = setTimeout(() => {
@@ -21,6 +23,7 @@ function scheduleAdvance(page, onAdvance) {
   }, ADVANCE_DELAY)
 }
 
+/** 刷新顶栏星星 */
 function refreshStars(page) {
   if (!page || typeof page.setData !== 'function') return
   page.setData({ stars: stars.getLocalStars() })

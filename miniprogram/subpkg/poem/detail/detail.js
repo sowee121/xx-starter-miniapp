@@ -9,7 +9,9 @@ const {
 } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
+const { queryValue } = require('../../../utils/page')
 
+/** 补全古诗封面 */
 function mapPoem(raw) {
   if (!raw) return null
   return {
@@ -19,6 +21,7 @@ function mapPoem(raw) {
   }
 }
 
+/** 整首诗奖励参数 */
 function fullAward(poem) {
   if (!poem) return null
   return {
@@ -44,8 +47,9 @@ Page({
   },
 
   onLoad(query) {
-    const index = Math.max(0, poems.findIndex((p) => p.id === query.id))
-    this.applyPoem(index >= 0 ? index : 0)
+    const id = queryValue(query, 'id')
+    const found = poems.findIndex((p) => p.id === id)
+    this.applyPoem(found >= 0 ? found : 0)
   },
 
   onShow() {
@@ -53,6 +57,7 @@ Page({
     this.setData({ stars: starsUtil.getLocalStars() })
   },
 
+  /** 渲染当前古诗 */
   applyPoem(index) {
     const raw = poems[index]
     if (!raw) return
@@ -70,16 +75,19 @@ Page({
     })
   },
 
+  /** 上一题 */
   goPrev() {
     if (!this.data.nav.hasPrev) return
     this.applyPoem(this.data.nav.index - 1)
   },
 
+  /** 下一题 */
   goNext() {
     if (!this.data.nav.hasNext) return
     this.applyPoem(this.data.nav.index + 1)
   },
 
+  /** 点读一行诗 */
   onLineTap(e) {
     const detail = e.detail || {}
     const index = Number(
@@ -93,6 +101,7 @@ Page({
     playPreview(this, line.audio)
   },
 
+  /** 播放整首诗 */
   onFullPlay() {
     const poem = this.data.poem
     if (!poem) return
@@ -100,6 +109,7 @@ Page({
     toggleLongPlay(this, { src: poem.fullAudio, award: this.data.fullAward })
   },
 
+  /** 关闭表扬层 */
   closePraise() {
     feedback.hideLayer(this)
   },

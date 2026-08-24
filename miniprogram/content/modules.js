@@ -42,14 +42,14 @@ const MODULES = {
     title: '日历',
     icon: MODULE_ICONS.calendar,
     tint: tintOf('calendar'),
-    url: '/subpkg/life/calendar/index',
+    url: '/subpkg/calendar/index',
   },
   task: {
     id: 'task',
     title: '每日任务',
     icon: MODULE_ICONS.task,
     tint: tintOf('task'),
-    url: '/subpkg/life/task/list',
+    url: '/subpkg/task/list',
     subtitle: '今天的任务，慢慢完成吧',
   },
   reward: {
@@ -57,7 +57,7 @@ const MODULES = {
     title: '积分商城',
     icon: MODULE_ICONS.reward,
     tint: tintOf('reward'),
-    url: '/subpkg/life/reward/shop',
+    url: '/subpkg/shop/shop',
     subtitle: '用星星兑换动物贴纸',
     actionText: '去兑换',
   },
@@ -66,10 +66,12 @@ const MODULES = {
 /** 首页六宫格：语（识字/拼音/古诗/英语）→ 算术 → 日常 */
 const HOME_MODULE_ENTRIES = ['hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar']
 
+/** 读取功能模块配置 */
 function getModule(id) {
   return MODULES[id] || null
 }
 
+/** 首页入口列表 */
 function homeModuleEntries() {
   return HOME_MODULE_ENTRIES.map((id) => MODULES[id])
 }

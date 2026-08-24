@@ -25,6 +25,7 @@ function clientIssuedAt(clientId) {
   return Number.isFinite(n) && n > 1e11 ? n : 0
 }
 
+/** 读取或创建用户 */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
   const found = await col.where({ _openid: openid }).limit(1).get()
@@ -40,11 +41,13 @@ async function getOrCreateUser(openid) {
   return { ...doc, _id: added._id }
 }
 
+/** 读取用户星星 */
 async function readStars(openid, fallback) {
   const after = await db.collection('users').where({ _openid: openid }).limit(1).get()
   return (after.data[0] && after.data[0].stars) || fallback || 0
 }
 
+/** 云函数入口 */
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const delta = Number(event.delta) || 0

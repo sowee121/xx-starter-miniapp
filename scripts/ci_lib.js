@@ -12,6 +12,7 @@ const projectConfig = JSON.parse(
   fs.readFileSync(path.join(ROOT, 'project.config.json'), 'utf8')
 )
 
+/** 解析上传私钥路径 */
 function resolveKeyPath() {
   if (process.env.MP_CI_PRIVATE_KEY_PATH) {
     return path.resolve(process.env.MP_CI_PRIVATE_KEY_PATH)
@@ -24,6 +25,7 @@ function resolveKeyPath() {
   return candidates.find((p) => fs.existsSync(p)) || candidates[0]
 }
 
+/** 创建 ci 项目实例 */
 function createProject() {
   const privateKeyPath = resolveKeyPath()
   if (!fs.existsSync(privateKeyPath)) {
@@ -59,20 +61,22 @@ function createProject() {
   })
 }
 
+/** 编译选项 */
 function compileSetting() {
   const s = projectConfig.setting || {}
   return {
     es6: s.es6 !== false,
     es7: true,
-    minify: s.minified !== false,
-    codeProtect: false,
-    minifyJS: s.minified !== false,
+    minify: true,
+    minifyJS: true,
     minifyWXML: s.minifyWXML !== false,
     minifyWXSS: s.minifyWXSS !== false,
     autoPrefixWXSS: s.postcss !== false,
+    codeProtect: false,
   }
 }
 
+/** ci 机器人编号 */
 function robotId() {
   const n = Number(process.env.MP_CI_ROBOT || 1)
   if (!Number.isInteger(n) || n < 1 || n > 30) {
@@ -82,12 +86,14 @@ function robotId() {
   return n
 }
 
+/** 默认版本号 */
 function defaultVersion() {
   if (process.env.MP_CI_VERSION) return process.env.MP_CI_VERSION
   // 体验阶段固定 1.0.0；正式发版前再改为语义化递增或时间戳
   return '1.0.0'
 }
 
+/** 默认版本说明 */
 function defaultDesc(action) {
   if (process.env.MP_CI_DESC) return process.env.MP_CI_DESC
   const time = new Date().toLocaleString('zh-CN', { hour12: false })
@@ -95,6 +101,7 @@ function defaultDesc(action) {
   return `${action}: ${time}`
 }
 
+/** 打印上传进度 */
 function onProgressUpdate(task) {
   const msg = typeof task === 'string' ? task : task && task.message
   if (msg) console.log(msg)

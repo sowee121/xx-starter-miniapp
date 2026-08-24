@@ -25,6 +25,7 @@ const NATIVE_TAGS = new Set([
 const errors = []
 const warnings = []
 
+/** 递归收集文件 */
 function walk(dir, exts, out = []) {
   if (!fs.existsSync(dir)) return out
   for (const name of fs.readdirSync(dir)) {
@@ -37,6 +38,7 @@ function walk(dir, exts, out = []) {
   return out
 }
 
+/** 读 JSON，失败记错误 */
 function readJson(file) {
   try {
     return JSON.parse(fs.readFileSync(file, 'utf8'))
@@ -46,10 +48,12 @@ function readJson(file) {
   }
 }
 
+/** 相对仓库根的路径 */
 function rel(file) {
   return path.relative(ROOT, file)
 }
 
+/** 收集 wxml 自定义标签 */
 function collectUsedTags(wxml) {
   const tags = new Set()
   const re = /<\/?([a-z][a-z0-9-]*)\b/gi
@@ -61,6 +65,7 @@ function collectUsedTags(wxml) {
   return [...tags]
 }
 
+/** 解析组件绝对路径 */
 function resolveComponentPath(fromJson, compPath) {
   if (!compPath || typeof compPath !== 'string') return null
   let target = compPath
@@ -96,6 +101,7 @@ function resolveComponentPath(fromJson, compPath) {
   return null
 }
 
+/** 核对页面或组件 json */
 function checkPageOrComponent(jsonPath) {
   const base = jsonPath.replace(/\.json$/, '')
   const wxmlPath = `${base}.wxml`
@@ -131,6 +137,7 @@ function checkPageOrComponent(jsonPath) {
   }
 }
 
+/** 核对静态资源引用 */
 function checkStaticRefs() {
   const wxmls = walk(MP, ['.wxml'])
   const re = /(?:src|background)=["'](\/[^"']+\.(?:webp|png|jpg|jpeg|gif|mp3|svg))["']/gi
@@ -176,6 +183,7 @@ function checkStaticRefs() {
   }
 }
 
+/** 禁止 wxss 本地 url */
 function checkWxssNoLocalUrl() {
   const wxsss = walk(MP, ['.wxss'])
   const re = /url\(\s*['"]?(\/[^)'"]+)['"]?\s*\)/g
@@ -192,6 +200,7 @@ function checkWxssNoLocalUrl() {
   }
 }
 
+/** flex wrap 必须带 gap */
 function checkFlexWrapUsesGap() {
   const wxsss = walk(MP, ['.wxss'])
   const ruleRe = /([^{}]+)\{([^{}]*)\}/g
@@ -273,7 +282,7 @@ function checkContentUsesFullShellWidth() {
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.word-grid' },
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.sticker-grid' },
     { file: path.join(MP, 'styles/learning.wxss'), selector: '.word-grid' },
-    { file: path.join(MP, 'subpkg/life/reward/shop.wxss'), selector: '.sticker-grid' },
+    { file: path.join(MP, 'subpkg/shop/shop.wxss'), selector: '.sticker-grid' },
   ]
 
   for (const { file, selector } of targets) {
@@ -288,8 +297,8 @@ function checkContentUsesFullShellWidth() {
     if (/\bpadding(?:-left|-right)?\s*:/.test(body)) {
       errors.push(`${rel(file)}: ${selector} 不得设置左右 padding，横向安全区由 shell 统一提供`)
     }
-    if (!/\bgap\s*:\s*(?:30(?:px|rpx)|var\(--block-gap\))/.test(body)) {
-      errors.push(`${rel(file)}: ${selector} 三列卡片应使用 --block-gap（30px/rpx）`)
+    if (!/\bgap\s*:\s*(?:30(?:px|rpx)|var\(--gap-grid\))/.test(body)) {
+      errors.push(`${rel(file)}: ${selector} 三列卡片应使用 --gap-grid（30px/rpx）`)
     }
   }
 }
@@ -331,7 +340,7 @@ function checkHomeTwoColumnSync() {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const rule = text.match(new RegExp(`${escaped}\\s*\\{([^{}]*)\\}`))
     const expected = new RegExp(
-      `width\\s*:\\s*(?:var\\(--col-2\\)|calc\\(\\(100% - (?:30${unit}|var\\(--block-gap\\))\\)\\s*/\\s*2\\))`
+      `width\\s*:\\s*(?:var\\(--col-2\\)|calc\\(\\(100% - (?:30${unit}|var\\(--gap-grid\\))\\)\\s*/\\s*2\\))`
     )
     if (!rule || !expected.test(rule[1])) {
       errors.push(
@@ -341,21 +350,42 @@ function checkHomeTwoColumnSync() {
   }
 }
 
+/** 相对路径 require 必须能解析到真实文件（层级写错时模拟器会报 module is not defined） */
+function checkRelativeRequires() {
+  const reqRe = /require\(['"](\.[^'"]+)['"]\)/g
+  for (const file of walk(MP, ['.js'])) {
+    const text = fs.readFileSync(file, 'utf8')
+    let m
+    reqRe.lastIndex = 0
+    while ((m = reqRe.exec(text))) {
+      const spec = m[1]
+      let target = path.resolve(path.dirname(file), spec)
+      if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
+        target = path.join(target, 'index.js')
+      }
+      if (!path.extname(target)) target = `${target}.js`
+      if (!fs.existsSync(target)) {
+        errors.push(`${rel(file)}: require('${spec}') 找不到文件`)
+      }
+    }
+  }
+}
+
 /** 主包不得夹带仅被分包使用的内容脚本 / 未使用 JS */
 function checkMainPackageContentOwnership() {
   const stickersMain = path.join(MP, 'content/stickers.js')
-  const stickersLife = path.join(MP, 'subpkg/life/content/stickers.js')
+  const stickersShop = path.join(MP, 'subpkg/shop/content/stickers.js')
   if (fs.existsSync(stickersMain)) {
-    errors.push('content/stickers.js 只能放在 subpkg/life/content/，主包不得包含仅被积分商城使用的脚本')
+    errors.push('content/stickers.js 只能放在 subpkg/shop/content/，主包不得包含仅被积分商城使用的脚本')
   }
-  if (!fs.existsSync(stickersLife)) {
-    errors.push('subpkg/life/content/stickers.js 缺失')
+  if (!fs.existsSync(stickersShop)) {
+    errors.push('subpkg/shop/content/stickers.js 缺失')
   }
-  const shop = path.join(MP, 'subpkg/life/reward/shop.js')
+  const shop = path.join(MP, 'subpkg/shop/shop.js')
   if (fs.existsSync(shop)) {
     const text = fs.readFileSync(shop, 'utf8')
     if (/require\(['"]\.\.\/\.\.\/\.\.\/content\/stickers['"]\)/.test(text)) {
-      errors.push('reward/shop.js 仍引用主包 content/stickers，请改为 ../content/stickers')
+      errors.push('shop.js 仍引用主包 content/stickers，请改为 ./content/stickers')
     }
   }
 
@@ -393,49 +423,7 @@ function checkMainPackageContentOwnership() {
       queue.push(relPath)
     }
   }
-  // 分包可 require 主包模块；把这类主包 JS 也标为已使用
-  walk(path.join(MP, 'subpkg'), ['.js']).forEach((file) => {
-    const abs = file
-    const text = fs.readFileSync(abs, 'utf8')
-    let m
-    reqRe.lastIndex = 0
-    while ((m = reqRe.exec(text))) {
-      const spec = m[1]
-      if (!spec.startsWith('.')) continue
-      let target = path.resolve(path.dirname(abs), spec)
-      if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
-        target = path.join(target, 'index.js')
-      }
-      if (!path.extname(target)) target = `${target}.js`
-      if (!fs.existsSync(target)) continue
-      const relPath = path.relative(MP, target).split(path.sep).join('/')
-      if (relPath.startsWith('subpkg/') || visited.has(relPath)) continue
-      queue.push(relPath)
-    }
-  })
-  while (queue.length) {
-    const cur = queue.pop()
-    if (visited.has(cur)) continue
-    visited.add(cur)
-    const abs = path.join(MP, cur)
-    if (!fs.existsSync(abs)) continue
-    const text = fs.readFileSync(abs, 'utf8')
-    let m
-    reqRe.lastIndex = 0
-    while ((m = reqRe.exec(text))) {
-      const spec = m[1]
-      if (!spec.startsWith('.')) continue
-      let target = path.resolve(path.dirname(abs), spec)
-      if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
-        target = path.join(target, 'index.js')
-      }
-      if (!path.extname(target)) target = `${target}.js`
-      if (!fs.existsSync(target)) continue
-      const relPath = path.relative(MP, target).split(path.sep).join('/')
-      if (relPath.startsWith('subpkg/') || visited.has(relPath)) continue
-      queue.push(relPath)
-    }
-  }
+  // 与微信开发者工具一致：仅分包引用的主包 JS 仍算「主包未使用」
   for (const file of [...mainJs].sort()) {
     if (!visited.has(file)) {
       errors.push(`${file}: 主包未使用的 JS，请移入分包或并入主包可达模块（开发者工具代码质量）`)
@@ -498,6 +486,180 @@ function checkAudioRefs() {
   }
 }
 
+/** 文件所属分包 */
+function fileSubpackage(file) {
+  const posix = rel(file).split(path.sep).join('/')
+  const m = posix.match(/^miniprogram\/subpkg\/([^/]+)\//)
+  return m ? m[1] : 'main'
+}
+
+/**
+ * 真机不能跨分包读本地 png/mp3。模拟器能显示，所以必须静态拦住。
+ * 分包文件禁止写其它包的 /subpkg/X/static；也禁止 /subpkg/${var}/static 这种跨包拼接。
+ */
+function checkCrossSubpackageMedia() {
+  const files = walk(MP, ['.js', '.wxml', '.wxss'])
+  const litRe = /['"`](\/subpkg\/([a-z0-9-]+)\/static\/[^'"`\s]+)['"`]/g
+  const dynRe = /\/subpkg\/\$\{[^}]+}\/static\//
+  for (const file of files) {
+    const pkg = fileSubpackage(file)
+    const posix = rel(file).split(path.sep).join('/')
+    // 词库/路由助手只存路径数据，实际读文件的是归属分包里的页面
+    if (/\/(lib|content)\//.test(posix)) continue
+    const text = fs.readFileSync(file, 'utf8')
+    if (pkg !== 'main') {
+      if (dynRe.test(text)) {
+        errors.push(
+          `${rel(file)}: 分包内禁止动态拼接其它分包的 static（真机跨包读本地图/音频会失败）`
+        )
+      }
+      litRe.lastIndex = 0
+      let m
+      while ((m = litRe.exec(text))) {
+        if (m[2] !== pkg) {
+          errors.push(
+            `${rel(file)}: 引用了分包 ${m[2]} 的本地资源 ${m[1]}，当前在 ${pkg}。真机无法跨分包读取。`
+          )
+        }
+      }
+      continue
+    }
+    if (!posix.startsWith('miniprogram/pages/') && !posix.startsWith('miniprogram/components/')) {
+      continue
+    }
+    if (dynRe.test(text)) {
+      errors.push(`${rel(file)}: 主包页面/组件禁止动态拼接分包 static`)
+    }
+    litRe.lastIndex = 0
+    let m
+    while ((m = litRe.exec(text))) {
+      errors.push(
+        `${rel(file)}: 主包页面/组件引用了分包本地资源 ${m[1]}。请把图放到主包 /static/ 或改为打开该分包页面。`
+      )
+    }
+  }
+}
+
+/** 核对英语媒体归属 */
+function checkEnglishMediaOwnership() {
+  const wordsPath = path.join(MP, 'subpkg/english/content/english-words.js')
+  const mediaPath = path.join(MP, 'subpkg/english/lib/english-media.js')
+  if (!fs.existsSync(wordsPath) || !fs.existsSync(mediaPath)) {
+    errors.push('英语词库或 english/lib/english-media.js 缺失')
+    return
+  }
+  const { categories } = require(wordsPath)
+  const { mediaOwner } = require(mediaPath)
+  const detailPages = [
+    ['miniprogram/subpkg/english/detail/detail.js', 'english'],
+    ['miniprogram/subpkg/english-fruit/detail/detail.js', 'english-fruit'],
+    ['miniprogram/subpkg/english-animal/detail/detail.js', 'english-animal'],
+    ['miniprogram/subpkg/english-color/detail/detail.js', 'english-color'],
+    ['miniprogram/subpkg/english-body/detail/detail.js', 'english-body'],
+    ['miniprogram/subpkg/english-transport/detail/detail.js', 'english-transport'],
+    ['miniprogram/subpkg/english-number/detail/detail.js', 'english-number'],
+    ['miniprogram/subpkg/english-food/detail/detail.js', 'english-food'],
+    ['miniprogram/subpkg/english-nature/detail/detail.js', 'english-nature'],
+  ]
+  for (const [file, pkg] of detailPages) {
+    const abs = path.join(ROOT, file)
+    if (!fs.existsSync(abs)) {
+      errors.push(`${file}: 英语详情页缺失`)
+      continue
+    }
+    const text = fs.readFileSync(abs, 'utf8')
+    if (!text.includes(`createEnglishDetailPage('${pkg}')`)) {
+      errors.push(
+        `${file}: 必须调用 createEnglishDetailPage('${pkg}')，避免详情页加载其它分包的图/音频`
+      )
+    }
+  }
+  if (!Array.isArray(categories)) {
+    errors.push('english-words.js 缺少 categories')
+    return
+  }
+  for (const cat of categories) {
+    const owner = mediaOwner(cat.id)
+    for (const item of cat.items || []) {
+      const img = path.join(MP, 'subpkg', owner, 'static', `${item.image}.png`)
+      if (!fs.existsSync(img)) {
+        errors.push(
+          `英语词图缺失: subpkg/${owner}/static/${item.image}.png（${cat.id}/${item.word}）`
+        )
+      }
+      const thumb = path.join(MP, 'subpkg/english/static/list', `${item.image}.png`)
+      if (!fs.existsSync(thumb)) {
+        errors.push(
+          `英语列表缩略图缺失: subpkg/english/static/list/${item.image}.png（列表必须用 96px 小图）`
+        )
+      }
+      for (const key of ['audio', 'sentenceAudio']) {
+        const src = item[key]
+        if (!src) continue
+        const m = String(src).match(/^\/subpkg\/([^/]+)\/static\//)
+        if (m && m[1] !== owner) {
+          errors.push(
+            `英语音频分包不一致: ${cat.id}/${item.word} ${key} 在 ${m[1]}，应在 ${owner}`
+          )
+        }
+      }
+    }
+  }
+}
+
+const ENGLISH_CATS = ['fruit', 'animal', 'color', 'body', 'transport', 'number', 'food', 'nature']
+
+/** 分类包词库只含本类；运行时 JS/WXML 必须与枢纽源文件一致 */
+function checkEnglishRuntimeCopies() {
+  const src = {
+    media: path.join(MP, 'subpkg/english/lib/english-media.js'),
+    page: path.join(MP, 'subpkg/english/lib/english-detail-page.js'),
+    wxml: path.join(MP, 'subpkg/english/detail/detail.wxml'),
+    json: path.join(MP, 'subpkg/english/detail/detail.json'),
+  }
+  for (const [key, file] of Object.entries(src)) {
+    if (!fs.existsSync(file)) {
+      errors.push(`英语源文件缺失: ${path.relative(ROOT, file)}`)
+      return
+    }
+  }
+  const srcText = {
+    media: fs.readFileSync(src.media, 'utf8'),
+    page: fs.readFileSync(src.page, 'utf8'),
+    wxml: fs.readFileSync(src.wxml, 'utf8'),
+    json: fs.readFileSync(src.json, 'utf8'),
+  }
+  for (const cat of ENGLISH_CATS) {
+    const pkg = path.join(MP, `subpkg/english-${cat}`)
+    const pairs = [
+      ['media', path.join(pkg, 'lib/english-media.js')],
+      ['page', path.join(pkg, 'lib/english-detail-page.js')],
+      ['wxml', path.join(pkg, 'detail/detail.wxml')],
+      ['json', path.join(pkg, 'detail/detail.json')],
+    ]
+    for (const [key, file] of pairs) {
+      if (!fs.existsSync(file)) {
+        errors.push(`english-${cat}: 缺少 ${path.relative(pkg, file)}，请跑 node scripts/sync_english_runtime.js`)
+        continue
+      }
+      if (fs.readFileSync(file, 'utf8') !== srcText[key]) {
+        errors.push(
+          `english-${cat}: ${path.basename(file)} 与 english 源文件不一致，请跑 node scripts/sync_english_runtime.js`
+        )
+      }
+    }
+    const wordsFile = path.join(pkg, 'content/english-words.js')
+    if (!fs.existsSync(wordsFile)) {
+      errors.push(`english-${cat}: 缺少 content/english-words.js`)
+      continue
+    }
+    const { categories } = require(wordsFile)
+    if (!Array.isArray(categories) || categories.length !== 1 || categories[0].id !== cat) {
+      errors.push(`english-${cat}: 词库只能包含 ${cat} 一类，请跑 node scripts/sync_english_runtime.js`)
+    }
+  }
+}
+
 /** H5 审查稿必须与小程序共享同一套 flex+gap 网格约定 */
 function checkH5FlexGapSync() {
   const h5CssDir = path.join(ROOT, 'docs/design/h5/css')
@@ -531,10 +693,14 @@ function checkH5FlexGapSync() {
 /** 微信单包上限 2MB；预留下余量，避免临近上限时素材一加就炸 */
 const PACKAGE_SOFT_LIMIT = 1.85 * 1024 * 1024
 const PACKAGE_HARD_LIMIT = 2 * 1024 * 1024
+/** 开发者工具代码质量：主包应小于 1.5MB */
+const MAIN_QUALITY_LIMIT = 1.45 * 1024 * 1024
 
+/** 目录体积 */
 function dirBytes(dir) {
   let total = 0
   if (!fs.existsSync(dir)) return 0
+  /** 遍历目录累加体积 */
   function walkAll(d) {
     for (const name of fs.readdirSync(d)) {
       if (name === 'node_modules' || name.startsWith('.')) continue
@@ -548,6 +714,7 @@ function dirBytes(dir) {
   return total
 }
 
+/** 主包体积 */
 function mainPackageBytes() {
   let total = 0
   for (const name of fs.readdirSync(MP)) {
@@ -560,6 +727,7 @@ function mainPackageBytes() {
   return total
 }
 
+/** 核对分包体积预算 */
 function checkPackageSizeBudgets() {
   const app = readJson(path.join(MP, 'app.json'))
   if (!app || !Array.isArray(app.subPackages)) {
@@ -575,7 +743,11 @@ function checkPackageSizeBudgets() {
   ]
   for (const pkg of packages) {
     const mb = (pkg.bytes / 1024 / 1024).toFixed(2)
-    if (pkg.bytes > PACKAGE_HARD_LIMIT) {
+    if (pkg.name === 'main' && pkg.bytes > MAIN_QUALITY_LIMIT) {
+      errors.push(
+        `${pkg.name}: 体积 ${mb}MB 超过开发者工具代码质量 1.5MB 上限（主包图需再缩小或外置）`
+      )
+    } else if (pkg.bytes > PACKAGE_HARD_LIMIT) {
       errors.push(`${pkg.name}: 体积 ${mb}MB 超过微信 2MB 硬上限`)
     } else if (pkg.bytes > PACKAGE_SOFT_LIMIT) {
       warnings.push(`${pkg.name}: 体积 ${mb}MB 超过 1.85MB 软上限，请继续压缩或再拆包`)
@@ -586,6 +758,7 @@ function checkPackageSizeBudgets() {
   }
 }
 
+/** 云函数入口 */
 function main() {
   const jsons = walk(MP, ['.json']).filter((f) => {
     const name = path.basename(f)
@@ -617,10 +790,14 @@ function main() {
   checkContentUsesFullShellWidth()
   checkComponentRootWidth()
   checkHomeTwoColumnSync()
+  checkRelativeRequires()
   checkMainPackageContentOwnership()
   checkNoLocalWebp()
   checkAsciiAssetNames()
   checkAudioRefs()
+  checkCrossSubpackageMedia()
+  checkEnglishMediaOwnership()
+  checkEnglishRuntimeCopies()
   checkH5FlexGapSync()
   checkPackageSizeBudgets()
 

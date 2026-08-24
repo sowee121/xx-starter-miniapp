@@ -13,10 +13,12 @@ const ROOT = path.join(__dirname, '..')
 const OPENID = 'test-openid'
 const db = new Map()
 
+/** 浅拷贝对象 */
 function clone(value) {
   return JSON.parse(JSON.stringify(value))
 }
 
+/** 匹配期望值 */
 function matchValue(actual, expected) {
   if (!expected || !expected.__command) return actual === expected
   if (expected.__command === 'gte') return (Number(actual) || 0) >= expected.value
@@ -28,14 +30,17 @@ function matchValue(actual, expected) {
   throw new Error(`mock 未支持的查询指令：${expected.__command}`)
 }
 
+/** 是否命中条件 */
 function matches(doc, query) {
   return Object.entries(query).every(([key, value]) => matchValue(doc[key], value))
 }
 
+/** 拼出云函数命令 */
 function command(type, value) {
   return { __command: type, value }
 }
 
+/** 给假数据库打补丁 */
 function applyPatch(doc, patch) {
   for (const [key, value] of Object.entries(patch)) {
     if (!value || !value.__command) {
@@ -49,6 +54,7 @@ function applyPatch(doc, patch) {
 
 const cloud = {
   DYNAMIC_CURRENT_ENV: 'test-env',
+  /** 初始化假云环境 */
   init() {},
   getWXContext: () => ({ OPENID }),
   database: () => ({
@@ -58,34 +64,42 @@ const cloud = {
       gte: (value) => command('gte', value),
       nin: (value) => command('nin', value),
     },
+    /** 创建集合 */
     async createCollection(name) {
       if (db.has(name)) throw new Error('collection already exist')
       db.set(name, [])
     },
+    /** 取集合句柄 */
     collection(name) {
       if (!db.has(name)) db.set(name, [])
       const docs = db.get(name)
+      /** 链式查询 */
       const select = (query) => {
         let skipCount = 0
         let limitCount = Infinity
         const api = {
+          /** 跳过前几条 */
           skip(n) {
             skipCount = Number(n) || 0
             return api
           },
+          /** 限制条数 */
           limit(n) {
             limitCount = Number(n) || Infinity
             return api
           },
+          /** 读取记录 */
           async get() {
             const filtered = docs.filter((doc) => matches(doc, query)).map(clone)
             return { data: filtered.slice(skipCount, skipCount + limitCount) }
           },
+          /** 更新记录 */
           async update({ data }) {
             const hits = docs.filter((item) => matches(item, query))
             for (const doc of hits) applyPatch(doc, data)
             return { stats: { updated: hits.length } }
           },
+          /** 删除记录 */
           async remove() {
             const keep = docs.filter((item) => !matches(item, query))
             const removed = docs.length - keep.length
@@ -106,13 +120,16 @@ const cloud = {
           docs.push(doc)
           return { _id: doc._id }
         },
+        /** 按 id 取文档 */
         doc(id) {
           return {
+            /** 读取记录 */
             async get() {
               const item = docs.find((doc) => doc._id === id)
               if (!item) throw new Error('document.get document not exists')
               return { data: clone(item) }
             },
+            /** 更新记录 */
             async update({ data }) {
               const item = docs.find((doc) => doc._id === id)
               assert.ok(item, `${name}/${id} 应存在`)
@@ -132,6 +149,7 @@ Module._load = function load(request, parent, isMain) {
   return originalLoad.call(this, request, parent, isMain)
 }
 
+/** 重置测试数据 */
 function reset() {
   db.clear()
   for (const file of Object.keys(require.cache)) {
@@ -139,14 +157,17 @@ function reset() {
   }
 }
 
+/** 取云函数实现 */
 function fn(name) {
   return require(path.join(ROOT, 'cloudfunctions', name, 'index.js')).main
 }
 
+/** 读假库记录 */
 function records(name) {
   return db.get(name) || []
 }
 
+/** 测建库 */
 async function testInitDb() {
   reset()
   const result = await fn('initDb')()
@@ -158,6 +179,7 @@ async function testInitDb() {
   assert.ok(result.results.every((item) => item.status === 'created'))
 }
 
+/** 测登录与档案 */
 async function testLoginAndProfile() {
   reset()
   const login = await fn('login')()
@@ -176,6 +198,7 @@ async function testLoginAndProfile() {
   assert.equal(records('users').length, 1)
 }
 
+/** 测加星 */
 async function testAddStars() {
   reset()
   await fn('login')()
@@ -238,6 +261,7 @@ async function testAddStars() {
   assert.equal(records('users')[0].stars, 2)
 }
 
+/** 测进度与任务 */
 async function testProgressAndTasks() {
   reset()
   const completeProgress = fn('completeProgress')
@@ -285,6 +309,7 @@ async function testOwnership() {
   }
 }
 
+/** 测兑换 */
 async function testRewards() {
   reset()
   const exchangeReward = fn('exchangeReward')
@@ -387,6 +412,7 @@ async function testResetProfile() {
   assert.equal(records('users')[0].stars, 1)
 }
 
+/** 云函数入口 */
 async function main() {
   const cases = [
     ['initDb 创建全部集合', testInitDb],

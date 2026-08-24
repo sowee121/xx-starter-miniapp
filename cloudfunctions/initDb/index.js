@@ -5,6 +5,7 @@ const db = cloud.database()
 
 const COLLECTIONS = ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs']
 
+/** 确保集合存在 */
 async function ensureCollection(name) {
   try {
     await db.createCollection(name)
@@ -19,6 +20,7 @@ async function ensureCollection(name) {
   }
 }
 
+/** 云函数入口 */
 exports.main = async () => {
   const results = []
   for (const name of COLLECTIONS) {

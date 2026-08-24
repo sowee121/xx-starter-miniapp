@@ -17,6 +17,7 @@ const envMatch = cloudJs.match(/CLOUD_ENV:\s*'([^']+)'/)
 const ENV = process.env.CLOUD_ENV || (envMatch && envMatch[1])
 const CF_ROOT = path.join(ROOT, projectConfig.cloudfunctionRoot || 'cloudfunctions')
 
+/** 列出云函数目录 */
 function allFunctionDirs() {
   return fs
     .readdirSync(CF_ROOT, { withFileTypes: true })
@@ -24,6 +25,7 @@ function allFunctionDirs() {
     .map((d) => d.name)
 }
 
+/** 上传一个云函数或目录 */
 async function uploadOne(project, name) {
   const fnPath = path.join(CF_ROOT, name)
   if (!fs.existsSync(path.join(fnPath, 'index.js'))) {
@@ -41,6 +43,7 @@ async function uploadOne(project, name) {
   return result
 }
 
+/** 云函数入口 */
 async function main() {
   if (!ENV) {
     console.error('缺少 CLOUD_ENV（miniprogram/config/cloud.js 或环境变量）')

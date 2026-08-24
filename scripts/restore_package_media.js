@@ -12,6 +12,7 @@ if (!fs.existsSync(SRC)) {
   process.exit(1)
 }
 
+/** 递归收集文件 */
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name)

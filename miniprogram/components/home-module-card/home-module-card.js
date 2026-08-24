@@ -10,6 +10,7 @@ Component({
     moduleId: { type: String, value: '' },
   },
   methods: {
+    /** 点击播放钮 */
     onTap() {
       this.triggerEvent('tap', {
         id: this.data.moduleId,

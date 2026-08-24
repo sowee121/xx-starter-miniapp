@@ -14,6 +14,7 @@ Component({
     wideImage: { type: Boolean, value: false },
   },
   methods: {
+    /** 点击播放钮 */
     onTap() {
       this.triggerEvent('tap')
     },

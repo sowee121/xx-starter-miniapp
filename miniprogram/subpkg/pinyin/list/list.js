@@ -1,6 +1,7 @@
 const { vowels } = require('../content/pinyin')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
+const { goTo } = require('../../../utils/page')
 
 Page({
   data: { stars: 0, items: [] },
@@ -16,7 +17,10 @@ Page({
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
+  /** 打开下一页 */
   open(e) {
-    wx.navigateTo({ url: `/subpkg/pinyin/detail/detail?id=${e.currentTarget.dataset.id}` })
+    const id = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.id
+    if (!id) return
+    goTo(`/subpkg/pinyin/detail/detail?id=${encodeURIComponent(id)}`)
   },
 })

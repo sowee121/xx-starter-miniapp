@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: var(--tap-min);
-  min-height: var(--tap-min-compact);
+  min-width: var(--size-tap);
+  min-height: var(--size-tap-compact);
   box-sizing: border-box;
 }
 
@@ -19,44 +19,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 92rpx;
-  height: 92rpx;
+  width: var(--size-play);
+  height: var(--size-play);
   flex-shrink: 0;
   overflow: hidden;
-  border-radius: 46rpx;
-  background-color: #77b07c;
-  background-image: var(--btn-green);
-  box-shadow: var(--shadow-chip);
+  border-radius: 50%;
+  background-color: var(--btn-green-solid);
+  background-image: var(--btn-play);
+  box-shadow: var(--shadow-play);
 }
 
 .play-btn__icon {
   display: block;
-  width: 44rpx;
-  height: 44rpx;
+  width: var(--size-play-icon);
+  height: var(--size-play-icon);
   margin-left: 0;
   transform: translateX(2rpx);
 }
 
 .play-btn.is-lg {
-  width: 112rpx;
-  height: 112rpx;
-  border-radius: 56rpx;
+  width: var(--size-play-lg);
+  height: var(--size-play-lg);
 }
 
 .play-btn.is-lg .play-btn__icon {
-  width: 54rpx;
-  height: 54rpx;
+  width: var(--size-play-icon-lg);
+  height: var(--size-play-icon-lg);
 }
 
 .play-btn.is-sm {
-  width: 76rpx;
-  height: 76rpx;
-  border-radius: 38rpx;
+  width: var(--size-play-sm);
+  height: var(--size-play-sm);
 }
 
 .play-btn.is-sm .play-btn__icon {
-  width: 36rpx;
-  height: 36rpx;
+  width: var(--size-play-icon-sm);
+  height: var(--size-play-icon-sm);
 }
 
 .play-btn.is-playing .play-btn__icon {

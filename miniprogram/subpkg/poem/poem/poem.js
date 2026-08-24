@@ -1,6 +1,7 @@
 const { poems } = require('../content/poems')
 const starsUtil = require('../../../utils/stars')
 const { poemIcon } = require('../../../content/mascots')
+const { goTo } = require('../../../utils/page')
 
 Page({
   data: {
@@ -21,8 +22,10 @@ Page({
     this.setData({ stars: starsUtil.getLocalStars() })
   },
 
+  /** 打开详情 */
   onOpen(e) {
-    const id = e.currentTarget.dataset.id
-    wx.navigateTo({ url: `/subpkg/poem/detail/detail?id=${id}` })
+    const id = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.id
+    if (!id) return
+    goTo(`/subpkg/poem/detail/detail?id=${encodeURIComponent(id)}`)
   },
 })

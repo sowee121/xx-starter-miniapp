@@ -1,3 +1,4 @@
+/** 全屏表扬层文案 */
 const LAYERS = {
   taskDone: {
     variant: 'success',
@@ -25,6 +26,7 @@ const LAYERS = {
   },
 }
 
+/** 行内软提示 */
 const INLINE = {
   answerCorrect: {
     text: '答对啦！你真棒！',

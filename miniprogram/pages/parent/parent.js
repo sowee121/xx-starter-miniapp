@@ -10,6 +10,7 @@ const VOLUME_SLIDER_PADDING = 10
 const VOLUME_PREVIEW_AUDIO = mediaUrl('/static/shared/volume-preview.mp3')
 const IDLE_LABEL = '长按 3 秒清除'
 
+/** 家长区清除项 */
 function actionList() {
   return [
     {
@@ -45,12 +46,14 @@ function actionList() {
   ]
 }
 
+/** 音量档位下标 */
 function volumeIndexOf(value) {
   const options = [0, 0.5, 1]
   const index = options.indexOf(value)
   return index >= 0 ? index : options.length - 1
 }
 
+/** 音量滑块位置 */
 function thumbStyleOf(index) {
   return `left: calc(${VOLUME_SLIDER_PADDING}rpx + ((100% - ${VOLUME_SLIDER_PADDING * 2}rpx) / 3) * ${index});`
 }
@@ -76,25 +79,30 @@ Page({
     })
   },
 
+  /** 调节音量 */
   onVolume(e) {
     const volume = Number(e.currentTarget.dataset.value)
     this.applyVolume(volume)
   },
 
+  /** 开始拖音量 */
   onVolumeTrackStart(e) {
     this._volumeDragging = true
     this.updateVolumeByTouch(e)
   },
 
+  /** 拖动音量 */
   onVolumeTrackMove(e) {
     if (!this._volumeDragging) return
     this.updateVolumeByTouch(e)
   },
 
+  /** 结束拖音量 */
   onVolumeTrackEnd() {
     this._volumeDragging = false
   },
 
+  /** 按触摸位置改音量 */
   updateVolumeByTouch(e) {
     const touch = (e.touches && e.touches[0]) || (e.changedTouches && e.changedTouches[0])
     if (!touch) return
@@ -108,6 +116,7 @@ Page({
     query.exec()
   },
 
+  /** 写入音量并预览 */
   applyVolume(volume) {
     wx.setStorageSync(audioUtil.VOLUME_KEY, volume)
     this.setData({
@@ -117,6 +126,7 @@ Page({
     this.scheduleVolumePreview(volume)
   },
 
+  /** 延迟试听音量 */
   scheduleVolumePreview(volume) {
     clearTimeout(this._volumePreviewTimer)
     if (volume === 0) audioUtil.stop()
@@ -132,10 +142,12 @@ Page({
     }, VOLUME_PREVIEW_DELAY)
   },
 
+  /** 清除项下标 */
   actionIndex(key) {
     return this.data.actions.findIndex((item) => item.key === key)
   },
 
+  /** 更新一项清除态 */
   patchAction(key, patch) {
     const index = this.actionIndex(key)
     if (index < 0) return
@@ -146,6 +158,7 @@ Page({
     this.setData(next)
   },
 
+  /** 开始长按清除 */
   onHoldStart(e) {
     const key = e.currentTarget.dataset.key
     if (!['progress', 'stars', 'stickers'].includes(key) || this._busy) return
@@ -161,10 +174,12 @@ Page({
     }, HOLD_MS)
   },
 
+  /** 结束长按清除 */
   onHoldEnd() {
     this.stopHold(false)
   },
 
+  /** 取消长按 */
   stopHold(completed) {
     if (this._holdTimer) {
       clearTimeout(this._holdTimer)
@@ -177,6 +192,7 @@ Page({
     }
   },
 
+  /** 执行清除 */
   async runAction(key) {
     if (this._busy) return
     this._busy = true

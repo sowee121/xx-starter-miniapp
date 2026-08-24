@@ -17,6 +17,7 @@ let errorRetryTimer = null
 let lifeBound = false
 const stopWatchers = []
 
+/** 读取本地音量 */
 function getVolume() {
   const v = wx.getStorageSync(VOLUME_KEY)
   if (v === 0 || v === '0') return 0
@@ -24,6 +25,7 @@ function getVolume() {
   return 1
 }
 
+/** 清掉误报重试定时器 */
 function clearErrorRetry() {
   if (errorRetryTimer) {
     clearTimeout(errorRetryTimer)
@@ -31,6 +33,7 @@ function clearErrorRetry() {
   }
 }
 
+/** 清空原生音频 src */
 function dropNativeSrc() {
   if (!ctx) return
   try {
@@ -40,6 +43,7 @@ function dropNativeSrc() {
   }
 }
 
+/** 通知页面停止播放 */
 function notifyStopWatchers() {
   stopWatchers.slice().forEach((fn) => {
     try {
@@ -76,6 +80,7 @@ function bindAppLifecycle() {
   }
 }
 
+/** 写入全局音频选项 */
 function applyAudioOption() {
   if (optionReady || typeof wx.setInnerAudioOption !== 'function') return
   optionReady = true
@@ -106,6 +111,7 @@ function normalizeSrc(src) {
   }
 }
 
+/** 懒创建音频上下文 */
 function ensureCtx() {
   if (ctx) return ctx
   bindAppLifecycle()
@@ -160,6 +166,7 @@ function ensureCtx() {
   return ctx
 }
 
+/** 播放失败收尾 */
 function finishError(err, callback) {
   console.warn('[audio]', err)
   clearErrorRetry()
@@ -200,6 +207,7 @@ function startSrc(src, options = {}) {
   clearErrorRetry()
   audio.volume = getVolume()
 
+  /** 真正开始播放 */
   const doPlay = () => {
     if (token !== playToken) return
     endedCallback = typeof onEnded === 'function' ? () => {
@@ -236,6 +244,7 @@ function play(src, options = {}) {
   startSrc(src, options)
 }
 
+/** 停止当前音频 */
 function stop() {
   const hadPlayback = playing || !!currentSrc
   playing = false
@@ -259,11 +268,13 @@ function stop() {
   notifyStopWatchers()
 }
 
+/** 是否正在播这段 */
 function isPlayingSrc(src) {
   if (!playing || !currentSrc || !src) return false
   return currentSrc === normalizeSrc(src)
 }
 
+/** 销毁音频上下文 */
 function destroy() {
   stop()
   if (!ctx) return

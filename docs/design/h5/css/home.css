@@ -4,14 +4,23 @@
  * 迁 WXSS 约束：卡片组优先 flex + gap；不用 grid / filter / 伪元素承载内容
  */
 
-/* 首页画板最小高度 1624；内容超出时随 shell 撑高，避免底部积木被裁切 */
+/* 首页贴视口，避免 1624 画板最小高把审查页撑出滚动条；nav 已在文档流，不再垫一层 header padding */
 .page {
-  min-height: 1624px;
-  overflow: visible;
+  min-height: 100vh;
+  overflow: hidden;
 }
 .shell {
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
+  gap: var(--gap-grid);
+  padding-top: 0;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* 草地贴视口底边铺满 390 盒，避免 width 撑高后被 overflow 裁掉丘顶 */
+.scene__meadow {
+  object-fit: cover;
+  object-position: center bottom;
 }
 
 /* 首页导航：左标题、无回首页钮；间距走 shell .nav 的 gap */
@@ -24,8 +33,8 @@
   flex-shrink: 0;
 }
 .star-pill-icon {
-  width: var(--star-icon);
-  height: var(--star-icon);
+  width: var(--size-star);
+  height: var(--size-star);
   object-fit: contain;
 }
 .star-pill-num {
@@ -40,8 +49,8 @@
   flex-direction: row;
   align-items: center;
   gap: var(--gap-card);
-  height: 156px;
-  padding: var(--pad-card);
+  height: 144px;
+  padding: 16px var(--pad-card);
   color: inherit;
   text-decoration: none;
   flex-shrink: 0;
@@ -54,14 +63,14 @@
   flex-shrink: 0;
 }
 .welcome-hello {
-  font-size: var(--font-hello);
+  font-size: var(--font-title);
   font-weight: 700;
   line-height: 1.2;
   color: var(--ink);
 }
 .welcome-deco {
-  width: 56px;
-  height: 88px;
+  width: 64px;
+  height: auto;
   object-fit: contain;
   flex-shrink: 0;
   pointer-events: none;
@@ -73,13 +82,13 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 196px;
+  height: 172px;
   padding: 0 var(--pad-card) 0 0;
   flex-shrink: 0;
 }
 .wide-mascot {
-  width: 172px;
-  height: 172px;
+  width: 168px;
+  height: 168px;
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -91,7 +100,7 @@
 }
 .wide-deco {
   width: 64px;
-  height: 64px;
+  height: auto;
   object-fit: contain;
   flex-shrink: 0;
   pointer-events: none;
@@ -102,7 +111,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-snug);
+  gap: var(--gap-text);
 }
 .socket {
   display: flex;
@@ -134,9 +143,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-content: flex-start;
-  gap: var(--block-gap);
-  flex: 1;
-  min-height: 786px;
+  gap: var(--gap-grid);
   flex-shrink: 0;
 }
 .module {
@@ -161,15 +168,6 @@
   font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: 2px;
   color: var(--ink);
-}
-
-/* 通栏右侧 Chip 与 8 字副文同一行：收窄宽度，避免「用星星兑换动物贴纸」折行 */
-.wide-shop .chip {
-  width: 176px;
-  height: 88px;
-  flex-shrink: 0;
-  font-size: var(--font-hint);
 }
 

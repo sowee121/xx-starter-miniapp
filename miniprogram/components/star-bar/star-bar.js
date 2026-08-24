@@ -2,6 +2,7 @@ const { ICONS } = require('../../content/mascots')
 const starsUtil = require('../../utils/stars')
 const { getNavbar } = require('../../utils/navbar')
 
+/** 顶栏避让尺寸 */
 function metricsOf(height) {
   const h = height || 32
   return {
@@ -38,20 +39,24 @@ Component({
   },
 
   observers: {
+    /** 星星数变化 */
     stars() {
       this.syncDisplay()
     },
+    /** 胶囊高度变化 */
     capsuleHeight() {
       this.syncMetrics()
     },
   },
 
   methods: {
+    /** 同步顶栏尺寸 */
     syncMetrics() {
       const height = this.properties.capsuleHeight || getNavbar().menuHeight
       this.setData(metricsOf(height))
     },
 
+    /** 刷新星星展示 */
     syncDisplay() {
       this.setData({ displayStars: starsUtil.getLocalStars() })
     },

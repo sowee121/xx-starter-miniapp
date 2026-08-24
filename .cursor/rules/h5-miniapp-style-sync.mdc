@@ -7,6 +7,8 @@ alwaysApply: true
 
 视觉基准是 `docs/design/h5/`（CSS + HTML）与 `miniprogram/` 样式实现；**任一侧改布局/尺寸/色调/间距，另一侧必须同批改完**，禁止只改小程序或只改 H5。
 
+**H5 只同步外观，不实现产品交互**（点读、进页播放、点击切题等只做小程序）。详见 `.cursor/rules/h5-static-review.mdc`。
+
 ## 改动时必须做
 
 1. **成对修改**：改 `miniprogram/**/*.wxss` / 页面结构时，同步改 `docs/design/h5/css/*.css` 与对应 `docs/design/h5/**/*.html`；反之亦然。
@@ -25,6 +27,7 @@ alwaysApply: true
 - 只改小程序样式、声称「以后再同步 H5」
 - 只改 H5 审查稿、小程序滞后
 - 用「平台差异」掩盖本可对齐的尺寸、色调、间距、结构
+- 把点读/点击/自动播放等产品行为写进 H5（审查稿保持静态帧）
 
 ## 自检命令
 

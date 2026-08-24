@@ -5,7 +5,9 @@ const { mediaUrl } = require('../../../config/media')
 const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
+const { queryValue } = require('../../../utils/page')
 
+/** 补全条目展示字段 */
 function mapItem(item) {
   return {
     ...item,
@@ -13,6 +15,7 @@ function mapItem(item) {
   }
 }
 
+/** 按字母定位下标 */
 function findIndex(letter) {
   const key = (letter || '').toUpperCase()
   const index = letters.findIndex((x) => x.letter === key)
@@ -29,13 +32,14 @@ Page({
   },
 
   onLoad(q) {
-    this.applyItem(findIndex(q.letter))
+    this.applyItem(findIndex(queryValue(q, 'letter')))
   },
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  /** 渲染当前条目 */
   applyItem(index) {
     const raw = letters[index]
     if (!raw) return
@@ -48,16 +52,19 @@ Page({
     })
   },
 
+  /** 上一题 */
   goPrev() {
     if (!this.data.nav.hasPrev) return
     this.applyItem(this.data.nav.index - 1)
   },
 
+  /** 下一题 */
   goNext() {
     if (!this.data.nav.hasNext) return
     this.applyItem(this.data.nav.index + 1)
   },
 
+  /** 立即播放一段音频 */
   play() {
     const item = this.data.item
     if (!item) return
@@ -70,6 +77,7 @@ Page({
     })
   },
 
+  /** 关闭表扬层 */
   closePraise() {
     feedback.hideLayer(this)
   },

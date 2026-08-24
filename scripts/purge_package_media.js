@@ -15,7 +15,7 @@ const KEEP = new Set([
   'static/shared/arrow.png',
   'static/icons/home.png',
   'static/home/star.png',
-  'static/shared/meadow.png',
+  'static/shared/meadow.jpg',
   'static/shared/cloud.png',
   'static/shared/grass-tuft.png',
 ])
@@ -24,6 +24,7 @@ const EXTS = new Set([
   '.flac', '.m4a', '.ogg', '.ape', '.amr', '.wma', '.wav', '.mp3', '.mp4',
 ])
 
+/** 递归收集文件 */
 function walk(dir, out = []) {
   for (const name of fs.readdirSync(dir)) {
     const full = path.join(dir, name)

@@ -5,6 +5,7 @@ const QUEUE_KEY = 'progress_retry_queue'
 
 let flushing = false
 
+/** 读本地进度表 */
 function loadMap() {
   try {
     const value = wx.getStorageSync(STORAGE_KEY)
@@ -14,6 +15,7 @@ function loadMap() {
   }
 }
 
+/** 写本地进度表 */
 function saveMap(map) {
   try {
     wx.setStorageSync(STORAGE_KEY, map)
@@ -22,6 +24,7 @@ function saveMap(map) {
   }
 }
 
+/** 读进度重试队列 */
 function loadQueue() {
   try {
     const list = wx.getStorageSync(QUEUE_KEY)
@@ -31,6 +34,7 @@ function loadQueue() {
   }
 }
 
+/** 写进度重试队列 */
 function saveQueue(list) {
   try {
     wx.setStorageSync(QUEUE_KEY, list)
@@ -39,10 +43,12 @@ function saveQueue(list) {
   }
 }
 
+/** 进度队列键 */
 function queueKey(moduleName, itemId) {
   return `${moduleName}::${itemId}`
 }
 
+/** 入队待同步请求 */
 function enqueue(moduleName, itemId) {
   const key = queueKey(moduleName, itemId)
   const list = loadQueue().filter((row) => queueKey(row.module, row.itemId) !== key)
@@ -50,6 +56,7 @@ function enqueue(moduleName, itemId) {
   saveQueue(list)
 }
 
+/** 本地标记已学 */
 function markLocal(moduleName, itemId) {
   if (!moduleName || !itemId) return
   const map = loadMap()
@@ -58,6 +65,7 @@ function markLocal(moduleName, itemId) {
   saveMap(map)
 }
 
+/** 合并云端进度 */
 function mergeCloudItems(items) {
   if (!Array.isArray(items) || !items.length) return
   const map = loadMap()
@@ -91,6 +99,7 @@ async function markDone(moduleName, itemId, { fromQueue } = {}) {
   return { ok: true }
 }
 
+/** 冲刷重试队列 */
 async function flushRetryQueue() {
   if (flushing) return
   const pending = loadQueue()
@@ -120,6 +129,7 @@ async function clearAll() {
   return { ok }
 }
 
+/** 从云端拉进度 */
 async function pullFromCloud(moduleName) {
   const payload = moduleName ? { module: moduleName } : {}
   const { ok, data } = await cloud.call('getProgress', payload)

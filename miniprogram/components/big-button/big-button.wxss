@@ -7,7 +7,7 @@
 .big-btn {
   gap: var(--gap-soft);
   color: #ffffff;
-  background-color: #77b07c;
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
@@ -17,5 +17,4 @@
   font-size: var(--font-card);
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: var(--letter-btn);
 }

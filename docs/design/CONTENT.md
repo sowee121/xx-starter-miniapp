@@ -1,10 +1,11 @@
-# 嘻嘻启蒙乐园 · 内容与视觉定稿（2026-08-22）
+# 嘻嘻启蒙乐园 · 内容与视觉定稿（2026-08-24）
 
 > 本文件与 [PLAN.md](./PLAN.md)、`docs/design/content/*.json`、`docs/design/h5/` 审查稿一致。  
 > **已用户确认可作开发基准**；后续改内容先改本文件与 JSON，再重生成 H5。
 > 工程实现以 `miniprogram/` 为准；样式须与 H5 **同批双向同步**（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`）。
-> 2026-08-21 增量：拼音点读 TTS 合成文案锁定为「啊喔鹅衣乌迂」（见 §2.5）。
+> 2026-08-21 增量：拼音点读 TTS 合成文案锁定为注音「ㄚㄛㄜㄧㄨㄩ」（见 §2.5）。
 > 2026-08-22 增量：英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 §2.4）。
+> 2026-08-24 增量：字母点读发星 `reason: letter_done` 已写入云函数 `addStars` 白名单并完成部署。
 
 ---
 
@@ -14,6 +15,7 @@
 | --- | --- |
 | 页内 / 产品内部 | 嘻嘻启蒙乐园 |
 | 微信后台创建 / 搜索展示 | 嘻宝星屋 |
+| 首页欢迎语（仅首页） | 「宝贝，你好呀」「一起快乐学习吧～」 |
 | 申请简介 | 见 `docs/apply/miniprogram-intro.md` |
 | 服务类目 | 工具 → 信息查询 |
 
@@ -28,7 +30,7 @@
 `yong-e` 咏鹅 · `jing-ye-si` 静夜思 · `min-nong` 悯农 · `chun-xiao` 春晓 · `deng-guan-que-lou` 登鹳雀楼 · `wang-lu-shan-pu-bu` 望庐山瀑布  
 
 - 逐句点读 + 全文朗读；**六首统一 4 行**（一句一行）；数据与 UI **均无 `plain` 白话**
-- 封面：`atoms/poem-*.png`（统一 4:3 横版黏土场景；6 首 6 动物：鹅/猫/牛/鸟/狐狸/熊猫；不用浮岛）
+- 封面：`atoms/poem-*.png`（统一 4:3 横版黏土场景；6 首 6 动物：鹅/猫/牛/鸟/狐狸/熊猫；不用浮岛）；代码包同步为 400×300 JPEG（不透明，与草地同一套路）
 - **整首诗**在封面大卡放圆形播放钮（`play-button` lg）：点卡或点钮播全文；播放中再点即停止（三角换成 `stop.png`）；点读单句会打断长播；中途停止不加星、不计任务
 - **长播复位**：进页、离开、后退、回首页、微信切后台/关掉、来电等音频打断时一律停播，按钮回到播放三角；中途打断不加星
 
@@ -74,7 +76,7 @@
 - **排序**：分类序与识字同原则（好认先学），固定为上列；类内按英文单词 A–Z 落盘（**数字类例外**：按 one→nine 后接 ten / hundred / thousand）；列表与详情 trail 直接遍历，不再二次排序
 - 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
 - **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-more`
-- **媒体分包**（单包 ≤2MB）：`english`（水果/动物/颜色 + 枢纽 A 图）· `english-extra`（身体/交通）· `english-more`（数字/食物/自然）· `english-abc`（字母表页 + 字母图 + 字母音频 + 字母歌）
+- **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（水果/动物/颜色 + 枢纽 A 图 + extra/more 的列表缩略图；详情页）· `english-extra`（身体/交通详情页 + 大图/音频）· `english-more`（数字/食物/自然详情页 + 大图/音频）· `english-abc`（字母表页 + 字母图 + 字母音频 + 字母歌）
 - **共享 UI**：`praise-sun` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
 - **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 JPEG（`meadow.jpg`）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
 
@@ -86,17 +88,17 @@
 - **纯黏土字母**，马卡龙草木/果陶（a开心果、o青柠、e芒果、i天蓝、u蓝莓紫、ü覆盆子）、透明底；**不用**动物拿字卡
 - 详情展示单韵母 **发音音标**（a `/ɑ/`、o `/o/`、e `/ɤ/`、i `/i/`、u `/u/`、ü `/y/`）  
 - 无声母、无复韵母、无拼读  
-- 点读音频：`miniprogram/subpkg/pinyin/static/audio/{letter}.mp3`（`ü` → `umlaut-u.mp3`）  
-- **合成规则**（`generate_audio.py` 的 `PINYIN_SPEAK`）：中文 TTS **禁止**直接喂拉丁字母（易念成英文字母名）；按小学单韵母读法用同韵母汉字：
+- 点读音频：`miniprogram/subpkg/pinyin/static/audio/{letter}.mp3`（`ü` → `umlaut-u.mp3`）；**进详情即播当前韵母**，点石子径切换后播对应韵母  
+- **合成规则**（`generate_audio.py` 的 `PINYIN_SPEAK`）：中文 TTS **禁止**直接喂拉丁字母（易念成英文字母名）；用注音符号 + `zh-TW-HsiaoChenNeural`（大陆音色不认注音）：
 
 | 字母 | 合成文案 | 音频文件 |
 | --- | --- | --- |
-| a | 啊 | `a.mp3` |
-| o | 喔 | `o.mp3` |
-| e | 鹅 | `e.mp3` |
-| i | 衣 | `i.mp3` |
-| u | 乌 | `u.mp3` |
-| ü | 迂 | `umlaut-u.mp3` |
+| a | ㄚ | `a.mp3` |
+| o | ㄛ | `o.mp3` |
+| e | ㄜ | `e.mp3` |
+| i | ㄧ | `i.mp3` |
+| u | ㄨ | `u.mp3` |
+| ü | ㄩ | `umlaut-u.mp3` |
 
 重生成：`python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`
 
@@ -108,7 +110,7 @@
 
 单次奖励在播放结束或答对后先更新本地展示，再异步写入云端，不阻塞页面；与每日任务首次完成时发放的任务奖励相互独立。
 
-实现：`miniprogram/utils/read-award.js`（`playPrimaryAndAward` / `playPreview`）+ `stars.awardVisitStar`。
+实现：`miniprogram/utils/read-award.js`（`playPrimaryAndAward` / `playPreview`）+ `stars.awardVisitStar`。字母点读 `reason` 为 `letter_done`（云函数 `addStars` 白名单已收录）。
 
 ### 2.7 每日任务（自动流转）
 
@@ -153,7 +155,8 @@
 
 ## 3. 视觉与素材定稿要点
 
-- H5 审查目录：`docs/design/h5/index.html`（约 **21** 页静态帧；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
+- H5 审查目录：`docs/design/h5/index.html`（约 **21** 页**静态 UI 帧**；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
+  - **H5 禁止点读、进页自动播、点击切题等交互**；音频与手势只做小程序。审查稿用多帧对照状态，不写可玩脚本
 - 原子素材：`docs/design/atoms/`（一图一主体、透明底；去背用 `scripts/chroma_to_png.py`）
 - **素材纪律**（详见 PLAN §2.1.2、`.cursor/rules/image-asset-generation.mdc`）：
   - 能 CSS 解决的不生图；定稿原子默认只读；未明确要求禁止调生图工具
@@ -167,7 +170,7 @@
   - 答题选中 `--tone-picked` / `--ring-picked`（蜜黄高亮）；答对 `--tone-ok` / `--ring-ok`（叶绿）
   - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
-- 热区：默认 ≥ **152rpx**，紧凑点读 `--tap-min-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
+- 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast
 - 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）
 - 详情主卡（拼音/英语/识字 `.detail-big`）：卡内 `justify-content: center` + `gap`；主图 / 字母图按 H5；**padding 不动**；页底草地留白保留；古诗 hero 4:3 不动
@@ -183,15 +186,15 @@
 | 设计 token | `docs/design/h5/css/tokens.css`、`miniprogram/styles/tokens.wxss` |
 | 小程序古诗 | `miniprogram/subpkg/poem/content/poems.js`（6 首、无 plain） |
 | 小程序识字 | `miniprogram/subpkg/hanzi/content/hanzi.js`（`categories` 八类） |
-| 小程序英语 | 枢纽 `subpkg/english/hub/`；单词 `subpkg/english/content/english.js`；字母表 `subpkg/english-abc/`（页 + `content/alphabet.js` + 图/音频） |
+| 小程序英语 | 枢纽 `subpkg/english/hub/`；单词 `subpkg/english/content/english-words.js`；字母表 `subpkg/english-abc/`（点读 `letter_done`） |
 | 小程序拼音 | `subpkg/pinyin/content/pinyin.js` |
-| 点读 TTS 批量 | `.cursor/skills/edge-tts-batch/`（拼音 `PINYIN_SPEAK`：啊喔鹅衣乌迂） |
+| 点读 TTS 批量 | `.cursor/skills/edge-tts-batch/`（拼音 `PINYIN_SPEAK`：ㄚㄛㄜㄧㄨㄩ） |
 | 每日任务 | `miniprogram/utils/daily-tasks.js` |
 | 点读播放 | `miniprogram/utils/audio.js` |
 | 主点读发星 | `miniprogram/utils/read-award.js` |
-| 反馈弹层 / 行内 | `miniprogram/utils/feedback.js`、`components/praise-sun`、`components/play-button` |
+| 反馈弹层 / 行内 | `miniprogram/utils/feedback.js`、`miniprogram/content/feedback.js`、`components/praise-sun`、`components/play-button` |
 | 家长区 | `miniprogram/pages/parent/` |
-| 云环境 ID | `miniprogram/config/cloud.js` → `CLOUD_ENV` |
+| 云环境 ID | `miniprogram/config/cloud.js` → `CLOUD_ENV`（当前 `cloudbase-d7gygre2uc80dcd42`） |
 | 云函数部署 | [`cloudfunctions/README.md`](../../cloudfunctions/README.md) |
 | 申请素材 | `docs/apply/` |
 

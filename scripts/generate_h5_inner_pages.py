@@ -2,6 +2,8 @@
 
 State variants of the same layout are merged into one HTML per module area
 (section titles inside the page) so the design index stays compact.
+
+H5 is visual review only: no Audio, tap handlers, or other product interaction.
 """
 
 from __future__ import annotations
@@ -82,18 +84,38 @@ def trail_step_nav(current: int = 2, total: int = 5) -> str:
     )
 
 
-def scene_html(night=False, asset=ASSET):
+def scene_html(night=False, asset=ASSET, full=False):
+    if full:
+        img = "meadow-night.png" if night else "meadow.png"
+        return (
+            '<div class="scene scene--full" aria-hidden="true">'
+            f'<img class="scene__full" src="{asset}/{img}" alt="" />'
+            "</div>"
+        )
     return (
         '<div class="scene" aria-hidden="true">'
         f'<img class="scene__meadow" src="{asset}/meadow-hill.png" alt="" />'
         '<div class="scene__blend"></div>'
-        '<div class="scene__dusk"></div>'
         "</div>"
     )
 
 
-def page(title, body, night=False):
+def page_frame(title, body, night=False, full_scene=False):
     page_cls = "page is-night" if night else "page"
+    return f"""<div class="{page_cls}">
+    {scene_html(night, full=full_scene)}
+    <div class="shell">
+      <div class="nav">
+        <div class="nav-home" aria-label="返回首页"></div>
+        <div class="nav-title">{title}</div>
+        <div class="nav-right"><div class="star-pill"><img src="{ASSET}/star.png" alt="" /><b>128</b></div><div class="capsule-slot"></div></div>
+      </div>
+      {body}
+    </div>
+  </div>"""
+
+
+def page(title, body, night=False):
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -103,17 +125,7 @@ def page(title, body, night=False):
   <link rel="stylesheet" href="../css/pages.css" />
 </head>
 <body>
-  <div class="{page_cls}">
-    {scene_html(night)}
-    <div class="shell">
-      <div class="nav">
-        <div class="nav-home" aria-label="返回首页"></div>
-        <div class="nav-title">{title}</div>
-        <div class="nav-right"><div class="star-pill"><img src="{ASSET}/star.png" alt="" /><b>128</b></div><div class="capsule-slot"></div></div>
-      </div>
-      {body}
-    </div>
-  </div>
+  {page_frame(title, body, night=night)}
 </body>
 </html>
 """
@@ -182,7 +194,7 @@ def make_poem():
         media(p["cover"], p["title"], p["author"], POEM_TONES[i % len(POEM_TONES)], wide=True)
         for i, p in enumerate(poems)
     )
-    write("poem/list.html", "古诗", f'<div class="inner-head"><h1>选一首来听</h1><p>一首一首慢慢听</p></div>{cards}')
+    write("poem/list.html", "古诗", f'<div class="inner-head"><h1>选一首来听</h1><p>一首一首慢慢听</p></div><div class="page-list">{cards}</div>')
 
     sample_i, sample = next(
         (i, p) for i, p in enumerate(poems) if p["id"] == "deng-guan-que-lou"
@@ -214,7 +226,7 @@ def make_poem():
         section("点读", hero + poem_lines() + step)
         + section("点读中", hero + poem_lines(0) + step)
         + section("整首播放中", hero + poem_lines() + step)
-        + section("语音准备中", hero + poem_lines() + step + audio_note),
+        + section("语音准备中", hero + poem_lines() + audio_note + step),
     )
     remove_paths("poem/praise.html")
 
@@ -306,8 +318,8 @@ def make_math():
         return (
             head
             + f'<div class="options">{options_html(choices, tones, picked, correct)}</div>'
-            + nav
             + note
+            + nav
         )
 
     retry_note = '<div class="soft-note block tone-butter">答错啦！再试一次吧～</div>'
@@ -527,11 +539,31 @@ def make_pinyin():
 def make_calendar():
     day = f"""<div class="calendar-scene block tone-butter"><div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">白天</div></div><div class="big-btn">打卡</div>"""
     night = f"""<div class="calendar-scene calendar-scene-night block tone-night"><div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">晚上</div></div><div class="big-btn is-disabled">今天已打卡</div>"""
-    write(
-        "calendar/index.html",
-        "日历",
-        f'<div class="inner-head"><h1>日历</h1><p>白天与晚上</p></div>{section("白天", day)}{section("晚上", night)}',
-    )
+    html = f"""<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=750" />
+  <title>嘻嘻启蒙乐园 · 日历</title>
+  <link rel="stylesheet" href="../css/pages.css" />
+</head>
+<body>
+  <div class="preview-deck">
+    <section class="preview-deck__frame">
+      <p class="preview-deck__label">白天</p>
+      {page_frame("日历", day)}
+    </section>
+    <section class="preview-deck__frame">
+      <p class="preview-deck__label">晚上</p>
+      {page_frame("日历", night, night=True)}
+    </section>
+  </div>
+</body>
+</html>
+"""
+    target = ROOT / "calendar/index.html"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(html, encoding="utf-8")
     remove_paths("calendar/day.html", "calendar/night.html")
 
 

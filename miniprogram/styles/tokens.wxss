@@ -1,145 +1,171 @@
 page {
   /* H5 tokens.css · 750 画板 1px = 1rpx */
-  --ink: #4d6f58;
-  --muted: #6e8f76;
-  --ink-night: #fffaf0;
-  --muted-night: #dce2fa;
-  --note: #a97946;
-  --board: #e9f2dc;
-  --sky-top: #dcefdc;
-  --sky-mid: #e3f2dc;
-  --night-top: #5e6e91;
-  --night-mid: #566484;
-  --night-deep: #4a587a;
 
-  /* 圆角：普通圆弧。卡内图 = 外圆角 − 内边距（56 − 28） */
-  --radius-card: 56rpx;   /* 大卡：首页全部卡片、通栏、详情、带缩略图列表行 */
-  --radius-tile: 48rpx;   /* 小卡片：字卡、双卡、任务行 */
-  --radius-bar: 40rpx;    /* 矮条：诗行、选项、伙伴坞、软提示 */
+  /* —— 色 —— */
+  --ink: #4d6f58; /* 正文、标题 */
+  --muted: #6e8f76; /* 辅助说明、弱化文案 */
+  --night-ink: #fffaf0; /* 夜景正文 */
+  --night-muted: #dce2fa; /* 夜景辅助文案 */
+  --note: #a97946; /* 提示、软失败文案 */
+  --board: #e9f2dc; /* 页底/画板底色 */
+  --sky-top: #dcefdc; /* 日间天空上沿（与 meadow 同族） */
+  --sky-mid: #e3f2dc; /* 日间天空中段 */
+  --night-top: #5e6e91; /* 夜景天空/页顶 */
+  --btn-green-solid: #77b07c; /* 绿钮实色底（渐变下沿） */
+  --tone-leaf: linear-gradient(145deg, #f7f9e9, #e6efd6); /* 叶绿钮面：回首页、日间星条 */
+  --tone-leaf-solid: #eef3e2; /* 叶绿实色底 */
+  --tone-leaf-night: linear-gradient(145deg, #f4f6fb, #c8d0ea); /* 夜色钮面 */
+
+  /* —— 圆角：普通圆弧。卡内图 ≈ 外圆角 − 内边距（56 − 28） —— */
+  --radius-card: 56rpx; /* 大卡：首页、通栏、详情、带缩略图列表行 */
+  --radius-tile: 48rpx; /* 小卡：字卡、双卡、任务行 */
+  --radius-bar: 40rpx; /* 矮条：诗行、选项、伙伴坞、软提示 */
   --radius-thumb: 28rpx; /* 缩略图 / 卡内插图 */
   --radius-pill: 999rpx; /* 胶囊：chip、星条、气泡、标签 */
-  --star-bar-height: 64rpx;
-  --star-icon: 48rpx;
-  --media-row-height: 180rpx;
-  --media-thumb-height: 132rpx;
 
-  /* 通用石子径导航（详情切题箭头 / 拼音字母） */
-  --trail-gap: 22rpx;
-  --trail-size: 96rpx;
-  --trail-font: 56rpx;
-  --trail-face: linear-gradient(165deg, #fafcf9 0%, #f2f6f1 55%, #e8efe9 100%);
-  --trail-ring-soft: #d7e6c8;
-  --trail-ring: #a8c49a;
-  /* 有机鹅卵石轮廓（非正圆） */
-  --trail-radius: 48% 52% 50% 50% / 52% 48% 50% 50%;
-  --shadow-trail:
+  /* —— 尺寸 —— */
+  --size-header: 88rpx; /* 自定义导航栏高 / 回首页钮边长 */
+  --size-chip: 88rpx; /* 绿胶囊紧凑高度（去兑换 / 兑换） */
+  --size-chip-lg: 100rpx; /* 绿胶囊默认高度 */
+  --size-chip-wide: 200rpx; /* 绿胶囊默认宽度 */
+  --size-chip-min: 168rpx; /* 绿胶囊紧凑最小宽 */
+  --size-btn: 136rpx; /* 通栏长条按钮高（打卡） */
+  --size-arrow: 100rpx; /* 切题导航箭头图 */
+  --size-canvas: 750rpx; /* 设计画板宽 */
+  --size-canvas-min: 1624rpx; /* 设计画板最小高 */
+  --size-meadow: 390rpx; /* 页底草地高 */
+  --size-praise: 620rpx; /* 表扬弹层卡片宽 */
+  --size-praise-min: 760rpx; /* 表扬弹层卡片最小高 */
+  --size-praise-icon: 288rpx; /* 表扬弹层主图 */
+  --size-feature: 196rpx; /* 首页通栏功能卡高 */
+  --size-mascot: 172rpx; /* 首页通栏吉祥物 */
+  --size-slot: 112rpx; /* 清除槽 / 音量档 / 清除图标 */
+  --size-trail-bar: 112rpx; /* 切题条高度 */
+  --size-word: 210rpx; /* 英语/识字列表字卡高 */
+  --size-word-thumb: 88rpx; /* 字卡缩略图 */
+  --size-play: 92rpx; /* 播放圆钮默认边长 */
+  --size-play-lg: 112rpx; /* 播放圆钮大号 */
+  --size-play-sm: 76rpx; /* 播放圆钮小号 */
+  --size-play-icon: 44rpx; /* 播放图标默认 */
+  --size-play-icon-lg: 54rpx; /* 播放图标大号 */
+  --size-play-icon-sm: 36rpx; /* 播放图标小号 */
+  --size-star-bar: 64rpx; /* 积分星条高度 */
+  --size-star: 48rpx; /* 星星图标边长 */
+  --size-media-row: 180rpx; /* 古诗等媒体列表行高 */
+  --size-media-thumb: 132rpx; /* 媒体列表缩略图边长 */
+  --size-trail: 96rpx; /* 拼音石子径单字圆面 */
+  --size-tap: 152rpx; /* 默认点击热区 */
+  --size-tap-compact: 128rpx; /* 紧凑热区 / 选项高度 */
+
+  /* —— 石子径（拼音字母圆面） —— */
+  --font-trail: 56rpx; /* 石子径字母字号 */
+  --tone-trail: linear-gradient(165deg, #fafcf9 0%, #f2f6f1 55%, #e8efe9 100%); /* 石子径圆面 */
+  --shadow-trail: /* 石子径默认鼓边 */
     inset 7rpx 6rpx 12rpx rgba(255, 255, 255, 0.14),
     inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2),
     0 1rpx 0 rgba(255, 255, 255, 0.08),
     0 10rpx 18rpx rgba(96, 122, 96, 0.15),
     0 18rpx 28rpx rgba(96, 122, 96, 0.08);
-  --shadow-trail-current:
+  --shadow-trail-current: /* 石子径当前项：叶绿面 + 绿环 */
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
     0 0 0 6rpx var(--ring-ok),
-    var(--shadow);
+    var(--shadow-lift);
 
-  /* 外托：鹅卵石浮起 */
-  --shadow:
+  /* —— 阴影 —— */
+  --shadow-lift: /* 卡片外托，浮起厚度 */
     0 8rpx 14rpx rgba(96, 122, 96, 0.1),
     0 18rpx 36rpx rgba(96, 122, 96, 0.12),
     0 28rpx 48rpx rgba(96, 122, 96, 0.08);
-  /* 鼓边上左高光（奶油面易泛白，再压一档） */
-  --shadow-clay-hi: inset 8rpx 7rpx 14rpx rgba(255, 255, 255, 0.1);
-  --shadow-clay-lo: inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2);
-  --shadow-clay:
+  --shadow-clay-hi: inset 8rpx 7rpx 14rpx rgba(255, 255, 255, 0.1); /* 鼓边上左高光 */
+  --shadow-clay-lo: inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2); /* 奶油面下右压暗 */
+  --shadow-clay: /* 标准奶油鹅卵石：高光 + 压暗 + 外托 */
     var(--shadow-clay-hi),
     var(--shadow-clay-lo),
-    var(--shadow);
-  --shadow-clay-leaf:
+    var(--shadow-lift);
+  --shadow-clay-leaf: /* 浅绿黏土（回首页钮、日间星条） */
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(112, 145, 91, 0.22),
     0 8rpx 16rpx rgba(83, 112, 73, 0.14),
     0 16rpx 28rpx rgba(83, 112, 73, 0.08);
-  --shadow-clay-night:
+  --shadow-clay-night: /* 夜色鹅卵石 */
     inset 8rpx 8rpx 16rpx rgba(255, 255, 255, 0.22),
     inset -8rpx -10rpx 18rpx rgba(12, 18, 46, 0.32),
     0 10rpx 20rpx rgba(18, 26, 57, 0.22),
     0 22rpx 40rpx rgba(18, 26, 57, 0.14);
-  --shadow-owned:
+  --shadow-owned: /* 已拥有贴纸：加深外托 */
     var(--shadow-clay-hi),
     var(--shadow-clay-lo),
     0 16rpx 32rpx rgba(96, 122, 96, 0.36),
     0 36rpx 64rpx rgba(96, 122, 96, 0.3);
-  --shadow-chip:
-    inset 7rpx 7rpx 12rpx rgba(255, 255, 255, 0.16),
-    inset -6rpx -8rpx 14rpx rgba(78, 128, 84, 0.3),
-    0 8rpx 16rpx rgba(96, 122, 96, 0.16),
-    0 16rpx 28rpx rgba(96, 122, 96, 0.1);
-  --shadow-play: var(--shadow-chip);
-  --shadow-well:
-    inset 6rpx 6rpx 12rpx rgba(96, 122, 96, 0.14),
-    inset -4rpx -5rpx 10rpx rgba(255, 255, 255, 0.32);
-  --shadow-socket:
+  --shadow-chip: /* 绿钮鼓边（与卡片同套对角，压暗偏绿） */
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(78, 128, 84, 0.3),
+    var(--shadow-lift);
+  --shadow-play: var(--shadow-chip); /* 播放圆钮，同绿钮鼓边 */
+  --shadow-socket: /* 首页星槽空槽（凹） */
     inset 6rpx 6rpx 11rpx rgba(104, 136, 102, 0.22),
-    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.4);
-  --shadow-socket-on:
+    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.14);
+  --shadow-socket-on: /* 首页星槽已点亮 */
     inset 5rpx 5rpx 10rpx rgba(104, 136, 102, 0.14),
-    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.45);
+    inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.16);
 
-  --btn-green: linear-gradient(180deg, #88c08d, #77b07c);
-  --btn-play: var(--btn-green);
-  --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%);
-  --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%);
-  --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58);
-  --ring-picked: #e0b43c;
-  --tone-ok: linear-gradient(180deg, #e4f5c4, #9fce6e);
-  --ring-ok: #62a05e;
-  --motion-tap: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out, color 120ms ease-out;
+  /* —— 填充 / 色面 —— */
+  --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA 面 */
+  --btn-play: var(--btn-green); /* 播放圆钮面 */
+  --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
+  --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
+  --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
+  --ring-picked: #e0b43c; /* 选中环 */
+  --tone-ok: linear-gradient(180deg, #e4f5c4, #9fce6e); /* 答对 / 当前石子 */
+  --ring-ok: #62a05e; /* 答对环 */
+  --motion-tap: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out, color 120ms ease-out; /* 按下过渡 */
 
-  --font-nav: 28rpx;
-  --font-hint: 32rpx;
-  --font-body: 34rpx;
-  --font-title: 36rpx;
-  --font-card: 38rpx;
-  --font-hello: 40rpx;
-  --font-note: 42rpx;
-  --font-line: 44rpx;
-  --font-inner: 46rpx;
-  --font-hero: 48rpx;
-  --font-date: 52rpx;
-  --font-display: 58rpx;
-  --letter-btn: 2rpx;
+  /* —— 字号 —— */
+  --font-nav: 28rpx; /* 导航、积分数字；全站下限 */
+  --font-hint: 32rpx; /* 提示、弱说明 */
+  --font-body: 34rpx; /* 正文默认 */
+  --font-title: 36rpx; /* 页标题、欢迎语副级 */
+  --font-card: 38rpx; /* 卡片标题、长条按钮 */
+  --font-hello: 40rpx; /* 首页欢迎主句 */
+  --font-note: 42rpx; /* 软提示、伙伴气泡 */
+  --font-line: 44rpx; /* 诗行、组词、例句 */
+  --font-inner: 46rpx; /* 详情内页大标题 */
+  --font-hero: 48rpx; /* 古诗封面题名 */
+  --font-date: 52rpx; /* 日历日期 */
+  --font-display: 58rpx; /* 选项数字、字卡 */
+  --letter-btn: 2rpx; /* 全站字距；所有文字继承 */
+  --font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif; /* 有圆体用圆体，否则苹方 */
 
-  --gap-tight: 8rpx;
-  --gap-snug: 10rpx;
-  --gap-text: 12rpx;
-  --gap-row: 16rpx;
-  --gap-soft: 18rpx;
-  --gap-inset: 24rpx;
-  --gap-card: 28rpx;
-  --gap-block: 32rpx;
-  --gap-pair: 38rpx;
-  --block-gap: 30rpx;
+  /* —— 间距 —— */
+  --gap-tight: 8rpx; /* 任务行内文案 */
+  --gap-snug: 10rpx; /* 欢迎卡内、音量轨内边距 */
+  --gap-text: 12rpx; /* 标题与说明 */
+  --gap-row: 16rpx; /* 行内：文案与播放钮 */
+  --gap-soft: 18rpx; /* 绿钮内、表扬卡内 */
+  --gap-trail: 22rpx; /* 拼音石子径圆面间距 */
+  --gap-inset: 24rpx; /* 导航内、字卡内 */
+  --gap-card: 28rpx; /* 题头内、设置头 */
+  --gap-grid: 30rpx; /* 列表卡片、两列/三列网格 */
+  --gap-block: 38rpx; /* 详情主卡到选项等积木间距 */
 
-  --pad-card-sm: 20rpx;
-  --pad-card: 28rpx;
-  --pad-card-lg: 36rpx;
-  --pad-card-xl: 56rpx;
-  --page-pad-x: 30rpx;
+  /* —— 内边距 —— */
+  --pad-card-sm: 20rpx; /* 小卡、双入口 */
+  --pad-card: 28rpx; /* 标准卡 */
+  --pad-card-lg: 36rpx; /* 设置卡、题头左右 */
+  --pad-card-xl: 56rpx; /* 详情主卡、题头上下 */
+  --pad-page-x: 30rpx; /* 页左右安全边 */
 
-  --col-2: calc((100% - 30rpx) / 2);
-  --col-3: calc((100% - 30rpx * 2) / 3);
+  /* —— 栅格 —— */
+  --col-2: calc((100% - var(--gap-grid)) / 2); /* 首页两列 */
+  --col-3: calc((100% - var(--gap-grid) * 2) / 3); /* 字卡/贴纸三列 */
 
-  --tap-min: 152rpx;
-  --tap-min-compact: 128rpx;
-  --opacity-disabled: 0.68;
-  --opacity-soft: 0.86;
-  /* 有圆体用圆体（Mac/iOS）；微信无此字时落到苹方 */
-  --font-ui: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif;
+  --opacity-disabled: 0.68; /* 禁用、未完成弱化 */
+  --opacity-soft: 0.86; /* 弹层关闭钮等轻弱化 */
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);
   font-size: var(--font-body);
-  font-family: var(--font-ui);
+  font-family: var(--font-family);
+  letter-spacing: var(--letter-btn); /* 全站字距 */
 }

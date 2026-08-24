@@ -25,6 +25,8 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
 集合**不必**在控制台手建；调 `initDb` 或首次登录相关函数即可 `createCollection`（已存在则跳过）。
 
+`addStars` 原因白名单（须与客户端 `reason` 一致）：`answer_ok`、`poem_done`、`char_done`、`word_done`、`letter_done`、`pinyin_done`、`game_clear`、`task_done`、`daily_task`、`math`、`sport_done`、`calendar_done`。其中 `letter_done` 对应字母表点读（`subpkg/english-abc`）。
+
 云**存储**图片见 [`../cloud-assets/README.md`](../cloud-assets/README.md)，与云函数是两回事。
 
 ---
@@ -71,17 +73,17 @@ Agent 处理本仓库云开发任务时，优先读项目内 `.cursor/skills/min
 
 对每个函数目录（如 `cloudfunctions/login`）：
 
-1. **右键**该目录  
-2. 选 **上传并部署：云端安装依赖**（推荐；本仓库依赖 `wx-server-sdk`，本地通常没有 `node_modules`）  
-3. 等待成功  
+1. **右键**该目录
+2. 选 **上传并部署：云端安装依赖**（推荐；本仓库依赖 `wx-server-sdk`，本地通常没有 `node_modules`）
+3. 等待成功
 
 全部传完后：**云开发 → 云函数** 应能看到对应名称。改某个函数后，只对该函数再上传一次即可。
 
 ### 4. 新建云函数（可选）
 
-1. 确认已完成第 2 步  
-2. 右键 **`cloudfunctions`** → **新建 Node.js 云函数** → 输入名称  
-3. 编辑 `index.js` / `package.json` 后按第 3 步上传  
+1. 确认已完成第 2 步
+2. 右键 **`cloudfunctions`** → **新建 Node.js 云函数** → 输入名称
+3. 编辑 `index.js` / `package.json` 后按第 3 步上传
 
 也可只在本地建文件夹 + `index.js` + `package.json`，再右键上传（云端没有时会一并创建）。
 
@@ -93,7 +95,7 @@ Agent 处理本仓库云开发任务时，优先读项目内 `.cursor/skills/min
 wx.cloud.callFunction({ name: 'initDb' }).then(console.log).catch(console.error)
 ```
 
-或直接调 `getProfile` / `login`（会按需建表）。  
+或直接调 `getProfile` / `login`（会按需建表）。
 也可在控制台对单个函数点 **云端测试**。
 
 ---
@@ -105,8 +107,8 @@ wx.cloud.callFunction({ name: 'initDb' }).then(console.log).catch(console.error)
 ### 1. 前置
 
 - 微信开发者工具**保持打开**
-- **设置 → 安全设置 → 服务端口** 已开启  
-- `CLOUD_ENV` / AppID / 工具当前环境一致  
+- **设置 → 安全设置 → 服务端口** 已开启
+- `CLOUD_ENV` / AppID / 工具当前环境一致
 
 ### 2. 一键部署
 
@@ -148,7 +150,7 @@ node scripts/ci_deploy_cloud_functions.js login getProfile
 
 ### 3. 初始化集合（自动化侧）
 
-部署 `initDb` 后，在开发者工具 Console 调用（见上一节第 5 步）。  
+部署 `initDb` 后，在开发者工具 Console 调用（见上一节第 5 步）。
 `npx tcb fn invoke` 依赖腾讯云账号登录，本仓库**不默认**走这条；登录失效时请用 Console / 云端测试。
 
 ### 4. Agent 约定
@@ -183,7 +185,7 @@ npm run test:cloud
 | --- | --- |
 | `initDb` | 五个集合创建结果 |
 | `login` / `getProfile` | 首次建档、已有用户读取、日期返回 |
-| `addStars` | 参数拒绝、加星、`clientId` 幂等去重 |
+| `addStars` | 参数拒绝、加星、`clientId` 幂等去重、`letter_done` 合法 / 未知 reason 拒绝 |
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
 | `exchangeReward` | 非法奖励、无用户、余额不足、贴纸兑换、并发连点只扣一次 |
@@ -215,7 +217,7 @@ wx.cloud.callFunction({ name: 'getProfile' }).then(console.log).catch(console.er
 | `DATABASE_COLLECTION_NOT_EXIST` | 集合未建 → 调 `initDb` |
 | `cloud init error` / `invalid scope` | 环境未就绪或 `CLOUD_ENV` 填错 |
 
-**涨星 ≠ 云已通**：`utils/stars.js` 失败会写本地。
+**涨星 ≠ 云已通**：`miniprogram/utils/stars.js` 失败会写本地队列。
 
 ---
 

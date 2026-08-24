@@ -24,6 +24,7 @@ python3 -m pip install -r .cursor/skills/edge-tts-batch/scripts/requirements.txt
 | 项 | 值 |
 |----|-----|
 | 中文 | `zh-CN-XiaoxiaoNeural` |
+| 拼音 | `zh-TW-HsiaoChenNeural`（注音 ㄚㄛㄜㄧㄨㄩ；大陆音色会合成失败） |
 | 英文 | `en-US-AnaNeural` |
 | 语速 | `-10%`（低幼放慢） |
 
@@ -51,7 +52,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet
 |------|---------|----------|-----------|
 | `poems` | `miniprogram/subpkg/poem/content/poems.js` | `miniprogram/subpkg/poem/static/audio/` | `/subpkg/poem/static/audio` |
 | `hanzi` | `miniprogram/subpkg/hanzi/content/hanzi.js`（`categories[].items`） | 同分包 `static/audio/` | `/subpkg/hanzi/static/audio` |
-| `english` | `miniprogram/subpkg/english/content/english.js`（`categories[].items`） | 同分包 `static/audio/` | `/subpkg/english/static/audio` |
+| `english` | `miniprogram/subpkg/english/content/english-words.js` | 各分类所在分包 `static/audio/` | `/subpkg/english{,-extra,-more}/static/audio` |
 | `pinyin` | `miniprogram/subpkg/pinyin/content/pinyin.js`（`vowels`） | 同分包 `static/audio/` | `/subpkg/pinyin/static/audio` |
 | `alphabet` | `miniprogram/subpkg/english-abc/content/alphabet.js`（`letters`） | `miniprogram/subpkg/english-abc/static/audio/` | `/subpkg/english-abc/static/audio` |
 
@@ -133,16 +134,16 @@ module.exports = {
 
 产出：`{letter}.mp3`（`ü` → `umlaut-u.mp3`）
 
-**发音源文（硬约束）**：不能把 `a/o/e/i/u/ü` 拉丁字母直接丢给中文 TTS——`zh-CN-*` 常把孤立拉丁字母念成**英文字母名**。脚本常量 `PINYIN_SPEAK` 用小学单韵母读法汉字：
+**发音源文（硬约束）**：不能把 `a/o/e/i/u/ü` 拉丁字母直接丢给中文 TTS——`zh-CN-*` 常把孤立拉丁字母念成**英文字母名**。脚本常量 `PINYIN_SPEAK` 用注音符号（对应单韵母），音色为 `zh-TW-HsiaoChenNeural`：
 
 | letter | 合成文案 | 文件 |
 |--------|---------|------|
-| a | 啊 | `a.mp3` |
-| o | 喔 | `o.mp3` |
-| e | 鹅 | `e.mp3` |
-| i | 衣 | `i.mp3` |
-| u | 乌 | `u.mp3` |
-| ü | 迂 | `umlaut-u.mp3` |
+| a | ㄚ | `a.mp3` |
+| o | ㄛ | `o.mp3` |
+| e | ㄜ | `e.mp3` |
+| i | ㄧ | `i.mp3` |
+| u | ㄨ | `u.mp3` |
+| ü | ㄩ | `umlaut-u.mp3` |
 
 改映射或纠音后必须 `--force --only pinyin` 重生成，并真机抽听。
 

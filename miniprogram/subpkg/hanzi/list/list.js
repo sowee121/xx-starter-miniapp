@@ -1,6 +1,7 @@
 const { categories } = require('../content/hanzi')
 const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
+const { goTo } = require('../../../utils/page')
 
 Page({
   data: {
@@ -21,10 +22,10 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  /** 打开下一页 */
   open(e) {
-    const { char, cat } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/subpkg/hanzi/detail/detail?char=${encodeURIComponent(char)}&cat=${cat}`,
-    })
+    const ds = (e.currentTarget && e.currentTarget.dataset) || {}
+    if (!ds.char) return
+    goTo(`/subpkg/hanzi/detail/detail?char=${encodeURIComponent(ds.char)}&cat=${ds.cat || ''}`)
   },
 })

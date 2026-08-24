@@ -1,6 +1,6 @@
 <view class="home-page">
   <view class="scene" aria-hidden="true">
-    <image class="scene__meadow" src="{{meadow}}" mode="widthFix" />
+    <image class="scene__meadow" src="{{meadow}}" mode="aspectFill" />
     <view class="scene__blend"></view>
   </view>
 
@@ -15,10 +15,10 @@
     <view class="home-welcome tone-cream" bindtap="onOpenParent" hover-class="home-welcome--pressed">
       <image class="home-welcome__avatar" src="{{avatar}}" mode="aspectFit" />
       <view class="home-welcome__body">
-        <view class="home-welcome__hello">宝贝，你好呀～</view>
-        <view class="home-welcome__sub">一起快乐学习吧</view>
+        <view class="home-welcome__hello">宝贝，你好呀</view>
+        <view class="home-welcome__sub">一起快乐学习吧～</view>
       </view>
-      <image class="home-welcome__deco" src="{{daisy}}" mode="aspectFit" />
+      <image class="home-welcome__deco" src="{{daisy}}" mode="widthFix" />
     </view>
 
     <view class="home-page__block">
@@ -26,11 +26,24 @@
         type="task"
         module-id="{{task.id}}"
         title="{{task.title}}"
-        subtitle="{{task.subtitle}}"
         image="{{task.icon}}"
         tone="{{task.tint}}"
         url="{{task.url}}"
         progress="{{taskProgress}}"
+        deco="{{check}}"
+        bind:tap="onEntry"
+      />
+    </view>
+
+    <view class="home-page__block">
+      <home-feature-card
+        type="reward"
+        module-id="{{reward.id}}"
+        title="{{reward.title}}"
+        subtitle="{{reward.subtitle}}"
+        image="{{reward.icon}}"
+        tone="{{reward.tint}}"
+        url="{{reward.url}}"
         deco="{{bigStar}}"
         bind:tap="onEntry"
       />
@@ -47,20 +60,6 @@
           bind:tap="onEntry"
         />
       </view>
-    </view>
-
-    <view class="home-page__block">
-      <home-feature-card
-        type="reward"
-        module-id="{{reward.id}}"
-        title="{{reward.title}}"
-        subtitle="{{reward.subtitle}}"
-        image="{{reward.icon}}"
-        tone="{{reward.tint}}"
-        url="{{reward.url}}"
-        action-text="{{reward.actionText}}"
-        bind:tap="onEntry"
-      />
     </view>
   </view>
 </view>

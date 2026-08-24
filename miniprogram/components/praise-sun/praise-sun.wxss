@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  letter-spacing: var(--letter-btn); /* 全站字距；弹层样式隔离需自写 */
   background: rgba(65, 87, 75, 0.22);
   opacity: 0;
   animation: praise-sun-in 250ms ease-out forwards;
@@ -20,8 +21,8 @@
   align-items: center;
   justify-content: center;
   gap: var(--gap-block);
-  width: 620rpx;
-  min-height: 760rpx;
+  width: var(--size-praise);
+  min-height: var(--size-praise-min);
   padding: var(--pad-card-xl);
   border-radius: var(--radius-card);
   box-sizing: border-box;
@@ -64,15 +65,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 288rpx;
-  height: 288rpx;
+  width: var(--size-praise-icon);
+  height: var(--size-praise-icon);
   flex-shrink: 0;
 }
 
 .praise-sun__icon {
   display: block;
-  width: 288rpx;
-  height: 288rpx;
+  width: var(--size-praise-icon);
+  height: var(--size-praise-icon);
   vertical-align: middle;
 }
 
@@ -105,14 +106,13 @@
   align-items: center;
   justify-content: center;
   width: 220rpx;
-  height: 100rpx;
+  height: var(--size-chip-lg);
   border-radius: 50rpx;
-  background-color: #77b07c;
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   color: #fff;
   font-size: var(--font-hint);
   font-weight: 700;
-  letter-spacing: var(--letter-btn);
   box-shadow: var(--shadow-chip);
 }
 
@@ -123,7 +123,6 @@
   right: 16rpx;
   width: 140rpx;
   height: 104rpx;
-  opacity: var(--opacity-soft);
   pointer-events: none;
 }
 
@@ -134,7 +133,6 @@
   left: 16rpx;
   width: 124rpx;
   height: 95rpx;
-  opacity: var(--opacity-soft);
   pointer-events: none;
 }
 

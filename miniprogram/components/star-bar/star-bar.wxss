@@ -3,16 +3,13 @@
   flex-direction: row;
   align-items: center;
   gap: var(--gap-text);
-  padding: 0 24rpx;
+  height: var(--size-star-bar);
+  padding: 0 var(--gap-inset);
   box-sizing: border-box;
   flex-shrink: 0;
   border-radius: var(--radius-pill);
-  background: linear-gradient(145deg, #f7f9e9, #e6efd6);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -4rpx -10rpx 16rpx rgba(112, 145, 91, 0.14),
-    -2rpx 8rpx 14rpx rgba(83, 112, 73, 0.1),
-    -2rpx 14rpx 22rpx rgba(83, 112, 73, 0.06);
+  background: var(--tone-leaf);
+  box-shadow: var(--shadow-clay-leaf);
 }
 
 .star-bar__icon {
@@ -26,7 +23,7 @@
 }
 
 .star-bar.is-night {
-  background: linear-gradient(145deg, #f4f6fb, #c8d0ea);
+  background: var(--tone-leaf-night);
   box-shadow: var(--shadow-clay-night);
 }
 

@@ -2,6 +2,7 @@ const { letters, songAudio } = require('../content/alphabet')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { toggleLongPlay, attachLongPlay, detachLongPlay } = require('../../../utils/read-award')
+const { goTo } = require('../../../utils/page')
 
 Page({
   data: {
@@ -30,13 +31,14 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  /** 打开下一页 */
   open(e) {
-    const letter = e.currentTarget.dataset.letter
-    wx.navigateTo({
-      url: `/subpkg/english-abc/detail/detail?letter=${letter || ''}`,
-    })
+    const letter = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.letter
+    if (!letter) return
+    goTo(`/subpkg/english-abc/detail/detail?letter=${encodeURIComponent(letter)}`)
   },
 
+  /** 播放或停止字母歌 */
   toggleSong() {
     toggleLongPlay(this, { src: this.data.songSrc })
   },

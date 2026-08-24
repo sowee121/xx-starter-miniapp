@@ -1,27 +1,12 @@
-const { categories } = require('../content/english')
-const { toneOf } = require('../content/tones')
+const { categories } = require('../content/english-words')
+const { toneOf, listImageUrl, detailPageUrl, mediaOwner } = require('../lib/english-media')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
+const { loadThenGo } = require('../../../utils/page')
 
-/** 媒体分包：body/transport→english-extra；number/food/nature→english-more */
-const MEDIA_PKG = {
-  body: 'english-extra',
-  transport: 'english-extra',
-  number: 'english-more',
-  food: 'english-more',
-  nature: 'english-more',
-}
-
+/** 列表词图地址 */
 function imageUrl(catId, image) {
-  const pkg = MEDIA_PKG[catId] || 'english'
-  return mediaUrl(`/subpkg/${pkg}/static/${image}.png`)
-}
-
-function loadMediaPackages() {
-  if (typeof wx.loadSubpackage !== 'function') return
-  ;['english-extra', 'english-more'].forEach((name) => {
-    wx.loadSubpackage({ name }).catch(() => {})
-  })
+  return listImageUrl(mediaUrl, catId, image)
 }
 
 Page({
@@ -31,7 +16,6 @@ Page({
   },
 
   onLoad() {
-    loadMediaPackages()
     this.setData({
       categories: categories.map((c) => ({
         ...c,
@@ -48,10 +32,13 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  /** 打开下一页 */
   open(e) {
-    const { word, cat } = e.currentTarget.dataset
-    wx.navigateTo({
-      url: `/subpkg/english/detail/detail?word=${word}&cat=${cat || ''}`,
-    })
+    const ds = (e.currentTarget && e.currentTarget.dataset) || {}
+    const word = ds.word
+    const cat = ds.cat
+    const url = detailPageUrl(word, cat)
+    if (!url) return
+    loadThenGo(mediaOwner(cat), url)
   },
 })

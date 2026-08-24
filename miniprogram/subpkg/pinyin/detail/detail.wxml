@@ -1,5 +1,5 @@
 <app-shell title="拼音" stars="{{stars}}">
-  <view wx:if="{{item}}" class="detail-stack is-docked">
+  <view wx:if="{{item}}" class="detail-stack">
     <view class="detail-big block tone-cream pinyin-stage" bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="pinyin-vowel-image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="detail-big__sub">{{item.phonetic}}</view>
@@ -16,7 +16,7 @@
 
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
 
-    <view class="trail-nav is-dock" aria-label="韵母石子径">
+    <view class="trail-nav" aria-label="韵母石子径">
       <view
         wx:for="{{trail}}"
         wx:key="id"

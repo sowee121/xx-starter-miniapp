@@ -4,11 +4,14 @@ const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
 const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
+const { queryValue } = require('../../../utils/page')
 
+/** 拼音石子径 id */
 function trailId(letter) {
   return letter === 'ü' ? 'umlaut-u' : letter
 }
 
+/** 拼音石子径数据 */
 function buildTrail(currentLetter) {
   return vowels.map((v) => ({
     id: trailId(v.letter),
@@ -17,6 +20,7 @@ function buildTrail(currentLetter) {
   }))
 }
 
+/** 按 id 取韵母 */
 function resolveItem(id) {
   const key = id === 'umlaut-u' ? 'ü' : (id || 'a')
   return vowels.find((x) => x.letter === key) || vowels[0]
@@ -33,32 +37,45 @@ Page({
   },
 
   onLoad(q) {
-    this.applyItem(resolveItem(q.id))
+    this._visitStarAwarded = false
+    this.applyItem(resolveItem(queryValue(q, 'id', 'a')), true)
   },
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
 
-  applyItem(item) {
-    this._visitStarAwarded = false
-    this.setData({
-      item: {
-        ...item,
-        image: mediaUrl(`/subpkg/pinyin/static/${item.asset}.png`),
+  /** 渲染当前条目 */
+  applyItem(item, autoPlay) {
+    if (!item || !item.asset) return
+    this.setData(
+      {
+        item: {
+          ...item,
+          image: mediaUrl(`/subpkg/pinyin/static/${item.asset}.png`),
+        },
+        trail: buildTrail(item.letter),
       },
-      trail: buildTrail(item.letter),
-    })
+      () => {
+        if (autoPlay) this.play()
+      },
+    )
   },
 
+  /** 点拼音石子 */
   onTrailTap(e) {
     const id = e.currentTarget.dataset.id
     const next = resolveItem(id)
-    if (!next || (this.data.item && next.letter === this.data.item.letter)) return
+    if (!next) return
+    if (this.data.item && next.letter === this.data.item.letter) {
+      this.play()
+      return
+    }
     audioUtil.stop()
-    this.applyItem(next)
+    this.applyItem(next, true)
   },
 
+  /** 立即播放一段音频 */
   play() {
     const item = this.data.item
     if (!item) return
@@ -71,6 +88,7 @@ Page({
     })
   },
 
+  /** 关闭表扬层 */
   closePraise() {
     feedback.hideLayer(this)
   },

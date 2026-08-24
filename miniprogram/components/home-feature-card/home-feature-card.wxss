@@ -3,7 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  height: 196rpx;
+  height: 172rpx;
   padding: 0 var(--pad-card) 0 0;
   overflow: hidden;
   border-radius: var(--radius-card);
@@ -17,8 +17,8 @@
 }
 
 .home-feature-card__mascot {
-  width: 172rpx;
-  height: 172rpx;
+  width: 168rpx;
+  height: 168rpx;
   flex-shrink: 0;
 }
 
@@ -34,7 +34,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-snug);
+  gap: var(--gap-text);
 }
 
 .home-feature-card__socket {
@@ -68,21 +68,20 @@
   align-items: center;
   justify-content: center;
   width: 176rpx;
-  height: 88rpx;
+  height: var(--size-chip);
   flex-shrink: 0;
   border-radius: var(--radius-pill);
   font-size: var(--font-hint);
   font-weight: 700;
-  letter-spacing: var(--letter-btn);
   color: #ffffff;
-  background-color: #77b07c;
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
 
 .home-feature-card__deco {
   width: 64rpx;
-  height: 64rpx;
+  height: auto;
   flex-shrink: 0;
   pointer-events: none;
 }

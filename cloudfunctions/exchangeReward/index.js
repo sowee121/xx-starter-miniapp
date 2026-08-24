@@ -4,7 +4,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
-// 与 miniprogram/subpkg/life/content/stickers.js 同源价目（仅贴纸，无勋章）
+/** 贴纸兑换价目，与商城 stickers.js 同源 */
 const REWARDS = {
   rabbit: { cost: 2, type: 'sticker', name: '小兔' },
   cat: { cost: 2, type: 'sticker', name: '小猫' },
@@ -32,6 +32,7 @@ const REWARDS = {
   unicorn: { cost: 10, type: 'sticker', name: '独角兽' },
 }
 
+/** 云函数入口 */
 exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const rewardId = event.rewardId

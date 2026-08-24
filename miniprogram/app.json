@@ -32,14 +32,44 @@
       ]
     },
     {
-      "root": "subpkg/english-extra",
-      "name": "english-extra",
-      "pages": ["bridge/bridge"]
+      "root": "subpkg/english-fruit",
+      "name": "english-fruit",
+      "pages": ["detail/detail"]
     },
     {
-      "root": "subpkg/english-more",
-      "name": "english-more",
-      "pages": ["bridge/bridge"]
+      "root": "subpkg/english-animal",
+      "name": "english-animal",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-color",
+      "name": "english-color",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-body",
+      "name": "english-body",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-transport",
+      "name": "english-transport",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-number",
+      "name": "english-number",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-food",
+      "name": "english-food",
+      "pages": ["detail/detail"]
+    },
+    {
+      "root": "subpkg/english-nature",
+      "name": "english-nature",
+      "pages": ["detail/detail"]
     },
     {
       "root": "subpkg/english-abc",
@@ -52,9 +82,19 @@
       "pages": ["list/list", "detail/detail"]
     },
     {
-      "root": "subpkg/life",
-      "name": "life",
-      "pages": ["calendar/index", "task/list", "reward/shop"]
+      "root": "subpkg/calendar",
+      "name": "calendar",
+      "pages": ["index"]
+    },
+    {
+      "root": "subpkg/task",
+      "name": "task",
+      "pages": ["list"]
+    },
+    {
+      "root": "subpkg/shop",
+      "name": "shop",
+      "pages": ["shop"]
     }
   ],
   "window": {

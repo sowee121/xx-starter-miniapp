@@ -1,4 +1,5 @@
 const { getNavbar } = require('../../utils/navbar')
+const { goTo } = require('../../utils/page')
 
 Component({
   options: {
@@ -11,7 +12,7 @@ Component({
     stars: { type: Number, value: 0 },
     showHome: { type: Boolean, value: true },
     night: { type: Boolean, value: false },
-    background: { type: String, value: require('../../config/media').mediaUrl('/static/shared/meadow.png') },
+    background: { type: String, value: require('../../config/media').mediaUrl('/static/shared/meadow.jpg') },
   },
 
   data: {
@@ -26,13 +27,14 @@ Component({
   },
 
   methods: {
+    /** 回首页 */
     onGoHome() {
       try {
         require('../../utils/audio').stop()
       } catch (error) {
         // ignore
       }
-      wx.reLaunch({ url: '/pages/home/home' })
+      goTo('/pages/home/home', { mode: 'reLaunch' })
     },
   },
 })

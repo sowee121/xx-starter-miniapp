@@ -12,6 +12,7 @@ function randInt(min, max) {
 /** 每行数量相同：下标即数量 1～10 */
 const COUNT_COLS = [0, 1, 2, 3, 2, 3, 3, 4, 4, 3, 5]
 
+/** 数数行列布局 */
 function layoutCols(n) {
   const count = Math.max(1, Math.min(10, Number(n) || 1))
   return COUNT_COLS[count]
@@ -31,6 +32,7 @@ function randomChoices(answer, min, max, count = 3) {
   return picks.sort((a, b) => a - b)
 }
 
+/** 随机数数题 */
 function randomCountQuestion(fruitImage, avoidAnswer) {
   let answer = randInt(1, 10)
   if (avoidAnswer != null) {

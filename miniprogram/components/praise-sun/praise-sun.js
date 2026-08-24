@@ -19,6 +19,7 @@ Component({
     actionLabel: '继续学',
   },
   observers: {
+    /** 显隐变化 */
     show(val) {
       this.setData({ visible: !!val })
     },
@@ -32,6 +33,7 @@ Component({
     },
   },
   methods: {
+    /** 继续下一题 */
     onContinue() {
       this.triggerEvent('continue')
     },

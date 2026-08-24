@@ -25,6 +25,7 @@ const CLI_CANDIDATES = [
   process.env.WECHAT_DEVTOOLS_CLI,
 ].filter(Boolean)
 
+/** 列出云函数目录 */
 function allFunctionDirs() {
   return fs
     .readdirSync(CF_ROOT, { withFileTypes: true })

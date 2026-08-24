@@ -1,5 +1,5 @@
 {
-  "_note": "点读合成文案见 generate_audio.py PINYIN_SPEAK：啊/喔/鹅/衣/乌/迂；勿把 letter 拉丁字母直接丢给中文 TTS。",
+  "_note": "点读合成文案见 generate_audio.py PINYIN_SPEAK：注音 ㄚ/ㄛ/ㄜ/ㄧ/ㄨ/ㄩ；勿把 letter 拉丁字母直接丢给中文 TTS。",
   "vowels": [
     {
       "letter": "a",

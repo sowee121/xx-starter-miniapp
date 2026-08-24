@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "test": "node scripts/check_miniprogram.js",
+    "build": "node scripts/build_package.js",
+    "sync:english": "node scripts/sync_english_runtime.js",
     "check": "node scripts/check_miniprogram.js",
     "test:cloud": "node scripts/test_cloudfunctions.js",
     "assets:purge": "node scripts/purge_package_media.js",
@@ -22,6 +24,7 @@
   },
   "devDependencies": {
     "@cloudbase/cli": "^3.7.3",
-    "miniprogram-ci": "^2.1.31"
+    "miniprogram-ci": "^2.1.31",
+    "terser": "^5.36.0"
   }
 }

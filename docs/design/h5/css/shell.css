@@ -1,10 +1,10 @@
 @import url("tokens.css");
 @import url("layout.css");
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { background: var(--board); color: var(--ink); font-family: var(--font-ui); -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; margin: 0; padding: 0; letter-spacing: var(--letter-btn); } /* 全站字距 */
+html, body { background: var(--board); color: var(--ink); font-family: var(--font-family); letter-spacing: var(--letter-btn); -webkit-font-smoothing: antialiased; } /* 全站字距 */
 .page {
-  position: relative; width: 750px; min-height: 1624px; margin: 0 auto; overflow: hidden;
+  position: relative; width: var(--size-canvas); min-height: var(--size-canvas-min); margin: 0 auto; overflow: hidden;
   /* 色阶贴近，长页上方几乎匀色，避免硬分层带 */
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
 }
@@ -19,8 +19,8 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750px;
-  height: 390px;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   display: block;
   object-fit: contain;
   pointer-events: none;
@@ -45,8 +45,8 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750px;
-  height: 390px;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   pointer-events: none;
   background: linear-gradient(
     180deg,
@@ -60,8 +60,8 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750px;
-  height: 390px;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   opacity: 0;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(94, 110, 145, 0.08) 0%, rgba(58, 72, 112, 0.52) 100%);
@@ -81,29 +81,25 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   opacity: 0;
 }
 /* 纵向积木间距统一由 shell 的 gap 提供，积木自身不带 margin */
-.shell { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--gap-block); min-height: 1624px; padding: 88px var(--page-pad-x) calc(80px + env(safe-area-inset-bottom)); }
+.shell { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--gap-block); min-height: var(--size-canvas-min); padding: var(--size-header) var(--pad-page-x) env(safe-area-inset-bottom); }
 .nav {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-inset);
-  height: 88px;
+  height: var(--size-header);
   flex-shrink: 0;
 }
 .nav-home {
-  display: flex; align-items: center; justify-content: center; width: 88px; height: 88px;
+  display: flex; align-items: center; justify-content: center; width: var(--size-header); height: var(--size-header);
   flex-shrink: 0; border: 0;
   border-radius: 50%; overflow: hidden; font-size: 0;
-  background-color: #eef3e2;
-  background-image: url("../../atoms/home-clay.png"), linear-gradient(145deg, #f7f9e9, #e6efd6);
+  background-color: var(--tone-leaf-solid);
+  background-image: url("../../atoms/home-clay.png"), var(--tone-leaf);
   background-position: center 24%, center;
   background-repeat: no-repeat, no-repeat;
   background-size: 74px auto, 100% 100%;
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -4px -10px 16px rgba(112, 145, 91, 0.14),
-    -2px 8px 14px rgba(83, 112, 73, 0.1),
-    -2px 14px 22px rgba(83, 112, 73, 0.06);
+  box-shadow: var(--shadow-clay-leaf);
 }
 .nav-title {
   flex: 1;
@@ -111,7 +107,6 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   text-align: left;
   font-size: var(--font-title);
   font-weight: 700;
-  letter-spacing: 2px;
 }
 .nav-right {
   display: flex;
@@ -122,20 +117,16 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
 }
 .star-pill {
   display: flex; flex-direction: row; align-items: center; gap: var(--gap-text);
-  height: var(--star-bar-height); padding: 0 24px;
+  height: var(--size-star-bar); padding: 0 var(--gap-inset);
   border-radius: var(--radius-pill);
-  background: linear-gradient(145deg, #f7f9e9, #e6efd6);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -4px -10px 16px rgba(112, 145, 91, 0.14),
-    -2px 8px 14px rgba(83, 112, 73, 0.1),
-    -2px 14px 22px rgba(83, 112, 73, 0.06);
+  background: var(--tone-leaf);
+  box-shadow: var(--shadow-clay-leaf);
 }
-.star-pill img { width: var(--star-icon); height: var(--star-icon); object-fit: contain; }
+.star-pill img { width: var(--size-star); height: var(--size-star); object-fit: contain; }
 .star-pill b { font-size: var(--font-nav); color: var(--ink); }
 .capsule-slot {
-  width: 174px; height: var(--star-bar-height); border: 2px solid rgba(126,160,116,.34);
-  border-radius: calc(var(--star-bar-height) / 2); background: rgba(255,255,255,.24);
+  width: 174px; height: var(--size-star-bar); border: 2px solid rgba(126,160,116,.34);
+  border-radius: calc(var(--size-star-bar) / 2); background: rgba(255,255,255,.24);
 }
 .inner-head { display: flex; flex-direction: column; align-items: center; gap: var(--gap-text); }
 .inner-head h1 { font-size: var(--font-inner); line-height: 1.2; }

@@ -1,8 +1,19 @@
+/** 读取状态栏与胶囊尺寸 */
 function getNavbar() {
-  const windowInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
-  const rawMenu = wx.getMenuButtonBoundingClientRect
-    ? wx.getMenuButtonBoundingClientRect()
-    : null
+  let windowInfo = { statusBarHeight: 44, windowWidth: 375 }
+  try {
+    windowInfo = wx.getWindowInfo ? wx.getWindowInfo() : wx.getSystemInfoSync()
+  } catch (error) {
+    // 少数基础库取不到窗体信息
+  }
+  let rawMenu = null
+  try {
+    rawMenu = wx.getMenuButtonBoundingClientRect
+      ? wx.getMenuButtonBoundingClientRect()
+      : null
+  } catch (error) {
+    rawMenu = null
+  }
   const statusBarHeight = windowInfo.statusBarHeight || 44
   const menu = rawMenu && rawMenu.width
     ? rawMenu

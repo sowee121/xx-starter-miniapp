@@ -25,19 +25,21 @@ except ImportError:
 
 VOICE_ZH = "zh-CN-XiaoxiaoNeural"
 VOICE_EN = "en-US-AnaNeural"
+# 注音须用台湾音色：晓晓对 ㄛㄜㄧㄨㄩ 会合成失败（无音频）。
+VOICE_PINYIN = "zh-TW-HsiaoChenNeural"
 RATE = "-10%"  # 低幼放慢语速
 MAX_RETRIES = 5
 INTER_ITEM_DELAY = 0.3
 
 # 单韵母不能把拉丁字母直接丢给中文 TTS（会念成英文字母名）。
-# 按小学拼音教法，用同韵母汉字读：啊喔鹅衣乌迂。
+# 用注音符号当源文，让引擎按韵母本身读，而不是汉字词（鹅/额）的口型。
 PINYIN_SPEAK = {
-    "a": "啊",
-    "o": "喔",
-    "e": "鹅",
-    "i": "衣",
-    "u": "乌",
-    "ü": "迂",
+    "a": "ㄚ",
+    "o": "ㄛ",
+    "e": "ㄜ",
+    "i": "ㄧ",
+    "u": "ㄨ",
+    "ü": "ㄩ",
 }
 
 # 英文字母名；默认把字母本身喂给英文 TTS。Z 强制英式 zed，W 写成 double u 以免含糊。
@@ -70,7 +72,7 @@ MODULES: dict[str, dict[str, str]] = {
     },
     "english": {
         "kind": "english",
-        "content": "miniprogram/subpkg/english/content/english.js",
+        "content": "miniprogram/subpkg/english/content/english-words.js",
         "audio": "miniprogram/subpkg/english/static/audio",
         "url": "/subpkg/english/static/audio",
         "voice": VOICE_EN,
@@ -81,7 +83,7 @@ MODULES: dict[str, dict[str, str]] = {
         "content": "miniprogram/subpkg/pinyin/content/pinyin.js",
         "audio": "miniprogram/subpkg/pinyin/static/audio",
         "url": "/subpkg/pinyin/static/audio",
-        "voice": VOICE_ZH,
+        "voice": VOICE_PINYIN,
         "budget_mb": "0.8",
     },
     "alphabet": {

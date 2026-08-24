@@ -17,6 +17,7 @@ const {
   onProgressUpdate,
 } = require('./ci_lib')
 
+/** 云函数入口 */
 async function main() {
   const outDir = path.join(ROOT, '.ci-output')
   fs.mkdirSync(outDir, { recursive: true })

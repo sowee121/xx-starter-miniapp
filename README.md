@@ -1,6 +1,6 @@
 # 嘻嘻启蒙乐园
 
-面向 2–3 岁半宝宝的微信原生亲子互动小程序。
+面向 2 岁半零基础宝宝的微信原生亲子互动小程序。
 
 晨间草地主题、黏土软萌与低饱和配色，保护幼儿视觉。古诗点读、识字组词、数物与简易加减、英语字母与单词、单韵母、昼夜日历；每日任务攒星换小动物贴纸，在游玩中完成认知探索。基于**微信原生小程序 + 云函数**；幼儿学习流程只增星、不扣分，无广告/付费；家长区可主动清除数据。
 
@@ -8,11 +8,13 @@
 | --- | --- |
 | 古诗 | 6 首；逐句点读 + 全文朗读（全文播完发星） |
 | 识字 | 生活常见字 96（八类各 12）；点读与组词 |
-| 算术 | 枢纽：数一数 / 算一算；答对发星 + 行内反馈音 |
+| 算术 | 枢纽：数一数 / 算一算（结果 1～10）；答对发星 + 行内反馈音 |
 | 英语 | 枢纽：字母表 26 大写点读 + 字母歌 / 单词 96 + 超短句；字母名或单词播完发星 |
-| 拼音 | 仅 `a o e i u ü`；点读按拼音韵母（TTS 用啊/喔/鹅/衣/乌/迂） |
+| 拼音 | 仅 `a o e i u ü`；点读按拼音韵母（TTS 用注音 ㄚ/ㄛ/ㄜ/ㄧ/ㄨ/ㄩ） |
 | 日历 · 任务 · 贴纸 | 页内打卡；每日随机目标；星星换贴纸 |
-| 家长区 | 欢迎卡进入；音量 + 长按清除学习记录/星星/贴纸 |
+| 家长区 | 首页欢迎卡（「宝贝，你好呀」「一起快乐学习吧～」）进入；音量三档 + 长按 3 秒清除学习记录/星星/贴纸 |
+
+页内名称 **嘻嘻启蒙乐园**；微信后台创建/搜索名 **嘻宝星屋**（见 [`docs/apply/miniprogram-intro.md`](docs/apply/miniprogram-intro.md)）。
 
 题库与视觉定稿：[`docs/design/CONTENT.md`](docs/design/CONTENT.md) · 分期：[`docs/design/PLAN.md`](docs/design/PLAN.md)
 
@@ -21,8 +23,8 @@
 ## 快速开始
 
 1. 微信开发者工具导入**本仓库根目录**（不要选 `miniprogram/`）
-2. 使用正式 AppID（测试号不可用云开发）
-3. 开通云开发 → 将环境 ID 写入 `miniprogram/config/cloud.js` 的 `CLOUD_ENV`
+2. 使用正式 AppID `wx61ad70ac766e4a04`（测试号不可用云开发）
+3. 开通云开发 → 环境 ID 写入 `miniprogram/config/cloud.js` 的 `CLOUD_ENV`（当前 `cloudbase-d7gygre2uc80dcd42`）
 4. 云函数：按 [`cloudfunctions/README.md`](cloudfunctions/README.md)（**手动**绑环境 + 上传，或 **自动化** `npm run cloud:deploy`）
 5. 编译预览（建议清一次缓存）；Console 调 `getProfile` / `initDb` 确认集合
 
@@ -51,11 +53,11 @@ npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁�
 
 细节已拆到子文档，此处只列硬约束：
 
-**图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `chroma_to_png` / `normalize_atoms`。须关闭「忽略未使用的文件」（已配 `ignoreDevUnusedFiles: false`）。
+**图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `scripts/chroma_to_png.py` / `scripts/normalize_atoms.py`。须关闭「忽略未使用的文件」（已配 `ignoreDevUnusedFiles: false`）。
 
-**样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。Token：`h5/css/tokens.css` ↔ `styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。
+**样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。H5 **只出静态 UI**，点读与点击只做小程序（`.cursor/rules/h5-static-review.mdc`）。Token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。
 
-**点读** — `utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。**拼音单韵母**须用汉字「啊喔鹅衣乌迂」合成，勿直接喂 `a/o/e…`（易念成英文）。**英文字母名**用 `en-US-AnaNeural`（Z=`zed`）。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
+**点读** — `miniprogram/utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。**拼音单韵母**须用注音「ㄚㄛㄜㄧㄨㄩ」合成，勿直接喂 `a/o/e…`（易念成英文）。**英文字母名**用 `en-US-AnaNeural`（Z=`zed`）。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
 **反馈** — 任务/兑换用弹层 `praise-sun`；算术对错用行内 soft-note + 共享音效；禁止 Toast。
 
@@ -70,6 +72,8 @@ npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁�
 
 默认 `USE_CLOUD = false`（免费套餐常改不了「所有人可读」）。加星失败会本地兜底并入队，**下次云通畅时自动冲刷同步**（幂等 `clientId`）；**涨星 ≠ 当时已写入云**。
 
+云函数（均已部署，与本地对齐）：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`exchangeReward`、`resetProfile`、`initDb`。`addStars` 原因白名单含 `letter_done`（字母点读）。
+
 ---
 
 ## 当前进度
@@ -79,7 +83,7 @@ npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁�
 | 八大板块业务页 + TTS | 已落地 |
 | 每日任务（数量每日随机）+ 日历打卡按钮 | 已落地 |
 | 反馈闭环（弹层 / soft-note / 音效） | 已落地 |
-| 家长区（音量 + 清除） | 已落地 |
+| 家长区（音量 + 长按 3 秒清除） | 已落地 |
 | 云存储切 `cloud://` | 未开（`USE_CLOUD = false`） |
-| 云函数 | 已全量部署；login / 加星 / 兑换 / 任务打卡 / 清除已接通 |
+| 云函数 | 已全量部署并与本地对齐；`addStars` 含 `letter_done` |
 | 云端为唯一数据源 | 进行中（加星/进度失败本地队列兜底，云通畅后自动同步） |

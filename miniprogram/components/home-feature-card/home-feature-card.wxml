@@ -22,11 +22,10 @@
       </view>
     </view>
   </view>
-  <view wx:if="{{type === 'reward'}}" class="home-feature-card__chip">{{actionText}}</view>
   <image
-    wx:if="{{type === 'task' && deco}}"
+    wx:if="{{deco}}"
     class="home-feature-card__deco"
     src="{{deco}}"
-    mode="aspectFit"
+    mode="widthFix"
   />
 </view>

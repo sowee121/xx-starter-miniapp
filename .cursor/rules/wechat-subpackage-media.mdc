@@ -1,0 +1,42 @@
+---
+description: 微信小程序分包本地媒体不得跨包引用；改英语/图片/音频时必须遵守
+alwaysApply: true
+---
+
+# 微信分包本地媒体隔离
+
+微信**真机**禁止跨分包读取本地图片和音频。模拟器、开发者工具预览经常仍能显示，因此不能拿模拟器当通过。
+
+## 硬规则
+
+1. **页面和它用的 png/mp3 必须在同一个分包**（或主包 `/static/`）。
+2. **禁止**在分包 A 的页面里写 `/subpkg/B/static/...` 当 `image` / 音频 `src`。
+3. `wx.loadSubpackage` **不能**让 A 包页面去读 B 包本地文件。
+4. `wx.navigateTo` 打开另一分包的**页面**可以；打开后由那个分包自己读自己的 `static`。
+5. 主包可以读主包 `/static/`。主包页面不能读分包 `static`。分包可以读主包 `/static/`。
+
+## 英语单词（已拆包）
+
+| 分类 | 分包 | 列表 | 详情大图/音频 |
+| --- | --- | --- | --- |
+| 总列表 + 枢纽 | `english` | `english/static/list/` 96 张 96px 小图 | 无大图；旧详情页只做跳转 |
+| fruit / animal / color / body / transport / number / food / nature | `english-{分类}` | — | 该包 `static/` 160px + `static/audio/` |
+| 字母 | `english-abc` | 本包 | 本包 |
+
+列表**一律**用 `english/static/list/` 的 96px 小图。详情页必须 `Page(createEnglishDetailPage('english-fruit'))` 这类带分包名的工厂，词条不属于本包时 `redirectTo` 到归属页。
+
+**禁止把只给分包用的 JS 放进主包**。英语词库、`english-media.js`、`english-detail-page.js` 放在各英语分包 `content/` / `lib/`。
+
+生活模块已拆成独立分包（页面和媒体同包）：
+
+| 模块 | 分包 | 本地图 |
+| --- | --- | --- |
+| 日历 | `calendar` | `sun.png` / `moon-stars.png` |
+| 每日任务 | `task` | 无（只用主包 `/static/`） |
+| 积分商城 | `shop` | `sticker-*.png` |
+
+改词图后跑 `python3 scripts/sync_package_images.py`（会重建 `english/static/list/` 缩略图）。
+
+## 自检
+
+`npm test` 含跨分包媒体检查。新增分包媒体或改 `image`/`audio` 路径后必须先过测试，禁止再靠模拟器判断「图在不在」。

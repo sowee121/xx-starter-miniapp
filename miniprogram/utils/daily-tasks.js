@@ -52,16 +52,18 @@ const TEMPLATES = [
     id: 'calendar',
     min: 1,
     max: 1,
-    url: '/subpkg/life/calendar/index',
+    url: '/subpkg/calendar/index',
     titleOf: () => '日历打卡',
     rewardOf: () => 1,
   },
 ]
 
+/** 闭区间随机整数 */
 function randInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
 
+/** 今日日期串 */
 function getToday() {
   const now = new Date()
   const month = String(now.getMonth() + 1).padStart(2, '0')
@@ -69,6 +71,7 @@ function getToday() {
   return `${now.getFullYear()}-${month}-${day}`
 }
 
+/** 生成当日任务 */
 function generateTasks() {
   return TEMPLATES.map((tpl) => {
     const target = randInt(tpl.min, tpl.max)
@@ -82,6 +85,7 @@ function generateTasks() {
   })
 }
 
+/** 空的一日任务记录 */
 function emptyDay(date) {
   return {
     schema: SCHEMA,
@@ -93,6 +97,7 @@ function emptyDay(date) {
   }
 }
 
+/** 读本地任务原文 */
 function readRaw() {
   try {
     return wx.getStorageSync(STORAGE_KEY) || null
@@ -101,6 +106,7 @@ function readRaw() {
   }
 }
 
+/** 保存今日任务 */
 function saveToday(data) {
   try {
     wx.setStorageSync(STORAGE_KEY, data)
@@ -127,14 +133,17 @@ function ensureToday() {
   return day
 }
 
+/** 读取今日任务记录 */
 function readToday() {
   return ensureToday()
 }
 
+/** 今日任务列表 */
 function getTasks() {
   return ensureToday().tasks
 }
 
+/** 今日任务进度 */
 function getProgress() {
   const day = ensureToday()
   return day.tasks.filter((task) => day.done[task.id]).length
@@ -147,6 +156,7 @@ function nextUrl(taskId) {
   return task ? task.url : ''
 }
 
+/** 今日任务列表 */
 function taskList() {
   const day = ensureToday()
   return day.tasks.map((task) => {

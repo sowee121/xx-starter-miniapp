@@ -29,6 +29,5 @@
   font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: 2rpx;
   color: var(--ink);
 }

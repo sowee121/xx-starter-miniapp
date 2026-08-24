@@ -15,6 +15,7 @@ let sessionPromise = null
 /** 已乐观计入展示值、但尚未入队也未被云端确认的在途增量。 */
 let inflightDelta = 0
 
+/** 安全取 App 实例 */
 function getAppSafe() {
   try {
     return typeof getApp === 'function' ? getApp() : null
@@ -23,6 +24,7 @@ function getAppSafe() {
   }
 }
 
+/** 确保档案口袋存在 */
 function ensureProfileBag(app) {
   if (!app || !app.globalData) return null
   if (!app.globalData.profile) {
@@ -31,6 +33,7 @@ function ensureProfileBag(app) {
   return app.globalData.profile
 }
 
+/** 生成客户端请求 id */
 function makeClientId() {
   const rand = Math.random().toString(36).slice(2, 8)
   return `${Date.now()}-${rand}`
@@ -49,6 +52,7 @@ function getBaselineStars() {
   }
 }
 
+/** 写入星星快照 */
 function setBaselineStars(stars) {
   const profile = ensureProfileBag(getAppSafe())
   if (profile) profile.stars = stars
@@ -86,6 +90,7 @@ function setLocalStars(stars) {
   setBaselineStars(stars)
 }
 
+/** 已兑换贴纸 */
 function getOwnedStickers() {
   const app = getAppSafe()
   const profile = (app && app.globalData && app.globalData.profile) || {}
@@ -100,6 +105,7 @@ function getOwnedStickers() {
   }
 }
 
+/** 写入已兑贴纸 */
 function setOwnedStickers(stickers) {
   const profile = ensureProfileBag(getAppSafe())
   if (profile) profile.stickers = stickers.slice()
@@ -130,6 +136,7 @@ function applyStarsResetAt(resetAt) {
   }
 }
 
+/** 应用云端档案 */
 function applyProfile(profile) {
   if (!profile || typeof profile !== 'object') return
   applyStarsResetAt(profile.starsResetAt)
@@ -169,6 +176,7 @@ async function syncFromCloud({ skipProfile } = {}) {
   return refreshProfile()
 }
 
+/** 拉取并应用档案 */
 async function refreshProfile() {
   const { ok, data } = await cloud.call('getProfile')
   if (!ok || !data) return getLocalStars()
@@ -189,6 +197,7 @@ function ensureSession(appInstance) {
   return sessionPromise
 }
 
+/** 执行建档同步 */
 async function runEnsureSession(appInstance) {
   try {
     let appliedLoginProfile = false
@@ -258,6 +267,7 @@ async function addStars({ delta, reason, ref, clientId, fromQueue }) {
   return { ok: true, stars: getLocalStars(), clientId: id, duplicated: !!data.duplicated }
 }
 
+/** 兑换贴纸 */
 async function exchangeReward(rewardId) {
   const { ok, data, error } = await cloud.call('exchangeReward', { rewardId })
   if (!ok) {
@@ -291,6 +301,7 @@ async function clearAllStickers() {
   return { ok }
 }
 
+/** 记一条每日任务 */
 async function checkinTask(taskId) {
   const result = await cloud.call('checkinTask', { taskId })
   if (result.ok && !flushing && retryQueue.size() > 0) {
@@ -299,6 +310,7 @@ async function checkinTask(taskId) {
   return result
 }
 
+/** 冲刷重试队列 */
 async function flushRetryQueue() {
   if (flushing) return
   const pending = retryQueue.peekAll()

@@ -1,0 +1,119 @@
+module.exports = {
+  "categories": [
+    {
+      "id": "color",
+      "title": "颜色",
+      "items": [
+        {
+          "word": "black",
+          "phonetic": "/blæk/",
+          "meaning": "黑色",
+          "sentence": "It's black.",
+          "image": "english-color-black",
+          "audio": "/subpkg/english-color/static/audio/black.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/black-sentence.mp3"
+        },
+        {
+          "word": "blue",
+          "phonetic": "/bluː/",
+          "meaning": "蓝色",
+          "sentence": "It's blue.",
+          "image": "english-color-blue",
+          "audio": "/subpkg/english-color/static/audio/blue.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/blue-sentence.mp3"
+        },
+        {
+          "word": "brown",
+          "phonetic": "/braʊn/",
+          "meaning": "棕色",
+          "sentence": "It's brown.",
+          "image": "english-color-brown",
+          "audio": "/subpkg/english-color/static/audio/brown.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/brown-sentence.mp3"
+        },
+        {
+          "word": "gold",
+          "phonetic": "/ɡəʊld/",
+          "meaning": "金色",
+          "sentence": "It's gold.",
+          "image": "english-color-gold",
+          "audio": "/subpkg/english-color/static/audio/gold.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/gold-sentence.mp3"
+        },
+        {
+          "word": "gray",
+          "phonetic": "/ɡreɪ/",
+          "meaning": "灰色",
+          "sentence": "It's gray.",
+          "image": "english-color-gray",
+          "audio": "/subpkg/english-color/static/audio/gray.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/gray-sentence.mp3"
+        },
+        {
+          "word": "green",
+          "phonetic": "/ɡriːn/",
+          "meaning": "绿色",
+          "sentence": "It's green.",
+          "image": "english-color-green",
+          "audio": "/subpkg/english-color/static/audio/green.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/green-sentence.mp3"
+        },
+        {
+          "word": "orange",
+          "phonetic": "/ˈɒrɪndʒ/",
+          "meaning": "橙色",
+          "sentence": "It's orange.",
+          "image": "english-color-orange",
+          "audio": "/subpkg/english-color/static/audio/orange-color.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/orange-color-sentence.mp3",
+          "audioKey": "orange-color"
+        },
+        {
+          "word": "pink",
+          "phonetic": "/pɪŋk/",
+          "meaning": "粉色",
+          "sentence": "It's pink.",
+          "image": "english-color-pink",
+          "audio": "/subpkg/english-color/static/audio/pink.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/pink-sentence.mp3"
+        },
+        {
+          "word": "purple",
+          "phonetic": "/ˈpɜːpl/",
+          "meaning": "紫色",
+          "sentence": "It's purple.",
+          "image": "english-color-purple",
+          "audio": "/subpkg/english-color/static/audio/purple.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/purple-sentence.mp3"
+        },
+        {
+          "word": "red",
+          "phonetic": "/red/",
+          "meaning": "红色",
+          "sentence": "It's red.",
+          "image": "english-color-red",
+          "audio": "/subpkg/english-color/static/audio/red.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/red-sentence.mp3"
+        },
+        {
+          "word": "white",
+          "phonetic": "/waɪt/",
+          "meaning": "白色",
+          "sentence": "It's white.",
+          "image": "english-color-white",
+          "audio": "/subpkg/english-color/static/audio/white.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/white-sentence.mp3"
+        },
+        {
+          "word": "yellow",
+          "phonetic": "/ˈjeləʊ/",
+          "meaning": "黄色",
+          "sentence": "It's yellow.",
+          "image": "english-color-yellow",
+          "audio": "/subpkg/english-color/static/audio/yellow.mp3",
+          "sentenceAudio": "/subpkg/english-color/static/audio/yellow-sentence.mp3"
+        }
+      ]
+    }
+  ]
+}

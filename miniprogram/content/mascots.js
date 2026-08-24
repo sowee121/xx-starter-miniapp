@@ -6,7 +6,7 @@ const SHARED_BASE = '/static/shared'
 
 /** 首页确认稿素材（上云） */
 const HOME_ASSETS = {
-  meadow: mediaUrl(`${SHARED_BASE}/meadow.png`),
+  meadow: mediaUrl(`${SHARED_BASE}/meadow.jpg`),
   avatar: mediaUrl(`${HOME_BASE}/avatar.png`),
   star: mediaUrl(`${HOME_BASE}/star.png`),
   daisy: mediaUrl(`${HOME_BASE}/daisy-sprig.png`),
@@ -39,13 +39,15 @@ const ICONS = {
   avatar: HOME_ASSETS.avatar,
   play: mediaUrl(`${SHARED_BASE}/play.png`),
   stop: mediaUrl(`${SHARED_BASE}/stop.png`),
+  check: mediaUrl(`${SHARED_BASE}/check.png`),
   bigStar: mediaUrl(`${SHARED_BASE}/big-star.png`),
 }
 
+/** 古诗封面图 */
 function poemCover(cover) {
   if (!cover) return HOME_ASSETS.rabbit
   if (cover.startsWith('/') || cover.startsWith('cloud://')) return mediaUrl(cover)
-  return mediaUrl(`/subpkg/poem/static/${cover}.png`)
+  return mediaUrl(`/subpkg/poem/static/${cover}.jpg`)
 }
 
 /** 八大板块 + 壳层入口 */
@@ -73,6 +75,7 @@ const MODULE_TINTS = {
   reward: 'rose',
 }
 
+/** 古诗缺封面时的回退图 */
 const POEM_ICONS = {
   'yong-e': HOME_ASSETS.rabbit,
   'jing-ye-si': HOME_ASSETS.rabbit,
@@ -80,11 +83,13 @@ const POEM_ICONS = {
   'chun-xiao': HOME_ASSETS.rabbit,
 }
 
+/** 古诗封面 */
 function poemIcon(poemId, cover) {
   if (cover) return poemCover(cover)
   return POEM_ICONS[poemId] || ICONS.poem
 }
 
+/** 模块底色 */
 function tintOf(moduleId) {
   return MODULE_TINTS[moduleId] || 'cream'
 }

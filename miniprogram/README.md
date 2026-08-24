@@ -15,22 +15,24 @@
 | 媒体开关 | `config/media.js` → `USE_CLOUD`（默认 `false`，走本地） |
 | 云环境 ID | `config/cloud.js` → `CLOUD_ENV` |
 | 设计 token | `styles/tokens.wxss`（与 H5 `docs/design/h5/css/tokens.css` 对齐） |
-| 每日任务 | `utils/daily-tasks.js`（`SCHEMA`、数量每天随机、日历打卡） |
+| 每日任务 | `utils/daily-tasks.js`（`SCHEMA = 8`、数量每天随机、日历打卡） |
 | 英语入口 | `subpkg/english/hub/hub`（字母表 / 单词） |
-| 字母表 | `subpkg/english-abc/list/list` |
+| 字母表 | `subpkg/english-abc/list/list`（点读发星 `reason: letter_done`） |
 | 点读 | `utils/audio.js` |
 | 主点读发星 | `utils/read-award.js` |
-| 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（合成文案：啊喔鹅衣乌迂） |
+| 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（合成文案：ㄚㄛㄜㄧㄨㄩ） |
 | 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --only alphabet`（字母名；Z=`zed`） |
 | 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/praise-sun`（主包） |
 | 列表媒体卡 | `components/media-card`（主包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |
-| 家长区 | `pages/parent/`（音量 + 长按清除） |
+| 其它主包组件 | `app-shell`、`custom-header`、`star-bar`、`big-button`、`home-feature-card`、`home-module-card` |
+| 家长区 | `pages/parent/`（首页欢迎卡进入；音量三档 + 长按 3 秒清除） |
 
 ## 常用命令
 
 - 云函数本地测试：`npm run test:cloud`
 - 小程序静态检查：`npm test`
-- 云函数部署：`cloud:deploy`（工具 CLI）或 `cloud:ci-deploy`（miniprogram-ci）
-- 云存储上传：`assets:upload`（tcb）或 `assets:ci-upload`（miniprogram-ci）
+- 本地预编译（去注释、压缩 JS）：`npm run build` → `.ci-output/miniprogram`
+- 云函数部署：`npm run cloud:deploy`（工具 CLI）或 `npm run cloud:ci-deploy`（miniprogram-ci）
+- 云存储上传：`npm run assets:upload`（tcb）或 `npm run assets:ci-upload`（miniprogram-ci）
 - 小程序上传：`npm run mp:upload`（默认 `1.0.0` / `upload: <时间>`；可 `-- 1.0.1 '备注'`）

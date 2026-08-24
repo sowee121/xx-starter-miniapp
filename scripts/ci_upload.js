@@ -22,6 +22,7 @@ const {
   onProgressUpdate,
 } = require('./ci_lib')
 
+/** 解析命令行参数 */
 function parseArgs(argv) {
   let version
   let desc
@@ -62,6 +63,7 @@ function parseArgs(argv) {
   }
 }
 
+/** 云函数入口 */
 async function main() {
   const { version, desc } = parseArgs(process.argv.slice(2))
   if (!version) {

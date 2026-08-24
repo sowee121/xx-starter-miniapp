@@ -4,6 +4,7 @@
  */
 const { CLOUD_ENV } = require('../config/cloud')
 
+/** 压缩云错误信息 */
 function summarizeError(err) {
   if (err == null) return err
   if (typeof err === 'string') return err
@@ -13,6 +14,7 @@ function summarizeError(err) {
   }
 }
 
+/** 调用云函数 */
 function call(name, data = {}) {
   return new Promise((resolve) => {
     if (!wx.cloud || !CLOUD_ENV) {

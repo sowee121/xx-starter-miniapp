@@ -11,12 +11,6 @@
   align-items: center;
   gap: var(--gap-card);
 }
-
-.volume-option,
-.clear-label {
-  letter-spacing: var(--letter-btn);
-}
-
 .setting-head__title {
   font-size: var(--font-title);
 }
@@ -28,19 +22,19 @@
 .volume-options {
   position: relative;
   display: flex;
-  padding: 10rpx;
-  border-radius: 999rpx;
+  padding: var(--gap-snug);
+  border-radius: var(--radius-pill);
   background: rgba(116, 151, 126, 0.12);
   box-shadow: inset 0 4rpx 10rpx rgba(91, 123, 93, 0.1);
 }
 
 .volume-thumb {
   position: absolute;
-  top: 10rpx;
-  bottom: 10rpx;
-  width: calc((100% - 20rpx) / 3);
-  border-radius: 999rpx;
-  background-color: #77b07c;
+  top: var(--gap-snug);
+  bottom: var(--gap-snug);
+  width: calc((100% - var(--gap-snug) * 2) / 3);
+  border-radius: var(--radius-pill);
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
   transition: left 120ms ease-out;
@@ -52,7 +46,7 @@
   justify-content: center;
   height: 96rpx;
   flex: 1;
-  border-radius: 999rpx;
+  border-radius: var(--radius-pill);
   background: transparent;
   color: var(--ink);
   font-size: var(--font-hint);
@@ -71,9 +65,9 @@
 }
 
 .clear-icon {
-  width: 112rpx;
-  height: 112rpx;
-  flex: 0 0 112rpx;
+  width: var(--size-slot);
+  height: var(--size-slot);
+  flex: 0 0 var(--size-slot);
 }
 
 .clear-groove {
@@ -81,9 +75,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 112rpx;
+  height: var(--size-slot);
   overflow: hidden;
-  border-radius: 999rpx;
+  border-radius: var(--radius-pill);
   box-sizing: border-box;
   color: #fff;
   background: linear-gradient(180deg, #e0a4b4, #c88698);
@@ -95,7 +89,7 @@
 }
 
 .clear-groove.is-matcha {
-  background-color: #77b07c;
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
@@ -116,27 +110,27 @@
   position: absolute;
   left: 0;
   top: 0;
+  right: 0;
   bottom: 0;
-  width: 0;
-  border-radius: inherit;
+  width: 100%;
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.24);
-  will-change: width;
-  transition: width 160ms ease-out;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .clear-groove__bar.is-filling {
-  width: 100%;
-  transition: none;
-  animation: clear-groove-fill 3s linear forwards;
+  animation: clear-groove-fill 2.8s linear forwards;
 }
 
 @keyframes clear-groove-fill {
   from {
-    width: 0;
+    transform: scaleX(0);
   }
 
   to {
-    width: 100%;
+    transform: scaleX(1);
   }
 }
 

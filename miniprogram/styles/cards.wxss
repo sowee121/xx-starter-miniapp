@@ -52,7 +52,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(148, 170, 152, 0.2),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-matcha {
@@ -60,7 +60,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(152, 186, 122, 0.26),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-sky {
@@ -68,7 +68,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(136, 174, 204, 0.24),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-butter {
@@ -76,7 +76,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(206, 178, 108, 0.24),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-peach {
@@ -84,7 +84,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(206, 158, 142, 0.22),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-mint {
@@ -92,7 +92,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(126, 178, 156, 0.24),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-lilac {
@@ -100,7 +100,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(160, 142, 198, 0.22),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-apricot {
@@ -108,7 +108,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(210, 164, 112, 0.24),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-rose {
@@ -116,18 +116,14 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(206, 148, 170, 0.28),
-    var(--shadow);
+    var(--shadow-lift);
 }
 
 .tone-night {
   background:
     radial-gradient(circle at 20% 12%, rgba(150, 164, 224, 0.24), transparent 34%),
     linear-gradient(180deg, #424a78 0%, #29345f 52%, #202a4d 100%);
-  box-shadow:
-    inset 0 5rpx 10rpx rgba(255, 255, 255, 0.18),
-    inset 0 -14rpx 24rpx rgba(12, 18, 46, 0.28),
-    0 12rpx 24rpx rgba(42, 49, 91, 0.2),
-    0 24rpx 44rpx rgba(42, 49, 91, 0.16);
+  box-shadow: var(--shadow-clay-night);
 }
 
 .chip,
@@ -138,25 +134,24 @@
   justify-content: center;
   border: 0;
   font-weight: 700;
-  letter-spacing: var(--letter-btn);
   color: #ffffff;
   border-radius: var(--radius-pill);
-  background-color: #77b07c;
+  background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
   box-sizing: border-box;
 }
 
 .chip {
-  width: 200rpx;
-  height: 100rpx;
+  width: var(--size-chip-wide);
+  height: var(--size-chip-lg);
   font-size: var(--font-hint);
 }
 
 .chip.is-compact {
-  min-width: 168rpx;
+  min-width: var(--size-chip-min);
   width: auto;
-  height: 88rpx;
+  height: var(--size-chip);
   font-size: var(--font-hint);
   border-radius: var(--radius-pill);
   white-space: nowrap;
@@ -166,9 +161,7 @@
   font-weight: 800;
   background: rgba(255, 253, 247, 0.88);
   color: var(--muted);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -4rpx -5rpx 10rpx rgba(198, 182, 146, 0.16);
+  box-shadow: var(--shadow-clay);
 }
 
 .chip.is-short {
@@ -199,7 +192,7 @@
 
 .big-btn {
   width: 100%;
-  height: 136rpx;
+  height: var(--size-btn);
   font-size: var(--font-card);
   gap: var(--gap-soft);
 }
@@ -223,20 +216,20 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: var(--trail-gap);
+  gap: var(--gap-trail);
   box-sizing: border-box;
 }
 
 .trail-nav.is-step {
   justify-content: stretch;
-  gap: var(--gap-pair);
+  gap: var(--gap-block);
 }
 
 .trail-nav.is-step .trail-nav__item {
   flex: 1;
   width: auto;
   min-width: 0;
-  height: 112rpx;
+  height: var(--size-trail-bar);
   border-radius: var(--radius-pill);
   /* 跟组词 / 诗行 / 例句同一套奶油黏土面，不要石子径冷灰绿 */
   background: var(--tone-cream);
@@ -244,41 +237,22 @@
 }
 
 .trail-nav.is-step .trail-nav__arrow {
-  width: 88rpx;
-  height: 88rpx;
-}
-
-/* 切题钮贴底固定，不与行内提示抢文档流 */
-.trail-nav.is-dock {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: calc(156rpx + env(safe-area-inset-bottom));
-  z-index: 12;
-  padding: 0 var(--page-pad-x);
-  pointer-events: none;
-}
-
-.trail-nav.is-dock .trail-nav__item {
-  pointer-events: auto;
-}
-
-.detail-stack.is-docked {
-  padding-bottom: calc(220rpx + env(safe-area-inset-bottom));
+  width: var(--size-arrow);
+  height: var(--size-arrow);
 }
 
 .trail-nav__item {
   position: relative;
   display: grid;
   place-items: center;
-  width: var(--trail-size);
-  height: var(--trail-size);
+  width: var(--size-trail);
+  height: var(--size-trail);
   /* 单字默认正圆 */
-  border-radius: 999rpx;
+  border-radius: var(--radius-pill);
   border: 0;
-  background: var(--trail-face);
+  background: var(--tone-trail);
   box-shadow: var(--shadow-trail);
-  font-size: var(--trail-font);
+  font-size: var(--font-trail);
   font-weight: 700;
   line-height: 1;
   color: var(--ink);
@@ -341,9 +315,9 @@
   color: var(--muted);
 }
 
-/* 分组：标题与卡片列表统一用页内卡片间距 */
+/* 列表分组：标题与同类卡片用网格间距 30 */
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-block);
+  gap: var(--gap-grid);
 }

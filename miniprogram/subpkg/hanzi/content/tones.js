@@ -10,6 +10,7 @@ const TONE_MAP = {
   transport: 'peach',
 }
 
+/** 分类对应色调 */
 function toneOf(catId) {
   return TONE_MAP[catId] || 'cream'
 }

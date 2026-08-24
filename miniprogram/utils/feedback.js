@@ -3,6 +3,7 @@ const { LAYERS, INLINE } = require('../content/feedback')
 
 const LAYER_TRANSITION = 250
 
+/** 规范化行内提示结构 */
 function resolveInline(input) {
   if (input && typeof input === 'object' && input.text) {
     return input
@@ -13,6 +14,7 @@ function resolveInline(input) {
   return { text: '', audio: null }
 }
 
+/** 播放反馈语音 */
 function playVoice(src, onEnded) {
   if (!src) return
   const audio = require('./audio')
@@ -22,6 +24,7 @@ function playVoice(src, onEnded) {
   })
 }
 
+/** 预加载对错语音 */
 function preloadVoiceAudio() {
   try {
     require('./audio').ensureAudioOption()
@@ -30,20 +33,25 @@ function preloadVoiceAudio() {
   }
 }
 
+/** 弹出表扬层 */
 function showLayer(page, payload) {
-  if (!page) return
+  if (!page || typeof page.setData !== 'function' || !payload) return
   clearTimeout(page._feedbackTimer)
-  page.setData({
-    feedback: {
-      show: true,
-      closing: false,
-      variant: payload.variant,
-      title: payload.title,
-      desc: payload.desc,
-      image: payload.image || '',
-      action: payload.action || '',
-    },
-  })
+  try {
+    page.setData({
+      feedback: {
+        show: true,
+        closing: false,
+        variant: payload.variant,
+        title: payload.title,
+        desc: payload.desc,
+        image: payload.image || '',
+        action: payload.action || '',
+      },
+    })
+  } catch (error) {
+    // 页面已销毁
+  }
 }
 
 /** L1：单条每日任务首次发星 */
@@ -58,10 +66,15 @@ function showTaskAward(page, result) {
   })
 }
 
+/** 关闭表扬层 */
 function hideLayer(page) {
-  if (!page) return
+  if (!page || typeof page.setData !== 'function') return
   clearTimeout(page._feedbackTimer)
-  page.setData({ 'feedback.closing': true })
+  try {
+    page.setData({ 'feedback.closing': true })
+  } catch (error) {
+    return
+  }
   // 留句柄给下一次 show/hide 取消；页面已卸载时 setData 会抛，吞掉即可
   page._feedbackTimer = setTimeout(() => {
     page._feedbackTimer = null
@@ -73,20 +86,31 @@ function hideLayer(page) {
   }, LAYER_TRANSITION)
 }
 
+/** 展示行内软提示 */
 function showInline(page, input) {
-  if (!page) return
+  if (!page || typeof page.setData !== 'function') return
   const { text, audio, tone } = resolveInline(input)
-  page.setData({
-    softNote: text,
-    softNoteTone: tone || 'tone-butter',
-  })
+  try {
+    page.setData({
+      softNote: text,
+      softNoteTone: tone || 'tone-butter',
+    })
+  } catch (error) {
+    return
+  }
   if (audio) {
     playVoice(audio)
   }
 }
 
+/** 清空行内软提示 */
 function clearInline(page) {
-  if (page) page.setData({ softNote: '', softNoteTone: 'tone-butter' })
+  if (!page || typeof page.setData !== 'function') return
+  try {
+    page.setData({ softNote: '', softNoteTone: 'tone-butter' })
+  } catch (error) {
+    // 页面已销毁
+  }
 }
 
 /**

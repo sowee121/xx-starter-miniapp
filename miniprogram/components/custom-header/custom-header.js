@@ -30,6 +30,7 @@ Component({
   },
 
   methods: {
+    /** 点标题回首页 */
     onHome() {
       this.triggerEvent('home')
     },

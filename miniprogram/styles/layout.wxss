@@ -1,18 +1,27 @@
 /* 布局原子：页面与组件均可使用 */
 
-.page-list,
-.detail-stack,
-.parent-stack {
+.page-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-grid);
+}
+
+.detail-stack {
   display: flex;
   flex-direction: column;
   gap: var(--gap-block);
 }
 
+.parent-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-grid);
+}
+
 .media-main__body,
 .home-welcome__body,
 .home-feature-card__body,
-.setting-head__body,
-.task-row__body {
+.setting-head__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,12 +30,13 @@
   min-width: 0;
 }
 
-.home-welcome__body {
-  gap: var(--gap-snug);
-}
-
 .task-row__body {
-  gap: var(--gap-tight);
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
 }
 
 .media-main__sub,
@@ -66,8 +76,8 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750rpx;
-  height: 390rpx;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   display: block;
   pointer-events: none;
   -webkit-mask-image: linear-gradient(
@@ -92,8 +102,8 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750rpx;
-  height: 390rpx;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   pointer-events: none;
   background: linear-gradient(
     180deg,
@@ -108,8 +118,8 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: 750rpx;
-  height: 390rpx;
+  width: var(--size-canvas);
+  height: var(--size-meadow);
   opacity: 0;
   pointer-events: none;
   background: linear-gradient(180deg, rgba(94, 110, 145, 0.08) 0%, rgba(58, 72, 112, 0.52) 100%);

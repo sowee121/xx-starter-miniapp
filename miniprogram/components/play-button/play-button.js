@@ -21,6 +21,7 @@ Component({
     playIcon: ICONS.play,
   },
   observers: {
+    /** 播放态变化 */
     playing(playing) {
       this.setData({
         playIcon: playing ? ICONS.stop : ICONS.play,
@@ -28,6 +29,7 @@ Component({
     },
   },
   methods: {
+    /** 点击播放钮 */
     onTap() {
       if (this.data.passive) return
       this.triggerEvent('tap', { index: this.data.index })

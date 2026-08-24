@@ -129,6 +129,7 @@ node scripts/ci_upload_storage.js subpkg
 
 ```text
 改代码 → npm run test:cloud && npm test
+      → npm run build                    # 可选：本地去注释、压 JS，看体积
       →（如有函数变更）npm run cloud:ci-deploy
       →（如有媒体变更）npm run assets:ci-upload   # 或 assets:upload
       → npm run mp:upload
@@ -147,7 +148,7 @@ node scripts/ci_upload_storage.js subpkg
 
 | 能力 | API | 建议用法 |
 | --- | --- | --- |
-| **sourceMap** | `ci.getDevSourceMap` | 体验版 / 开发版报错时，按 `robot` 拉最近上传的 map，解压对照堆栈；可加 `npm run mp:sourcemap` |
+| **sourceMap** | `ci.getDevSourceMap` | 体验版 / 开发版报错时，按 `robot` 拉最近上传的 map，解压对照堆栈。**尚未封装** `npm run` 脚本，需要时再加 |
 | **代理** | `ci.proxy(url)` 或 `HTTPS_PROXY` | CI/公司网出现 `tunneling socket` / `403` 时配置；本机直连一般不用 |
 
 ### 3.2 中 / 低优先级

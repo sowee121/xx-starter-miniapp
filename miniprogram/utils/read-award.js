@@ -3,6 +3,7 @@ const stars = require('./stars')
 const feedback = require('./feedback')
 const { INLINE } = require('../content/feedback')
 
+/** 把播放中标记收回 */
 function clearLongPlaying(page) {
   if (!page) return
   page._longPlayGate = false
@@ -17,6 +18,7 @@ function resetLongPlay(page) {
   clearLongPlaying(page)
 }
 
+/** 绑定长播停止监听 */
 function attachLongPlay(page) {
   if (!page || page._unwatchStop) return
   page._unwatchStop = audioUtil.watchStop(() => {
@@ -24,6 +26,7 @@ function attachLongPlay(page) {
   })
 }
 
+/** 解绑并停止长播 */
 function detachLongPlay(page) {
   if (page && page._unwatchStop) {
     page._unwatchStop()
@@ -45,6 +48,7 @@ function playPreview(page, src) {
   audioUtil.play(src, { onError: feedback.audioFallback(page) })
 }
 
+/** 记每日任务并加星 */
 function awardPrimary(page, { taskId, unitKey, reason, ref }) {
   const { trackDaily } = require('./daily-tasks')
   const result = trackDaily(taskId, unitKey)
