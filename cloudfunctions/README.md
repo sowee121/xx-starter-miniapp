@@ -157,7 +157,7 @@ node scripts/ci_deploy_cloud_functions.js login getProfile
 
 | 步骤 | 做法 |
 | --- | --- |
-| 部署 | `npm run cloud:deploy`（工具 CLI）或 `npm run cloud:ci-deploy`（miniprogram-ci） |
+| 部署 | 改完即部署：`npm run cloud:deploy -- <函数名>`；失败再 `cloud:ci-deploy` |
 | 建表 | 提醒用户在 Console 调 `initDb` / `getProfile`，或引导手动云端测试 |
 | 本地测试 | `cloud:deploy` / `cloud:ci-deploy` 会先自动跑 `npm run test:cloud` |
 | 文档与 skill | `.cursor/skills/miniprogram-development`、`cloud-functions`、`cloudbase-cli` |

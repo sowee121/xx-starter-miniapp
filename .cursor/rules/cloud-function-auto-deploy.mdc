@@ -1,0 +1,23 @@
+---
+description: 改了云函数必须立刻部署，不用等用户再说一次
+alwaysApply: true
+---
+
+# 云函数改完即部署
+
+改了 `cloudfunctions/` 里的源码（`index.js` / `package.json` / 同目录依赖），**同一轮必须部署**，不要只改本地、让用户自己上传。
+
+## 必须
+
+1. 先 `npm run test:cloud`（`cloud:deploy` 已带 `precloud:deploy`）。
+2. **只部署改过的函数**，不要无故全量上传：
+   `npm run cloud:deploy -- addStars bumpHeat`
+3. 工具 CLI 失败（没开开发者工具 / 服务端口）时，改走 `npm run cloud:ci-deploy -- addStars`。
+4. 部署失败要说出来，禁止假装已经上云。
+5. 回复里写清部署了哪些函数。
+
+## 禁止
+
+- 改完云函数只留本地
+- 用「请手动右键上传」代替部署（仅当两条命令都失败时才说明原因）
+- 为了部署去改无关函数或清数据
