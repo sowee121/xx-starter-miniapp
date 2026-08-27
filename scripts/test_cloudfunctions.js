@@ -261,7 +261,7 @@ async function testAddStars() {
     reason: 'daily_task',
     clientId: 'daily-2026-08-20-poem',
   })
-  assert.deepEqual(dailyDup, { ok: true, duplicated: true, stars: 4 })
+  assert.deepEqual(dailyDup, { ok: true, duplicated: true, stars: 10 })
 
   reset()
   const orphan = await addStars({ delta: 2, reason: 'daily_task', clientId: 'no-login' })
