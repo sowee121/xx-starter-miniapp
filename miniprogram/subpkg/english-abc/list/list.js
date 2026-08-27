@@ -3,6 +3,7 @@ const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { toggleLongPlay, attachLongPlay, detachLongPlay } = require('../../../utils/read-award')
 const { goTo } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 Page({
   data: {
@@ -33,16 +34,16 @@ Page({
   },
 
   /** 打开下一页 */
-  open(e) {
+  open: tap(function (e) {
     const letter = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.letter
     if (!letter) return
     goTo(`/subpkg/english-abc/detail/detail?letter=${encodeURIComponent(letter)}`)
-  },
+  }),
 
   /** 播放或停止字母歌 */
-  toggleSong() {
+  toggleSong: tap(function () {
     toggleLongPlay(this, { src: this.data.songSrc })
-  },
+  }),
 
   onHide() {
     detachLongPlay(this)

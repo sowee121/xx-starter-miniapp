@@ -14,9 +14,9 @@
     <view wx:else class="album-hint">去兑换小动物吧</view>
   </view>
 
-  <view wx:if="{{shop.length}}" class="section">
+  <view class="section">
     <view class="section-title">去兑换</view>
-    <view class="sticker-grid">
+    <view wx:if="{{shop.length}}" class="sticker-grid">
       <view
         wx:for="{{shop}}"
         wx:key="id"
@@ -37,6 +37,7 @@
         >{{item.affordable ? '兑换' : '星星不足'}}</view>
       </view>
     </view>
+    <view wx:else class="album-hint">全部集齐啦～</view>
   </view>
 
   <praise-sun

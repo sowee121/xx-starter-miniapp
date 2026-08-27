@@ -1,4 +1,5 @@
 const { ICONS } = require('../../content/mascots')
+const { tap } = require('../../utils/tap-guard')
 
 Component({
   options: {
@@ -8,7 +9,7 @@ Component({
   properties: {
     /** 尺寸：默认 92 / sm 76 / lg 112（rpx） */
     size: { type: String, value: '' },
-    /** 收紧热区，贴齐卡片内边，用于诗行 / 组词两端对齐 */
+    /** 收成小号圆钮，用于诗行 / 组词 */
     compact: { type: Boolean, value: false },
     /** 仅展示、不拦截点击，列表装饰钮用 */
     passive: { type: Boolean, value: false },
@@ -30,9 +31,9 @@ Component({
   },
   methods: {
     /** 点击播放钮 */
-    onTap() {
+    onTap: tap(function () {
       if (this.data.passive) return
       this.triggerEvent('tap', { index: this.data.index })
-    },
+    }),
   },
 })

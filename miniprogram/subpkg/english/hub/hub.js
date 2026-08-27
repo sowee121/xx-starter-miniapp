@@ -1,6 +1,7 @@
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { goTo } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 Page({
   data: {
@@ -14,12 +15,12 @@ Page({
   },
 
   /** 打开下一页 */
-  open(e) {
+  open: tap(function (e) {
     const to = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.to
     if (to === 'alphabet') {
       goTo('/subpkg/english-abc/list/list')
       return
     }
     goTo('/subpkg/english/list/list')
-  },
+  }),
 })

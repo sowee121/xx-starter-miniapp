@@ -1,3 +1,5 @@
+const { tap } = require('../../utils/tap-guard')
+
 Component({
   options: {
     styleIsolation: 'apply-shared',
@@ -10,14 +12,14 @@ Component({
   },
   methods: {
     /** 触发上一题 */
-    onPrev() {
+    onPrev: tap(function () {
       if (!this.data.hasPrev) return
       this.triggerEvent('prev')
-    },
+    }),
     /** 触发下一题 */
-    onNext() {
+    onNext: tap(function () {
       if (!this.data.hasNext) return
       this.triggerEvent('next')
-    },
+    }),
   },
 })

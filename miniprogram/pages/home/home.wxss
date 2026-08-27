@@ -20,17 +20,17 @@
   gap: var(--gap-grid);
   min-height: 100%;
   box-sizing: border-box;
-  padding-left: var(--pad-page-x);
-  padding-right: var(--pad-page-x);
-  padding-bottom: var(--pad-page-b);
-  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
+  padding-left: var(--pad-page);
+  padding-right: var(--pad-page);
+  padding-bottom: var(--pad-page);
+  padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
 
 .home-welcome {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-card);
+  gap: var(--pad-card);
   height: 144rpx;
   padding: 16rpx var(--pad-card);
   overflow: visible;

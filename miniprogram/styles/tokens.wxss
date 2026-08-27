@@ -25,39 +25,33 @@ page {
   --radius-pill: 999rpx; /* 胶囊：chip、星条、气泡、标签 */
 
   /* —— 尺寸 —— */
-  --size-header: 88rpx; /* 自定义导航栏高 / 回首页钮边长 */
-  --size-chip: 88rpx; /* 绿胶囊紧凑高度（去兑换 / 兑换） */
+  --size-header: 88rpx; /* 导航栏高、回首页钮、绿胶囊紧凑高 */
   --size-chip-lg: 100rpx; /* 绿胶囊默认高度 */
   --size-chip-wide: 200rpx; /* 绿胶囊默认宽度 */
   --size-chip-min: 168rpx; /* 绿胶囊紧凑最小宽 */
-  --size-btn: 112rpx; /* 通栏长条按钮高（打卡） */
   --size-arrow: 100rpx; /* 切题导航箭头图 */
   --size-canvas: 750rpx; /* 设计画板宽 */
   --size-canvas-min: 1624rpx; /* 设计画板最小高 */
   --size-meadow: 390rpx; /* 页底草地高 */
-  --size-praise: calc(100% - var(--pad-page-x) * 2); /* 表扬弹层卡片宽，左右各留页边 */
+  --size-praise: calc(100% - var(--pad-page) * 2); /* 表扬弹层卡片宽，左右各留页边 */
   --size-praise-min: 760rpx; /* 表扬弹层卡片最小高 */
   --size-praise-icon: 288rpx; /* 表扬弹层主图 */
-  --size-feature: 196rpx; /* 首页通栏功能卡高 */
-  --size-mascot: 172rpx; /* 首页通栏吉祥物 */
-  --size-slot: 112rpx; /* 清除槽 / 音量档 / 清除图标 */
-  --size-trail-bar: 112rpx; /* 切题条高度 */
+  --size-slot: 112rpx; /* 通栏钮 / 清除槽 / 音量档 / 切题条 / 大号播放 */
+  --size-mascot: 168rpx; /* 首页通栏吉祥物 / 模块卡吉祥物 / 商城贴纸大图 */
   --size-word: 210rpx; /* 英语/识字列表字卡高 */
   --size-word-thumb: 88rpx; /* 字卡缩略图 */
   --size-play: 92rpx; /* 播放圆钮默认边长 */
-  --size-play-lg: 112rpx; /* 播放圆钮大号 */
   --size-play-sm: 76rpx; /* 播放圆钮小号 */
   --size-play-icon: 44rpx; /* 播放 / 停止图标默认 */
   --size-play-icon-lg: 54rpx; /* 播放图标大号 */
   --size-play-icon-sm: 36rpx; /* 播放图标小号 */
   --size-star-bar: 64rpx; /* 积分星条高度 */
   --size-star: 48rpx; /* 星星图标边长 */
-  --size-heat-cell: 56rpx; /* 热力小方块边长 */
   --size-media-row: 180rpx; /* 古诗等媒体列表行高 */
   --size-media-thumb: 132rpx; /* 媒体列表缩略图边长 */
   --size-trail: 96rpx; /* 拼音石子径单字圆面 */
-  --size-tap: 152rpx; /* 默认点击热区 */
-  --size-tap-compact: 128rpx; /* 紧凑热区 / 选项高度 */
+  --size-tap-compact: 128rpx; /* 选项高度 */
+
 
   /* —— 石子径（拼音字母圆面） —— */
   --font-trail: 56rpx; /* 石子径字母字号 */
@@ -100,11 +94,10 @@ page {
     var(--shadow-clay-lo),
     0 16rpx 32rpx rgba(96, 122, 96, 0.36),
     0 36rpx 64rpx rgba(96, 122, 96, 0.3);
-  --shadow-chip: /* 绿钮鼓边（与卡片同套对角，压暗偏绿） */
+  --shadow-chip: /* 绿钮 / 播放圆钮鼓边（与卡片同套对角，压暗偏绿） */
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(78, 128, 84, 0.3),
     var(--shadow-lift);
-  --shadow-play: var(--shadow-chip); /* 播放圆钮，同绿钮鼓边 */
   --shadow-socket: /* 首页星槽空槽（凹） */
     inset 6rpx 6rpx 11rpx rgba(104, 136, 102, 0.22),
     inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.14);
@@ -113,8 +106,7 @@ page {
     inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.16);
 
   /* —— 填充 / 色面 —— */
-  --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA 面 */
-  --btn-play: var(--btn-green); /* 播放圆钮面 */
+  --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA / 播放圆钮面 */
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
@@ -139,8 +131,7 @@ page {
   --font-note: 42rpx; /* 软提示、伙伴气泡 */
   --font-line: 44rpx; /* 诗行、组词、例句 */
   --font-inner: 46rpx; /* 详情内页大标题 */
-  --font-hero: 48rpx; /* 古诗封面题名 */
-  --font-date: 48rpx; /* 日历日期 */
+  --font-hero: 48rpx; /* 古诗封面题名、日历日期 */
   --font-display: 58rpx; /* 选项数字、字卡 */
   --letter-btn: 2rpx; /* 全站字距；所有文字继承 */
   --font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif; /* 有圆体用圆体，否则苹方 */
@@ -153,17 +144,15 @@ page {
   --gap-soft: 18rpx; /* 绿钮内、表扬卡内 */
   --gap-trail: 22rpx; /* 拼音石子径圆面间距 */
   --gap-inset: 24rpx; /* 导航内、字卡内 */
-  --gap-card: 28rpx; /* 题头内、设置头 */
   --gap-grid: 30rpx; /* 列表卡片、两列/三列网格 */
   --gap-block: 38rpx; /* 详情主卡到选项等积木间距 */
 
   /* —— 内边距 —— */
   --pad-card-sm: 20rpx; /* 小卡、双入口 */
-  --pad-card: 28rpx; /* 标准卡 */
+  --pad-card: 28rpx; /* 标准卡内边距；题头/设置头内间距 */
   --pad-card-lg: 36rpx; /* 设置卡、题头左右 */
   --pad-card-xl: 56rpx; /* 详情主卡、题头上下 */
-  --pad-page-x: 30rpx; /* 页左右安全边 */
-  --pad-page-b: 30rpx; /* 页底基础边距（无 Home 条也要留空） */
+  --pad-page: 30rpx; /* 页左右 / 页底安全边 */
 
   /* —— 栅格 —— */
   --col-2: calc((100% - var(--gap-grid)) / 2); /* 首页两列 */

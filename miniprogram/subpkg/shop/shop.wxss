@@ -26,8 +26,8 @@
 }
 
 .sticker-card__image {
-  width: 168rpx;
-  height: 168rpx;
+  width: var(--size-mascot);
+  height: var(--size-mascot);
   align-self: center;
   border-radius: var(--radius-thumb);
 }

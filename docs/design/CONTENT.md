@@ -7,6 +7,7 @@
 > 2026-08-22 增量：英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 §2.4）。
 > 2026-08-24 增量：字母点读发星 `reason: letter_done` 已写入云函数 `addStars` 白名单并完成部署。
 > 2026-08-24 增量：点读/反馈音频的音色与语速定稿见 §2.10（晓晓 / Emma / Jenny / 晓辰；词句 `-30%`，拼音与字母名 `-10%`）。
+> 2026-08-27 增量：设计 token 收拢语义化，播放钮 token 由 `--btn-play`/`--shadow-play` 统一为 `--btn-green`/`--shadow-chip`，新增 `--size-mascot: 168`（吉祥物/贴纸大图），详见 §3「设计 token」。
 
 ---
 
@@ -214,7 +215,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 - **素材纪律**（详见 PLAN §2.1.2、`.cursor/rules/image-asset-generation.mdc`）：
   - 能 CSS 解决的不生图；定稿原子默认只读；未明确要求禁止调生图工具
   - 必须生图时先按 **`frontend-design`** skill，再原子→去背→归档→合成
-  - **播放钮**：绿底 `--btn-play` + 鼓边 `--shadow-play` + 奶油小三角 `play.png`；禁止整钮合成图；三角按视觉重心铺在画布正中，与停止方块一样上下左右居中，不再用 CSS 位移
+  - **播放钮**：绿底 `--btn-green` + 鼓边 `--shadow-chip` + 奶油小三角 `play.png`；禁止整钮合成图；三角按视觉重心铺在画布正中，与停止方块一样上下左右居中，不再用 CSS 位移
   - **播放 / 停止**：所有圆形播放钮播放中换成奶油黏土方块 `stop.png`（同材质同体量）；停止、播完、离开页面或小程序中断后都恢复三角
 - 列表媒体缩略图统一 **`--radius-thumb: 28`**（与卡内插图同档）；古诗封面统一为 4:3 横版黏土棚拍（左动物右诗意），禁止浮岛底座与旧图混用
 - 背景：天空渐变 + 底部黏土草地实图（`meadow-hill`）；夜景用 CSS 罩层，不另出图
@@ -223,6 +224,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
   - 答题选中 `--tone-picked` / `--ring-picked`（蜜黄高亮）；答对 `--tone-ok` / `--ring-ok`（叶绿）
   - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；`--radius-cell: 16` 热力小方块；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
+  - **尺寸族**：`--size-mascot: 168`（首页通栏 / 模块卡吉祥物、商城贴纸大图）；`--size-slot: 112`（通栏钮、清除槽、音量档、切题条、大号播放共用）；`--size-header: 88`（导航高、回首页钮、绿胶囊紧凑高）；`--size-tap-compact: 128`（紧凑热区 / 选项高）；`--size-word: 210`（词/字卡高）；`--size-play: 92` / `--size-play-sm: 76`（播放圆钮）
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast
 - 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）

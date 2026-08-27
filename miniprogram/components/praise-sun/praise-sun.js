@@ -1,3 +1,5 @@
+const { tap } = require('../../utils/tap-guard')
+
 Component({
   options: {
     styleIsolation: 'apply-shared',
@@ -36,8 +38,8 @@ Component({
     /** 点卡片空白处：只拦住冒泡，不关弹层 */
     onCardTap() {},
     /** 点继续按钮或遮罩空白，关掉弹层 */
-    onContinue() {
+    onContinue: tap(function () {
       this.triggerEvent('continue')
-    },
+    }),
   },
 })

@@ -11,6 +11,7 @@ const audioUtil = require('../../../utils/audio')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 /** 补全古诗封面 */
 function mapPoem(raw) {
@@ -92,7 +93,7 @@ Page({
   },
 
   /** 点读一行诗 */
-  onLineTap(e) {
+  onLineTap: tap(function (e) {
     const detail = e.detail || {}
     const index = Number(
       Object.prototype.hasOwnProperty.call(detail, 'index')
@@ -103,15 +104,15 @@ Page({
     if (!line) return
     this.setData({ activeIndex: index })
     playPreview(this, line.audio)
-  },
+  }),
 
   /** 播放整首诗 */
-  onFullPlay() {
+  onFullPlay: tap(function () {
     const poem = this.data.poem
     if (!poem) return
     this.setData({ activeIndex: -1 })
     toggleLongPlay(this, { src: poem.fullAudio, award: this.data.fullAward })
-  },
+  }),
 
   /** 关闭表扬层 */
   closePraise() {

@@ -5,14 +5,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: var(--size-tap);
-  min-height: var(--size-tap-compact);
   box-sizing: border-box;
-}
-
-.play-btn-hit.is-flush {
-  min-width: 0;
-  min-height: 0;
 }
 
 .play-btn {
@@ -25,8 +18,8 @@
   overflow: hidden;
   border-radius: 50%;
   background-color: var(--btn-green-solid);
-  background-image: var(--btn-play);
-  box-shadow: var(--shadow-play);
+  background-image: var(--btn-green);
+  box-shadow: var(--shadow-chip);
 }
 
 .play-btn__icon {
@@ -37,8 +30,8 @@
 }
 
 .play-btn.is-lg {
-  width: var(--size-play-lg);
-  height: var(--size-play-lg);
+  width: var(--size-slot);
+  height: var(--size-slot);
 }
 
 .play-btn.is-lg .play-btn__icon {

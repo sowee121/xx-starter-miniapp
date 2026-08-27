@@ -4,6 +4,7 @@ const { HOME_ASSETS, ICONS } = require('../../content/mascots')
 const { getModule, homeModuleEntries } = require('../../content/modules')
 const dailyTasks = require('../../utils/daily-tasks')
 const { goTo } = require('../../utils/page')
+const { tap } = require('../../utils/tap-guard')
 
 Page({
   data: {
@@ -50,7 +51,7 @@ Page({
   },
 
   /** 打开家长区 */
-  onOpenParent() {
+  onOpenParent: tap(function () {
     goTo('/pages/parent/parent')
-  },
+  }),
 })

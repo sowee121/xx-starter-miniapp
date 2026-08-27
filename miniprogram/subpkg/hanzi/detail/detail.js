@@ -6,6 +6,7 @@ const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award'
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 /** 按字或分类定位词库 */
 function findCategory(char, catId) {
@@ -70,7 +71,7 @@ Page({
   },
 
   /** 立即播放一段音频 */
-  play(e) {
+  play: tap(function (e) {
     const item = this.data.item
     if (!item) return
 
@@ -88,7 +89,7 @@ Page({
       reason: 'char_done',
       ref: item.char,
     })
-  },
+  }),
 
   /** 关闭表扬层 */
   closePraise() {

@@ -1,4 +1,5 @@
 const { HOME_ASSETS } = require('../../content/mascots')
+const { tap } = require('../../utils/tap-guard')
 
 Component({
   options: {
@@ -42,13 +43,13 @@ Component({
   },
   methods: {
     /** 点击播放钮 */
-    onTap() {
+    onTap: tap(function () {
       this.triggerEvent('tap', {
         id: this.data.moduleId,
         url: this.data.url,
         title: this.data.title,
         type: this.data.type,
       })
-    },
+    }),
   },
 })

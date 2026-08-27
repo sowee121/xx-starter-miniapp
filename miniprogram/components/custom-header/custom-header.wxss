@@ -17,7 +17,7 @@
   align-items: center;
   gap: var(--gap-inset);
   box-sizing: border-box;
-  padding-left: var(--pad-page-x);
+  padding-left: var(--pad-page);
 }
 
 .custom-header__brand {

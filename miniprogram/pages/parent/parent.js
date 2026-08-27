@@ -4,10 +4,11 @@ const { mediaUrl } = require('../../config/media')
 const mascots = require('../../content/mascots')
 const progressUtil = require('../../utils/progress')
 const starsUtil = require('../../utils/stars')
+const { tap } = require('../../utils/tap-guard')
 
 const HOLD_MS = 3000
 const VOLUME_PREVIEW_DELAY = 120
-const VOLUME_SLIDER_PADDING = 10
+const VOLUME_SLIDER_PADDING = 8
 const VOLUME_PREVIEW_AUDIO = mediaUrl('/static/shared/volume-preview.mp3')
 const IDLE_LABEL = '长按 3 秒清除'
 
@@ -86,10 +87,10 @@ Page({
   },
 
   /** 调节音量 */
-  onVolume(e) {
+  onVolume: tap(function (e) {
     const volume = Number(e.currentTarget.dataset.value)
     this.applyVolume(volume)
-  },
+  }),
 
   /** 开始拖音量 */
   onVolumeTrackStart(e) {
@@ -149,10 +150,10 @@ Page({
   },
 
   /** 点播放钮试听 / 停止当前音量 */
-  onPreviewTap() {
+  onPreviewTap: tap(function () {
     if (this.data.volume === 0) return
     togglePlay(this, { src: VOLUME_PREVIEW_AUDIO })
-  },
+  }),
 
   /** 清除项下标 */
   actionIndex(key) {

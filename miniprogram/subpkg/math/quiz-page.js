@@ -2,6 +2,7 @@ const stars = require('../../utils/stars')
 const feedback = require('../../utils/feedback')
 const { INLINE } = require('../../content/feedback')
 const { clearAdvanceTimer, handleCorrect } = require('./quiz-flow')
+const { tap } = require('../../utils/tap-guard')
 
 /** 算术切题状态 */
 function navState(step, hasPrev) {
@@ -111,7 +112,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
     },
 
     /** 选择答案 */
-    choose(e) {
+    choose: tap(function (e) {
       if (this._busy || !this.data.question) return
       const raw = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.value
       const value = Number(raw)
@@ -140,7 +141,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
         ref: this.data.question.id,
         taskId: 'math',
       })
-    },
+    }),
 
     /** 进入下一题 */
     next() {

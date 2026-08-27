@@ -1,6 +1,6 @@
 <view
   wx:if="{{passive}}"
-  class="play-btn-hit is-flush custom-class"
+  class="play-btn-hit custom-class"
   aria-role="button"
   aria-label="{{playing ? '停止' : '播放'}}"
 >
@@ -12,7 +12,7 @@
 </view>
 <view
   wx:else
-  class="play-btn-hit {{compact ? 'is-flush' : ''}} custom-class"
+  class="play-btn-hit custom-class"
   catchtap="onTap"
   aria-role="button"
   aria-label="{{playing ? '停止' : '播放'}}" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">

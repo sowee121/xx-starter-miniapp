@@ -17,8 +17,8 @@
 }
 
 .home-feature-card__mascot {
-  width: 168rpx;
-  height: 168rpx;
+  width: var(--size-mascot);
+  height: var(--size-mascot);
   flex-shrink: 0;
 }
 
@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: center;
   width: 176rpx;
-  height: var(--size-chip);
+  height: var(--size-header);
   flex-shrink: 0;
   border-radius: var(--radius-pill);
   font-size: var(--font-hint);

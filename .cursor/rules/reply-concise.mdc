@@ -29,6 +29,7 @@ file: miniprogram/pages/parent/parent.wxss
 - 能并行的工具并行；改个数值不要开子代理、切模式、写长 todo
 - 只读要改的文件；不为交差做全仓扫描、无关测试、浏览器巡检
 - 能 `StrReplace` 就不要整文件重写；能改现有文件就不要新建
+- 覆盖已有 PNG 前先 `python3 scripts/backup_atom.py <原子路径>`
 - 样式任务才跑 `npm test`；纯文案/规则/单值不必
 
 ## 工程质量（防返工）

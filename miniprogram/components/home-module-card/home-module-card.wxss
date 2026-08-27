@@ -20,8 +20,8 @@
 }
 
 .home-module-card__mascot {
-  width: 168rpx;
-  height: 168rpx;
+  width: var(--size-mascot);
+  height: var(--size-mascot);
   flex-shrink: 0;
 }
 

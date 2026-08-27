@@ -92,10 +92,10 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   gap: var(--gap-block);
   min-height: var(--size-canvas-min);
   padding-top: var(--size-header);
-  padding-left: var(--pad-page-x);
-  padding-right: var(--pad-page-x);
-  padding-bottom: var(--pad-page-b);
-  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
+  padding-left: var(--pad-page);
+  padding-right: var(--pad-page);
+  padding-bottom: var(--pad-page);
+  padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
 .nav {
   display: flex;

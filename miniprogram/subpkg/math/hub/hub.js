@@ -2,6 +2,7 @@ const content = require('../content/math')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { goTo } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 Page({
   data: {
@@ -13,9 +14,9 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
   /** 打开下一页 */
-  open(e) {
+  open: tap(function (e) {
     const to = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.to
     if (to !== 'count' && to !== 'calc') return
     goTo(`/subpkg/math/${to}/${to}`)
-  },
+  }),
 })

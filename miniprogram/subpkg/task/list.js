@@ -2,6 +2,7 @@ const starsUtil = require('../../utils/stars')
 const dailyTasks = require('../../utils/daily-tasks')
 const { taskHead } = require('../../content/feedback')
 const { goTo } = require('../../utils/page')
+const { tap } = require('../../utils/tap-guard')
 
 Page({
   data: {
@@ -31,10 +32,10 @@ Page({
   },
 
   /** 打开任务对应页 */
-  onTaskTap(event) {
+  onTaskTap: tap(function (event) {
     const id = event.currentTarget.dataset.id
     const url = dailyTasks.nextUrl(id)
     if (!url) return
     goTo(url)
-  },
+  }),
 })

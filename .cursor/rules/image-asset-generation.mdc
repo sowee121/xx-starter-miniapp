@@ -12,6 +12,7 @@ alwaysApply: true
 - **用户未明确要求生图时禁止调用生图工具**（含 `GenerateImage`、批量重绘、无授权的 chroma/重导出流水线）。
 - **必须生图时**：先读并遵守 Cursor skill **`frontend-design`**（`~/.cursor/skills/frontend-design/SKILL.md`），再按下方原子流程执行；交付前对照 `docs/design/PLAN.md` / `CONTENT.md` UI 规范自检。
 - **最小改动**：仅去毛刺、居中、去背、缩边同步时，必须以**现有原子或用户指定参考图**为唯一源，禁止换造型、换配色、换构图。
+- **覆盖必留痕**：覆盖任何已有原子 / 分包 PNG 之前，必须先备份旧文件，禁止直接盖掉导致无法找回。
 
 ## 播放钮（定稿结构，禁止整图替代）
 
@@ -30,6 +31,16 @@ alwaysApply: true
 - 原子素材和合成图都应使用清晰、稳定、可追踪的文件名，并归档到项目对应素材目录。
 - 每次交付合成图时，同时确认对应原子素材已完整保存。
 - 去背默认 `scripts/chroma_to_png.py`；归一化 `scripts/normalize_atoms.py`；进小程序用 `scripts/sync_package_images.py`（勿手写有损乱压）。
+
+## 覆盖留痕（强制）
+
+覆盖 `docs/design/atoms/*.png` 之前先跑：
+
+```bash
+python3 scripts/backup_atom.py docs/design/atoms/某文件.png
+```
+
+旧图落到 `docs/design/atoms/_history/{文件名不含扩展名}/{YYYYMMDD-HHmmss}.png`。生图进原子、chroma 覆盖、git restore 之外的回滚，都只动 `_history` 里的副本，不要丢掉时间戳目录。
 
 ## 动物素材统一规范
 

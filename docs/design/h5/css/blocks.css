@@ -127,19 +127,13 @@ a.block:active,
   box-shadow: var(--shadow-clay-night);
 }
 
-/* 点读：外层热区 + 内层视觉圆钮（古诗行等紧凑场景用 compact 高） */
+/* 点读：外层点击层贴齐圆钮，不再加宽热区 */
 .play-btn-hit {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  min-width: var(--size-tap);
-  min-height: var(--size-tap-compact);
   box-sizing: border-box;
-}
-.play-btn-hit.is-flush {
-  min-width: 0;
-  min-height: 0;
 }
 .play-btn {
   display: flex;
@@ -152,8 +146,8 @@ a.block:active,
   border: 0;
   border-radius: 50%;
   background-color: var(--btn-green-solid);
-  background-image: var(--btn-play);
-  box-shadow: var(--shadow-play);
+  background-image: var(--btn-green);
+  box-shadow: var(--shadow-chip);
 }
 .play-btn > img {
   display: block;
@@ -164,8 +158,8 @@ a.block:active,
   flex-shrink: 0;
 }
 .play-btn.is-lg {
-  width: var(--size-play-lg);
-  height: var(--size-play-lg);
+  width: var(--size-slot);
+  height: var(--size-slot);
 }
 .play-btn.is-lg > img {
   width: var(--size-play-icon-lg);
@@ -197,7 +191,7 @@ a.block:active,
   flex: 1;
   width: auto;
   min-width: 0;
-  height: var(--size-trail-bar);
+  height: var(--size-slot);
   border-radius: var(--radius-pill);
   /* 跟组词 / 诗行 / 例句同一套奶油黏土面，不要石子径冷灰绿 */
   background: var(--tone-cream);
@@ -272,7 +266,7 @@ a.block:active,
 .chip.is-compact {
   min-width: var(--size-chip-min);
   width: auto;
-  height: var(--size-chip);
+  height: var(--size-header);
   font-size: var(--font-hint);
   border-radius: var(--radius-pill);
   white-space: nowrap;
@@ -305,7 +299,7 @@ a.block:active,
 }
 .big-btn {
   width: 100%;
-  height: var(--size-btn);
+  height: var(--size-slot);
   font-size: var(--font-card);
   gap: var(--gap-soft);
 }
@@ -334,7 +328,7 @@ a.block:active,
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-card);
+  gap: var(--pad-card);
   flex: 1;
   min-width: 0;
 }

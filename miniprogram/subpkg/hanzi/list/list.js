@@ -2,6 +2,7 @@ const { categories } = require('../content/hanzi')
 const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const { goTo } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 Page({
   data: {
@@ -23,9 +24,9 @@ Page({
   },
 
   /** 打开下一页 */
-  open(e) {
+  open: tap(function (e) {
     const ds = (e.currentTarget && e.currentTarget.dataset) || {}
     if (!ds.char) return
     goTo(`/subpkg/hanzi/detail/detail?char=${encodeURIComponent(ds.char)}&cat=${ds.cat || ''}`)
-  },
+  }),
 })

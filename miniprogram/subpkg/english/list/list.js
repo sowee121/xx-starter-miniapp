@@ -3,6 +3,7 @@ const { toneOf, listImageUrl, detailPageUrl, mediaOwner } = require('../lib/engl
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { loadThenGo } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 /** 列表词图地址 */
 function imageUrl(catId, image) {
@@ -33,12 +34,12 @@ Page({
   },
 
   /** 打开下一页 */
-  open(e) {
+  open: tap(function (e) {
     const ds = (e.currentTarget && e.currentTarget.dataset) || {}
     const word = ds.word
     const cat = ds.cat
     const url = detailPageUrl(word, cat)
     if (!url) return
     loadThenGo(mediaOwner(cat), url)
-  },
+  }),
 })

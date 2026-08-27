@@ -1,3 +1,5 @@
+const { tap } = require('../../utils/tap-guard')
+
 Component({
   options: {
     styleIsolation: 'apply-shared',
@@ -15,8 +17,8 @@ Component({
   },
   methods: {
     /** 点击播放钮 */
-    onTap() {
+    onTap: tap(function () {
       this.triggerEvent('tap')
-    },
+    }),
   },
 })

@@ -16,8 +16,8 @@
   min-height: 100dvh;
   gap: var(--gap-grid);
   padding-top: 0;
-  padding-bottom: var(--pad-page-b);
-  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: var(--pad-page);
+  padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
 
 /* 草地贴视口底边铺满 390 盒，避免 width 撑高后被 overflow 裁掉丘顶 */
@@ -51,7 +51,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: var(--gap-card);
+  gap: var(--pad-card);
   height: 144px;
   padding: 16px var(--pad-card);
   color: inherit;
@@ -98,8 +98,8 @@
   flex-shrink: 0;
 }
 .wide-mascot {
-  width: 168px;
-  height: 168px;
+  width: var(--size-mascot);
+  height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }
@@ -170,8 +170,8 @@
   border-radius: var(--radius-card);
 }
 .module-mascot {
-  width: 168px;
-  height: 168px;
+  width: var(--size-mascot);
+  height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }

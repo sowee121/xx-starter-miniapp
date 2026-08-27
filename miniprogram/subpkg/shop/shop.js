@@ -2,6 +2,7 @@ const stickers = require('./content/stickers')
 const starsUtil = require('../../utils/stars')
 const feedback = require('../../utils/feedback')
 const { LAYERS } = require('../../content/feedback')
+const { tap } = require('../../utils/tap-guard')
 
 const SCROLL_MS = 560
 
@@ -75,7 +76,7 @@ Page({
   },
 
   /** 兑换贴纸 */
-  async onExchange(event) {
+  onExchange: tap(async function (event) {
     if (this.data.exchanging) return
     const id = event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.id
     const sticker = this.data.shop.find((item) => item.id === id)
@@ -99,7 +100,7 @@ Page({
     } finally {
       this.setData({ exchanging: false })
     }
-  },
+  }),
 
   /** 关闭表扬层 */
   closePraise() {

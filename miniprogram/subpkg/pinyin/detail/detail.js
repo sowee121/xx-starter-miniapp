@@ -5,6 +5,7 @@ const { mediaUrl } = require('../../../config/media')
 const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { queryValue } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 /** 拼音石子径 id */
 function trailId(letter) {
@@ -64,7 +65,7 @@ Page({
   },
 
   /** 点拼音石子 */
-  onTrailTap(e) {
+  onTrailTap: tap(function (e) {
     const id = e.currentTarget.dataset.id
     const next = resolveItem(id)
     if (!next) return
@@ -74,10 +75,10 @@ Page({
     }
     audioUtil.stop()
     this.applyItem(next, true)
-  },
+  }),
 
   /** 立即播放一段音频 */
-  play() {
+  play: tap(function () {
     const item = this.data.item
     if (!item) return
     playPrimaryAndAward(this, {
@@ -87,7 +88,7 @@ Page({
       reason: 'pinyin_done',
       ref: item.letter,
     })
-  },
+  }),
 
   /** 关闭表扬层 */
   closePraise() {

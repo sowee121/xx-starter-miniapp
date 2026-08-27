@@ -1,4 +1,5 @@
 const { getNavbar } = require('../../utils/navbar')
+const { tap } = require('../../utils/tap-guard')
 
 Component({
   options: {
@@ -31,8 +32,8 @@ Component({
 
   methods: {
     /** 点标题回首页 */
-    onHome() {
+    onHome: tap(function () {
       this.triggerEvent('home')
-    },
+    }),
   },
 })

@@ -151,7 +151,7 @@
 .chip.is-compact {
   min-width: var(--size-chip-min);
   width: auto;
-  height: var(--size-chip);
+  height: var(--size-header);
   font-size: var(--font-hint);
   border-radius: var(--radius-pill);
   white-space: nowrap;
@@ -192,7 +192,7 @@
 
 .big-btn {
   width: 100%;
-  height: var(--size-btn);
+  height: var(--size-slot);
   font-size: var(--font-card);
   gap: var(--gap-soft);
 }
@@ -229,7 +229,7 @@
   flex: 1;
   width: auto;
   min-width: 0;
-  height: var(--size-trail-bar);
+  height: var(--size-slot);
   border-radius: var(--radius-pill);
   /* 跟组词 / 诗行 / 例句同一套奶油黏土面，不要石子径冷灰绿 */
   background: var(--tone-cream);

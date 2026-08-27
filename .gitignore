@@ -11,6 +11,9 @@ project.private.config.json
 # 封面生成等本地草稿（勿入库；产物进 docs/design/atoms 与分包 static）
 /assets/
 
+# 原子覆盖前的本地历史（体积大，不入库；找回看目录时间戳）
+docs/design/atoms/_history/
+
 # 依赖
 node_modules/
 miniprogram_npm/

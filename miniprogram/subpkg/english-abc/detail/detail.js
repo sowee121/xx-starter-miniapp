@@ -6,6 +6,7 @@ const { playPrimaryAndAward } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
+const { tap } = require('../../../utils/tap-guard')
 
 /** 补全条目展示字段 */
 function mapItem(item) {
@@ -66,7 +67,7 @@ Page({
   },
 
   /** 立即播放一段音频 */
-  play() {
+  play: tap(function () {
     const item = this.data.item
     if (!item) return
     playPrimaryAndAward(this, {
@@ -76,7 +77,7 @@ Page({
       reason: 'letter_done',
       ref: item.letter,
     })
-  },
+  }),
 
   /** 关闭表扬层 */
   closePraise() {

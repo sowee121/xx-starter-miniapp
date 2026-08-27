@@ -6,7 +6,7 @@
 > - `[小程序开发核对清单（最终验收版）.txt](../小程序开发核对清单（最终验收版）.txt)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
 >
-> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。
+> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。2026-08-27：设计 token 做减法收拢并语义化——`--btn-play`/`--shadow-play`/`--size-btn`/`--size-play-lg`/`--size-trail-bar` 并入 `--btn-green`/`--shadow-chip`/`--size-slot`，新增 `--size-mascot: 168`（首页/商城大方形配图），删除零引用死变量（`--size-heat-cell` 等）；收拢纪律见 §2.1 与 CONTENT §3「设计 token」。
 
 ---
 
@@ -52,7 +52,8 @@
 - 素材：100% 高清黏土捏塑（果蔬、物品、景物、动物、纯字母）；禁止手绘/扁平/写实照片/二次元；识字详情允许系统 emoji 表意
 - 色彩：主色晨间嫩草绿；辅色奶油白、浅奶黄、蜜桃浅粉、天空浅蓝；禁用纯黑、正红、大面积刺眼正黄作背景。**答题选中**允许低饱和蜜黄高亮（`--tone-picked` / `--ring-picked`）
 - 字体：圆润加粗、字号偏大；无细字、花体、密集长文；全站字号下限 **28rpx**（token 名 `--font-nav`，亦用于导航/积分；正文默认 `--font-body: 34`）。H5 审查页首页可用 Yuanti 圆体；小程序用 PingFang（系统无可靠圆体），属平台差
-- 设计 token：颜色 / 间距 / 绿钮渐变 / 阴影等集中在 `tokens.css` ↔ `tokens.wxss`；同值禁止散落硬编码（马卡龙 tone 表逐步收敛，新增同色须先加 token）
+- 设计 token：颜色 / 间距 / 绿钮渐变 / 阴影等集中在 `tokens.css` ↔ `tokens.wxss`；同值禁止散落硬编码（马卡龙 tone 表逐步收敛，新增同色须先加 token）。
+  - **收拢纪律**：只收拢「值相同且语义一致」的变量；值只出现一次（单组件单元素宽高）**不提取**；跨组件重复的同一语义值（如吉祥物 168rpx → `--size-mascot`）须归并入 token；`--btn-play`/`--shadow-play`/`--size-btn`/`--size-play-lg`/`--size-trail-bar` 等已并入 `--btn-green` / `--shadow-chip` / `--size-slot`，文档与代码统一用后者。删除定义前须全仓 grep 确认零引用，避免删掉仍有使用者（如 `--tone-leaf-solid`）。
 
 #### 2.1.1 鹅卵石面规范（必须遵守）
 
@@ -63,7 +64,7 @@
 | 外托 | 多层柔外阴影托起厚度 | `--shadow`；石子径用 `--shadow-trail` |
 | 选中环 | 石子径当前项：与答题答对相同的叶绿面 + 6px 绿环鼓边（无同心环） | `--shadow-trail-current`、`--tone-ok` / `--ring-ok` |
 | 切题导航 | 通用组件 `trail-nav` / `trail-nav__item` | `blocks.css` ↔ `cards.wxss` |
-| 例外（可正圆 / 扁边） | chip CTA、星条、气泡、音量档、导航回首页圆钮（**无描边**，仅鼓边阴影）、播放钮（绿底 + 小三角 + `--shadow-play`） | `--radius-pill`（`999`）、`.play-btn`、`.nav-home` |
+| 例外（可正圆 / 扁边） | chip CTA、星条、气泡、音量档、导航回首页圆钮（**无描边**，仅鼓边阴影）、播放钮（绿底 + 小三角 + `--shadow-chip`） | `--radius-pill`（`999`）、`.play-btn`、`.nav-home` |
 
 新增「面」级容器：优先 `block` + `tone-*`，或复用 `--shadow-clay` / `--shadow-trail`；禁止另起一套扁平阴影。
 
@@ -72,7 +73,7 @@
 - **CSS 优先**：圆底、渐变、鼓边、选中环等用 token / 样式；禁止把面控件画成整图 PNG 冒充 UI。
 - **定稿原子默认只读**：`docs/design/atoms/` 已确认素材，禁止为调色/试效果反复重生成或改造型。
 - **必须生图时**：先遵循 Cursor skill **`frontend-design`**，再走原子流程（一图一主体 → 去背 → 归档 → 再合成）；细则见仓库 `.cursor/rules/image-asset-generation.mdc`。
-- **播放钮定稿**：`.play-btn` = `--btn-play` 绿底 + `--shadow-play` 鼓边 + 原子 `play.png`（仅奶油黏土小三角）。禁止「绿盘+三角」整钮图；三角只允许去毛刺/居中/同步分包，不换造型。
+- **播放钮定稿**：`.play-btn` = `--btn-green` 绿底 + `--shadow-chip` 鼓边 + 原子 `play.png`（仅奶油黏土小三角）。禁止「绿盘+三角」整钮图；三角只允许去毛刺/居中/同步分包，不换造型。
 - **长播**：古诗封面大卡圆形播放钮播全文；字母歌仍可用列表卡上的播放钮。播放中三角换成 `stop.png`；停止、播完、离开、回首页、微信打断后都恢复三角。H5 古诗详情主卡用 `.play-btn.is-lg`，不再用整行 `.big-btn`。
 - **图标原子构图**：`play.png` / `stop.png` / `check.png` / `arrow.png` 等单图标须**主体铺满画布**（约占边长 ≥90%），透明底，禁止四周大留白；暖白黏土质感，非扁平线稿。
 - **切题箭头**：详情内左右矮条卡跟文档流，用 `--tone-cream` + `--shadow-clay`（对齐组词/诗行/例句），内放 `arrow.png`；上一题 `scaleX(-1)`。禁止绿胶囊文案钮，禁止「圆盘+箭头」整钮 PNG，禁止 `position: fixed` 贴底。与 `soft-note` 同时出现时：**提示栏在上、切题导航在下**。

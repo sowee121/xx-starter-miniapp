@@ -23,39 +23,32 @@
   --radius-pill: 999px; /* 胶囊：chip、星条、气泡、标签 */
 
   /* —— 尺寸 —— */
-  --size-header: 88px; /* 自定义导航栏高 / 回首页钮边长 */
-  --size-chip: 88px; /* 绿胶囊紧凑高度（去兑换 / 兑换） */
+  --size-header: 88px; /* 导航栏高、回首页钮、绿胶囊紧凑高 */
   --size-chip-lg: 100px; /* 绿胶囊默认高度 */
   --size-chip-wide: 200px; /* 绿胶囊默认宽度 */
   --size-chip-min: 168px; /* 绿胶囊紧凑最小宽 */
-  --size-btn: 112px; /* 通栏长条按钮高（打卡） */
   --size-arrow: 100px; /* 切题导航箭头图 */
   --size-canvas: 750px; /* 设计画板宽 */
   --size-canvas-min: 1624px; /* 设计画板最小高 */
   --size-meadow: 390px; /* 页底草地高 */
-  --size-praise: calc(100% - var(--pad-page-x) * 2); /* 表扬弹层卡片宽，左右各留页边 */
+  --size-praise: calc(100% - var(--pad-page) * 2); /* 表扬弹层卡片宽，左右各留页边 */
   --size-praise-min: 760px; /* 表扬弹层卡片最小高 */
   --size-praise-icon: 288px; /* 表扬弹层主图 */
-  --size-feature: 196px; /* 首页通栏功能卡高 */
-  --size-mascot: 172px; /* 首页通栏吉祥物 */
-  --size-slot: 112px; /* 清除槽 / 音量档 / 清除图标 */
-  --size-trail-bar: 112px; /* 切题条高度 */
+  --size-slot: 112px; /* 通栏钮 / 清除槽 / 音量档 / 切题条 / 大号播放 */
+  --size-mascot: 168px; /* 首页通栏吉祥物 / 模块卡吉祥物 / 商城贴纸大图 */
   --size-word: 210px; /* 英语/识字列表字卡高 */
   --size-word-thumb: 88px; /* 字卡缩略图 */
   --size-play: 92px; /* 播放圆钮默认边长 */
-  --size-play-lg: 112px; /* 播放圆钮大号 */
   --size-play-sm: 76px; /* 播放圆钮小号 */
   --size-play-icon: 44px; /* 播放 / 停止图标默认 */
   --size-play-icon-lg: 54px; /* 播放图标大号 */
   --size-play-icon-sm: 36px; /* 播放图标小号 */
   --size-star-bar: 64px; /* 积分星条高度 */
   --size-star: 48px; /* 星星图标边长 */
-  --size-heat-cell: 56px; /* 热力小方块边长 */
   --size-media-row: 180px; /* 古诗等媒体列表行高 */
   --size-media-thumb: 132px; /* 媒体列表缩略图边长 */
   --size-trail: 96px; /* 拼音石子径单字圆面 */
-  --size-tap: 152px; /* 默认点击热区 */
-  --size-tap-compact: 128px; /* 紧凑热区 / 选项高度 */
+  --size-tap-compact: 128px; /* 选项高度 */
 
   /* —— 石子径（拼音字母圆面） —— */
   --font-trail: 56px; /* 石子径字母字号 */
@@ -98,11 +91,10 @@
     var(--shadow-clay-lo),
     0 16px 32px rgba(96, 122, 96, 0.36),
     0 36px 64px rgba(96, 122, 96, 0.3);
-  --shadow-chip: /* 绿钮鼓边（与卡片同套对角，压暗偏绿） */
+  --shadow-chip: /* 绿钮 / 播放圆钮鼓边（与卡片同套对角，压暗偏绿） */
     var(--shadow-clay-hi),
     inset -8px -10px 18px rgba(78, 128, 84, 0.3),
     var(--shadow-lift);
-  --shadow-play: var(--shadow-chip); /* 播放圆钮，同绿钮鼓边 */
   --shadow-socket: /* 首页星槽空槽（凹） */
     inset 6px 6px 11px rgba(104, 136, 102, 0.22),
     inset -5px -6px 10px rgba(255, 255, 255, 0.14);
@@ -111,8 +103,7 @@
     inset -5px -6px 10px rgba(255, 255, 255, 0.16);
 
   /* —— 填充 / 色面 —— */
-  --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA 面 */
-  --btn-play: var(--btn-green); /* 播放圆钮面 */
+  --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA / 播放圆钮面 */
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
@@ -137,8 +128,7 @@
   --font-note: 42px; /* 软提示、伙伴气泡 */
   --font-line: 44px; /* 诗行、组词、例句 */
   --font-inner: 46px; /* 详情内页大标题 */
-  --font-hero: 48px; /* 古诗封面题名 */
-  --font-date: 48px; /* 日历日期 */
+  --font-hero: 48px; /* 古诗封面题名、日历日期 */
   --font-display: 58px; /* 选项数字、字卡 */
   --letter-btn: 2px; /* 全站字距；所有文字继承 */
   --font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif; /* 有圆体用圆体，否则苹方 */
@@ -151,17 +141,15 @@
   --gap-soft: 18px; /* 绿钮内、表扬卡内 */
   --gap-trail: 22px; /* 拼音石子径圆面间距 */
   --gap-inset: 24px; /* 导航内、字卡内 */
-  --gap-card: 28px; /* 题头内、设置头 */
   --gap-grid: 30px; /* 列表卡片、两列/三列网格 */
   --gap-block: 38px; /* 详情主卡到选项等积木间距 */
 
   /* —— 内边距 —— */
   --pad-card-sm: 20px; /* 小卡、双入口 */
-  --pad-card: 28px; /* 标准卡 */
+  --pad-card: 28px; /* 标准卡内边距；题头/设置头内间距 */
   --pad-card-lg: 36px; /* 设置卡、题头左右 */
   --pad-card-xl: 56px; /* 详情主卡、题头上下 */
-  --pad-page-x: 30px; /* 页左右安全边 */
-  --pad-page-b: 30px; /* 页底基础边距（无 Home 条也要留空） */
+  --pad-page: 30px; /* 页左右 / 页底安全边 */
 
   /* —— 栅格 —— */
   --col-2: calc((100% - var(--gap-grid)) / 2); /* 首页两列 */
