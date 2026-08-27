@@ -36,19 +36,6 @@
             <button class="volume-option is-active">正常</button>
           </div>
         </section>
-        <section class="setting-block clear-block block tone-matcha">
-          <div class="setting-head">
-            <img class="clear-icon" src="../atoms/dino.png" alt="" />
-            <div class="setting-head__body">
-              <strong>学习记录</strong>
-              <span>清除已学记录，不能恢复</span>
-            </div>
-          </div>
-          <button type="button" class="clear-groove is-matcha" data-hold>
-            <span class="clear-groove__bar" aria-hidden="true"></span>
-            <span class="clear-label">长按 3 秒清除</span>
-          </button>
-        </section>
         <section class="setting-block clear-block block tone-rose">
           <div class="setting-head">
             <img class="clear-icon" src="../atoms/big-star.png" alt="" />
@@ -64,13 +51,30 @@
         </section>
         <section class="setting-block clear-block block tone-peach">
           <div class="setting-head">
-            <img class="clear-icon" src="../atoms/unicorn.png" alt="" />
+            <div class="clear-icon-slot is-unicorn">
+              <img class="clear-icon" src="../atoms/unicorn.png" alt="" />
+            </div>
             <div class="setting-head__body">
               <strong>兑换贴纸</strong>
               <span>清除已兑换贴纸，不能恢复</span>
             </div>
           </div>
           <button type="button" class="clear-groove is-peach" data-hold>
+            <span class="clear-groove__bar" aria-hidden="true"></span>
+            <span class="clear-label">长按 3 秒清除</span>
+          </button>
+        </section>
+        <section class="setting-block clear-block block tone-matcha">
+          <div class="setting-head">
+            <div class="clear-icon-slot is-dino">
+              <img class="clear-icon" src="../atoms/dino.png" alt="" />
+            </div>
+            <div class="setting-head__body">
+              <strong>学习记录</strong>
+              <span>清除已学记录，不能恢复</span>
+            </div>
+          </div>
+          <button type="button" class="clear-groove is-matcha" data-hold>
             <span class="clear-groove__bar" aria-hidden="true"></span>
             <span class="clear-label">长按 3 秒清除</span>
           </button>

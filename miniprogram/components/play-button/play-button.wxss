@@ -34,7 +34,6 @@
   width: var(--size-play-icon);
   height: var(--size-play-icon);
   margin-left: 0;
-  transform: translateX(2rpx);
 }
 
 .play-btn.is-lg {
@@ -55,8 +54,4 @@
 .play-btn.is-sm .play-btn__icon {
   width: var(--size-play-icon-sm);
   height: var(--size-play-icon-sm);
-}
-
-.play-btn.is-playing .play-btn__icon {
-  transform: translateX(1rpx);
 }

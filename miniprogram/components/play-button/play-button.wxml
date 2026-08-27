@@ -2,7 +2,7 @@
   wx:if="{{passive}}"
   class="play-btn-hit is-flush custom-class"
   aria-role="button"
-  aria-label="播放"
+  aria-label="{{playing ? '停止' : '播放'}}"
 >
   <view
     class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
@@ -15,7 +15,7 @@
   class="play-btn-hit {{compact ? 'is-flush' : ''}} custom-class"
   catchtap="onTap"
   aria-role="button"
-  aria-label="播放" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+  aria-label="{{playing ? '停止' : '播放'}}" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
   <view
     class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >

@@ -12,6 +12,7 @@ Page({
     songSrc: '',
     songImage: '',
     longPlaying: false,
+    playingSrc: '',
   },
 
   onLoad() {

@@ -16,6 +16,7 @@
 | --- | --- |
 | 页内 / 产品内部 | 嘻嘻启蒙乐园 |
 | 微信后台创建 / 搜索展示 | 嘻宝星屋 |
+| 面向人群 | 幼儿园宝宝 |
 | 首页欢迎语（仅首页） | 「宝贝，你好呀」「一起快乐学习吧～」 |
 | 申请简介 | 见 `docs/apply/miniprogram-intro.md` |
 | 服务类目 | 工具 → 信息查询 |
@@ -32,8 +33,9 @@
 
 - 逐句点读 + 全文朗读；**六首统一 4 行**（一句一行）；数据与 UI **均无 `plain` 白话**；TTS 为晓晓 `-30%`（见 §2.10）
 - 封面：`atoms/poem-*.png`（统一 4:3 横版黏土场景；6 首 6 动物：鹅/猫/牛/鸟/狐狸/熊猫；不用浮岛）；代码包同步为 PNG，保持原图比例，最长边 560（6 张再大会超分包 2MB）
-- **整首诗**在封面大卡放圆形播放钮（`play-button` lg）：点卡或点钮播全文；播放中再点即停止（三角换成 `stop.png`）；点读单句会打断长播；中途停止不加星、不计任务
-- **长播复位**：进页、离开、后退、回首页、微信切后台/关掉、来电等音频打断时一律停播，按钮回到播放三角；中途打断不加星
+- **播放钮**一律三角 / 停止方块两态：点读、例句、组词、整首诗、字母歌都一样；播放中再点同一段即停止（三角换成 `stop.png`）；换播另一段会打断当前；中途停止不加星、不计任务
+- **整首诗**在封面大卡放圆形播放钮（`play-button` lg）：点卡或点钮播全文；点读单句会打断长播
+- **长播复位**：进页、离开、后退、回首页、微信切后台/关掉、来电等音频打断时一律停播，按钮回到播放三角；中途打断不加星。任意音频播放中调用 `wx.setKeepScreenOn`，只防系统自动熄屏，挡不住用户按电源键锁屏
 
 ### 2.2 识字
 
@@ -79,7 +81,7 @@
 - **排序**：分类序与识字同原则（好认先学），固定为上列；类内按英文单词 A–Z 落盘（**数字类例外**：按 one→nine 后接 ten / hundred / thousand）；列表与详情 trail 直接遍历，不再二次排序
 - 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
 - **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-number`
-- **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（枢纽 + 128px 列表缩略图，缩略图从原子直接生成）· `english-{fruit,animal,color,body,transport,number,food,nature}`（各类详情 320px 大图/音频）· `english-abc`（字母表页 + 272px 字母图 + 字母音频 + 字母歌）。详情边长由 `scripts/sync_package_images.py` 从原子下采样，禁止再压到 160px
+- **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（枢纽 A/苹果入口 320px + 128px 列表缩略图，缩略图从原子直接生成）· `english-{fruit,animal,color,body,transport,number,food,nature}`（各类详情 320px 大图/音频）· `english-abc`（字母表页 + 272px 字母图 + 字母音频 + 字母歌）。详情边长由 `scripts/sync_package_images.py` 从原子下采样，禁止再压到 160px
 - **共享 UI**：`praise-sun` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
 - **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 PNG（`meadow.png`，750×390）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
 
@@ -127,7 +129,7 @@
 | 认 N 个汉字 | 1～5 | 单字点读播完任意 N 个不同汉字 | N |
 | 做 N 道算术题 | 1～5 | 数一数/算一算累计答对 N 题 | N |
 | 学 N 个英语 | 1～5 | 字母名或单词点读播完任意 N 个不同条目（字母歌不计） | N |
-| 读 N 个拼音 | 1～5 | 韵母点读播完任意 N 个不同韵母 | N |
+| 读 N 个拼音 | 1～6 | 韵母点读播完任意 N 个不同韵母（六个单韵母） | N |
 | 日历打卡 | 1（固定） | 日历页点击「打卡」，每天一次 | +1 |
 
 任务页样式不变：勾选仅展示状态，点击行跳转学习；不可手动点勾完成。任务奖励用固定 `clientId`：`daily-${date}-${taskId}`，与单次学习加星幂等互不覆盖。
@@ -144,6 +146,10 @@
 | 点读音频缺失 | 行内 soft-note | 「语音准备中～」 |
 
 文案与音频入口：`miniprogram/content/feedback.js`；编排：`miniprogram/utils/feedback.js`。H5 审查：`docs/design/h5/shared/feedback.html`。答题音效音色见 §2.10。
+
+积分商城分两截：**我的贴纸**（已兑换，图下显示名字）在上，**去兑换**（未拥有货架）在下。还没有贴纸时只显示提示「去兑换小动物吧」。兑成后页面回到顶部，刚换的小动物出现在「我的贴纸」。
+
+日历页日期卡内放「打卡」按钮；卡下方展示**本月学习热力**：一周七列小方块，颜色越深当天有效学习（点读新内容 / 答对 / 打卡）越多。仅本月；先写本地再同步云端，换机登录后格子还在。H5 为示意帧。
 
 ### 2.9 家长区（非学习模块）
 
@@ -208,14 +214,14 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 - **素材纪律**（详见 PLAN §2.1.2、`.cursor/rules/image-asset-generation.mdc`）：
   - 能 CSS 解决的不生图；定稿原子默认只读；未明确要求禁止调生图工具
   - 必须生图时先按 **`frontend-design`** skill，再原子→去背→归档→合成
-  - **播放钮**：绿底 `--btn-play` + 鼓边 `--shadow-play` + 奶油小三角 `play.png`；禁止整钮合成图；三角原子铺满画布，绿钮内默认 `translateX(4)`、小钮 `translateX(2)` 做 ▶ 视觉居中
-  - **长播停止**：古诗封面圆钮与字母歌卡片播放中换成奶油黏土方块 `stop.png`（同材质同体量）；停止、播完、离开页面或小程序中断后都恢复三角
+  - **播放钮**：绿底 `--btn-play` + 鼓边 `--shadow-play` + 奶油小三角 `play.png`；禁止整钮合成图；三角按视觉重心铺在画布正中，与停止方块一样上下左右居中，不再用 CSS 位移
+  - **播放 / 停止**：所有圆形播放钮播放中换成奶油黏土方块 `stop.png`（同材质同体量）；停止、播完、离开页面或小程序中断后都恢复三角
 - 列表媒体缩略图统一 **`--radius-thumb: 28`**（与卡内插图同档）；古诗封面统一为 4:3 横版黏土棚拍（左动物右诗意），禁止浮岛底座与旧图混用
 - 背景：天空渐变 + 底部黏土草地实图（`meadow-hill`）；夜景用 CSS 罩层，不另出图
 - 设计 token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）
   - 字号下限 `--font-nav: 28`（亦用于导航）；正文默认 `--font-body: 34`；禁用态 `--opacity-disabled: 0.68`
   - 答题选中 `--tone-picked` / `--ring-picked`（蜜黄高亮）；答对 `--tone-ok` / `--ring-ok`（叶绿）
-  - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
+  - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；`--radius-cell: 16` 热力小方块；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast

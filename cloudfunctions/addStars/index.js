@@ -19,10 +19,21 @@ const REASONS = new Set([
   'calendar_done',
 ])
 
-/** 客户端 makeClientId 为 `${Date.now()}-xxxx`，13 位毫秒时间戳。 */
+/** 单次加星上限：拼音每日任务最多 6 个韵母，奖励 = 数量。 */
+const MAX_DELTA = 6
+
+/**
+ * 客户端 makeClientId 为 `${Date.now()}-xxxx`。
+ * 每日任务用 `daily-YYYY-MM-DD-taskId`，取当天 0 点，便于清星后把在途请求当过期。
+ */
 function clientIssuedAt(clientId) {
-  const n = Number(String(clientId || '').split('-')[0])
-  return Number.isFinite(n) && n > 1e11 ? n : 0
+  const s = String(clientId || '')
+  const n = Number(s.split('-')[0])
+  if (Number.isFinite(n) && n > 1e11) return n
+  const m = /^daily-(\d{4}-\d{2}-\d{2})(?:-|$)/.exec(s)
+  if (!m) return 0
+  const t = Date.parse(`${m[1]}T00:00:00`)
+  return Number.isFinite(t) ? t : 0
 }
 
 /** 读取或创建用户 */
@@ -34,6 +45,7 @@ async function getOrCreateUser(openid) {
     stars: 0,
     stickers: [],
     badges: [],
+    heatDays: {},
     _openid: openid,
     updatedAt: Date.now(),
   }
@@ -55,7 +67,7 @@ exports.main = async (event) => {
   const ref = event.ref || ''
   const clientId = event.clientId
 
-  if (!clientId || !REASONS.has(reason) || delta <= 0 || delta > 5) {
+  if (!clientId || !REASONS.has(reason) || delta <= 0 || delta > MAX_DELTA) {
     return { ok: false, error: 'invalid_params' }
   }
 

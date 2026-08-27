@@ -108,5 +108,15 @@
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "preloadRule": {
+    "pages/home/home": {
+      "network": "all",
+      "packages": ["task", "shop", "calendar", "math"]
+    },
+    "subpkg/english/hub/hub": {
+      "network": "all",
+      "packages": ["english-abc"]
+    }
+  }
 }

@@ -148,7 +148,7 @@ def max_side_for(rel: Path, stem: str | None = None) -> int:
         pkg = rel.parts[1]
         if pkg == "english-abc":
             return SIDE_ABC
-        if pkg in ENGLISH_DETAIL_PACKS:
+        if pkg == "english" or pkg in ENGLISH_DETAIL_PACKS:
             return SIDE_ENGLISH
         if pkg == "math":
             return SIDE_MATH
@@ -232,14 +232,16 @@ def write_english_list_thumbs() -> None:
 
 
 def write_english_hub_preview() -> None:
-    """枢纽单词入口用 320px 苹果图，避免 188rpx 大卡去读列表小图。"""
-    src = atom_for("english-fruit-apple.png")
-    if src is None:
-        print("skip (no atom) english-fruit-apple.png")
-        return
-    dest = MP / "subpkg/english/static/english-fruit-apple.png"
-    w, h, n = save_rgba(src, dest, SIDE_ENGLISH)
-    print(f"ok hub-preview {w}x{h} {n / 1024:6.1f}KB  {dest.relative_to(MP)}")
+    """枢纽两张入口图用 320px（188rpx 大卡），与详情边长一致，避免 448 默认边长。"""
+    dest_dir = MP / "subpkg/english/static"
+    for name in ("english-letter-a.png", "english-fruit-apple.png"):
+        src = atom_for(name)
+        if src is None:
+            print(f"skip (no atom) {name}")
+            continue
+        dest = dest_dir / name
+        w, h, n = save_rgba(src, dest, SIDE_ENGLISH)
+        print(f"ok hub-preview {w}x{h} {n / 1024:6.1f}KB  {dest.relative_to(MP)}")
 
 
 if __name__ == "__main__":

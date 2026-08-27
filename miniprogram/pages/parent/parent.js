@@ -1,4 +1,5 @@
 const audioUtil = require('../../utils/audio')
+const { togglePlay, playClip } = require('../../utils/read-award')
 const { mediaUrl } = require('../../config/media')
 const mascots = require('../../content/mascots')
 const progressUtil = require('../../utils/progress')
@@ -14,20 +15,11 @@ const IDLE_LABEL = '长按 3 秒清除'
 function actionList() {
   return [
     {
-      key: 'progress',
-      title: '学习记录',
-      hint: '清除已学记录，不能恢复',
-      icon: mascots.HOME_ASSETS.dino,
-      tone: 'tone-matcha',
-      groove: 'is-matcha',
-      holding: false,
-      label: IDLE_LABEL,
-    },
-    {
       key: 'stars',
       title: '星星积分',
       hint: '清除星星积分，不能恢复',
       icon: mascots.ICONS.bigStar,
+      iconClass: '',
       tone: 'tone-rose',
       groove: '',
       holding: false,
@@ -38,8 +30,20 @@ function actionList() {
       title: '兑换贴纸',
       hint: '清除已兑换贴纸，不能恢复',
       icon: mascots.HOME_ASSETS.unicorn,
+      iconClass: 'is-unicorn',
       tone: 'tone-peach',
       groove: 'is-peach',
+      holding: false,
+      label: IDLE_LABEL,
+    },
+    {
+      key: 'progress',
+      title: '学习记录',
+      hint: '清除已学记录，不能恢复',
+      icon: mascots.HOME_ASSETS.dino,
+      iconClass: 'is-dino',
+      tone: 'tone-matcha',
+      groove: 'is-matcha',
       holding: false,
       label: IDLE_LABEL,
     },
@@ -69,6 +73,8 @@ Page({
     ],
     actions: actionList(),
     volumeThumbStyle: thumbStyleOf(2),
+    previewSrc: VOLUME_PREVIEW_AUDIO,
+    playingSrc: '',
   },
 
   onShow() {
@@ -138,8 +144,14 @@ Page({
         }
         return
       }
-      audioUtil.play(VOLUME_PREVIEW_AUDIO)
+      playClip(this, VOLUME_PREVIEW_AUDIO)
     }, VOLUME_PREVIEW_DELAY)
+  },
+
+  /** 点播放钮试听 / 停止当前音量 */
+  onPreviewTap() {
+    if (this.data.volume === 0) return
+    togglePlay(this, { src: VOLUME_PREVIEW_AUDIO })
   },
 
   /** 清除项下标 */

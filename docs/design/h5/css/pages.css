@@ -3,11 +3,13 @@
 /* 内页按视口撑满，内容不够高时不要写死 1624 逼出滚动条 */
 .page {
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   overflow-y: visible;
 }
 .shell {
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .section-title {
@@ -41,8 +43,8 @@
   display: block;
   align-self: stretch;
   width: 100%;
-  height: auto;
   aspect-ratio: 4 / 3;
+  height: auto;
   object-fit: contain;
   border-radius: var(--radius-thumb);
 }
@@ -51,7 +53,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-row);
+  gap: var(--gap-card);
+  width: 100%;
+}
+.hero__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
   width: 100%;
 }
 .hero__title {
@@ -120,7 +129,9 @@
 }
 .word-card.is-song .word-card__image {
   width: calc(100% - 48px);
-  height: 72px;
+  aspect-ratio: 272 / 102;
+  height: auto;
+  object-fit: contain;
   margin-top: 14px;
 }
 .word-card .play-btn {
@@ -290,6 +301,8 @@
 }
 .count-item {
   display: block;
+  width: 110px;
+  height: 110px;
   object-fit: contain;
 }
 
@@ -352,6 +365,26 @@
     0 0 0 6px var(--ring-ok),
     var(--shadow-lift);
 }
+
+@keyframes option-wiggle {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-6px);
+  }
+}
+
+.option.is-wrong {
+  animation: option-wiggle 420ms ease-in-out;
+}
 .soft-note {
   display: flex;
   align-items: center;
@@ -373,9 +406,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gap-block);
-  padding: var(--pad-card-xl);
+  gap: var(--gap-card);
+  padding: var(--pad-card-lg);
   text-align: center;
+  overflow: visible;
+}
+
+.calendar-scene .big-btn {
+  align-self: stretch;
 }
 /* 日历 H5 审查：上下两帧完整页底（白天/夜景）。小程序仍按时间切一页 */
 body:has(.preview-deck) {
@@ -408,7 +446,7 @@ body:has(.preview-deck) {
 .preview-deck .page {
   margin: 0;
   width: var(--size-canvas);
-  min-height: 1000px;
+  min-height: 1480px;
   overflow: hidden;
   background-image: url("../../atoms/meadow.png");
   background-repeat: no-repeat;
@@ -416,14 +454,14 @@ body:has(.preview-deck) {
   background-size: var(--size-canvas) var(--size-canvas-min);
 }
 .preview-deck .shell {
-  min-height: 1000px;
+  min-height: 1480px;
   padding-bottom: 200px;
 }
 .preview-deck .scene {
   display: none;
 }
 .shell:has(.calendar-scene) {
-  gap: var(--gap-block);
+  gap: var(--gap-grid);
 }
 .calendar-sky-icon {
   display: flex;
@@ -431,34 +469,147 @@ body:has(.preview-deck) {
   z-index: 1;
   align-items: center;
   justify-content: center;
-  width: 360px;
-  height: 268px;
+  width: 240px;
 }
 .calendar-sky-icon img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 240px;
+  height: 242px; /* 太阳 445×448 */
   object-fit: contain;
   object-position: center;
 }
+.calendar-scene-night .calendar-sky-icon img {
+  height: 176px; /* 月亮 448×328 */
+}
+.calendar-today {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
+}
 .calendar-date { font-size: var(--font-date); font-weight: 700; }
 .calendar-week { font-size: var(--font-hint); color: var(--muted); }
-.calendar-tag {
-  padding: 14px 42px;
-  border-radius: var(--radius-pill);
-  font-size: var(--font-hint);
-  font-weight: 700;
-  background: rgba(255, 255, 255, 0.55);
-}
 .calendar-scene-night { color: var(--night-ink); }
 .calendar-scene-night .calendar-date {
   color: var(--night-ink);
   text-shadow: 0 3px 8px rgba(12, 18, 46, 0.28);
 }
 .calendar-scene-night .calendar-week { color: var(--night-muted); }
-.calendar-scene-night .calendar-tag {
-  color: #fff7cf;
-  background: linear-gradient(180deg, rgba(27, 36, 72, 0.94), rgba(18, 26, 57, 0.94));
+
+.heat {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-row);
+  padding: var(--pad-card-lg);
+  box-sizing: border-box;
+}
+
+.heat__title {
+  font-size: var(--font-title);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--ink);
+}
+
+.heat__week,
+.heat__grid,
+.heat__legend {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--gap-row);
+}
+
+.heat__week,
+.heat__grid {
+  width: 100%;
+  gap: var(--gap-row);
+}
+
+.heat__legend {
+  gap: var(--gap-text);
+}
+
+.heat__wd,
+.heat__grid .heat__cell {
+  flex: 0 0 calc((100% - var(--gap-row) * 6) / 7);
+  width: calc((100% - var(--gap-row) * 6) / 7);
+  box-sizing: border-box;
+}
+
+.heat__wd {
+  font-size: var(--font-hint);
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  color: var(--muted);
+}
+
+.heat__grid .heat__cell {
+  aspect-ratio: 1;
+  height: auto;
+  border-radius: var(--radius-cell);
+}
+
+.heat__cell.is-pad {
+  background: transparent;
+}
+
+.heat__cell.is-lv0 {
+  background: var(--heat-lv0);
+}
+
+.heat__cell.is-lv1 {
+  background: var(--heat-lv1);
+}
+
+.heat__cell.is-lv2 {
+  background: var(--heat-lv2);
+}
+
+.heat__cell.is-lv3 {
+  background: var(--heat-lv3);
+}
+
+.heat__cell.is-lv4 {
+  background: var(--heat-lv4);
+}
+
+.heat__cell.is-today {
+  box-shadow: 0 0 0 6px var(--ring-ok);
+}
+
+.heat__legend {
+  justify-content: flex-end;
+}
+
+.heat__legend .heat__cell {
+  flex: 0 0 var(--font-nav);
+  width: var(--font-nav);
+  min-width: var(--font-nav);
+  height: var(--font-nav);
+  border-radius: calc(var(--radius-cell) / 2);
+}
+
+.heat__legend-label {
+  font-size: var(--font-nav);
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.heat.tone-night .heat__title {
+  color: var(--night-ink);
+}
+
+.heat.tone-night .heat__wd,
+.heat.tone-night .heat__legend-label {
+  color: var(--night-muted);
+}
+
+.heat.tone-night .heat__cell.is-lv0 {
+  background: var(--heat-lv0-night);
 }
 /* 夜景：夜空匀色渐变；草地用同一张图，由 .scene__dusk 罩层变夜色 */
 .page.is-night {
@@ -572,9 +723,9 @@ body:has(.preview-deck) {
 }
 
 .sticker-card > img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
+  width: 168px;
+  height: 168px;
+  align-self: center;
   object-fit: contain;
   border-radius: var(--radius-thumb);
 }
@@ -599,6 +750,25 @@ body:has(.preview-deck) {
   height: var(--size-star);
   object-fit: contain;
 }
+
+.sticker-card.is-album {
+  min-height: 0;
+}
+
+.sticker-card__name {
+  font-size: var(--font-nav);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.album-hint {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-hint);
+  color: var(--muted);
+}
+
 .page-links {
   display: flex;
   flex-direction: row;
@@ -650,8 +820,12 @@ body:has(.preview-deck) {
 .volume-option.is-active {
   color: #fff;
 }
-.clear-block { padding: var(--pad-card-lg); }
-.clear-icon { width: var(--size-slot); height: var(--size-slot); flex: 0 0 var(--size-slot); object-fit: contain; }
+.clear-block { padding: var(--pad-card-lg); overflow: visible; }
+.clear-icon-slot {
+  width: var(--size-slot); height: var(--size-slot); flex-shrink: 0;
+  transform: scale(1.3); transform-origin: 50% 50%;
+}
+.clear-icon { display: block; width: var(--size-slot); height: var(--size-slot); flex: 0 0 var(--size-slot); object-fit: contain; }
 .clear-groove {
   position: relative; display: flex; align-items: center; justify-content: center;
   width: 100%; height: var(--size-slot); overflow: hidden; border: 0; border-radius: var(--radius-pill);

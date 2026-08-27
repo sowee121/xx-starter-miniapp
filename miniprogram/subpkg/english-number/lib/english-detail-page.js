@@ -38,6 +38,7 @@ function createEnglishDetailPage(pkg) {
       softNote: '',
       nav: stepNavState(0, 0),
       feedback: { show: false, closing: false },
+      playingSrc: '',
     },
 
     onLoad(q) {

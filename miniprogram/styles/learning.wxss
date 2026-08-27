@@ -134,7 +134,8 @@
 
 .word-card.is-song .word-card__image {
   width: calc(100% - 48rpx);
-  height: 72rpx;
+  aspect-ratio: 272 / 102;
+  height: auto;
   margin-top: 14rpx;
 }
 
@@ -199,7 +200,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-row);
+  gap: var(--gap-card);
+  width: 100%;
+}
+
+.hero__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
   width: 100%;
 }
 
@@ -233,7 +242,6 @@
   align-self: stretch;
   width: 100%;
   height: auto;
-  aspect-ratio: 4 / 3;
   border-radius: var(--radius-thumb);
 }
 
@@ -508,6 +516,26 @@
     inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
     0 0 0 6rpx var(--ring-ok),
     var(--shadow-lift);
+}
+
+@keyframes option-wiggle {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10rpx);
+  }
+  50% {
+    transform: translateX(10rpx);
+  }
+  75% {
+    transform: translateX(-6rpx);
+  }
+}
+
+.option.is-wrong {
+  animation: option-wiggle 420ms ease-in-out;
 }
 
 .soft-note {

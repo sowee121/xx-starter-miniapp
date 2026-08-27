@@ -15,6 +15,7 @@ let playAlive = false
 let retriedPlay = false
 let errorRetryTimer = null
 let lifeBound = false
+let keepScreen = false
 const stopWatchers = []
 
 /** 读取本地音量 */
@@ -64,7 +65,29 @@ function watchStop(fn) {
   }
 }
 
-/** 微信切后台、关掉小程序、来电等打断时停掉长音频。 */
+/** 任意音频播放中保持亮屏，避免自动熄屏掐声 */
+function startKeepScreen() {
+  if (keepScreen) return
+  keepScreen = true
+  try {
+    wx.setKeepScreenOn({ keepScreenOn: true })
+  } catch (error) {
+    // ignore
+  }
+}
+
+/** 停播后恢复系统自动熄屏 */
+function stopKeepScreen() {
+  if (!keepScreen) return
+  keepScreen = false
+  try {
+    wx.setKeepScreenOn({ keepScreenOn: false })
+  } catch (error) {
+    // ignore
+  }
+}
+
+/** 微信切后台、关掉小程序、来电等打断时停掉音频。 */
 function bindAppLifecycle() {
   if (lifeBound) return
   lifeBound = true
@@ -136,6 +159,7 @@ function ensureCtx() {
     playing = false
     currentSrc = ''
     dropNativeSrc()
+    stopKeepScreen()
     if (callback) callback()
   })
   ctx.onStop(() => {
@@ -178,6 +202,7 @@ function finishError(err, callback) {
   playing = false
   currentSrc = ''
   dropNativeSrc()
+  stopKeepScreen()
   if (callback) callback(err)
 }
 
@@ -206,6 +231,7 @@ function startSrc(src, options = {}) {
   errorCallback = null
   clearErrorRetry()
   audio.volume = getVolume()
+  startKeepScreen()
 
   /** 真正开始播放 */
   const doPlay = () => {
@@ -256,6 +282,7 @@ function stop() {
   endedCallback = null
   errorCallback = null
   clearErrorRetry()
+  stopKeepScreen()
   // 空闲时 stop 会在部分机型误报 onError，详情页第一次点播放就会闪「语音准备中」
   if (ctx && hadPlayback) {
     try {

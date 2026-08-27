@@ -4,7 +4,7 @@
       <view class="detail-emoji">{{item.emoji}}</view>
       <view class="detail-big__glyph">{{item.char}}</view>
       <view class="detail-big__sub">{{item.pinyin}} · {{item.strokes}} 画</view>
-      <play-button size="lg" passive="{{true}}" />
+      <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
     </view>
     <view class="detail-pair">
       <view
@@ -17,7 +17,7 @@
         data-index="{{widx}}"
         bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
         <view>{{word}}</view>
-        <play-button compact="{{true}}" size="sm" passive="{{true}}" />
+        <play-button compact="{{true}}" size="sm" passive="{{true}}" playing="{{playingSrc === item.wordAudios[widx]}}" />
       </view>
     </view>
     <trail-nav

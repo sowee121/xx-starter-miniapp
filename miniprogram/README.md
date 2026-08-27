@@ -31,9 +31,9 @@
 
 ## 常用命令
 
-- 云函数本地测试：`npm run test:cloud`
-- 小程序静态检查：`npm test`
-- 本地预编译（去注释、压缩 JS）：`npm run build` → `.ci-output/miniprogram`
+- 云函数本地测试：`npm run test:cloud`（`cloud:deploy` / `cloud:ci-deploy` 会先自动跑）
+- 小程序静态检查：`npm test`（会先同步英语分类包）
+- 本地预编译（去注释、压缩 JS）：`npm run build` → `.ci-output/miniprogram`（先 `npm test`）
 - 云函数部署：`npm run cloud:deploy`（工具 CLI）或 `npm run cloud:ci-deploy`（miniprogram-ci）
 - 云存储上传：`npm run assets:upload`（tcb）或 `npm run assets:ci-upload`（miniprogram-ci）
-- 小程序上传：`npm run mp:upload`（默认 `1.0.0` / `upload: <时间>`；可 `-- 1.0.1 '备注'`）
+- 小程序上传：`npm run mp:upload`（先 `npm test`；默认 `1.0.0` / `upload: <时间>`；可 `-- 1.0.1 '备注'`）

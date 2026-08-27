@@ -105,9 +105,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 220rpx;
+  width: var(--size-chip-wide);
   height: var(--size-chip-lg);
-  border-radius: 50rpx;
+  border-radius: var(--radius-pill);
   background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   color: #fff;
@@ -122,7 +122,7 @@
   top: 16rpx;
   right: 16rpx;
   width: 140rpx;
-  height: 104rpx;
+  height: 104rpx; /* 320×238 */
   pointer-events: none;
 }
 
@@ -132,7 +132,7 @@
   bottom: -6rpx;
   left: 16rpx;
   width: 124rpx;
-  height: 95rpx;
+  height: 95rpx; /* 320×245 */
   pointer-events: none;
 }
 

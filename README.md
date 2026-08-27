@@ -1,6 +1,6 @@
 # 嘻嘻启蒙乐园
 
-面向 2 岁半零基础宝宝的微信原生亲子互动小程序。
+面向幼儿园宝宝的微信原生亲子互动小程序。
 
 晨间草地主题、黏土软萌与低饱和配色，保护幼儿视觉。古诗点读、识字组词、数物与简易加减、英语字母与单词、单韵母、昼夜日历；每日任务攒星换小动物贴纸，在游玩中完成认知探索。基于**微信原生小程序 + 云函数**；幼儿学习流程只增星、不扣分，无广告/付费；家长区可主动清除数据。
 
@@ -31,8 +31,10 @@
 ```bash
 npm install
 npm run test:cloud # 云函数本地单元测试（Mock，不访问云端）
-npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁止包内 webp）
+npm test           # 小程序静态检查（先自动同步英语分类包，再验 H5↔小程序 flex+gap、禁止包内 webp）
 ```
+
+`npm test` 会先把英语枢纽的运行时拷到 8 个分类包（内容没变不写盘）。`npm run build` / `mp:preview` / `mp:upload` 会先跑 `npm test`；`cloud:deploy` / `cloud:ci-deploy` / `cloud:init` 会先跑 `test:cloud`。清媒体、压音频、传云存储仍须手跑，避免误改资源或误传。
 
 ---
 
@@ -72,7 +74,7 @@ npm test           # 小程序静态检查（含 H5↔小程序 flex+gap、禁�
 
 默认 `USE_CLOUD = false`（免费套餐常改不了「所有人可读」）。加星失败会本地兜底并入队，**下次云通畅时自动冲刷同步**（幂等 `clientId`）；**涨星 ≠ 当时已写入云**。
 
-云函数（均已部署，与本地对齐）：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`exchangeReward`、`resetProfile`、`initDb`。`addStars` 原因白名单含 `letter_done`（字母点读）。
+云函数（均已部署，与本地对齐）：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`bumpHeat`、`exchangeReward`、`resetProfile`、`initDb`。`addStars` 原因白名单含 `letter_done`（字母点读）。热力格子写入 `users.heatDays`，换机登录后合并。
 
 ---
 

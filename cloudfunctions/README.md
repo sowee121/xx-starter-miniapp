@@ -13,11 +13,11 @@
 当前 envId：`cloudbase-d7gygre2uc80dcd42`  
 AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
-已有函数：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`exchangeReward`、`resetProfile`、`initDb`
+已有函数：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`bumpHeat`、`exchangeReward`、`resetProfile`、`initDb`
 
 | 集合 | 用途 | 谁创建 |
 | --- | --- | --- |
-| `users` | 用户档案（星星、贴纸等） | `initDb` 或首次 `login` / `getProfile` |
+| `users` | 用户档案（星星、贴纸、热力 `heatDays` 等） | `initDb` 或首次 `login` / `getProfile` |
 | `star_logs` | 加星流水 | 同上 |
 | `progress` | 学习进度 | 同上 |
 | `task_logs` | 任务打卡 | 同上 |
@@ -159,7 +159,7 @@ node scripts/ci_deploy_cloud_functions.js login getProfile
 | --- | --- |
 | 部署 | `npm run cloud:deploy`（工具 CLI）或 `npm run cloud:ci-deploy`（miniprogram-ci） |
 | 建表 | 提醒用户在 Console 调 `initDb` / `getProfile`，或引导手动云端测试 |
-| 本地测试 | 先执行 `npm run test:cloud`；通过后才可部署 |
+| 本地测试 | `cloud:deploy` / `cloud:ci-deploy` 会先自动跑 `npm run test:cloud` |
 | 文档与 skill | `.cursor/skills/miniprogram-development`、`cloud-functions`、`cloudbase-cli` |
 | 存储媒体 | 见 `cloud-assets/README.md` 自动化节（`tcb login` + `npm run assets:upload`） |
 
@@ -187,6 +187,7 @@ npm run test:cloud
 | `login` / `getProfile` | 首次建档、已有用户读取、日期返回 |
 | `addStars` | 参数拒绝、加星、`clientId` 幂等去重、`letter_done` 合法 / 未知 reason 拒绝 |
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
+| `bumpHeat` | 参数拒绝、按日只增不减、覆盖写入 `users.heatDays` |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
 | `exchangeReward` | 非法奖励、无用户、余额不足、贴纸兑换、并发连点只扣一次 |
 | `resetProfile` | 家长区清除：`progress` 只清进度、`stars` 只清积分、`stickers` 只清贴纸（作废旧加星队列） |
@@ -197,9 +198,8 @@ npm run test:cloud
 推荐日常顺序：
 
 ```bash
-npm run test:cloud      # 先跑本地云函数测试
-npm test                # 再跑小程序静态检查
-npm run cloud:deploy    # 确认通过后再部署
+npm run cloud:deploy    # 会先自动跑 test:cloud
+npm run mp:upload       # 会先自动跑 npm test
 ```
 
 ---

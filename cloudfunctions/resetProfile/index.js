@@ -16,6 +16,12 @@ exports.main = async (event) => {
 
   if (scope === 'progress') {
     const removed = await db.collection('progress').where({ _openid: OPENID }).remove()
+    await db
+      .collection('users')
+      .where({ _openid: OPENID })
+      .update({
+        data: { heatDays: {}, updatedAt: Date.now() },
+      })
     return { ok: true, scope, removed: (removed.stats && removed.stats.removed) || 0 }
   }
 

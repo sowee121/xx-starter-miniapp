@@ -3,49 +3,64 @@ const stars = require('./stars')
 const feedback = require('./feedback')
 const { INLINE } = require('../content/feedback')
 
-/** 把播放中标记收回 */
-function clearLongPlaying(page) {
-  if (!page) return
-  page._longPlayGate = false
-  if (page.data && page.data.longPlaying && typeof page.setData === 'function') {
-    page.setData({ longPlaying: false })
-  }
+let boundPage = null
+
+/** 当前页播放钮收回三角 */
+function clearPlayingUi() {
+  const page = boundPage
+  if (!page || typeof page.setData !== 'function') return
+  const patch = {}
+  if (page.data && page.data.playingSrc) patch.playingSrc = ''
+  if (page.data && page.data.longPlaying) patch.longPlaying = false
+  if (Object.keys(patch).length) page.setData(patch)
 }
 
-/** 停掉整首/字母歌并把按钮收回播放三角。进页、离开、回首页、后台打断都走这里。 */
+audioUtil.watchStop(clearPlayingUi)
+
+/** 绑定当前页，便于全局 stop 收回播放钮 */
+function bindPage(page) {
+  boundPage = page
+}
+
+/** 写入正在播放的音频路径 */
+function setPlayingSrc(page, src) {
+  if (!page || typeof page.setData !== 'function') return
+  const next = src || ''
+  const patch = { playingSrc: next }
+  if (page.data && Object.prototype.hasOwnProperty.call(page.data, 'longPlaying')) {
+    patch.longPlaying = !!next
+  }
+  page.setData(patch)
+}
+
+/** 防连点：同一拍 play 又 stop */
+function armGate(page) {
+  if (!page) return false
+  if (page._playGate) return true
+  page._playGate = true
+  setTimeout(() => {
+    page._playGate = false
+  }, 160)
+  return false
+}
+
+/** 停掉音频并把按钮收回播放三角。进页、离开、回首页、后台打断都走这里。 */
 function resetLongPlay(page) {
+  if (page) bindPage(page)
   audioUtil.stop()
-  clearLongPlaying(page)
+  clearPlayingUi()
 }
 
-/** 绑定长播停止监听 */
+/** 绑定当前页为播放 UI 宿主 */
 function attachLongPlay(page) {
-  if (!page || page._unwatchStop) return
-  page._unwatchStop = audioUtil.watchStop(() => {
-    clearLongPlaying(page)
-  })
+  bindPage(page)
 }
 
-/** 解绑并停止长播 */
+/** 解绑并停止 */
 function detachLongPlay(page) {
-  if (page && page._unwatchStop) {
-    page._unwatchStop()
-    page._unwatchStop = null
-  }
-  resetLongPlay(page)
-}
-
-/**
- * 副音轨：组词 / 句子 / 逐句。只播放，不计任务、不加星。
- * 会打断整首/字母歌，并把圆形播放钮恢复为播放态。
- */
-function playPreview(page, src) {
-  if (!src) {
-    feedback.showInline(page, INLINE.audioUnavailable)
-    return
-  }
+  if (page) bindPage(page)
   audioUtil.stop()
-  audioUtil.play(src, { onError: feedback.audioFallback(page) })
+  if (boundPage === page) boundPage = null
 }
 
 /** 记每日任务并加星 */
@@ -60,66 +75,70 @@ function awardPrimary(page, { taskId, unitKey, reason, ref }) {
 }
 
 /**
- * 主点读：音频自然播完后记每日任务、本页最多加 1 星、刷新星栏。
- * 不阻塞播放；副音轨不要走这里。
+ * 所有播放位共用：播放中再点同一段即停止并恢复三角。
+ * award 仅自然播完才发；中途停止不加星。
  */
-function playPrimaryAndAward(page, { src, taskId, unitKey, reason, ref }) {
-  if (!src) {
-    feedback.showInline(page, INLINE.audioUnavailable)
-    return
-  }
-  audioUtil.stop()
-  audioUtil.play(src, {
-    onEnded: () => awardPrimary(page, { taskId, unitKey, reason, ref }),
-    onError: feedback.audioFallback(page),
-  })
-}
-
-/**
- * 整首诗 / 字母歌：播放中再点即停止并恢复三角；自然结束也恢复。
- * 中途停止不加星、不计任务。award 有值时仅自然播完才发奖。
- *
- * 自定义组件 bind:tap 与内部 tap 有时会同一拍触发两次：
- * 第一次 play、第二次立刻 stop，听起来像「点击没反应」。
- */
-function toggleLongPlay(page, { src, award } = {}) {
-  if (page && page._longPlayGate) return
-  if (page) {
-    page._longPlayGate = true
-    setTimeout(() => {
-      page._longPlayGate = false
-    }, 160)
-  }
-
-  const alreadyOn = (page && page.data && page.data.longPlaying) || audioUtil.isPlayingSrc(src)
-  if (alreadyOn) {
+function togglePlay(page, { src, award } = {}) {
+  if (armGate(page)) return
+  bindPage(page)
+  if (audioUtil.isPlayingSrc(src)) {
     audioUtil.stop()
-    clearLongPlaying(page)
     return
   }
   if (!src) {
     feedback.showInline(page, INLINE.audioUnavailable)
     return
   }
-  if (page && typeof page.setData === 'function') {
-    page.setData({ longPlaying: true })
-  }
+  setPlayingSrc(page, src)
   audioUtil.play(src, {
     onEnded: () => {
-      clearLongPlaying(page)
+      if (page.data && page.data.playingSrc === src) setPlayingSrc(page, '')
       if (award) awardPrimary(page, award)
     },
     onError: (err) => {
-      clearLongPlaying(page)
+      if (page.data && page.data.playingSrc === src) setPlayingSrc(page, '')
       feedback.audioFallback(page)(err)
     },
   })
 }
 
+/** 强制开播（不切换停止），用于音量试听等。 */
+function playClip(page, src) {
+  bindPage(page)
+  if (!src) return
+  setPlayingSrc(page, src)
+  audioUtil.play(src, {
+    onEnded: () => {
+      if (page.data && page.data.playingSrc === src) setPlayingSrc(page, '')
+    },
+    onError: () => {
+      if (page.data && page.data.playingSrc === src) setPlayingSrc(page, '')
+    },
+  })
+}
+
+/** 副音轨：组词 / 句子 / 逐句。只播放，不计任务、不加星。 */
+function playPreview(page, src) {
+  togglePlay(page, { src })
+}
+
+/** 主点读：自然播完后记每日任务、本页最多加 1 星。 */
+function playPrimaryAndAward(page, { src, taskId, unitKey, reason, ref }) {
+  togglePlay(page, { src, award: { taskId, unitKey, reason, ref } })
+}
+
+/** 整首诗 / 字母歌，逻辑与其它播放位相同。 */
+function toggleLongPlay(page, { src, award } = {}) {
+  togglePlay(page, { src, award })
+}
+
 module.exports = {
   playPreview,
+  playClip,
   playPrimaryAndAward,
+  togglePlay,
   toggleLongPlay,
   attachLongPlay,
   detachLongPlay,
+  resetLongPlay,
 }

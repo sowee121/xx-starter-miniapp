@@ -2,7 +2,7 @@
   <view class="parent-stack">
     <view class="setting-block block tone-sky">
       <view class="setting-head">
-        <play-button size="lg" passive="{{true}}" />
+        <play-button size="lg" playing="{{playingSrc === previewSrc}}" bind:tap="onPreviewTap" />
         <view class="setting-head__body">
           <view class="setting-head__title">音量大小</view>
           <view class="setting-head__hint">调节点读和答题音量大小</view>
@@ -31,7 +31,10 @@
       class="setting-block clear-block block {{item.tone}}"
     >
       <view class="setting-head">
-        <image class="clear-icon" src="{{item.icon}}" mode="aspectFit" />
+        <view wx:if="{{item.iconClass}}" class="clear-icon-slot {{item.iconClass}}">
+          <image class="clear-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />
+        </view>
+        <image wx:else class="clear-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />
         <view class="setting-head__body">
           <view class="setting-head__title">{{item.title}}</view>
           <view class="setting-head__hint">{{item.hint}}</view>

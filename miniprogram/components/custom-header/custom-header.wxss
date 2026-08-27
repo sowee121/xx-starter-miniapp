@@ -61,7 +61,7 @@
 
 .custom-header__home-icon {
   width: 74rpx;
-  height: 74rpx;
+  height: 71rpx; /* 黏土屋 128×122 */
   flex-shrink: 0;
   transform: translateY(-2rpx);
 }

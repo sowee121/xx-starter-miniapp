@@ -22,7 +22,8 @@
   box-sizing: border-box;
   padding-left: var(--pad-page-x);
   padding-right: var(--pad-page-x);
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--pad-page-b);
+  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
 }
 
 .home-welcome {
@@ -32,7 +33,7 @@
   gap: var(--gap-card);
   height: 144rpx;
   padding: 16rpx var(--pad-card);
-  overflow: hidden;
+  overflow: visible;
   border-radius: var(--radius-card);
   box-sizing: border-box;
   flex-shrink: 0;
@@ -42,10 +43,18 @@
   transform: scale(0.985);
 }
 
-.home-welcome__avatar {
+.home-welcome__avatar-slot {
   width: 112rpx;
   height: 112rpx;
   flex-shrink: 0;
+  transform: scale(1.2);
+  transform-origin: 50% 50%;
+}
+
+.home-welcome__avatar {
+  display: block;
+  width: 112rpx;
+  height: 112rpx;
 }
 
 .home-welcome__hello {
@@ -57,7 +66,7 @@
 
 .home-welcome__deco {
   width: 64rpx;
-  height: auto;
+  height: 101rpx; /* 雏菊 122×192 */
   flex-shrink: 0;
   pointer-events: none;
 }

@@ -1,5 +1,6 @@
 # macOS
 .DS_Store
+**/.DS_Store
 
 # 微信开发者工具本地个人配置
 project.private.config.json

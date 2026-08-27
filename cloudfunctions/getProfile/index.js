@@ -21,6 +21,7 @@ async function getOrCreateUser(openid) {
     stars: 0,
     stickers: [],
     badges: [],
+    heatDays: {},
     _openid: openid,
     updatedAt: Date.now(),
   }

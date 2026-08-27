@@ -7,14 +7,17 @@
 /* 首页贴视口，避免 1624 画板最小高把审查页撑出滚动条；nav 已在文档流，不再垫一层 header padding */
 .page {
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 .shell {
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   gap: var(--gap-grid);
   padding-top: 0;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: var(--pad-page-b);
+  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
 }
 
 /* 草地贴视口底边铺满 390 盒，避免 width 撑高后被 overflow 裁掉丘顶 */
@@ -55,12 +58,20 @@
   text-decoration: none;
   flex-shrink: 0;
   border-radius: var(--radius-card);
+  overflow: visible;
+}
+.welcome-avatar-slot {
+  width: 112px;
+  height: 112px;
+  flex-shrink: 0;
+  transform: scale(1.2);
+  transform-origin: 50% 50%;
 }
 .welcome-avatar {
+  display: block;
   width: 112px;
   height: 112px;
   object-fit: contain;
-  flex-shrink: 0;
 }
 .welcome-hello {
   font-size: var(--font-title);
@@ -70,7 +81,7 @@
 }
 .welcome-deco {
   width: 64px;
-  height: auto;
+  height: 101px; /* 雏菊 122×192 */
   object-fit: contain;
   flex-shrink: 0;
   pointer-events: none;
@@ -100,7 +111,7 @@
 }
 .wide-deco {
   width: 64px;
-  height: auto;
+  height: 64px; /* 勾勾 / 星星 均为正方形 */
   object-fit: contain;
   flex-shrink: 0;
   pointer-events: none;

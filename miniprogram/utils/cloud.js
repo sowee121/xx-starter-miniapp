@@ -9,6 +9,9 @@ let inited = false
 /** 云函数调用默认超时（ms），启动链快速兜底以免挂住模拟器 */
 const CALL_TIMEOUT = 8000
 
+/** 生产环境关掉每次请求/响应 log；排查时改 true */
+const DEBUG = false
+
 /** 压缩云错误信息 */
 function summarizeError(err) {
   if (err == null) return err
@@ -45,7 +48,7 @@ function call(name, data = {}) {
       resolve({ ok: false, data: null, error })
       return
     }
-    console.log('[云函数] 请求', { env: CLOUD_ENV, name, data })
+    if (DEBUG) console.log('[云函数] 请求', { env: CLOUD_ENV, name, data })
     let settled = false
 
     const timer = setTimeout(() => {
@@ -72,7 +75,7 @@ function call(name, data = {}) {
           resolve({ ok: false, data: result, error: result.error || 'business_error' })
           return
         }
-        console.log('[云函数] 响应', { name, requestID, result })
+        if (DEBUG) console.log('[云函数] 响应', { name, requestID, result })
         resolve({ ok: true, data: result, error: null })
       })
       .catch((err) => {

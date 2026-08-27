@@ -1,9 +1,9 @@
 const STORAGE_KEY = 'daily_tasks'
-const SCHEMA = 8
+const SCHEMA = 9
 
 /**
  * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
- * 古诗 1～2；汉字/算术/英语/拼音 1～5；日历固定 1。
+ * 古诗 1～2；汉字/算术/英语 1～5；拼音 1～6（六个单韵母）；日历固定 1。
  * 英语：字母名点读与单词点读都计入同一条（字母歌不计）。
  * 星星：古诗 = 数量 + 1；其余学习任务 = 数量；日历 = 1。
  */
@@ -43,7 +43,7 @@ const TEMPLATES = [
   {
     id: 'pinyin',
     min: 1,
-    max: 5,
+    max: 6,
     url: '/subpkg/pinyin/list/list',
     titleOf: (n) => `读 ${n} 个拼音`,
     rewardOf: (n) => n,
@@ -206,7 +206,8 @@ function reportUnit(taskId, unitKey) {
 
   if (!day.progress[taskId]) day.progress[taskId] = []
   const units = day.progress[taskId]
-  if (!units.includes(unitKey)) units.push(unitKey)
+  const isNew = !units.includes(unitKey)
+  if (isNew) units.push(unitKey)
 
   let firstAward = false
   if (units.length >= task.target && !day.done[taskId]) {
@@ -218,6 +219,13 @@ function reportUnit(taskId, unitKey) {
   }
 
   saveToday(day)
+  if (isNew) {
+    try {
+      require('./activity').bump()
+    } catch (error) {
+      // ignore
+    }
+  }
   return {
     ok: true,
     completed: !!day.done[taskId],

@@ -611,6 +611,12 @@ const ENGLISH_CATS = ['fruit', 'animal', 'color', 'body', 'transport', 'number',
 
 /** 分类包词库只含本类；运行时 JS/WXML 必须与枢纽源文件一致 */
 function checkEnglishRuntimeCopies() {
+  try {
+    require('./sync_english_runtime').syncEnglishRuntime({ silent: true })
+  } catch (err) {
+    errors.push(`英语运行时自动同步失败: ${err.message}`)
+    return
+  }
   const src = {
     media: path.join(MP, 'subpkg/english/lib/english-media.js'),
     page: path.join(MP, 'subpkg/english/lib/english-detail-page.js'),
@@ -639,12 +645,12 @@ function checkEnglishRuntimeCopies() {
     ]
     for (const [key, file] of pairs) {
       if (!fs.existsSync(file)) {
-        errors.push(`english-${cat}: 缺少 ${path.relative(pkg, file)}，请跑 node scripts/sync_english_runtime.js`)
+        errors.push(`english-${cat}: 缺少 ${path.relative(pkg, file)}（自动同步后仍缺失）`)
         continue
       }
       if (fs.readFileSync(file, 'utf8') !== srcText[key]) {
         errors.push(
-          `english-${cat}: ${path.basename(file)} 与 english 源文件不一致，请跑 node scripts/sync_english_runtime.js`
+          `english-${cat}: ${path.basename(file)} 与 english 源文件不一致（自动同步后仍不同）`
         )
       }
     }
@@ -653,9 +659,10 @@ function checkEnglishRuntimeCopies() {
       errors.push(`english-${cat}: 缺少 content/english-words.js`)
       continue
     }
+    delete require.cache[require.resolve(wordsFile)]
     const { categories } = require(wordsFile)
     if (!Array.isArray(categories) || categories.length !== 1 || categories[0].id !== cat) {
-      errors.push(`english-${cat}: 词库只能包含 ${cat} 一类，请跑 node scripts/sync_english_runtime.js`)
+      errors.push(`english-${cat}: 词库只能包含 ${cat} 一类（自动同步后仍不对）`)
     }
   }
 }
@@ -758,6 +765,83 @@ function checkPackageSizeBudgets() {
   }
 }
 
+/** 分包预下载：首页必配；同一来源包内预下载合计 ≤ 2MB */
+function checkPreloadRule() {
+  const app = readJson(path.join(MP, 'app.json'))
+  if (!app || !Array.isArray(app.subPackages)) return
+  const rule = app.preloadRule
+  if (!rule || typeof rule !== 'object') {
+    errors.push('app.json 缺少 preloadRule（进首页后应预下载高频分包）')
+    return
+  }
+  const home = rule['pages/home/home']
+  if (!home || !Array.isArray(home.packages) || !home.packages.length) {
+    errors.push('preloadRule 缺少 pages/home/home，无法在进首页后预下载分包')
+  }
+
+  const byName = new Map()
+  const byRoot = new Map()
+  for (const pkg of app.subPackages) {
+    const bytes = dirBytes(path.join(MP, pkg.root))
+    const info = { root: pkg.root, name: pkg.name || pkg.root, bytes }
+    if (pkg.name) byName.set(pkg.name, info)
+    byRoot.set(pkg.root, info)
+  }
+
+  const quota = new Map()
+  for (const [page, cfg] of Object.entries(rule)) {
+    if (!cfg || !Array.isArray(cfg.packages) || !cfg.packages.length) {
+      errors.push(`preloadRule ${page}: packages 不能为空`)
+      continue
+    }
+    if (cfg.network && cfg.network !== 'all' && cfg.network !== 'wifi') {
+      errors.push(`preloadRule ${page}: network 只能是 all 或 wifi`)
+    }
+    let source = '__MAIN__'
+    let bestLen = -1
+    for (const pkg of app.subPackages) {
+      const root = String(pkg.root || '')
+      if (page === root || page.startsWith(`${root}/`)) {
+        if (root.length > bestLen) {
+          source = root
+          bestLen = root.length
+        }
+      }
+    }
+    const seen = new Set()
+    let pageBytes = 0
+    for (const ref of cfg.packages) {
+      const info = byName.get(ref) || byRoot.get(ref)
+      if (!info) {
+        errors.push(`preloadRule ${page}: 未知分包 ${ref}`)
+        continue
+      }
+      if (seen.has(info.root)) continue
+      seen.add(info.root)
+      pageBytes += info.bytes
+      if (!quota.has(source)) quota.set(source, { bytes: 0, roots: new Set() })
+      const q = quota.get(source)
+      if (!q.roots.has(info.root)) {
+        q.roots.add(info.root)
+        q.bytes += info.bytes
+      }
+    }
+    if (pageBytes > PACKAGE_HARD_LIMIT) {
+      errors.push(
+        `preloadRule ${page}: 预下载 ${(pageBytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`
+      )
+    }
+  }
+  for (const [src, q] of quota) {
+    if (q.bytes > PACKAGE_HARD_LIMIT) {
+      const label = src === '__MAIN__' ? '主包' : src
+      errors.push(
+        `preloadRule: ${label} 内页面预下载合计 ${(q.bytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`
+      )
+    }
+  }
+}
+
 /** 云函数入口 */
 function main() {
   const jsons = walk(MP, ['.json']).filter((f) => {
@@ -800,6 +884,7 @@ function main() {
   checkEnglishRuntimeCopies()
   checkH5FlexGapSync()
   checkPackageSizeBudgets()
+  checkPreloadRule()
 
   if (warnings.length) {
     console.log(`\n⚠ ${warnings.length} 警告：`)

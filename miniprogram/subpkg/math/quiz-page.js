@@ -18,6 +18,7 @@ function resetPick() {
   return {
     pickedValue: null,
     pickedCorrect: false,
+    wrongShake: false,
     softNote: '',
     softNoteTone: 'tone-butter',
   }
@@ -116,14 +117,23 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       const value = Number(raw)
       if (!Number.isFinite(value)) return
       const correct = value === this.data.question.answer
-      this.setData({
-        pickedValue: value,
-        pickedCorrect: correct,
-      })
       if (!correct) {
+        this.setData({
+          pickedValue: value,
+          pickedCorrect: false,
+          wrongShake: false,
+        })
+        wx.nextTick(() => {
+          this.setData({ wrongShake: true })
+        })
         feedback.showInline(this, INLINE.answerWrong)
         return
       }
+      this.setData({
+        pickedValue: value,
+        pickedCorrect: true,
+        wrongShake: false,
+      })
       this._busy = true
       handleCorrect(this, {
         reason: 'math',

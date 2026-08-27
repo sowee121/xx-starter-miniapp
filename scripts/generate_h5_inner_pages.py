@@ -214,8 +214,8 @@ def make_poem():
 
     hero = (
         f'<div class="hero block {sample_tone}"><img src="{ASSET}/{sample["cover"]}.png" alt="" />'
-        f'<div class="hero__bar"><h2 class="hero__title">{sample["title"]}</h2>'
-        f'<p class="hero__sub">{sample["author"]}</p>'
+        f'<div class="hero__bar"><div class="hero__heading"><h2 class="hero__title">{sample["title"]}</h2>'
+        f'<p class="hero__sub">{sample["author"]}</p></div>'
         f'<div class="hero__play">{play("is-lg")}</div></div></div>'
     )
     step = trail_step_nav(2, 6)
@@ -299,7 +299,7 @@ def make_math():
         f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
     )
 
-    def options_html(choices, tones, picked=None, correct=None):
+    def options_html(choices, tones, picked=None, correct=None, wrong=False):
         # 选项一律升序展示（与小程序一致）
         ordered = sorted(choices)
         parts = []
@@ -307,13 +307,15 @@ def make_math():
             mods = []
             if picked is not None and choice == picked:
                 mods.append("is-picked")
+                if wrong:
+                    mods.append("is-wrong")
             if correct is not None and choice == correct:
                 mods.append("is-correct")
             cls = " ".join(["option", "block", tone] + mods)
             parts.append(f'<div class="{cls}">{choice}</div>')
         return "".join(parts)
 
-    def quiz(head, choices, tones, picked=None, correct=None, note="", step=None):
+    def quiz(head, choices, tones, picked=None, correct=None, note="", step=None, wrong=False):
         nav = step if step is not None else trail_step_nav(1, 5)
         return (
             head
@@ -536,9 +538,81 @@ def make_pinyin():
     )
 
 
+def heat_month_html(night=False):
+    cells = (
+        '<div class="heat__cell is-pad"></div>' * 5
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv3"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv4"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv3"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv4 is-today"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv3"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv3"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv4"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv0"></div>'
+        + '<div class="heat__cell is-lv1"></div>'
+        + '<div class="heat__cell is-lv2"></div>'
+    )
+    tone = "tone-night" if night else "tone-cream"
+    return (
+        f'<div class="heat block {tone}">'
+        '<div class="heat__title">八月学习</div>'
+        '<div class="heat__week">'
+        '<div class="heat__wd">一</div><div class="heat__wd">二</div><div class="heat__wd">三</div>'
+        '<div class="heat__wd">四</div><div class="heat__wd">五</div><div class="heat__wd">六</div>'
+        '<div class="heat__wd">日</div>'
+        '</div>'
+        f'<div class="heat__grid">{cells}</div>'
+        '<div class="heat__legend">'
+        '<div class="heat__legend-label">少</div>'
+        '<div class="heat__cell is-lv0"></div>'
+        '<div class="heat__cell is-lv1"></div>'
+        '<div class="heat__cell is-lv2"></div>'
+        '<div class="heat__cell is-lv3"></div>'
+        '<div class="heat__cell is-lv4"></div>'
+        '<div class="heat__legend-label">多</div>'
+        '</div>'
+        '</div>'
+    )
+
+
 def make_calendar():
-    day = f"""<div class="calendar-scene block tone-butter"><div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">白天</div></div><div class="big-btn">打卡</div>"""
-    night = f"""<div class="calendar-scene calendar-scene-night block tone-night"><div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div><div class="calendar-tag">晚上</div></div><div class="big-btn is-disabled">今天已打卡</div>"""
+    heat_day = heat_month_html()
+    heat_night = heat_month_html(night=True)
+    day = (
+        f'<div class="calendar-scene block tone-butter">'
+        f'<div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div>'
+        '<div class="calendar-today"><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div></div>'
+        '<div class="big-btn">打卡</div>'
+        f'</div>{heat_day}'
+    )
+    night = (
+        f'<div class="calendar-scene calendar-scene-night block tone-night">'
+        f'<div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div>'
+        '<div class="calendar-today"><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div></div>'
+        '<div class="big-btn is-disabled">今天已打卡</div>'
+        f'</div>{heat_night}'
+    )
     html = f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -619,7 +693,7 @@ def make_task():
 
 def make_reward():
     animals = sorted(ANIMALS, key=lambda item: (item[2], item[0]))
-    cards = "".join(
+    shop_cards = "".join(
         f'<div class="sticker-card block {STICKER_TONES[i % len(STICKER_TONES)]}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
         f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
@@ -627,26 +701,27 @@ def make_reward():
         for i, (name, asset, price) in enumerate(animals)
     )
     samples = animals[:3]
-    short_chip = '<div class="chip is-compact is-short">星星不足</div>'
-    owned_chip = '<div class="chip is-compact is-owned">已拥有</div>'
-
-    def sample_grid(chip_html: str, card_mod: str = "") -> str:
-        mod = f" {card_mod}" if card_mod else ""
-        return "".join(
-            f'<div class="sticker-card block{mod} {STICKER_TONES[i % len(STICKER_TONES)]}">'
-            f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
-            f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
-            f"{chip_html}</div>"
-            for i, (name, asset, price) in enumerate(samples)
-        )
-
+    album = "".join(
+        f'<div class="sticker-card is-album block {STICKER_TONES[i % len(STICKER_TONES)]}">'
+        f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
+        f'<div class="sticker-card__name">{name}</div></div>'
+        for i, (name, asset, _price) in enumerate(samples)
+    )
+    short = "".join(
+        f'<div class="sticker-card block {STICKER_TONES[i % len(STICKER_TONES)]}">'
+        f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
+        f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
+        f'<div class="chip is-compact is-short">星星不足</div></div>'
+        for i, (name, asset, price) in enumerate(samples)
+    )
     write(
         "reward/shop.html",
         "积分商城",
-        f"""<div class="inner-head"><h1>动物贴纸</h1><p>货架与按钮状态</p></div>
-{section("贴纸货架", f'<div class="sticker-grid">{cards}</div>')}
-{section("星星不足", f'<div class="sticker-grid">{sample_grid(short_chip)}</div>')}
-{section("已拥有", f'<div class="sticker-grid">{sample_grid(owned_chip, "is-owned")}</div>')}""",
+        f"""<div class="inner-head"><h1>动物贴纸</h1><p>我的贴纸与兑换</p></div>
+{section("我的贴纸", '<div class="album-hint">去兑换小动物吧</div>')}
+{section("我的贴纸 · 已收集", f'<div class="sticker-grid">{album}</div>')}
+{section("去兑换", f'<div class="sticker-grid">{shop_cards}</div>')}
+{section("星星不足", f'<div class="sticker-grid">{short}</div>')}""",
     )
 
     remove_paths(

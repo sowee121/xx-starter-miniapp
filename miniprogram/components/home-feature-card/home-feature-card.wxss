@@ -81,7 +81,7 @@
 
 .home-feature-card__deco {
   width: 64rpx;
-  height: auto;
+  height: 64rpx; /* 勾勾 / 星星 均为正方形 */
   flex-shrink: 0;
   pointer-events: none;
 }

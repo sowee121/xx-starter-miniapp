@@ -34,6 +34,7 @@ Page({
     buddyIcon: mediaUrl('/subpkg/pinyin/static/buddy-duckling.png'),
     softNote: '',
     feedback: { show: false, closing: false },
+    playingSrc: '',
   },
 
   onLoad(q) {

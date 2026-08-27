@@ -129,6 +129,7 @@ function applyStarsResetAt(resetAt) {
   if (next <= prev) return
   inflightDelta = 0
   retryQueue.clear()
+  setBaselineStars(0)
   try {
     wx.setStorageSync(RESET_AT_KEY, next)
   } catch (error) {
@@ -160,6 +161,11 @@ function applyProfile(profile) {
       // ignore
     }
   }
+  try {
+    require('./activity').applyCloudDays(next.heatDays)
+  } catch (error) {
+    // ignore
+  }
 }
 
 /**
@@ -171,6 +177,11 @@ async function syncFromCloud({ skipProfile } = {}) {
     await require('./progress').syncFromCloud()
   } catch (error) {
     // 进度同步失败不挡积分
+  }
+  try {
+    await require('./activity').syncFromCloud()
+  } catch (error) {
+    // 热力同步失败不挡积分
   }
   if (skipProfile) return getLocalStars()
   return refreshProfile()
@@ -239,17 +250,36 @@ async function addStars({ delta, reason, ref, clientId, fromQueue }) {
   const id = clientId || makeClientId()
   const amount = Number(delta) || 0
   const payload = { delta: amount, reason, ref, clientId: id }
+  let resetSeen = 0
+  try {
+    resetSeen = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
+  } catch (error) {
+    resetSeen = 0
+  }
   // 队列项已计入 pendingDelta，重复叠加会让展示值虚高
   const optimistic = !fromQueue && amount > 0
   if (optimistic) inflightDelta += amount
 
   const { ok, data } = await cloud.call('addStars', payload)
 
+  let resetNow = 0
+  try {
+    resetNow = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
+  } catch (error) {
+    resetNow = 0
+  }
+  if (resetNow > resetSeen) {
+    if (optimistic) inflightDelta = Math.max(0, inflightDelta - amount)
+    return { ok: true, stars: getLocalStars(), clientId: id, stale: true }
+  }
+
   if (!ok) {
     if (optimistic) {
-      // 在途增量交接给队列，展示值不变
       inflightDelta -= amount
-      retryQueue.enqueue(payload)
+      // 参数错误再入队会永久堵住后续加星
+      if (!(data && data.error === 'invalid_params')) {
+        retryQueue.enqueue(payload)
+      }
     }
     return { ok: false, stars: getLocalStars(), clientId: id, local: true }
   }

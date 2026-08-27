@@ -37,6 +37,7 @@
 | 公共封装 | [`scripts/ci_lib.js`](../scripts/ci_lib.js) |
 | AppID | `project.config.json` → `wx61ad70ac766e4a04` |
 | 项目路径 | 仓库根（含 `project.config.json`，`miniprogramRoot: miniprogram/`） |
+| `urlCheck` | `project.config.json` → `setting.urlCheck: false`，仅方便本地开发；真机/上传仍走公众平台合法域名。JSON 不能写注释，故记在此处 |
 | 私钥（勿入库） | `secrets/private.wx61ad70ac766e4a04.key` |
 | 云环境 | `miniprogram/config/cloud.js` → `CLOUD_ENV` |
 
@@ -50,8 +51,7 @@
 ### 2.2 上传代码 → 体验版
 
 ```bash
-npm run test:cloud && npm test   # 推荐
-npm run mp:upload                # 默认 version=1.0.0
+npm run mp:upload                # 会先跑 npm test；默认 version=1.0.0
 npm run mp:upload -- 1.0.1 '加星修复'
 npm run mp:upload -- --version 1.0.1 --desc '加星修复'
 ```
@@ -128,15 +128,13 @@ node scripts/ci_upload_storage.js subpkg
 ### 2.7 推荐本地流水线
 
 ```text
-改代码 → npm run test:cloud && npm test
-      → npm run build                    # 可选：本地去注释、压 JS，看体积
-      →（如有函数变更）npm run cloud:ci-deploy
-      →（如有媒体变更）npm run assets:ci-upload   # 或 assets:upload
-      → npm run mp:upload
+改代码 → npm run cloud:ci-deploy     # 先自动 npm run test:cloud
+      →（如有媒体变更）npm run assets:ci-upload
+      → npm run mp:upload            # 先自动 npm test（含英语分类包同步）
       → 公众平台：选为体验版
 ```
 
-临时真机看一眼：`npm run mp:preview`。
+本地预编译 `npm run build` 也会先跑 `npm test`。临时真机：`npm run mp:preview`（同样先检查）。清包内媒体、裁音频、传云存储仍手跑。
 
 ---
 

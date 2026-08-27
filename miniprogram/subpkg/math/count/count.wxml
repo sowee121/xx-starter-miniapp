@@ -17,7 +17,7 @@
       <view
         wx:for="{{choices}}"
         wx:key="key"
-        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}}"
+        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-wrong' : ''}}"
         data-value="{{item.value}}"
         bindtap="choose" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item.value}}</view>
     </view>

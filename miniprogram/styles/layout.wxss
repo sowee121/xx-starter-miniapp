@@ -66,7 +66,10 @@
 /* 底部黏土草地：只铺原图裁出的丘坡，天空仍用页面渐变 */
 .scene {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -76,7 +79,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   display: block;
   pointer-events: none;
@@ -102,7 +105,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   pointer-events: none;
   background: linear-gradient(
@@ -118,7 +121,7 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   opacity: 0;
   pointer-events: none;

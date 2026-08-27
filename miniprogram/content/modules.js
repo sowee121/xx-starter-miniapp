@@ -63,8 +63,8 @@ const MODULES = {
   },
 }
 
-/** 首页六宫格：语（识字/拼音/古诗/英语）→ 算术 → 日常 */
-const HOME_MODULE_ENTRIES = ['hanzi', 'pinyin', 'poem', 'english', 'math', 'calendar']
+/** 首页六宫格：拼音/英语 → 识字/古诗 → 算术 → 日常 */
+const HOME_MODULE_ENTRIES = ['pinyin', 'english', 'hanzi', 'poem', 'math', 'calendar']
 
 /** 读取功能模块配置 */
 function getModule(id) {

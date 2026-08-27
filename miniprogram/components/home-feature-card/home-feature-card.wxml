@@ -26,6 +26,6 @@
     wx:if="{{deco}}"
     class="home-feature-card__deco"
     src="{{deco}}"
-    mode="widthFix"
+    mode="aspectFit"
   />
 </view>

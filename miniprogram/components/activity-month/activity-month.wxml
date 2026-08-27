@@ -1,0 +1,22 @@
+<view class="heat block {{night ? 'tone-night' : 'tone-cream'}}">
+  <view class="heat__title">{{title}}</view>
+  <view class="heat__week">
+    <view wx:for="{{weekdays}}" wx:key="*this" class="heat__wd">{{item}}</view>
+  </view>
+  <view class="heat__grid">
+    <view
+      wx:for="{{cells}}"
+      wx:key="key"
+      class="heat__cell {{item.empty ? 'is-pad' : ('is-lv' + item.level)}} {{item.today ? 'is-today' : ''}}"
+    />
+  </view>
+  <view class="heat__legend">
+    <view class="heat__legend-label">少</view>
+    <view class="heat__cell is-lv0"></view>
+    <view class="heat__cell is-lv1"></view>
+    <view class="heat__cell is-lv2"></view>
+    <view class="heat__cell is-lv3"></view>
+    <view class="heat__cell is-lv4"></view>
+    <view class="heat__legend-label">多</view>
+  </view>
+</view>

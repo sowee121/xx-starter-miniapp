@@ -162,8 +162,6 @@ a.block:active,
   margin: 0;
   object-fit: contain;
   flex-shrink: 0;
-  /* ▶ 播放三角右移 2；停止方块 1 */
-  transform: translateX(2px);
 }
 .play-btn.is-lg {
   width: var(--size-play-lg);
@@ -180,10 +178,6 @@ a.block:active,
 .play-btn.is-sm > img {
   width: var(--size-play-icon-sm);
   height: var(--size-play-icon-sm);
-}
-.play-btn.is-playing > img,
-.play-btn > img[src*="stop"] {
-  transform: translateX(1px);
 }
 
 /* 通用石子径：详情切项 / 拼音字母 */
@@ -347,7 +341,7 @@ a.block:active,
 .media-main > img {
   width: var(--size-media-thumb);
   height: var(--size-media-thumb);
-  object-fit: cover;
+  object-fit: contain;
   flex-shrink: 0;
   overflow: hidden;
   border-radius: var(--radius-thumb);
@@ -480,9 +474,9 @@ a.block:active,
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 220px;
+  width: var(--size-chip-wide);
   height: var(--size-chip-lg);
-  border-radius: 50px;
+  border-radius: var(--radius-pill);
   background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   color: #fff;
@@ -496,8 +490,8 @@ a.block:active,
   top: 16px;
   right: 16px;
   width: 140px;
-  height: auto;
-  opacity: var(--opacity-soft);
+  height: 104px; /* 320×238 */
+  object-fit: contain;
   pointer-events: none;
 }
 .praise-sun__grass {
@@ -506,7 +500,7 @@ a.block:active,
   bottom: -6px;
   left: 16px;
   width: 124px;
-  height: auto;
-  opacity: var(--opacity-soft);
+  height: 95px; /* 320×245 */
+  object-fit: contain;
   pointer-events: none;
 }

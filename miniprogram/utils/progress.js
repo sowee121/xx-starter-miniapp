@@ -125,6 +125,11 @@ async function flushRetryQueue() {
 async function clearAll() {
   saveMap({})
   saveQueue([])
+  try {
+    require('./activity').clearLocal()
+  } catch (error) {
+    // ignore
+  }
   const { ok } = await cloud.call('resetProfile', { scope: 'progress' })
   return { ok }
 }

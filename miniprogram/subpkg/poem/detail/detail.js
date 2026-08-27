@@ -45,6 +45,7 @@ Page({
     feedback: { show: false, closing: false },
     fullAward: null,
     longPlaying: false,
+    playingSrc: '',
   },
 
   onLoad(query) {
@@ -73,6 +74,7 @@ Page({
       softNote: '',
       fullAward: fullAward(poem),
       longPlaying: false,
+      playingSrc: '',
       nav: stepNavState(index, poems.length),
     })
   },

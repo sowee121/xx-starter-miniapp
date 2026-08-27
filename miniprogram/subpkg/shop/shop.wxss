@@ -21,11 +21,22 @@
   box-sizing: border-box;
 }
 
+.sticker-card.is-album {
+  min-height: 0;
+}
+
 .sticker-card__image {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1;
+  width: 168rpx;
+  height: 168rpx;
+  align-self: center;
   border-radius: var(--radius-thumb);
+}
+
+.sticker-card__name {
+  font-size: var(--font-nav);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
 }
 
 .sticker-card__price {
@@ -50,4 +61,11 @@
 .sticker-card__price image {
   width: var(--size-star);
   height: var(--size-star);
+}
+
+.album-hint {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-hint);
+  color: var(--muted);
 }

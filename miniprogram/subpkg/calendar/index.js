@@ -1,6 +1,7 @@
 const starsUtil = require('../../utils/stars')
 const { mediaUrl } = require('../../config/media')
 const { trackDaily, getToday, readToday } = require('../../utils/daily-tasks')
+const activity = require('../../utils/activity')
 const feedback = require('../../utils/feedback')
 
 const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
@@ -20,6 +21,7 @@ Page({
     checkedIn: false,
     skyIcon: mediaUrl('/subpkg/calendar/static/sun.png'),
     background: mediaUrl('/static/shared/meadow.png'),
+    heat: activity.monthBoard(),
     feedback: { show: false, closing: false },
   },
 
@@ -33,7 +35,11 @@ Page({
       isNight,
       checkedIn: calendarCheckedIn(),
       skyIcon: mediaUrl(isNight ? '/subpkg/calendar/static/moon-stars.png' : '/subpkg/calendar/static/sun.png'),
+      heat: activity.monthBoard(),
     })
+    activity.syncFromCloud().then(() => {
+      this.setData({ heat: activity.monthBoard() })
+    }).catch(() => {})
   },
 
   /** 日历打卡 */
@@ -44,6 +50,7 @@ Page({
     this.setData({
       checkedIn: true,
       stars: starsUtil.getLocalStars(),
+      heat: activity.monthBoard(),
     })
     this._busy = false
     feedback.showTaskAward(this, result)

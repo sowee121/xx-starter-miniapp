@@ -245,6 +245,17 @@ async function testAddStars() {
     clientId: 'daily-2026-08-20-poem',
   })
   assert.equal(daily.stars, 4)
+  const pinyinDaily = await addStars({
+    delta: 6,
+    reason: 'daily_task',
+    clientId: 'daily-2026-08-20-pinyin',
+  })
+  assert.equal(pinyinDaily.ok, true)
+  assert.equal(pinyinDaily.stars, 10)
+  assert.deepEqual(
+    await addStars({ delta: 7, reason: 'daily_task', clientId: 'daily-too-big' }),
+    { ok: false, error: 'invalid_params' }
+  )
   const dailyDup = await addStars({
     delta: 2,
     reason: 'daily_task',
@@ -362,6 +373,22 @@ async function testRewardRace() {
   assert.equal(records('reward_logs').length, 1)
 }
 
+/** 热力按日只增不减，换机合并。 */
+async function testBumpHeat() {
+  reset()
+  const bumpHeat = fn('bumpHeat')
+  assert.deepEqual(await bumpHeat({}), { ok: false, error: 'invalid_params' })
+  const first = await bumpHeat({ day: '2026-08-27', count: 2 })
+  assert.equal(first.ok, true)
+  assert.equal(first.heatDays['2026-08-27'], 2)
+  const lower = await bumpHeat({ day: '2026-08-27', count: 1 })
+  assert.equal(lower.heatDays['2026-08-27'], 2)
+  const higher = await bumpHeat({ day: '2026-08-27', count: 4 })
+  assert.equal(higher.heatDays['2026-08-27'], 4)
+  assert.equal(records('users')[0]._openid, OPENID)
+  assert.equal(records('users')[0].heatDays['2026-08-27'], 4)
+}
+
 /** 家长区重置：两个作用域互不越界。 */
 async function testResetProfile() {
   reset()
@@ -373,9 +400,11 @@ async function testResetProfile() {
 
   assert.deepEqual(await resetProfile({}), { ok: false, error: 'invalid_params' })
 
+  await fn('bumpHeat')({ day: '2026-08-27', count: 3 })
   const cleared = await resetProfile({ scope: 'progress' })
   assert.equal(cleared.ok, true)
   assert.equal(records('progress').length, 0)
+  assert.deepEqual(records('users')[0].heatDays || {}, {}, '重置进度应清热力')
   assert.equal(records('users')[0].stars, 5, '重置进度不应动积分')
   assert.equal(records('task_logs').length, 1, '重置进度不应动今日打卡')
 
@@ -396,6 +425,14 @@ async function testResetProfile() {
   assert.equal(stale.stale, true)
   assert.equal(stale.stars, 0)
   assert.equal(records('users')[0].stars, 0)
+
+  const staleDaily = await fn('addStars')({
+    delta: 6,
+    reason: 'daily_task',
+    clientId: 'daily-2026-08-20-pinyin',
+  })
+  assert.equal(staleDaily.stale, true)
+  assert.equal(records('users')[0].stars, 0, '清星后在途每日任务不应把星加回来')
 
   const peeled = await resetProfile({ scope: 'stickers' })
   assert.equal(peeled.ok, true)
@@ -419,6 +456,7 @@ async function main() {
     ['login 与 getProfile 用户档案', testLoginAndProfile],
     ['addStars 参数校验与幂等', testAddStars],
     ['completeProgress 与 checkinTask', testProgressAndTasks],
+    ['bumpHeat 按日只增不减', testBumpHeat],
     ['exchangeReward 校验与扣星', testRewards],
     ['exchangeReward 并发只扣一次', testRewardRace],
     ['resetProfile 分作用域重置', testResetProfile],

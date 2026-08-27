@@ -1,8 +1,8 @@
 @import url("tokens.css");
 @import url("layout.css");
 
-* { box-sizing: border-box; margin: 0; padding: 0; letter-spacing: var(--letter-btn); } /* 全站字距 */
-html, body { background: var(--board); color: var(--ink); font-family: var(--font-family); letter-spacing: var(--letter-btn); -webkit-font-smoothing: antialiased; } /* 全站字距 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--board); color: var(--ink); font-family: var(--font-family); letter-spacing: var(--letter-btn); -webkit-font-smoothing: antialiased; } /* 全站字距不要写在 * 上 */
 .page {
   position: relative; width: var(--size-canvas); min-height: var(--size-canvas-min); margin: 0 auto; overflow: hidden;
   /* 色阶贴近，长页上方几乎匀色，避免硬分层带 */
@@ -10,7 +10,10 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
 }
 .scene {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
@@ -19,7 +22,7 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   display: block;
   object-fit: contain;
@@ -45,7 +48,7 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   pointer-events: none;
   background: linear-gradient(
@@ -60,7 +63,7 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   position: absolute;
   left: 0;
   bottom: 0;
-  width: var(--size-canvas);
+  width: 100%;
   height: var(--size-meadow);
   opacity: 0;
   pointer-events: none;
@@ -81,7 +84,19 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   opacity: 0;
 }
 /* 纵向积木间距统一由 shell 的 gap 提供，积木自身不带 margin */
-.shell { position: relative; z-index: 1; display: flex; flex-direction: column; gap: var(--gap-block); min-height: var(--size-canvas-min); padding: var(--size-header) var(--pad-page-x) env(safe-area-inset-bottom); }
+.shell {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-block);
+  min-height: var(--size-canvas-min);
+  padding-top: var(--size-header);
+  padding-left: var(--pad-page-x);
+  padding-right: var(--pad-page-x);
+  padding-bottom: var(--pad-page-b);
+  padding-bottom: calc(var(--pad-page-b) + env(safe-area-inset-bottom, 0px));
+}
 .nav {
   display: flex;
   flex-direction: row;
@@ -98,7 +113,7 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   background-image: url("../../atoms/home-clay.png"), var(--tone-leaf);
   background-position: center 24%, center;
   background-repeat: no-repeat, no-repeat;
-  background-size: 74px auto, 100% 100%;
+  background-size: 74px 71px, 100% 100%; /* 黏土屋 128×122 */
   box-shadow: var(--shadow-clay-leaf);
 }
 .nav-title {
