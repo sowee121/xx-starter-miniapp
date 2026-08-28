@@ -121,7 +121,7 @@
 }
 
 .word-card:not(.word-card--english):not(.word-card--hanzi) {
-  justify-content: flex-start;
+  justify-content: space-between;
   padding-top: var(--gap-inset);
   padding-bottom: var(--gap-inset);
 }
@@ -136,7 +136,7 @@
   width: calc(100% - 48rpx);
   aspect-ratio: 272 / 102;
   height: auto;
-  margin-top: 14rpx;
+  margin-top: 20rpx;
 }
 
 .word-card .play-btn-hit {
