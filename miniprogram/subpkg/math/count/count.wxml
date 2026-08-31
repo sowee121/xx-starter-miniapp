@@ -1,7 +1,7 @@
 <app-shell title="数一数" stars="{{stars}}">
   <view wx:if="{{question}}" class="detail-stack">
     <view class="quiz-head block tone-butter">
-      <view class="count-stage count-stage--{{count}} count-stage--cols-{{cols}}">
+      <view class="count-stage count-stage--{{count}}">
         <image
           wx:for="{{items}}"
           wx:key="index"

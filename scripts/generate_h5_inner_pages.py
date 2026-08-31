@@ -296,7 +296,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-butter"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-sky"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block mascot-dog"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None, wrong=False):
@@ -452,7 +452,7 @@ def make_english():
     write(
         "english/alphabet-detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-big block tone-sky pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p>{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-sky"><img class="pinyin-vowel-image" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p>{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
 
@@ -523,8 +523,8 @@ def make_pinyin():
     write(
         "pinyin/detail.html",
         "拼音",
-        f"""<div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p>{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
-<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream pinyin-stage"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p>{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
+        f"""<div class="detail-stack"><div class="detail-big block tone-cream"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p>{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
+<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p>{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths(
@@ -718,7 +718,7 @@ def make_reward():
         "reward/shop.html",
         "积分商城",
         f"""<div class="inner-head"><h1>动物贴纸</h1><p>我的贴纸与兑换</p></div>
-{section("我的贴纸", '<div class="album-hint">去兑换小动物吧</div>')}
+{section("我的贴纸", '<div class="album-hint">去兑换小动物吧～</div>')}
 {section("我的贴纸 · 已收集", f'<div class="sticker-grid">{album}</div>')}
 {section("去兑换", f'<div class="sticker-grid">{shop_cards}</div>')}
 {section("星星不足", f'<div class="sticker-grid">{short}</div>')}""",

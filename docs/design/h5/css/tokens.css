@@ -116,6 +116,45 @@
   --heat-lv3: #4f9a5a; /* 热力较多 */
   --heat-lv4: #2f6d42; /* 热力多 */
   --heat-lv0-night: rgba(220, 226, 250, 0.16); /* 夜景热力空档 */
+
+  /* —— 家长区四卡主题：每日任务 / 学习记录 / 兑换贴纸 / 星星积分 —— */
+  --tone-matcha: linear-gradient(180deg, #f4fae8 0%, #dcecc4 100%); /* 任务卡面（绿） */
+  --tone-sky: linear-gradient(180deg, #f4fafd 0%, #dbeaf7 100%); /* 记录卡面（蓝） */
+  --tone-rose: linear-gradient(180deg, #fef5f8 0%, #f6d4e0 100%); /* 贴纸卡面（玫红，同首页积分商城） */
+  --tone-apricot: linear-gradient(180deg, #fff8ee 0%, #fbe4cb 100%); /* 积分卡面（杏橙） */
+  --shadow-tone-matcha:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(152, 186, 122, 0.26),
+    var(--shadow-lift);
+  --shadow-tone-sky:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(136, 174, 204, 0.24),
+    var(--shadow-lift);
+  --shadow-tone-rose:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 148, 170, 0.28),
+    var(--shadow-lift);
+  --shadow-tone-apricot:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(210, 164, 112, 0.24),
+    var(--shadow-lift);
+  --btn-sky: linear-gradient(180deg, #a8cff2, #82b2e6); /* 记录清除钮 */
+  --btn-rose: linear-gradient(180deg, #e0a4b4, #c88698); /* 贴纸清除钮（默认钮面） */
+  --btn-apricot: linear-gradient(180deg, #eec99a, #d5a264); /* 积分清除钮 */
+  --shadow-btn-hi: inset 0 4px 8px rgba(255, 255, 255, 0.28); /* 清除钮上沿高光 */
+  --shadow-btn-rose:
+    var(--shadow-btn-hi),
+    inset 0 -6px 12px rgba(160, 90, 110, 0.28),
+    0 8px 16px rgba(180, 120, 140, 0.18);
+  --shadow-btn-sky:
+    var(--shadow-btn-hi),
+    inset 0 -6px 12px rgba(90, 140, 190, 0.28),
+    0 8px 16px rgba(120, 160, 210, 0.18);
+  --shadow-btn-apricot:
+    var(--shadow-btn-hi),
+    inset 0 -6px 12px rgba(170, 120, 60, 0.28),
+    0 8px 16px rgba(190, 140, 90, 0.18);
+
   --motion-tap: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out, color 120ms ease-out; /* 按下过渡 */
 
   /* —— 字号 —— */

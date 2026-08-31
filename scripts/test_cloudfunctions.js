@@ -49,6 +49,7 @@ function applyPatch(doc, patch) {
     }
     if (value.__command === 'inc') doc[key] = (doc[key] || 0) + value.value
     if (value.__command === 'push') doc[key] = [...(doc[key] || []), value.value]
+    if (value.__command === 'set') { doc[key] = clone(value.value); continue }
   }
 }
 
@@ -63,6 +64,7 @@ const cloud = {
       push: (value) => command('push', value),
       gte: (value) => command('gte', value),
       nin: (value) => command('nin', value),
+      set: (value) => command('set', value),
     },
     /** 创建集合 */
     async createCollection(name) {
@@ -174,7 +176,7 @@ async function testInitDb() {
   assert.equal(result.ok, true)
   assert.deepEqual(
     result.results.map((item) => item.name).sort(),
-    ['progress', 'reward_logs', 'star_logs', 'task_logs', 'users']
+    ['daily_tasks', 'progress', 'reward_logs', 'star_logs', 'task_logs', 'users']
   )
   assert.ok(result.results.every((item) => item.status === 'created'))
 }
@@ -301,6 +303,97 @@ async function testProgressAndTasks() {
   assert.equal(records('task_logs').length, 1)
 }
 
+/** 每日任务云端存取：生成、幂等、seed、自愈、同步、重置。 */
+async function testDailyTasks() {
+  const dailyTasks = fn('dailyTasks')
+  const seedTasks = [
+    { id: 'poem', target: 1, reward: 2, title: '读 1 首古诗', url: '/subpkg/poem/poem/poem' },
+    { id: 'hanzi', target: 2, reward: 2, title: '认 2 个汉字', url: '/subpkg/hanzi/list/list' },
+    { id: 'math', target: 3, reward: 3, title: '做 3 道算术题', url: '/subpkg/math/hub/hub' },
+    { id: 'english', target: 4, reward: 4, title: '学 4 个英语', url: '/subpkg/english/hub/hub' },
+    { id: 'pinyin', target: 5, reward: 5, title: '读 5 个拼音', url: '/subpkg/pinyin/list/list' },
+    { id: 'calendar', target: 1, reward: 1, title: '日历打卡', url: '/subpkg/calendar/index' },
+  ]
+
+  // 无 seed：云端模板生成 6 条完整任务
+  reset()
+  const created = await dailyTasks({ action: 'get', date: '2026-08-31' })
+  assert.equal(created.ok, true)
+  assert.equal(created.day.tasks.length, 6)
+  for (const id of ['poem', 'hanzi', 'math', 'english', 'pinyin', 'calendar']) {
+    assert.ok(created.day.tasks.some((t) => t.id === id), `任务应包含 ${id}`)
+  }
+  assert.ok(
+    created.day.tasks.every((t) => typeof t.target === 'number' && t.target >= 1 && typeof t.reward === 'number' && t.title && t.url),
+    '任务应含 target/reward/title/url'
+  )
+  assert.equal(records('daily_tasks').length, 1)
+  assert.equal(records('daily_tasks')[0]._openid, OPENID, 'daily_tasks 记录必须带 _openid')
+
+  // 幂等：再次 get 返回同一份，不重复生成
+  const again = await dailyTasks({ action: 'get', date: '2026-08-31' })
+  assert.equal(again.ok, true)
+  assert.deepEqual(again.day.tasks, created.day.tasks)
+  assert.equal(records('daily_tasks').length, 1)
+
+  // 有 seed：云端缺失时用 seed 入库，避免双随机漂移
+  reset()
+  const seeded = await dailyTasks({ action: 'get', date: '2026-08-31', seed: { tasks: seedTasks } })
+  assert.equal(seeded.ok, true)
+  assert.deepEqual(seeded.day.tasks, seedTasks)
+  assert.equal(records('daily_tasks')[0].tasks[0].target, 1)
+
+  // 同 openid+date 多条脏数据：get 自愈保留一条
+  reset()
+  records('daily_tasks').push(
+    { _id: 'dt-a', _openid: OPENID, date: '2026-08-31', tasks: seedTasks, progress: { poem: ['x'] } },
+    { _id: 'dt-b', _openid: OPENID, date: '2026-08-31', tasks: seedTasks, progress: { poem: ['y'] } },
+  )
+  const healed = await dailyTasks({ action: 'get', date: '2026-08-31' })
+  assert.equal(healed.ok, true)
+  assert.equal(records('daily_tasks').length, 1)
+
+  // sync 无文档 → add；有文档 → update 整体替换
+  reset()
+  const syncAdd = await dailyTasks({
+    action: 'sync',
+    date: '2026-08-31',
+    day: { schema: 10, tasks: seedTasks, progress: { poem: ['a', 'b'] }, done: { poem: true }, awarded: { poem: true } },
+  })
+  assert.equal(syncAdd.ok, true)
+  assert.equal(records('daily_tasks').length, 1)
+  assert.equal(records('daily_tasks')[0].progress.poem.length, 2)
+  assert.equal(records('daily_tasks')[0]._openid, OPENID)
+
+  const syncUpdate = await dailyTasks({
+    action: 'sync',
+    date: '2026-08-31',
+    day: { schema: 10, tasks: seedTasks, progress: { poem: ['a'] }, done: {}, awarded: {} },
+  })
+  assert.equal(syncUpdate.ok, true)
+  assert.equal(records('daily_tasks').length, 1)
+  assert.equal(records('daily_tasks')[0].progress.poem.length, 1, 'sync 应整体替换当天文档')
+  assert.equal(records('daily_tasks')[0].done.poem, undefined)
+
+  assert.deepEqual(
+    await dailyTasks({ action: 'sync', date: '2026-08-31', day: { tasks: [] } }),
+    { ok: false, error: 'invalid_params' }
+  )
+  assert.deepEqual(await dailyTasks({ action: 'nope' }), { ok: false, error: 'invalid_action' })
+
+  // reset：删当天 daily_tasks + 当天 task_logs，别天保留
+  reset()
+  await fn('initDb')() // 先建集合，mock 的 records 在集合未创建时是临时数组、push 不落库
+  records('daily_tasks').push({ _id: 'dt-1', _openid: OPENID, date: '2026-08-31', tasks: seedTasks })
+  records('task_logs').push({ _id: 'tl-1', _openid: OPENID, date: '2026-08-31', tasks: [] })
+  records('task_logs').push({ _id: 'tl-2', _openid: OPENID, date: '2026-08-30', tasks: [] })
+  const resetted = await dailyTasks({ action: 'reset', date: '2026-08-31' })
+  assert.equal(resetted.ok, true)
+  assert.equal(records('daily_tasks').length, 0, 'reset 应清空当天任务文档')
+  assert.equal(records('task_logs').length, 1, 'reset 应只删当天打卡')
+  assert.equal(records('task_logs')[0].date, '2026-08-30')
+}
+
 /** 所有落库记录都必须带 _openid，否则按用户查询会全空（云函数 add 不自动注入）。 */
 async function testOwnership() {
   reset()
@@ -308,10 +401,11 @@ async function testOwnership() {
   await fn('addStars')({ delta: 1, reason: 'math', clientId: 'own-1' })
   await fn('completeProgress')({ module: 'poem', itemId: 'poem-1' })
   await fn('checkinTask')({ taskId: 'poem' })
+  await fn('dailyTasks')({ action: 'get' })
   records('users')[0].stars = 12
   await fn('exchangeReward')({ rewardId: 'rabbit' })
 
-  for (const name of ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs']) {
+  for (const name of ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs', 'daily_tasks']) {
     const rows = records(name)
     assert.ok(rows.length > 0, `${name} 应有记录`)
     for (const row of rows) {
@@ -405,6 +499,9 @@ async function testResetProfile() {
   assert.equal(cleared.ok, true)
   assert.equal(records('progress').length, 0)
   assert.deepEqual(records('users')[0].heatDays || {}, {}, '重置进度应清热力')
+  // 端到端：getProfile 必须返回清空后的热力，否则云端残留值会被合并回本地热力图
+  const after = await fn('getProfile')()
+  assert.deepEqual(after.profile.heatDays || {}, {}, 'getProfile 返回的热力应已清空')
   assert.equal(records('users')[0].stars, 5, '重置进度不应动积分')
   assert.equal(records('task_logs').length, 1, '重置进度不应动今日打卡')
 
@@ -447,6 +544,18 @@ async function testResetProfile() {
   assert.equal(fresh.ok, true)
   assert.equal(fresh.duplicated, false)
   assert.equal(records('users')[0].stars, 1)
+
+  // 清星后新完成的每日任务（携带真实发起时刻）应正常加星，
+  // 不能被「清星标记早于当天 0 点」误判为清零前在途而吞掉
+  const freshDaily = await fn('addStars')({
+    delta: 2,
+    reason: 'daily_task',
+    clientId: `daily-${Date.now()}-2026-08-20-hanzi`,
+  })
+  assert.equal(freshDaily.ok, true)
+  assert.equal(freshDaily.stale, undefined)
+  assert.equal(freshDaily.duplicated, false)
+  assert.equal(records('users')[0].stars, 3, '清星后新完成的每日任务奖励应正常发放')
 }
 
 /** 云函数入口 */
@@ -456,6 +565,7 @@ async function main() {
     ['login 与 getProfile 用户档案', testLoginAndProfile],
     ['addStars 参数校验与幂等', testAddStars],
     ['completeProgress 与 checkinTask', testProgressAndTasks],
+    ['dailyTasks 生成/幂等/同步/重置', testDailyTasks],
     ['bumpHeat 按日只增不减', testBumpHeat],
     ['exchangeReward 校验与扣星', testRewards],
     ['exchangeReward 并发只扣一次', testRewardRace],

@@ -18,7 +18,8 @@ Page({
   },
 
   /** 同步云端后再重绘 */
-  refresh() {
+  async refresh() {
+    await dailyTasks.syncFromCloud().catch(() => {})
     const tasks = dailyTasks.taskList()
     const progress = tasks.filter((task) => task.done).length
     const head = taskHead(progress, tasks.length)

@@ -44,13 +44,6 @@ function armGate(page) {
   return false
 }
 
-/** 停掉音频并把按钮收回播放三角。进页、离开、回首页、后台打断都走这里。 */
-function resetLongPlay(page) {
-  if (page) bindPage(page)
-  audioUtil.stop()
-  clearPlayingUi()
-}
-
 /** 绑定当前页为播放 UI 宿主 */
 function attachLongPlay(page) {
   bindPage(page)
@@ -67,9 +60,23 @@ function detachLongPlay(page) {
 function awardPrimary(page, { taskId, unitKey, reason, ref }) {
   const { trackDaily } = require('./daily-tasks')
   const result = trackDaily(taskId, unitKey)
-  stars.awardVisitStar(page, { delta: 1, reason, ref })
-  if (page && typeof page.setData === 'function') {
-    page.setData({ stars: stars.getLocalStars() })
+  // 去乐观：星星数字以云函数确认的权威值为准，确认后再刷新；
+  // 即时反馈由 showTaskAward 弹窗与提示音承担，避免「先加后减」的观感。
+  stars.awardVisitStar(page, { delta: 1, reason, ref }).then(() => {
+    if (page && typeof page.setData === 'function') {
+      page.setData({ stars: stars.getLocalStars() })
+    }
+  })
+  // 任务奖励星与学习星并发：奖励星确认后同样刷新，
+  // 避免 +1 先确认、奖励星后确认时顶栏停留旧值、看起来「没加星」。
+  if (result.awardPromise) {
+    result.awardPromise
+      .then(() => {
+        if (page && typeof page.setData === 'function') {
+          page.setData({ stars: stars.getLocalStars() })
+        }
+      })
+      .catch(() => {})
   }
   feedback.showTaskAward(page, result)
 }
@@ -140,5 +147,4 @@ module.exports = {
   toggleLongPlay,
   attachLongPlay,
   detachLongPlay,
-  resetLongPlay,
 }

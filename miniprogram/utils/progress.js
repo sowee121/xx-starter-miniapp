@@ -1,7 +1,15 @@
 const cloud = require('./cloud')
+// 静态引入 activity：动态 require 一旦失败会被 catch 静默吞掉，
+// 表现为「清除学习记录后热力图毫无反应」，且线上不留任何痕迹。
+const activity = require('./activity')
 
 const STORAGE_KEY = 'learning_progress'
 const QUEUE_KEY = 'progress_retry_queue'
+/**
+ * 防御上限：长期离线时避免队列无限堆积挤占存储。
+ * 按 module::itemId 去重，正常使用远不会触发；裁剪会丢「已学未同步」记录，故取值比星星队列宽。
+ */
+const MAX_SIZE = 500
 
 let flushing = false
 
@@ -48,12 +56,12 @@ function queueKey(moduleName, itemId) {
   return `${moduleName}::${itemId}`
 }
 
-/** 入队待同步请求 */
+/** 入队待同步请求；超上限时裁剪最旧的（保留最近学习项优先同步） */
 function enqueue(moduleName, itemId) {
   const key = queueKey(moduleName, itemId)
   const list = loadQueue().filter((row) => queueKey(row.module, row.itemId) !== key)
   list.push({ module: moduleName, itemId })
-  saveQueue(list)
+  saveQueue(list.length > MAX_SIZE ? list.slice(list.length - MAX_SIZE) : list)
 }
 
 /** 本地标记已学 */
@@ -125,12 +133,21 @@ async function flushRetryQueue() {
 async function clearAll() {
   saveMap({})
   saveQueue([])
+  // 本地热力无条件先清：不能等云端结果，否则云不通就永远清不掉
   try {
-    require('./activity').clearLocal()
+    activity.clearLocal()
   } catch (error) {
-    // ignore
+    console.warn('[progress] 清除本地热力失败', error)
   }
-  const { ok } = await cloud.call('resetProfile', { scope: 'progress' })
+  const { ok, data } = await cloud.call('resetProfile', { scope: 'progress' })
+  // 云端复位成功：同步复位标记，之后档案拉取/旧 bump 写入都按复位后处理
+  if (ok && data && data.heatResetAt) {
+    try {
+      activity.applyHeatResetAt(data.heatResetAt)
+    } catch (error) {
+      console.warn('[progress] 同步热力复位标记失败', error)
+    }
+  }
   return { ok }
 }
 

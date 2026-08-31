@@ -11,7 +11,7 @@
         <view class="sticker-card__name">{{item.name}}</view>
       </view>
     </view>
-    <view wx:else class="album-hint">去兑换小动物吧</view>
+    <view wx:else class="album-hint">去兑换小动物吧～</view>
   </view>
 
   <view class="section">

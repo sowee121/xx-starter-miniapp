@@ -4,49 +4,72 @@ const { mediaUrl } = require('../../config/media')
 const mascots = require('../../content/mascots')
 const progressUtil = require('../../utils/progress')
 const starsUtil = require('../../utils/stars')
+const dailyTasksUtil = require('../../utils/daily-tasks')
 const { tap } = require('../../utils/tap-guard')
 
 const HOLD_MS = 3000
 const VOLUME_PREVIEW_DELAY = 120
 const VOLUME_SLIDER_PADDING = 8
 const VOLUME_PREVIEW_AUDIO = mediaUrl('/static/shared/volume-preview.mp3')
-const IDLE_LABEL = '长按 3 秒清除'
+/** 家长区各清除操作的动词：清零 / 清空 / 重置 / 清除 */
+const ACTION_VERBS = {
+  stars: '清零',
+  stickers: '清空',
+  dailyTasks: '重置',
+  progress: '清除',
+}
+
+/** 按钮待按文案：长按 3 秒 + 动词 */
+function idleLabelOf(key) {
+  return `长按 3 秒${ACTION_VERBS[key] || '清除'}`
+}
 
 /** 家长区清除项 */
 function actionList() {
   return [
     {
-      key: 'stars',
-      title: '星星积分',
-      hint: '清除星星积分，不能恢复',
-      icon: mascots.ICONS.bigStar,
-      iconClass: '',
-      tone: 'tone-rose',
-      groove: '',
-      holding: false,
-      label: IDLE_LABEL,
-    },
-    {
-      key: 'stickers',
-      title: '兑换贴纸',
-      hint: '清除已兑换贴纸，不能恢复',
-      icon: mascots.HOME_ASSETS.unicorn,
-      iconClass: 'is-unicorn',
-      tone: 'tone-peach',
-      groove: 'is-peach',
-      holding: false,
-      label: IDLE_LABEL,
-    },
-    {
-      key: 'progress',
-      title: '学习记录',
-      hint: '清除已学记录，不能恢复',
+      key: 'dailyTasks',
+      title: '每日任务',
+      hint: '重置今日任务，不能恢复',
       icon: mascots.HOME_ASSETS.dino,
       iconClass: 'is-dino',
       tone: 'tone-matcha',
       groove: 'is-matcha',
       holding: false,
-      label: IDLE_LABEL,
+      label: idleLabelOf('dailyTasks'),
+    },
+    {
+      key: 'progress',
+      title: '学习记录',
+      hint: '清除已学记录，不能恢复',
+      icon: mascots.HOME_ASSETS.penguin,
+      iconClass: 'is-penguin',
+      tone: 'mascot-penguin',
+      groove: 'is-sky',
+      holding: false,
+      label: idleLabelOf('progress'),
+    },
+    {
+      key: 'stickers',
+      title: '兑换贴纸',
+      hint: '清空已兑贴纸，不能恢复 ',
+      icon: mascots.HOME_ASSETS.unicorn,
+      iconClass: 'is-unicorn',
+      tone: 'tone-rose',
+      groove: '',
+      holding: false,
+      label: idleLabelOf('stickers'),
+    },
+    {
+      key: 'stars',
+      title: '星星积分',
+      hint: '清零星星积分，不能恢复',
+      icon: mascots.ICONS.bigStar,
+      iconClass: '',
+      tone: 'tone-apricot',
+      groove: 'is-apricot',
+      holding: false,
+      label: idleLabelOf('stars'),
     },
   ]
 }
@@ -174,7 +197,7 @@ Page({
   /** 开始长按清除 */
   onHoldStart(e) {
     const key = e.currentTarget.dataset.key
-    if (!['progress', 'stars', 'stickers'].includes(key) || this._busy) return
+    if (!['progress', 'stars', 'stickers', 'dailyTasks'].includes(key) || this._busy) return
     this.stopHold(false)
     this._holdKey = key
     this.patchAction(key, { holding: true })
@@ -201,7 +224,7 @@ Page({
     const key = this._holdKey
     this._holdKey = null
     if (!completed && key) {
-      this.patchAction(key, { holding: false, label: IDLE_LABEL })
+      this.patchAction(key, { holding: false, label: idleLabelOf(key) })
     }
   },
 
@@ -209,7 +232,8 @@ Page({
   async runAction(key) {
     if (this._busy) return
     this._busy = true
-    this.patchAction(key, { label: '清除中…' })
+    const verb = ACTION_VERBS[key] || '清除'
+    this.patchAction(key, { label: `${verb}中…` })
     let ok = false
     if (key === 'progress') {
       ok = (await progressUtil.clearAll()).ok
@@ -218,10 +242,12 @@ Page({
       this.setData({ stars: starsUtil.getLocalStars() })
     } else if (key === 'stickers') {
       ok = (await starsUtil.clearAllStickers()).ok
+    } else if (key === 'dailyTasks') {
+      ok = (await dailyTasksUtil.resetDailyTasks()).ok
     }
     this.patchAction(key, {
       holding: false,
-      label: ok ? '已清除' : '清除失败，稍后再试',
+      label: ok ? `已${verb}` : `${verb}失败，稍后再试`,
     })
     this._busy = false
   },

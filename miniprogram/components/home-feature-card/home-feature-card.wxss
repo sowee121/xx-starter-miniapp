@@ -62,23 +62,6 @@
   height: 56rpx;
 }
 
-.home-feature-card__chip {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 176rpx;
-  height: var(--size-header);
-  flex-shrink: 0;
-  border-radius: var(--radius-pill);
-  font-size: var(--font-hint);
-  font-weight: 700;
-  color: #ffffff;
-  background-color: var(--btn-green-solid);
-  background-image: var(--btn-green);
-  box-shadow: var(--shadow-chip);
-}
-
 .home-feature-card__deco {
   width: 64rpx;
   height: 64rpx; /* 勾勾 / 星星 均为正方形 */

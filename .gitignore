@@ -52,5 +52,6 @@ cloudbaserc.local.json
 # 编辑器
 .idea/
 .vscode/
+.codebuddy/
 *.swp
 *.swo

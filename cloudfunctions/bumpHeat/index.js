@@ -2,6 +2,7 @@ const cloud = require('wx-server-sdk')
 
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
+const _ = db.command
 
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/
 const KEEP_MONTHS = 12
@@ -18,11 +19,22 @@ function prune(days) {
   })
 }
 
-/** 读取或创建用户 */
+/**
+ * 读取或创建用户。
+ * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
+ * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
+ */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
-  const found = await col.where({ _openid: openid }).limit(1).get()
-  if (found.data[0]) return found.data[0]
+  const found = await col.where({ _openid: openid }).limit(10).get()
+  const user = found.data[0]
+  if (user) {
+    if (found.data.length > 1) {
+      const staleIds = found.data.slice(1).map((item) => item._id)
+      await col.where({ _id: _.in(staleIds) }).remove()
+    }
+    return user
+  }
   const doc = {
     stars: 0,
     stickers: [],
@@ -40,16 +52,24 @@ exports.main = async (event) => {
   const { OPENID } = cloud.getWXContext()
   const day = event && event.day
   const count = Number(event && event.count)
+  const since = Number(event && event.since) || 0
   if (!DAY_RE.test(day) || !Number.isFinite(count) || count < 0 || count > 99) {
     return { ok: false, error: 'invalid_params' }
   }
 
   const user = await getOrCreateUser(OPENID)
+  // 家长复位热区后，复位前发起的旧写入直接丢弃，防止旧热力复活
+  const resetAt = Number(user.heatResetAt) || 0
+  if (since < resetAt) {
+    return { ok: true, heatDays: Object.assign({}, user.heatDays || {}), stale: true }
+  }
   const heatDays = Object.assign({}, user.heatDays || {})
   heatDays[day] = Math.max(heatDays[day] || 0, Math.floor(count))
   prune(heatDays)
-  await db.collection('users').doc(user._id).update({
-    data: { heatDays, updatedAt: Date.now() },
+  // 用 where + _.set 覆盖同 openid 的全部文档：
+  // 竞态下短暂存在多条时，doc(user._id) 只更新一条，另一条会残留旧热力。
+  await db.collection('users').where({ _openid: OPENID }).update({
+    data: { heatDays: _.set(heatDays), updatedAt: Date.now() },
   })
   return { ok: true, heatDays }
 }

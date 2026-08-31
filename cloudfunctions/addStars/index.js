@@ -24,23 +24,39 @@ const MAX_DELTA = 6
 
 /**
  * 客户端 makeClientId 为 `${Date.now()}-xxxx`。
- * 每日任务用 `daily-YYYY-MM-DD-taskId`，取当天 0 点，便于清星后把在途请求当过期。
+ * 每日任务用 `daily-{发起时间戳}-{日期}-{taskId}`，携带真实发起时刻：
+ * 清星标记 starsResetAt 只作废「清零前发出的在途请求」，清零后新完成的
+ * 打卡/任务奖励照常发放（旧格式 daily-YYYY-MM-DD-taskId 取当天 0 点，
+ * 会把清零当天的新奖励误吞，已弃用，仅对在途旧请求兜底过期判定）。
  */
 function clientIssuedAt(clientId) {
   const s = String(clientId || '')
   const n = Number(s.split('-')[0])
   if (Number.isFinite(n) && n > 1e11) return n
+  const dailyTime = /^daily-(\d{13})-/.exec(s)
+  if (dailyTime) return Number(dailyTime[1])
   const m = /^daily-(\d{4}-\d{2}-\d{2})(?:-|$)/.exec(s)
   if (!m) return 0
   const t = Date.parse(`${m[1]}T00:00:00`)
   return Number.isFinite(t) ? t : 0
 }
 
-/** 读取或创建用户 */
+/**
+ * 读取或创建用户。
+ * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
+ * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
+ */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
-  const found = await col.where({ _openid: openid }).limit(1).get()
-  if (found.data[0]) return found.data[0]
+  const found = await col.where({ _openid: openid }).limit(10).get()
+  const user = found.data[0]
+  if (user) {
+    if (found.data.length > 1) {
+      const staleIds = found.data.slice(1).map((item) => item._id)
+      await col.where({ _id: _.in(staleIds) }).remove()
+    }
+    return user
+  }
   const doc = {
     stars: 0,
     stickers: [],

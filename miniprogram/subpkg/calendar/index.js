@@ -54,6 +54,15 @@ Page({
     })
     this._busy = false
     feedback.showTaskAward(this, result)
+    // 去乐观：星以云函数确认的权威值为准，确认后再把新余额刷到页面上，
+    // 否则打卡后数字停留在旧值，看起来「没加星」
+    if (result && result.awardPromise) {
+      result.awardPromise
+        .then(() => {
+          this.setData({ stars: starsUtil.getLocalStars() })
+        })
+        .catch(() => {})
+    }
   },
 
   /** 关闭表扬层 */

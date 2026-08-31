@@ -13,7 +13,7 @@
 当前 envId：`cloudbase-d7gygre2uc80dcd42`  
 AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
-已有函数：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`bumpHeat`、`exchangeReward`、`resetProfile`、`initDb`
+已有函数：`login`、`getProfile`、`getProgress`、`addStars`、`checkinTask`、`completeProgress`、`bumpHeat`、`exchangeReward`、`resetProfile`、`initDb`、`dailyTasks`
 
 | 集合 | 用途 | 谁创建 |
 | --- | --- | --- |
@@ -22,10 +22,11 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 | `progress` | 学习进度 | 同上 |
 | `task_logs` | 任务打卡 | 同上 |
 | `reward_logs` | 贴纸兑换 | 同上 |
+| `daily_tasks` | 每日任务当天文档（任务列表/进度/已发星状态，openid+date 一条） | 同上，或首次 `dailyTasks` get |
 
 集合**不必**在控制台手建；调 `initDb` 或首次登录相关函数即可 `createCollection`（已存在则跳过）。
 
-`addStars` 原因白名单（须与客户端 `reason` 一致）：`answer_ok`、`poem_done`、`char_done`、`word_done`、`letter_done`、`pinyin_done`、`game_clear`、`task_done`、`daily_task`、`math`、`sport_done`、`calendar_done`。其中 `letter_done` 对应字母表点读（`subpkg/english-abc`）。
+`addStars` 原因白名单（须与客户端 `reason` 一致）：`poem_done`、`char_done`、`word_done`、`letter_done`、`pinyin_done`、`math`、`daily_task`。其中 `letter_done` 对应字母表点读（`subpkg/english-abc`）；日历打卡走 `checkinTask`，不走 `addStars`。
 
 云**存储**图片见 [`../cloud-assets/README.md`](../cloud-assets/README.md)，与云函数是两回事。
 
@@ -185,7 +186,7 @@ npm run test:cloud
 | --- | --- |
 | `initDb` | 五个集合创建结果 |
 | `login` / `getProfile` | 首次建档、已有用户读取、日期返回 |
-| `addStars` | 参数拒绝、加星、`clientId` 幂等去重、`letter_done` 合法 / 未知 reason 拒绝 |
+| `addStars` | 参数拒绝、加星、`clientId` 幂等去重、清零标记 `starsResetAt` 作废清零前在途请求（`daily-时间戳-日期-taskId` 携带真实发起时刻）、`letter_done` 合法 / 未知 reason 拒绝 |
 | `completeProgress` | 参数拒绝、首次完成、重复完成不重复建档 |
 | `bumpHeat` | 参数拒绝、按日只增不减、覆盖写入 `users.heatDays` |
 | `checkinTask` | 参数拒绝、首次打卡、同任务重复打卡 |
@@ -218,6 +219,28 @@ wx.cloud.callFunction({ name: 'getProfile' }).then(console.log).catch(console.er
 | `cloud init error` / `invalid scope` | 环境未就绪或 `CLOUD_ENV` 填错 |
 
 **涨星 ≠ 云已通**：`miniprogram/utils/stars.js` 失败会写本地队列。
+
+---
+
+## 脏数据与自愈
+
+历史踩过的坑（均已修复，留档备忘）：
+
+| 问题 | 根因 | 修复 |
+| --- | --- | --- |
+| `users` 空壳堆积（226 条） | `getOrCreateUser` 并发「先查后插」竞态：两个请求都查不到、各 `add` 一条；早年版本 `add` 漏写 `_openid` | 新版 `getOrCreateUser` 幂等：同 openid 多条时保留第一条、删除其余，下次调用自动自愈 |
+| 热力 `heatDays` 清不掉 | 旧版 `resetProfile` 用 `update({ heatDays: {} })`，**空对象被云端忽略**，`heatResetAt` 写了但热力残留 | 改用 `_.set({})` + `where({ _openid })` 覆盖同 openid 全部文档 |
+| `progress` / `task_logs` 空壳（39 + 10 条） | 历史版本 `add` 漏写 `_openid`，按用户查询永远匹配不到 | 当前所有 `add` 均显式写 `_openid`；存量用清理脚本 |
+
+涉及幂等 `getOrCreateUser` 的函数：`login` / `getProfile` / `addStars` / `bumpHeat` / `resetProfile`。
+`bumpHeat` 写热力用 `where` + `_.set` 覆盖全部文档，避免多文档时残留旧热力。
+
+**存量脏数据清理脚本**（默认只审计，`--apply` 才写库）：
+
+```bash
+node scripts/purge_dirty_data.js          # 审计：报告空壳 / 重复 _openid / heatDays 残留
+node scripts/purge_dirty_data.js --apply  # 执行清理
+```
 
 ---
 

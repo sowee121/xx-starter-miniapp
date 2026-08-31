@@ -1,5 +1,9 @@
 const STORAGE_KEY = 'daily_tasks'
-const SCHEMA = 9
+const SCHEMA = 10
+// 静态引入：动态 require 失败会被 catch 吞掉，导致学习热力漏记且无痕迹
+const activity = require('./activity')
+// 每日任务「云端为准 + 本地缓存」：模板需与 cloudfunctions/dailyTasks/index.js 的 TEMPLATES 保持同步
+const cloud = require('./cloud')
 
 /**
  * 六模块各一条；数量每天随机（生成后写入本地，当日不变）。
@@ -221,9 +225,10 @@ function reportUnit(taskId, unitKey) {
   saveToday(day)
   if (isNew) {
     try {
-      require('./activity').bump()
+      activity.bump()
     } catch (error) {
-      // ignore
+      // 热力写入失败不应影响学习任务落库
+      console.warn('[daily-tasks] 热力写入失败', error)
     }
   }
   return {
@@ -257,12 +262,20 @@ function persistDailyCloud(taskId, unitKey, result) {
 
   if (result.firstAward && result.reward) {
     const date = getToday()
-    void starsUtil.addStars({
-      delta: result.reward,
-      reason: 'daily_task',
-      ref: `${date}:${taskId}`,
-      clientId: `daily-${date}-${taskId}`,
-    })
+    // 挂到 result 上：星以云函数确认为准，调用方（如日历打卡）可在确认后刷新页面数字。
+    // clientId 携带真实发起时刻：清星标记 starsResetAt 只作废「清零前发出的在途请求」，
+    // 若沿用 daily-日期 形式（issuedAt=当天 0 点），清零当天新完成的打卡/任务奖励
+    // 会被误判为清零前在途而整批吞掉（实测「任务完成没加星」的根因）。
+    // 延迟到微任务再发起：让调用方在当前同步代码里先发出的「本单学习星 +1」请求先到云端，
+    // 保证请求顺序 = 业务顺序（先答对加星，后任务达成发奖励星）。
+    result.awardPromise = Promise.resolve().then(() =>
+      starsUtil.addStars({
+        delta: result.reward,
+        reason: 'daily_task',
+        ref: `${date}:${taskId}`,
+        clientId: `daily-${Date.now()}-${date}-${taskId}`,
+      })
+    )
   }
 
   Promise.resolve()
@@ -296,7 +309,99 @@ function trackDaily(taskId, unitKey) {
   const task = getTasks().find((item) => item.id === taskId)
   result.taskTitle = task ? task.title : ''
   persistDailyCloud(taskId, unitKey, result)
+  scheduleCloudSync()
   return result
+}
+
+/* ---------- 云端同步（云端为准 + 本地缓存） ---------- */
+
+/** 上传防抖间隔：合并连续答题上报，避免每答一题一次云写 */
+const SYNC_DEBOUNCE_MS = 300
+let syncTimer = null
+
+/** 整体上传当天文档（last-write-wins；云失败静默，学习流程不受影响） */
+async function pushToCloud() {
+  const day = readToday()
+  if (!day || day.date !== getToday() || !Array.isArray(day.tasks)) return
+  try {
+    await cloud.call('dailyTasks', { action: 'sync', date: day.date, day })
+  } catch (error) {
+    // ignore：下次上报 / 页面进入时会再同步
+  }
+}
+
+/** 防抖触发上传 */
+function scheduleCloudSync() {
+  if (syncTimer) clearTimeout(syncTimer)
+  syncTimer = setTimeout(() => {
+    syncTimer = null
+    pushToCloud()
+  }, SYNC_DEBOUNCE_MS)
+}
+
+/** 合并云端与本地进度：tasks 以云端为准，进度只增不减 */
+function mergeCloudDay(cloudDay) {
+  const local = readToday()
+  if (
+    !local
+    || local.date !== cloudDay.date
+    || !Array.isArray(local.tasks)
+    || local.tasks.length !== TEMPLATES.length
+  ) {
+    return { ...cloudDay }
+  }
+  const progress = {}
+  for (const tpl of TEMPLATES) {
+    const a = (cloudDay.progress && cloudDay.progress[tpl.id]) || []
+    const b = (local.progress && local.progress[tpl.id]) || []
+    progress[tpl.id] = Array.from(new Set([...a, ...b]))
+  }
+  return {
+    ...cloudDay,
+    progress,
+    done: { ...(cloudDay.done || {}), ...(local.done || {}) },
+    awarded: { ...(cloudDay.awarded || {}), ...(local.awarded || {}) },
+  }
+}
+
+/**
+ * 从云端同步当天任务：本地有当天文档则携带作为 seed（云端缺失时直接入库，避免双随机漂移），
+ * 成功后以云端为准合并本地增量并覆盖缓存；失败静默回落本地。
+ * @returns {Promise<boolean>} 是否同步成功
+ */
+async function syncFromCloud() {
+  const date = getToday()
+  const local = readToday()
+  const seed = local && local.date === date ? { tasks: local.tasks } : null
+  const { ok, data } = await cloud.call('dailyTasks', { action: 'get', date, seed })
+  if (!ok || !data || !data.day) return false
+  const cloudDay = data.day
+  if (cloudDay.date !== date || !Array.isArray(cloudDay.tasks) || cloudDay.tasks.length !== TEMPLATES.length) {
+    return false
+  }
+  const merged = mergeCloudDay(cloudDay)
+  merged.schema = SCHEMA
+  saveToday(merged)
+  // 合并结果回传云端，保证两端一致（本地增量不丢失）
+  if (seed) {
+    pushToCloud()
+  }
+  return true
+}
+
+/**
+ * 家长区重置每日任务：清本地缓存 + 云端当天文档，
+ * 下次打开重新随机生成（已发星星保留，不动星流水）。
+ */
+async function resetDailyTasks() {
+  memCache = null
+  try {
+    wx.removeStorageSync(STORAGE_KEY)
+  } catch (error) {
+    // ignore
+  }
+  const { ok } = await cloud.call('dailyTasks', { action: 'reset', date: getToday() })
+  return { ok }
 }
 
 module.exports = {
@@ -306,6 +411,8 @@ module.exports = {
   taskList,
   nextUrl,
   trackDaily,
+  syncFromCloud,
+  resetDailyTasks,
 }
 
 require('./read-award')

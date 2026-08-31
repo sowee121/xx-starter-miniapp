@@ -6,7 +6,7 @@
 > - `[小程序开发核对清单（最终验收版）.txt](../小程序开发核对清单（最终验收版）.txt)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
 >
-> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。2026-08-27：设计 token 做减法收拢并语义化——`--btn-play`/`--shadow-play`/`--size-btn`/`--size-play-lg`/`--size-trail-bar` 并入 `--btn-green`/`--shadow-chip`/`--size-slot`，新增 `--size-mascot: 168`（首页/商城大方形配图），删除零引用死变量（`--size-heat-cell` 等）；收拢纪律见 §2.1 与 CONTENT §3「设计 token」。
+> 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。2026-08-27：设计 token 做减法收拢并语义化——`--btn-play`/`--shadow-play`/`--size-btn`/`--size-play-lg`/`--size-trail-bar` 并入 `--btn-green`/`--shadow-chip`/`--size-slot`，新增 `--size-mascot: 168`（首页/商城大方形配图），删除零引用死变量（`--size-heat-cell` 等）；收拢纪律见 §2.1 与 CONTENT §3「设计 token」。2026-08-31：首页六卡与家长区按吉祥物配色，新增 `mascot-*` 类（不入 token，仅首页六卡 + 学习记录用）；删除 `tone-apple`/`tone-abc`，复用 `tone-rose`/`tone-sky`；`math/hub` 双卡定为 `tone-rose`/`mascot-dog`（生成脚本已同步）。
 
 ---
 
@@ -19,13 +19,13 @@
 | 内容题库       | **已定稿**：见 [CONTENT.md](./CONTENT.md) 与 `docs/design/content/*.json` |
 | 设计稿 / 原子素材 | **H5 审查稿 + atoms 已确认可作视觉基准**（`docs/design/h5/`、`docs/design/atoms/`） |
 | 业务页代码      | **八大板块已接入**；样式与 H5 双向同步（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`） |
-| 每日任务       | **已实现**：自由学习按数量累计；数量每天随机（古诗 1～2，字/题/英语 1～5，拼音 1～6，日历固定 1「日历打卡」）；英语任务名「学 N 个英语」，字母名与单词计入同一条；实现 `miniprogram/utils/daily-tasks.js`（`SCHEMA = 9`） |
+| 每日任务       | **已实现**：自由学习按数量累计；数量每天随机（古诗 1～2，字/题/英语 1～5，拼音 1～6，日历固定 1「日历打卡」）；英语任务名「学 N 个英语」，字母名与单词计入同一条；实现 `miniprogram/utils/daily-tasks.js`（`SCHEMA = 10`） |
 | 反馈闭环       | **已实现**：任务/兑换弹层 `praise-sun`；算术 soft-note + 成败音效；禁 Toast（见 CONTENT §2.8） |
-| 家长区         | **已实现**：欢迎卡进入；音量三档；长按 3 秒「清除」学习记录 / 星星 / 贴纸（`resetProfile`） |
+| 家长区         | **已实现**：欢迎卡进入；音量三档；长按 3 秒重置/清除每日任务 / 学习记录 / 星星 / 贴纸（每日任务走 `dailyTasks` reset，其余走 `resetProfile`） |
 | 点读音频       | 分包 MP3 + `utils/audio.js` + `read-award.js`；音色/语速见 [CONTENT §2.10](./CONTENT.md)；拼音喂注音「ㄚㄛㄜㄧㄨㄩ」；字母 Z=`zee`；文件名 ASCII slug；真机需 `setInnerAudioOption`；失败落「语音准备中～」 |
 | 设计 token     | `docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`；字号下限 28（`--font-nav`）；禁用态 opacity 0.68；答题选中 `--tone-picked` |
 | 云端存储（图片） | 环境已配置；默认 `USE_CLOUD = false`（免费套餐 ACL）；手动/自动化见 [`../../cloud-assets/README.md`](../../cloud-assets/README.md) |
-| 云函数         | **已部署并对齐本地**：`login` / `getProfile` / `getProgress` / `addStars`（含 `letter_done`）/ `checkinTask` / `completeProgress` / `exchangeReward` / `resetProfile` / `initDb`。启动同步积分/进度；云为主存，加星/进度失败时本地队列兜底并冲刷 |
+| 云函数         | **已部署并对齐本地**：`login` / `getProfile` / `getProgress` / `addStars`（含 `letter_done`）/ `checkinTask` / `dailyTasks` / `completeProgress` / `bumpHeat` / `exchangeReward` / `resetProfile` / `initDb`。启动同步积分/进度；云为主存，加星/进度失败时本地队列兜底并冲刷 |
 
 
 ---
@@ -220,7 +220,7 @@ flowchart LR
 | P3 互动 | 数物拼接 + 加减（结果 1～10）；仅选择；正向反馈   | §五 3、§四    | 完成 |
 | P4 配套 | 日历打卡、每日任务、贴纸商城、家长区、反馈闭环 | §五 6/7/8、§四 | 完成（任务数量每日随机；日历按钮打卡；弹层 + soft-note + 音效，禁 Toast；家长区音量/清除） |
 | P5 云端 | 云函数：积分/打卡/进度/贴纸/清除；云端为主存 | §六         | **完成**：积分/打卡/贴纸/学习进度/`resetProfile` 已接通；`addStars` 含 `letter_done`；贴纸兑换仅云端。加星与进度在云失败时本地队列兜底、云通畅后冲刷 |
-| P6 收尾 | 懒加载、机型与安全区、少儿纯净项            | §一         | 完成：内容图懒加载；首页 Wi‑Fi 预加载 common/古诗/识字包；底部安全区；锁定竖屏；无广告/付费/授权链路 |
+| P6 收尾 | 懒加载、机型与安全区、少儿纯净项            | §一         | 完成：内容图懒加载；首页预加载 task/shop/calendar/math（`network: all`）、英语枢纽预加载 english-abc；底部安全区；锁定竖屏；无广告/付费/授权链路 |
 
 
 ---

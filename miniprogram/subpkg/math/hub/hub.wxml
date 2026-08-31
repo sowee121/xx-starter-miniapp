@@ -1,11 +1,11 @@
 <app-shell title="算术" hint="小小数学家" sub-hint="数一数，算一算" stars="{{stars}}">
   <view class="duo">
-    <view class="duo-card block tone-butter" data-to="count" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view class="duo-card block tone-rose" data-to="count" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="duo-card__image" src="{{fruitImage}}" mode="aspectFit" />
       <view class="duo-card__title">数一数</view>
       <view class="duo-card__sub">1 到 10</view>
     </view>
-    <view class="duo-card block tone-sky" data-to="calc" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view class="duo-card block mascot-dog" data-to="calc" bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
       <image class="duo-card__image" src="{{calcImage}}" mode="aspectFit" />
       <view class="duo-card__title">算一算</view>
       <view class="duo-card__sub">1 到 10</view>

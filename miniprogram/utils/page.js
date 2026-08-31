@@ -58,20 +58,9 @@ function loadThenGo(pkg, url) {
   wx.loadSubpackage({ name: pkg, success: go, fail: go })
 }
 
-/** 安全 setData，页面销毁则忽略 */
-function patchData(page, data) {
-  if (!page || typeof page.setData !== 'function' || !data) return
-  try {
-    page.setData(data)
-  } catch (error) {
-    // 页面已销毁
-  }
-}
-
 module.exports = {
   decodeQuery,
   queryValue,
   goTo,
   loadThenGo,
-  patchData,
 }

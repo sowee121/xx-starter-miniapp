@@ -4,6 +4,7 @@ const cloud = require('./cloud')
 
 const STORAGE_KEY = 'learn_heat'
 const QUEUE_KEY = 'heat_retry_queue'
+const RESET_AT_KEY = 'heat_reset_at'
 const KEEP_MONTHS = 12
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/
 
@@ -95,9 +96,15 @@ function mergeDays(localDays, cloudDays) {
   return merged
 }
 
-/** 把某日累计推到云端；失败入队 */
+/** 把某日累计推到云端；失败入队。带本机复位标记，云端据此丢弃复位前的旧写入。 */
 async function pushDay(day, count, { fromQueue } = {}) {
-  const { ok } = await cloud.call('bumpHeat', { day, count })
+  let since = 0
+  try {
+    since = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
+  } catch (error) {
+    since = 0
+  }
+  const { ok } = await cloud.call('bumpHeat', { day, count, since })
   if (!ok && !fromQueue) enqueue(day, count)
   return ok
 }
@@ -124,11 +131,32 @@ async function flushRetryQueue() {
   }
 }
 
+/** 读本机已处理过的复位标记 */
+function readResetAt() {
+  try {
+    return Number(wx.getStorageSync(RESET_AT_KEY)) || 0
+  } catch (error) {
+    return 0
+  }
+}
+
 /**
- * 合并云端热力。登录档案带回 heatDays 时调用；只增不减。
+ * 合并云端热力档案。登录档案带回 heatDays 时调用；只增不减。
  * 本机更高的日期会再推上去。
+ *
+ * 传入 heatResetAt 时先做代际判断：档案可能落后于本机复位——
+ * getProfile 与家长区 resetProfile 并发时，慢回来的那一份是复位前读取的旧快照。
+ * 这类旧档案必须整份丢弃，否则旧热力会被重新合并回本地（热力图清不掉），
+ * 还会被 enqueue 再推回云端，把云端也污染一遍。
+ *
+ * @param {object} heatDays 云端热力，形如 { 'YYYY-MM-DD': 次数 }
+ * @param {number} [heatResetAt] 该份档案对应的复位标记
  */
-function applyCloudDays(heatDays) {
+function applyCloudDays(heatDays, heatResetAt) {
+  const cloudResetAt = Number(heatResetAt) || 0
+  // 档案比本机已知的复位更早 → 复位前的旧快照，整份丢弃
+  if (cloudResetAt < readResetAt()) return
+  applyHeatResetAt(cloudResetAt)
   if (!heatDays || typeof heatDays !== 'object') return
   const local = load()
   const merged = mergeDays(local.days, heatDays)
@@ -162,6 +190,31 @@ async function syncFromCloud() {
 function clearLocal() {
   save({ days: {} })
   saveQueue([])
+}
+
+/**
+ * 家长复位热区后，丢弃本地旧热力与队列，防止云端旧值再合并回来。
+ * 在 applyCloudDays 之前调用；已处理过的复位标记不再重复清理。
+ */
+function applyHeatResetAt(resetAt) {
+  const next = Number(resetAt) || 0
+  if (!next) return
+  const prev = readResetAt()
+  if (next <= prev) return
+  clearLocal()
+  try {
+    const app = typeof getApp === 'function' ? getApp() : null
+    if (app && app.globalData && app.globalData.profile) {
+      app.globalData.profile.heatDays = {}
+    }
+  } catch (error) {
+    // ignore
+  }
+  try {
+    wx.setStorageSync(RESET_AT_KEY, next)
+  } catch (error) {
+    // ignore
+  }
 }
 
 /** 月份 1–12 → 中文数字 */
@@ -208,6 +261,7 @@ module.exports = {
   dateKey,
   levelOf,
   applyCloudDays,
+  applyHeatResetAt,
   syncFromCloud,
   clearLocal,
 }

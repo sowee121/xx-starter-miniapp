@@ -34,10 +34,18 @@ function refreshStars(page) {
  */
 function handleCorrect(page, { reason, ref, taskId }) {
   const result = trackDaily(taskId, `correct:${ref}`)
+  // 去乐观：星星数字以云函数确认的权威值为准，确认后再刷新顶栏；
+  // 即时反馈由下方的对错飘字与提示音承担，避免「先加后减」的观感。
   void stars.addStars({ delta: 1, reason, ref }).then(() => refreshStars(page))
-  refreshStars(page)
+  // 任务奖励星与学习星并发：trackDaily 内部同步发起奖励请求、本行后发起 +1，
+  // 若 +1 先确认而奖励星后确认，只挂一个刷新会漏掉奖励星数字，故两者都刷新。
+  if (result.awardPromise) {
+    result.awardPromise.then(() => refreshStars(page)).catch(() => {})
+  }
   if (result.firstAward) {
     feedback.showTaskAward(page, result)
+    // 这里照常展示，弹窗关闭后 goNext 会清软提示
+    feedback.showInline(page, INLINE.answerCorrect)
     return
   }
   feedback.showInline(page, INLINE.answerCorrect)

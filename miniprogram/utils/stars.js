@@ -1,10 +1,13 @@
 const cloud = require('./cloud')
 const retryQueue = require('./retry-queue')
+const activity = require('./activity')
 
-/** 云端权威值的本地快照（不含未同步增量）。 */
+/** 云端权威值的本地快照（只存云端已确认的余额）。 */
 const STORAGE_KEY = 'local_stars'
 const OWNED_KEY = 'owned_stickers'
 const RESET_AT_KEY = 'stars_reset_at'
+/** 本地版本号：清零/扣星/复位时递增，用于丢弃迟到的旧加星响应，防止把低值顶回。 */
+const EPOCH_KEY = 'star_epoch'
 
 /** 冲刷中禁止递归再触发 flush（addStars 成功路径会尝试冲刷）。 */
 let flushing = false
@@ -12,8 +15,6 @@ let flushing = false
 let cloudReady = false
 /** 进行中的建档/同步，避免 onLaunch 与首页 onShow 并行打两遍 login/getProfile。 */
 let sessionPromise = null
-/** 已乐观计入展示值、但尚未入队也未被云端确认的在途增量。 */
-let inflightDelta = 0
 
 /** 安全取 App 实例 */
 function getAppSafe() {
@@ -63,31 +64,74 @@ function setBaselineStars(stars) {
   }
 }
 
-/** 待云端确认的增量：在途请求 + 重试队列。 */
-function pendingDelta() {
-  let queued = 0
+/**
+ * 单调采纳云端星星：只把 baseline 往上抬，不用更小的云端值回退。
+ *
+ * 展示值唯一来源是云端确认的余额：getProfile 与 addStars 并发、或多笔加星
+ * 交错返回时，后到者可能携带更早落库的旧值，直接 setBaselineStars 会把已确认
+ * 的星星抹掉，界面表现为「星星突然被扣掉」。这里只取较大值，保证任何时刻只增不减。
+ *
+ * 仅用于「加星 / 拉档案」语义（applyProfile、addStars 成功路径）。
+ * 兑换扣星、家长区清零必须继续用 setBaselineStars（覆盖 + epoch 递增），
+ * 否则星星永远扣不掉。
+ *
+ * @param {number} cloudStars 云端返回的星星总数
+ * @returns {number} 采纳后的 baseline（保证 >= 采纳前的 baseline）
+ */
+function adoptCloudBaseline(cloudStars) {
+  const baseline = getBaselineStars()
+  const next = Number(cloudStars)
+  // 云端没给合法数字时保持现状，不动本地
+  if (!Number.isFinite(next)) return baseline
+  if (next <= baseline) return baseline
+  setBaselineStars(next)
+  return next
+}
+
+/** 读取本地版本号 */
+function getEpoch() {
   try {
-    queued = retryQueue.totalDelta()
+    const value = wx.getStorageSync(EPOCH_KEY)
+    return typeof value === 'number' ? value : 0
   } catch (error) {
-    queued = 0
+    return 0
   }
-  return inflightDelta + queued
+}
+
+/** 递增版本号：清零/扣星/复位后，之前发出的加星响应一律作废。 */
+function bumpEpoch() {
+  const next = getEpoch() + 1
+  try {
+    wx.setStorageSync(EPOCH_KEY, next)
+  } catch (error) {
+    // ignore
+  }
+  return next
 }
 
 /**
- * 展示用星星 = 云端快照 + 待确认增量。
- * 不用「只取较大值」，否则兑换扣星、其他设备的变化永远同步不回来。
+ * 展示用星星 = 云端权威快照。
+ *
+ * 不再叠加在途/队列增量：发起加星时不乐观计数，展示值只在云函数确认的那一刻
+ * 变化，且经 adoptCloudBaseline 单调采纳后任何时刻只增不减——「星星先加后减」
+ * 在机制上被杜绝（并发响应的旧值、清零/扣星后的旧响应都不会把展示值拉低）。
  */
 function getLocalStars() {
-  const total = getBaselineStars() + pendingDelta()
+  const total = getBaselineStars()
   return total > 0 ? total : 0
 }
 
-/** 直接落定总数（家长区清零等）；会丢弃尚未同步的增量。 */
+/**
+ * 直接落定总数（家长区清零等）。
+ *
+ * 清零必须走覆盖而非单调采纳：清零后总数本就该降到 0，单调采纳会把这次下降
+ * 挡回去，星星永远清不掉。同时递增 epoch，使清零前发出的旧加星响应全部作废，
+ * 避免旧响应把 0 顶回去。
+ */
 function setLocalStars(stars) {
-  inflightDelta = 0
   retryQueue.clear()
   setBaselineStars(stars)
+  bumpEpoch()
 }
 
 /** 已兑换贴纸 */
@@ -116,7 +160,13 @@ function setOwnedStickers(stickers) {
   }
 }
 
-/** 家长在其他设备清空积分后，丢掉本机过期重试队列，避免旧星复活。 */
+/**
+ * 家长在其他设备清空积分后，丢掉本机过期重试队列并归零快照，避免旧星复活。
+ *
+ * 归零 + epoch 递增是「只增不减」唯一的例外出口：
+ * 若被单调保护挡住，本机旧星会在下次拉档案时复活；
+ * 若不递增 epoch，清零前发出的旧加星响应会把 0 顶回去。
+ */
 function applyStarsResetAt(resetAt) {
   const next = Number(resetAt) || 0
   if (!next) return
@@ -127,9 +177,9 @@ function applyStarsResetAt(resetAt) {
     prev = 0
   }
   if (next <= prev) return
-  inflightDelta = 0
   retryQueue.clear()
   setBaselineStars(0)
+  bumpEpoch()
   try {
     wx.setStorageSync(RESET_AT_KEY, next)
   } catch (error) {
@@ -140,9 +190,18 @@ function applyStarsResetAt(resetAt) {
 /** 应用云端档案 */
 function applyProfile(profile) {
   if (!profile || typeof profile !== 'object') return
+  // 复位标记必须先于单调采纳处理：它会清掉本地重试队列、归零快照并递增 epoch，
+  // 否则家长在其他设备清零后，复位前的旧星会借着「只增不减」复活。
   applyStarsResetAt(profile.starsResetAt)
-  // 云端值直接作为快照；本地未同步的星由 pendingDelta 叠加，不会被抹掉
+  // 云端值直接作为快照；展示值以云端确认为准，单调采纳保证不回退
   const next = Object.assign({}, profile)
+  if (typeof next.stars === 'number') {
+    // 单调采纳：getProfile 常与加星并发，带回的可能是加星落库前的旧快照，
+    // 直接写入会让界面星星突然回退（「明明加成功了却被扣掉」）。
+    // 必须在下面把 next 挂到 globalData 之前算——一旦先替换 profile，
+    // getBaselineStars 读到的就是云端旧值本身，采纳形同虚设。
+    next.stars = adoptCloudBaseline(next.stars)
+  }
   const app = getAppSafe()
   if (app && app.globalData) {
     app.globalData.profile = next
@@ -161,10 +220,12 @@ function applyProfile(profile) {
       // ignore
     }
   }
+  // 热力档案：按复位代际整份采纳或丢弃，
+  // 避免复位前读取的旧快照把已清除的热力重新合并回来
   try {
-    require('./activity').applyCloudDays(next.heatDays)
+    activity.applyCloudDays(next.heatDays, next.heatResetAt)
   } catch (error) {
-    // ignore
+    // 热力合并失败不应影响积分同步
   }
 }
 
@@ -179,7 +240,7 @@ async function syncFromCloud({ skipProfile } = {}) {
     // 进度同步失败不挡积分
   }
   try {
-    await require('./activity').syncFromCloud()
+    await activity.syncFromCloud()
   } catch (error) {
     // 热力同步失败不挡积分
   }
@@ -234,61 +295,52 @@ async function runEnsureSession(appInstance) {
 
 /**
  * 点读详情：同一次进入页面只发 1 星。onLoad 会重置锁；算术答对不走这里。
- * @returns {boolean} 本次是否真正发星
+ * 返回本次 addStars 的 promise，调用方可在云确认后刷新展示。
+ * @returns {Promise<{ ok: boolean }>}
  */
 function awardVisitStar(page, opts) {
-  if (!page || page._visitStarAwarded) return false
+  if (!page || page._visitStarAwarded) return Promise.resolve({ ok: false })
   page._visitStarAwarded = true
-  void addStars(opts)
-  return true
+  return addStars(opts)
 }
 
 /**
+ * 加星：以云函数确认的权威余额为准。
+ *
+ * - 发起时不乐观计数，展示值保持当前云端快照；
+ * - 成功：单调采纳云端余额（只增不减）；
+ * - 失败：入重试队列后台补账（不计入展示值，恢复后补账也只会让数字向上跳变）；
+ * - 期间发生清零/扣星/复位（epoch 变化）：响应整笔作废，防止旧值把低值顶回。
+ *
  * @param {{ delta: number, reason: string, ref?: string, clientId?: string, fromQueue?: boolean }} opts
  */
 async function addStars({ delta, reason, ref, clientId, fromQueue }) {
   const id = clientId || makeClientId()
   const amount = Number(delta) || 0
   const payload = { delta: amount, reason, ref, clientId: id }
-  let resetSeen = 0
-  try {
-    resetSeen = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
-  } catch (error) {
-    resetSeen = 0
-  }
-  // 队列项已计入 pendingDelta，重复叠加会让展示值虚高
-  const optimistic = !fromQueue && amount > 0
-  if (optimistic) inflightDelta += amount
+  const epochAtIssue = getEpoch()
 
   const { ok, data } = await cloud.call('addStars', payload)
 
-  let resetNow = 0
-  try {
-    resetNow = Number(wx.getStorageSync(RESET_AT_KEY)) || 0
-  } catch (error) {
-    resetNow = 0
-  }
-  if (resetNow > resetSeen) {
-    if (optimistic) inflightDelta = Math.max(0, inflightDelta - amount)
+  // 期间清零/扣星过：迟到的旧响应可能携带旧的高余额，会把扣掉的值顶回，整笔作废
+  if (getEpoch() !== epochAtIssue) {
     return { ok: true, stars: getLocalStars(), clientId: id, stale: true }
   }
 
   if (!ok) {
-    if (optimistic) {
-      inflightDelta -= amount
-      // 参数错误再入队会永久堵住后续加星
-      if (!(data && data.error === 'invalid_params')) {
-        retryQueue.enqueue(payload)
-      }
+    // 参数错误再入队会永久堵住后续加星
+    if (!(data && data.error === 'invalid_params')) {
+      retryQueue.enqueue(payload)
     }
     return { ok: false, stars: getLocalStars(), clientId: id, local: true }
   }
 
-  if (optimistic) inflightDelta -= amount
   if (typeof data.stars === 'number') {
-    setBaselineStars(data.stars)
+    // 云端权威余额：单调采纳，只增不减
+    adoptCloudBaseline(data.stars)
   } else if (amount > 0 && !data.duplicated) {
-    setBaselineStars(getBaselineStars() + amount)
+    // 云端未返回余额时按本次增量本地累加；同样走采纳，保持只增不减
+    adoptCloudBaseline(getBaselineStars() + amount)
   }
   // 任意一次加星成功，顺带冲刷积压（幂等靠 clientId）
   if (!fromQueue && !flushing && retryQueue.size() > 0) {
@@ -297,7 +349,10 @@ async function addStars({ delta, reason, ref, clientId, fromQueue }) {
   return { ok: true, stars: getLocalStars(), clientId: id, duplicated: !!data.duplicated }
 }
 
-/** 兑换贴纸 */
+/**
+ * 兑换贴纸：扣星必须走覆盖（云余额必然小于本地，禁止单调采纳），
+ * 同时递增 epoch，使兑换前发出的旧加星响应作废，防止把扣掉的值顶回。
+ */
 async function exchangeReward(rewardId) {
   const { ok, data, error } = await cloud.call('exchangeReward', { rewardId })
   if (!ok) {
@@ -305,6 +360,7 @@ async function exchangeReward(rewardId) {
   }
   if (typeof data.stars === 'number') {
     setBaselineStars(data.stars)
+    bumpEpoch()
   }
   const owned = getOwnedStickers()
   if (!owned.includes(rewardId)) {

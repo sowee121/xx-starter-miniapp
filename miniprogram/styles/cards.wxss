@@ -56,19 +56,13 @@
 }
 
 .tone-matcha {
-  background: linear-gradient(180deg, #f4fae8 0%, #dcecc4 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(152, 186, 122, 0.26),
-    var(--shadow-lift);
+  background: var(--tone-matcha);
+  box-shadow: var(--shadow-tone-matcha);
 }
 
 .tone-sky {
-  background: linear-gradient(180deg, #f4fafd 0%, #dbeaf7 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(136, 174, 204, 0.24),
-    var(--shadow-lift);
+  background: var(--tone-sky);
+  box-shadow: var(--shadow-tone-sky);
 }
 
 .tone-butter {
@@ -104,19 +98,62 @@
 }
 
 .tone-apricot {
-  background: linear-gradient(180deg, #fff8ee 0%, #fbe4cb 100%);
+  background: var(--tone-apricot);
+  box-shadow: var(--shadow-tone-apricot);
+}
+
+/* 吉祥物卡面：按动物主色配浅渐变 + 鼓边阴影（风格同家长区四卡） */
+.mascot-duckling {
+  background: linear-gradient(180deg, #fff8e0 0%, #ffe9a6 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(210, 164, 112, 0.24),
+    inset -8rpx -10rpx 18rpx rgba(226, 180, 92, 0.24),
+    var(--shadow-lift);
+}
+
+.mascot-bear {
+  background: linear-gradient(180deg, #faf3ea 0%, #ead6b6 100%);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(190, 150, 100, 0.22),
+    var(--shadow-lift);
+}
+
+.mascot-cat {
+  background: linear-gradient(180deg, #fff4e9 0%, #ffdbb6 100%);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(224, 160, 100, 0.22),
+    var(--shadow-lift);
+}
+
+.mascot-rabbit {
+  background: linear-gradient(180deg, #fdf1f5 0%, #f6d9e4 100%);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(214, 140, 168, 0.22),
+    var(--shadow-lift);
+}
+
+.mascot-dog {
+  background: linear-gradient(180deg, #fdf6e7 0%, #f0dcaa 100%);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(198, 166, 100, 0.22),
+    var(--shadow-lift);
+}
+
+.mascot-penguin {
+  background: linear-gradient(180deg, #eef7fc 0%, #cfe4f2 100%);
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(130, 170, 210, 0.22),
     var(--shadow-lift);
 }
 
 .tone-rose {
-  background: linear-gradient(180deg, #fef5f8 0%, #f6d4e0 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(206, 148, 170, 0.28),
-    var(--shadow-lift);
+  background: var(--tone-rose);
+  box-shadow: var(--shadow-tone-rose);
 }
 
 .tone-night {

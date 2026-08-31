@@ -15,18 +15,19 @@
 | 媒体开关 | `config/media.js` → `USE_CLOUD`（默认 `false`，走本地） |
 | 云环境 ID | `config/cloud.js` → `CLOUD_ENV` |
 | 设计 token | `styles/tokens.wxss`（与 H5 `docs/design/h5/css/tokens.css` 对齐） |
-| 每日任务 | `utils/daily-tasks.js`（`SCHEMA = 8`、数量每天随机、日历打卡） |
+| 每日任务 | `utils/daily-tasks.js`（`SCHEMA = 10`、数量每天随机、日历打卡） |
 | 英语入口 | `subpkg/english/hub/hub`（字母表 / 单词） |
 | 字母表 | `subpkg/english-abc/list/list`（点读发星 `reason: letter_done`） |
 | 点读 | `utils/audio.js` |
 | 主点读发星 | `utils/read-award.js` |
+| 星星模型 | `utils/stars.js`（云端权威 + 单调采纳 + epoch 失效；任务奖励星后发、任一确认双刷新） |
 | 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（晓辰 `-10%`；注音 ㄚㄛㄜㄧㄨㄩ） |
 | 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet`（Jenny `-10%`；Z=`zee`） |
 | 点读音色/语速 | 见仓库 `docs/design/CONTENT.md` §2.10 |
 | 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/praise-sun`（主包） |
 | 列表媒体卡 | `components/media-card`（主包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |
-| 其它主包组件 | `app-shell`、`custom-header`、`star-bar`、`big-button`、`home-feature-card`、`home-module-card` |
+| 其它主包组件 | `app-shell`、`custom-header`、`star-bar`、`big-button`、`home-feature-card`、`home-module-card`、`activity-month`、`trail-nav` |
 | 家长区 | `pages/parent/`（首页欢迎卡进入；音量三档 + 长按 3 秒清除） |
 
 ## 常用命令
