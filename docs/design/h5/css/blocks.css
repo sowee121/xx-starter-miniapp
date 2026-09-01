@@ -74,50 +74,50 @@ a.block:active,
 }
 /* 学习记录（企鹅）：冰川蓝浅渐变，与音量 tone-sky 区分 */
 .mascot-penguin {
-  background: linear-gradient(180deg, #eef7fc 0%, #cfe4f2 100%);
+  background: linear-gradient(180deg, #eef4fa 0%, #d4e1ee 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(130, 170, 210, 0.22),
+    inset -8px -10px 18px rgba(142, 174, 206, 0.20),
     var(--shadow-lift);
 }
 /* 六模块吉祥物卡面（首页）：按动物主色浅渐变 + 鼓边阴影 */
 .mascot-duckling {
-  background: linear-gradient(180deg, #fff8e0 0%, #ffe9a6 100%);
+  background: linear-gradient(180deg, #fffce8 0%, #f3e8b6 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(226, 180, 92, 0.24),
+    inset -8px -10px 18px rgba(212, 186, 98, 0.22),
     var(--shadow-lift);
 }
 
 .mascot-bear {
-  background: linear-gradient(180deg, #faf3ea 0%, #ead6b6 100%);
+  background: linear-gradient(180deg, #f3e7da 0%, #ddc4a4 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(190, 150, 100, 0.22),
+    inset -8px -10px 18px rgba(184, 148, 104, 0.22),
     var(--shadow-lift);
 }
 
 .mascot-cat {
-  background: linear-gradient(180deg, #fff4e9 0%, #ffdbb6 100%);
+  background: linear-gradient(180deg, #fff0e0 0%, #f5d4ac 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(224, 160, 100, 0.22),
+    inset -8px -10px 18px rgba(216, 170, 122, 0.22),
     var(--shadow-lift);
 }
 
 .mascot-rabbit {
-  background: linear-gradient(180deg, #fdf1f5 0%, #f6d9e4 100%);
+  background: linear-gradient(180deg, #fff8e0 0%, #f4e2a6 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(214, 140, 168, 0.22),
+    inset -8px -10px 18px rgba(208, 182, 108, 0.22),
     var(--shadow-lift);
 }
 
 .mascot-dog {
-  background: linear-gradient(180deg, #fdf6e7 0%, #f0dcaa 100%);
+  background: linear-gradient(180deg, #fdf2f0 0%, #f0deda 100%);
   box-shadow:
     var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(198, 166, 100, 0.22),
+    inset -8px -10px 18px rgba(198, 160, 150, 0.20),
     var(--shadow-lift);
 }
 .tone-butter {
