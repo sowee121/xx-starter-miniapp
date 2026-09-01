@@ -15,6 +15,7 @@ const {
   robotId,
   defaultDesc,
   onProgressUpdate,
+  cleanupTempDirs,
 } = require('./ci_lib')
 
 /** 云函数入口 */
@@ -26,17 +27,22 @@ async function main() {
   const project = createProject()
   console.log(`robot=${robotId()} → 预览二维码: ${qrcodeOutputDest}`)
 
-  const result = await ci.preview({
-    project,
-    desc: defaultDesc('preview'),
-    setting: compileSetting(),
-    robot: robotId(),
-    qrcodeFormat: 'image',
-    qrcodeOutputDest,
-    pagePath: process.env.MP_CI_PAGE || undefined,
-    searchQuery: process.env.MP_CI_QUERY || undefined,
-    onProgressUpdate,
-  })
+  let result
+  try {
+    result = await ci.preview({
+      project,
+      desc: defaultDesc('preview'),
+      setting: compileSetting(),
+      robot: robotId(),
+      qrcodeFormat: 'image',
+      qrcodeOutputDest,
+      pagePath: process.env.MP_CI_PAGE || undefined,
+      searchQuery: process.env.MP_CI_QUERY || undefined,
+      onProgressUpdate,
+    })
+  } finally {
+    cleanupTempDirs()
+  }
 
   console.log('预览完成。用微信扫码打开预览版。')
   if (result && typeof result === 'object') {

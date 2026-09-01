@@ -20,6 +20,7 @@ const {
   defaultVersion,
   defaultDesc,
   onProgressUpdate,
+  cleanupTempDirs,
 } = require('./ci_lib')
 
 /** 解析命令行参数 */
@@ -75,14 +76,19 @@ async function main() {
   console.log(`上传 version=${version} robot=${robotId()}`)
   console.log(`desc=${desc}`)
 
-  const result = await ci.upload({
-    project,
-    version,
-    desc,
-    setting: compileSetting(),
-    robot: robotId(),
-    onProgressUpdate,
-  })
+  let result
+  try {
+    result = await ci.upload({
+      project,
+      version,
+      desc,
+      setting: compileSetting(),
+      robot: robotId(),
+      onProgressUpdate,
+    })
+  } finally {
+    cleanupTempDirs()
+  }
 
   console.log('上传成功（开发版本）。')
   console.log('下一步：微信公众平台 → 管理 → 版本管理 → 开发版本 → 选该版本 → 选为体验版')

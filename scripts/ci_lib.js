@@ -107,6 +107,23 @@ function onProgressUpdate(task) {
   if (msg) console.log(msg)
 }
 
+/**
+ * miniprogram-ci 在 projectPath（仓库根）干活时会留下 32 位哈希空目录
+ * （如 443169fe12310fe91da8c4fdc4870847），自己产生的自己清掉。
+ */
+function cleanupTempDirs() {
+  for (const name of fs.readdirSync(ROOT)) {
+    if (!/^[0-9a-f]{32}$/.test(name)) continue
+    const dir = path.join(ROOT, name)
+    try {
+      if (fs.statSync(dir).isDirectory() && fs.readdirSync(dir).length === 0) {
+        fs.rmdirSync(dir)
+        console.log(`已清理临时目录: ${name}`)
+      }
+    } catch {}
+  }
+}
+
 module.exports = {
   ROOT,
   ci,
@@ -117,4 +134,5 @@ module.exports = {
   defaultVersion,
   defaultDesc,
   onProgressUpdate,
+  cleanupTempDirs,
 }

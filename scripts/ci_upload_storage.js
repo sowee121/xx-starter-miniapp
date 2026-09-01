@@ -10,7 +10,7 @@
  */
 const fs = require('fs')
 const path = require('path')
-const { ROOT, ci, createProject } = require('./ci_lib')
+const { ROOT, ci, createProject, cleanupTempDirs } = require('./ci_lib')
 
 const cloudJs = fs.readFileSync(path.join(ROOT, 'miniprogram/config/cloud.js'), 'utf8')
 const envMatch = cloudJs.match(/CLOUD_ENV:\s*'([^']+)'/)
@@ -61,13 +61,17 @@ async function main() {
   console.log(`env=${ENV} · 共 ${jobs.length} 组`)
 
   const failed = []
-  for (const job of jobs) {
-    try {
-      await uploadOne(project, job)
-    } catch (error) {
-      failed.push({ job, error: error.message || String(error) })
-      console.error(`✗ ${job.local}:`, error.message || error)
+  try {
+    for (const job of jobs) {
+      try {
+        await uploadOne(project, job)
+      } catch (error) {
+        failed.push({ job, error: error.message || String(error) })
+        console.error(`✗ ${job.local}:`, error.message || error)
+      }
     }
+  } finally {
+    cleanupTempDirs()
   }
 
   if (failed.length) {

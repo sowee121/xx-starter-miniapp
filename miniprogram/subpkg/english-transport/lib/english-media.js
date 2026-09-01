@@ -12,14 +12,14 @@ const MEDIA_PKG = {
 
 /** 分类色调 */
 const TONE_MAP = {
-  fruit: 'rose',
+  fruit: 'apricot',
   animal: 'butter',
-  color: 'sky',
-  number: 'apricot',
-  body: 'matcha',
-  transport: 'peach',
-  food: 'cream',
-  nature: 'lilac',
+  color: 'rose',
+  number: 'lilac',
+  body: 'peach',
+  transport: 'sky',
+  food: 'orange',
+  nature: 'matcha',
 }
 
 /** 仅唯一词。orange 分属 color/fruit，必须带 cat。 */
