@@ -9,24 +9,59 @@
 }
 
 .play-btn {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   width: var(--size-play);
   height: var(--size-play);
   flex-shrink: 0;
-  overflow: hidden;
+  /* 不设 overflow: hidden：图标始终小于圆钮（最大 54rpx < 76rpx），
+     留着它每帧都要离屏裁剪重绘，翻转会顿，iOS 上还会让 backface-visibility 失效 */
   border-radius: 50%;
   background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
+  /* 透视距离，越小立体感越强 */
+  perspective: 320rpx;
+}
+
+/* 只翻图标，不翻圆钮本体 */
+.play-btn__flip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  /* 提前提升为合成层，避免每帧重绘 */
+  will-change: transform;
+  transition: transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 播放态转半圈，背面（停止方块）朝前 */
+.play-btn__flip.is-flipped {
+  transform: rotateY(180deg);
 }
 
 .play-btn__icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   display: block;
   width: var(--size-play-icon);
   height: var(--size-play-icon);
   margin-left: 0;
+  /* 两面各沿自己的正面方向抬 1rpx 分开：完全共面时转到 90° 附近会 z-fighting 闪烁 */
+  transform: translate(-50%, -50%) translateZ(1rpx);
+  /* 背对屏幕的那张不画，翻转才有「正反面」的实体感 */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.play-btn__icon--back {
+  transform: translate(-50%, -50%) rotateY(180deg) translateZ(1rpx);
 }
 
 .play-btn.is-lg {

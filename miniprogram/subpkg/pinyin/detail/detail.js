@@ -2,7 +2,7 @@ const { vowels } = require('../content/pinyin')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
-const { playPrimaryAndAward } = require('../../../utils/read-award')
+const { playPrimaryAndAward, playAfterRender, markPageReady } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { queryValue } = require('../../../utils/page')
 const { tap } = require('../../../utils/tap-guard')
@@ -47,6 +47,10 @@ Page({
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  onReady() {
+    markPageReady(this)
+  },
+
   /** 渲染当前条目 */
   applyItem(item, autoPlay) {
     if (!item || !item.asset) return
@@ -59,7 +63,7 @@ Page({
         trail: buildTrail(item.letter),
       },
       () => {
-        if (autoPlay) this.play()
+        if (autoPlay) playAfterRender(this, () => this.play())
       },
     )
   },

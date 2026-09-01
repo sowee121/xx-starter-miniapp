@@ -110,11 +110,17 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   flex-shrink: 0; border: 0;
   border-radius: 50%; overflow: hidden; font-size: 0;
   background-color: var(--tone-leaf-solid);
-  background-image: url("../../atoms/home-clay.png"), var(--tone-leaf);
-  background-position: center 24%, center;
-  background-repeat: no-repeat, no-repeat;
-  background-size: 74px 71px, 100% 100%; /* 黏土屋 128×122 */
+  background-image: var(--tone-leaf);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   box-shadow: var(--shadow-clay-leaf);
+}
+.nav-home__icon {
+  width: 78px;
+  height: 78px; /* 黏土屋 128×128 正方形 */
+  transform: translateY(-4px);
+  object-fit: contain;
 }
 .nav-title {
   flex: 1;

@@ -7,7 +7,10 @@
   <view
     class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
-    <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
+    <view class="play-btn__flip {{playing ? 'is-flipped' : ''}}">
+      <image class="play-btn__icon play-btn__icon--front" src="{{playIcon}}" mode="aspectFit" />
+      <image class="play-btn__icon play-btn__icon--back" src="{{stopIcon}}" mode="aspectFit" />
+    </view>
   </view>
 </view>
 <view
@@ -19,6 +22,9 @@
   <view
     class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
-    <image class="play-btn__icon" src="{{playIcon}}" mode="aspectFit" />
+    <view class="play-btn__flip {{playing ? 'is-flipped' : ''}}">
+      <image class="play-btn__icon play-btn__icon--front" src="{{playIcon}}" mode="aspectFit" />
+      <image class="play-btn__icon play-btn__icon--back" src="{{stopIcon}}" mode="aspectFit" />
+    </view>
   </view>
 </view>

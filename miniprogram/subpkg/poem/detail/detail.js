@@ -6,6 +6,8 @@ const {
   toggleLongPlay,
   attachLongPlay,
   detachLongPlay,
+  playAfterRender,
+  markPageReady,
 } = require('../../../utils/read-award')
 const audioUtil = require('../../../utils/audio')
 const feedback = require('../../../utils/feedback')
@@ -52,7 +54,7 @@ Page({
   onLoad(query) {
     const id = queryValue(query, 'id')
     const found = poems.findIndex((p) => p.id === id)
-    this.applyPoem(found >= 0 ? found : 0)
+    this.applyPoem(found >= 0 ? found : 0, true)
   },
 
   onShow() {
@@ -60,36 +62,45 @@ Page({
     this.setData({ stars: starsUtil.getLocalStars() })
   },
 
+  onReady() {
+    markPageReady(this)
+  },
+
   /** 渲染当前古诗 */
-  applyPoem(index) {
+  applyPoem(index, autoPlay) {
     audioUtil.stop()
     const raw = poems[index]
     if (!raw) return
     const poem = mapPoem(raw)
     this._visitStarAwarded = false
-    this.setData({
-      poem,
-      poemTitle: poem.title || '古诗',
-      poemAuthor: poem.author || '',
-      activeIndex: -1,
-      softNote: '',
-      fullAward: fullAward(poem),
-      longPlaying: false,
-      playingSrc: '',
-      nav: stepNavState(index, poems.length),
-    })
+    this.setData(
+      {
+        poem,
+        poemTitle: poem.title || '古诗',
+        poemAuthor: poem.author || '',
+        activeIndex: -1,
+        softNote: '',
+        fullAward: fullAward(poem),
+        longPlaying: false,
+        playingSrc: '',
+        nav: stepNavState(index, poems.length),
+      },
+      () => {
+        if (autoPlay) playAfterRender(this, () => this.onFullPlay())
+      },
+    )
   },
 
   /** 上一题 */
   goPrev() {
     if (!this.data.nav.hasPrev) return
-    this.applyPoem(this.data.nav.index - 1)
+    this.applyPoem(this.data.nav.index - 1, true)
   },
 
   /** 下一题 */
   goNext() {
     if (!this.data.nav.hasNext) return
-    this.applyPoem(this.data.nav.index + 1)
+    this.applyPoem(this.data.nav.index + 1, true)
   },
 
   /** 点读一行诗 */

@@ -505,7 +505,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(184, 136, 28, 0.3),
-    0 0 0 6rpx var(--ring-picked),
+    0 0 0 9rpx var(--ring-picked),
     var(--shadow-lift);
 }
 
@@ -514,7 +514,7 @@
   box-shadow:
     var(--shadow-clay-hi),
     inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
-    0 0 0 6rpx var(--ring-ok),
+    0 0 0 9rpx var(--ring-ok),
     var(--shadow-lift);
 }
 

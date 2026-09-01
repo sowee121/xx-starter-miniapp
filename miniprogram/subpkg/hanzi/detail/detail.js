@@ -2,7 +2,7 @@ const { categories } = require('../content/hanzi')
 const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
-const { playPreview, playPrimaryAndAward } = require('../../../utils/read-award')
+const { playPreview, playPrimaryAndAward, playAfterRender, markPageReady } = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
@@ -36,38 +36,47 @@ Page({
     this._items = cat.items || []
     let index = this._items.findIndex((x) => x.char === char)
     if (index < 0) index = 0
-    this.applyItem(index)
+    this.applyItem(index, true)
   },
 
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
 
+  onReady() {
+    markPageReady(this)
+  },
+
   /** 渲染当前条目 */
-  applyItem(index) {
+  applyItem(index, autoPlay) {
     const items = this._items || []
     const item = items[index]
     if (!item) return
     this._visitStarAwarded = false
     audioUtil.stop()
-    this.setData({
-      item,
-      tone: toneOf(this._catId),
-      softNote: '',
-      nav: stepNavState(index, items.length),
-    })
+    this.setData(
+      {
+        item,
+        tone: toneOf(this._catId),
+        softNote: '',
+        nav: stepNavState(index, items.length),
+      },
+      () => {
+        if (autoPlay) playAfterRender(this, () => this.play())
+      },
+    )
   },
 
   /** 上一题 */
   goPrev() {
     if (!this.data.nav.hasPrev) return
-    this.applyItem(this.data.nav.index - 1)
+    this.applyItem(this.data.nav.index - 1, true)
   },
 
   /** 下一题 */
   goNext() {
     if (!this.data.nav.hasNext) return
-    this.applyItem(this.data.nav.index + 1)
+    this.applyItem(this.data.nav.index + 1, true)
   },
 
   /** 立即播放一段音频 */
@@ -75,7 +84,7 @@ Page({
     const item = this.data.item
     if (!item) return
 
-    const kind = (e.currentTarget && e.currentTarget.dataset.kind) || 'char'
+    const kind = (e && e.currentTarget && e.currentTarget.dataset.kind) || 'char'
     if (kind === 'word') {
       const idx = Number(e.currentTarget.dataset.index)
       playPreview(this, (item.wordAudios && item.wordAudios[idx]) || '')

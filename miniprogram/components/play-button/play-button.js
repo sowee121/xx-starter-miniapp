@@ -18,16 +18,10 @@ Component({
     /** 长播中显示停止方块 */
     playing: { type: Boolean, value: false },
   },
+  /** 两张图首帧就一起加载，切换只靠 class，不再走一次 setData 往返 */
   data: {
     playIcon: ICONS.play,
-  },
-  observers: {
-    /** 播放态变化 */
-    playing(playing) {
-      this.setData({
-        playIcon: playing ? ICONS.stop : ICONS.play,
-      })
-    },
+    stopIcon: ICONS.stop,
   },
   methods: {
     /** 点击播放钮 */

@@ -124,6 +124,65 @@ function playClip(page, src) {
   })
 }
 
+/** 首帧兜底等待上限：onReady 迟迟不来也要把声音放出来 */
+const READY_TIMEOUT = 800
+
+/** 页面还在栈里才允许补播，避免离页后定时器把声音放出来 */
+function pageAlive(page) {
+  if (!page || !page.data) return false
+  if (typeof getCurrentPages !== 'function') return true
+  return getCurrentPages().indexOf(page) >= 0
+}
+
+/** 等一个渲染片再执行：此时上一次 setData 已落到渲染层 */
+function runAfterRender(page, start) {
+  const run = () => {
+    if (pageAlive(page)) start()
+  }
+  if (typeof wx !== 'undefined' && typeof wx.nextTick === 'function') {
+    wx.nextTick(run)
+    return
+  }
+  setTimeout(run, 30)
+}
+
+/** 详情页 onReady 里调用：标记首帧渲染完成，并补播排队中的自动播放 */
+function markPageReady(page) {
+  if (!page) return
+  page.__renderReady = true
+  if (page.__readyTimer) {
+    clearTimeout(page.__readyTimer)
+    page.__readyTimer = null
+  }
+  const pending = page.__pendingAutoPlay
+  if (typeof pending === 'function') {
+    page.__pendingAutoPlay = null
+    runAfterRender(page, pending)
+  }
+}
+
+/**
+ * 所有自动播放位（进页 / 切条目）的唯一出口：
+ * 等页面首帧渲染完（onReady），再等一个渲染片（wx.nextTick）才开播，
+ * 避免数据刚落盘就被渲染打断或吞掉。
+ */
+function playAfterRender(page, start) {
+  if (!page || typeof start !== 'function') return
+  // 自动播放不是用户点击，清掉防连点闸门，避免连续切题时第二题被吞掉
+  page._playGate = false
+  if (page.__renderReady) {
+    runAfterRender(page, start)
+    return
+  }
+  page.__pendingAutoPlay = start
+  if (!page.__readyTimer) {
+    page.__readyTimer = setTimeout(() => {
+      page.__readyTimer = null
+      markPageReady(page)
+    }, READY_TIMEOUT)
+  }
+}
+
 /** 副音轨：组词 / 句子 / 逐句。只播放，不计任务、不加星。 */
 function playPreview(page, src) {
   togglePlay(page, { src })
@@ -142,6 +201,8 @@ function toggleLongPlay(page, { src, award } = {}) {
 module.exports = {
   playPreview,
   playClip,
+  playAfterRender,
+  markPageReady,
   playPrimaryAndAward,
   togglePlay,
   toggleLongPlay,

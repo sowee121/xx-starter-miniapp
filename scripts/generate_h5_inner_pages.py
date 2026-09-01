@@ -106,7 +106,7 @@ def page_frame(title, body, night=False, full_scene=False):
     {scene_html(night, full=full_scene)}
     <div class="shell">
       <div class="nav">
-        <div class="nav-home" aria-label="返回首页"></div>
+        <div class="nav-home" aria-label="返回首页"><img class="nav-home__icon" src="{ASSET}/home-clay.png" alt="" /></div>
         <div class="nav-title">{title}</div>
         <div class="nav-right"><div class="star-pill"><img src="{ASSET}/star.png" alt="" /><b>128</b></div><div class="capsule-slot"></div></div>
       </div>

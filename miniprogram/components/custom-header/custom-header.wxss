@@ -60,10 +60,10 @@
 }
 
 .custom-header__home-icon {
-  width: 74rpx;
-  height: 71rpx; /* 黏土屋 128×122 */
+  width: 78rpx;
+  height: 78rpx; /* 黏土屋 128×128 正方形 */
   flex-shrink: 0;
-  transform: translateY(-2rpx);
+  transform: translateY(-4rpx);
 }
 
 .custom-header__title {
