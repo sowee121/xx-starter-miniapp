@@ -67,12 +67,9 @@ function randInt(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1))
 }
 
-/** 今日日期串 */
+/** 今日日期串（与 activity.dateKey 同一实现，避免两处日期格式各自漂移） */
 function getToday() {
-  const now = new Date()
-  const month = String(now.getMonth() + 1).padStart(2, '0')
-  const day = String(now.getDate()).padStart(2, '0')
-  return `${now.getFullYear()}-${month}-${day}`
+  return activity.dateKey()
 }
 
 /** 生成当日任务 */
