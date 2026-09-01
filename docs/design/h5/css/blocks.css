@@ -447,16 +447,16 @@ a.block:active,
   overflow: hidden;
   text-align: center;
   background: var(--tone-cream);
-  box-shadow: var(--shadow-clay);
+  box-shadow: var(--shadow-clay-praise);
 }
 .praise-sun__card.is-soft-fail {
   background: var(--tone-soft-fail);
 }
 .praise-sun__card.is-soft-fail .praise-sun__text {
-  color: #b78245;
+  color: var(--note);
 }
 .praise-sun__card.is-exchange {
-  background: linear-gradient(180deg, #fff7fb 0%, #fae8ef 100%);
+  background: var(--tone-rose);
 }
 .praise-sun__card.is-exchange .praise-sun__text {
   color: #7a4f63;

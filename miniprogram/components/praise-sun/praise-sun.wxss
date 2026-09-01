@@ -29,7 +29,7 @@
   overflow: hidden;
   text-align: center;
   background: var(--tone-cream);
-  box-shadow: var(--shadow-clay);
+  box-shadow: var(--shadow-clay-praise);
   opacity: 0;
   transform: translateY(24rpx) scale(0.96);
   animation: praise-card-in 250ms ease-out forwards;
@@ -48,11 +48,11 @@
 }
 
 .praise-sun__card.is-soft-fail .praise-sun__text {
-  color: #b78245;
+  color: var(--note);
 }
 
 .praise-sun__card.is-exchange {
-  background: linear-gradient(180deg, #fff7fb 0%, #fae8ef 100%);
+  background: var(--tone-rose);
 }
 
 .praise-sun__card.is-exchange .praise-sun__text {

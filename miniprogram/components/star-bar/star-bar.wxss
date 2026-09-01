@@ -28,5 +28,5 @@
 }
 
 .star-bar.is-night .star-bar__count {
-  color: #3a426e;
+  color: var(--night-strong);
 }

@@ -623,7 +623,7 @@ body:has(.preview-deck) {
   background: var(--tone-leaf-night);
   box-shadow: var(--shadow-clay-night);
 }
-.page.is-night .star-pill b { color: #3a426e; }
+.page.is-night .star-pill b { color: var(--night-strong); }
 .page.is-night .capsule-slot {
   border-color: rgba(220, 226, 250, 0.42);
   background: rgba(24, 32, 64, 0.28);
@@ -692,7 +692,7 @@ body:has(.preview-deck) {
   gap: var(--gap-text);
   font-size: var(--font-hint);
   font-weight: 700;
-  color: #b78245;
+  color: var(--note);
 }
 .task-reward img {
   width: var(--size-star);
@@ -736,7 +736,7 @@ body:has(.preview-deck) {
   justify-content: center;
   gap: var(--gap-snug);
   min-height: var(--size-star);
-  color: #9b7646;
+  color: var(--note);
 }
 .sticker-card .chip.is-compact {
   align-self: stretch;

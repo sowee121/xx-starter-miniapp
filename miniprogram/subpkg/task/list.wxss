@@ -60,7 +60,7 @@
   gap: var(--gap-text);
   font-size: var(--font-hint);
   font-weight: 700;
-  color: #b78245;
+  color: var(--note);
   flex-shrink: 0;
 }
 

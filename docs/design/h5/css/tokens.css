@@ -9,6 +9,7 @@
   --sky-top: #dcefdc; /* 日间天空上沿（与 meadow 同族） */
   --sky-mid: #e3f2dc; /* 日间天空中段 */
   --night-top: #5e6e91; /* 夜景天空/页顶 */
+  --night-strong: #3a426e; /* 夜景强调字色（星数等） */
   --btn-green-solid: #77b07c; /* 绿钮实色底（渐变下沿） */
   --tone-leaf: linear-gradient(145deg, #f7f9e9, #e6efd6); /* 叶绿钮面：回首页、日间星条 */
   --tone-leaf-solid: #eef3e2; /* 叶绿实色底 */
@@ -76,6 +77,12 @@
     var(--shadow-clay-hi),
     var(--shadow-clay-lo),
     var(--shadow-lift);
+  --shadow-clay-praise: /* 表扬弹层：加厚鼓边 + 柔和外托，强化鹅卵石感 */
+    inset 10px 9px 20px rgba(255, 255, 255, 0.18),
+    inset -12px -14px 28px rgba(198, 182, 146, 0.3),
+    0 10px 18px rgba(96, 122, 96, 0.14),
+    0 24px 44px rgba(96, 122, 96, 0.16),
+    0 44px 80px rgba(96, 122, 96, 0.1);
   --shadow-clay-leaf: /* 浅绿黏土（回首页钮、日间星条） */
     var(--shadow-clay-hi),
     inset -8px -10px 18px rgba(112, 145, 91, 0.22),

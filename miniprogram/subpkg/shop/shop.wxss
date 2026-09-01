@@ -46,7 +46,7 @@
   justify-content: center;
   gap: var(--gap-snug);
   min-height: var(--size-star);
-  color: #9b7646;
+  color: var(--note);
   font-size: var(--font-nav);
   font-weight: 700;
 }
