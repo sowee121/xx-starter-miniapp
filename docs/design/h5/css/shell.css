@@ -126,8 +126,14 @@ html, body { background: var(--board); color: var(--ink); font-family: var(--fon
   flex: 1;
   min-width: 0;
   text-align: left;
+  /* 与小程序 custom-header__title 同字号；过长按 ellipsis 截断，不折行 */
   font-size: var(--font-title);
   font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .nav-right {
   display: flex;

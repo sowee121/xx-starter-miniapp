@@ -115,13 +115,14 @@ def page_frame(title, body, night=False, full_scene=False):
   </div>"""
 
 
-def page(title, body, night=False):
+def page(title, body, night=False, doc_title=None):
+    head = doc_title or title
     return f"""<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=750" />
-  <title>嘻嘻启蒙乐园 · {title}</title>
+  <title>嘻嘻启蒙乐园 · {head}</title>
   <link rel="stylesheet" href="../css/pages.css" />
 </head>
 <body>
@@ -131,10 +132,10 @@ def page(title, body, night=False):
 """
 
 
-def write(path, title, body, night=False):
+def write(path, title, body, night=False, doc_title=None):
     target = ROOT / path
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(page(title, body, night=night), encoding="utf-8")
+    target.write_text(page(title, body, night=night, doc_title=doc_title), encoding="utf-8")
 
 
 def media(image, title, sub, tone="tone-cream", wide=False):
@@ -613,32 +614,10 @@ def make_calendar():
         '<div class="big-btn is-disabled">今天已打卡</div>'
         f'</div>{heat_night}'
     )
-    html = f"""<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=750" />
-  <title>嘻嘻启蒙乐园 · 日历</title>
-  <link rel="stylesheet" href="../css/pages.css" />
-</head>
-<body>
-  <div class="preview-deck">
-    <section class="preview-deck__frame">
-      <p class="preview-deck__label">白天</p>
-      {page_frame("日历", day)}
-    </section>
-    <section class="preview-deck__frame">
-      <p class="preview-deck__label">晚上</p>
-      {page_frame("日历", night, night=True)}
-    </section>
-  </div>
-</body>
-</html>
-"""
-    target = ROOT / "calendar/index.html"
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(html, encoding="utf-8")
-    remove_paths("calendar/day.html", "calendar/night.html")
+    # 昼夜是同一页的两种时段态：审查稿拆成两个 HTML，各自一屏完整页
+    write("calendar/day.html", "日历", day, doc_title="日历 · 白天")
+    write("calendar/night.html", "日历", night, night=True, doc_title="日历 · 晚上")
+    remove_paths("calendar/index.html")
 
 
 def make_task():
@@ -743,7 +722,7 @@ def make_shared():
         ("日历", "日历打卡"),
     ]
     body = (
-        '<div class="inner-head"><h1>任务完成反馈</h1><p>各模块弹层 · 静态已打开态</p></div>'
+        '<div class="inner-head"><h1>公共反馈弹窗</h1><p>各模块共用 · 静态已打开态</p></div>'
         + "".join(
             section(
                 label,
@@ -764,7 +743,7 @@ def make_shared():
             praise_layer("兑换失败", "稍后再来兑贴纸吧～", "softFail"),
         )
     )
-    write("shared/feedback.html", "任务完成反馈", body)
+    write("shared/feedback.html", "公共反馈弹窗", body)
     remove_paths("shared/praise.html", "shared/retry.html", "shared/audio-pending.html")
 
 
@@ -786,10 +765,11 @@ def make_index():
         ("英语 · 单词详情", "english/detail.html"),
         ("拼音 · 列表", "pinyin/list.html"),
         ("拼音 · 详情", "pinyin/detail.html"),
-        ("日历", "calendar/index.html"),
+        ("日历 · 白天", "calendar/day.html"),
+        ("日历 · 晚上", "calendar/night.html"),
         ("每日任务", "task/list.html"),
         ("积分商城", "reward/shop.html"),
-        ("任务完成反馈", "shared/feedback.html"),
+        ("公共反馈弹窗", "shared/feedback.html"),
     ]
     tiles = "".join(f'<a href="{url}">{name}</a>' for name, url in links)
     content = f"""<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=750"><title>嘻嘻启蒙乐园 · 设计目录</title><link rel="stylesheet" href="css/pages.css"></head><body><div class="page">{scene_html(asset="../atoms")}<div class="shell"><div class="inner-head"><h1>设计审核目录</h1><p>八大板块静态 H5</p></div><div class="page-links">{tiles}</div></div></div></body></html>"""
