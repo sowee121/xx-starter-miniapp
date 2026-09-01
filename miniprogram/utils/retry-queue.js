@@ -1,3 +1,4 @@
+/** 加星失败后待重放的本地队列 */
 const STORAGE_KEY = 'star_retry_queue'
 /** 长期离线时避免无限增长（队列总额会计入界面展示值）。 */
 const MAX_SIZE = 200

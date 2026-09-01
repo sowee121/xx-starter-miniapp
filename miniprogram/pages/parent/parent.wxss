@@ -177,7 +177,7 @@
 
 .parent-about::before,
 .parent-about::after {
-  content: "";
+  content: '';
   width: 50rpx;
   height: 2rpx;
   border-radius: 1rpx;

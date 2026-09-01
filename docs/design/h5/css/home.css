@@ -1,4 +1,4 @@
-@import url("blocks.css");
+@import url('blocks.css');
 /* 首页静态 H5 · 仅保留首页布局；色板/积木 tone/chip/播放等走公共 tokens → shell → blocks
  * 画板 750 × 1624（1px = 1rpx）
  * 迁 WXSS 约束：卡片组优先 flex + gap；不用 grid / filter / 伪元素承载内容
@@ -181,4 +181,3 @@
   line-height: 1.15;
   color: var(--ink);
 }
-

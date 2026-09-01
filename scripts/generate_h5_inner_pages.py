@@ -15,41 +15,38 @@ ROOT = Path("docs/design/h5")
 CONTENT = Path("docs/design/content")
 ASSET = "../../atoms"
 
-STICKER_TONES = [
-    "tone-rose", "tone-sky", "tone-butter", "tone-matcha",
-    "tone-peach", "tone-lilac", "tone-mint", "tone-apricot",
-]
-
 POEM_TONES = [
     "tone-sky", "tone-lilac", "tone-butter", "tone-matcha", "tone-peach", "tone-mint",
 ]
 
 # 名称仅用于数据语义；商城卡面不展示名称。
+# 第 4 项为主题色，与 miniprogram/subpkg/shop/content/stickers.js 的 ANIMALS 逐条对齐；
+# 顺序同小程序：升星分组，组内每 3 只一行、行内跨色系不撞色。
 ANIMALS = [
-    ("小兔", "rabbit", 2),
-    ("小猫", "cat", 2),
-    ("小狗", "dog", 2),
-    ("小鸭", "duckling", 2),
-    ("小鸡", "chicken", 2),
-    ("小猪", "pig", 2),
-    ("小鸟", "bird", 2),
-    ("小鱼", "fish", 2),
-    ("小仓鼠", "hamster", 2),
-    ("小熊", "bear", 4),
-    ("小企鹅", "penguin", 4),
-    ("小羊", "sheep", 4),
-    ("小牛", "cow", 4),
-    ("小猴子", "monkey", 4),
-    ("小狐狸", "fox", 6),
-    ("小熊猫", "panda", 6),
-    ("小象", "elephant", 6),
-    ("长颈鹿", "giraffe", 6),
-    ("小海豚", "dolphin", 6),
-    ("小水獭", "otter", 6),
-    ("小恐龙", "dino", 8),
-    ("小狮子", "lion", 8),
-    ("小老虎", "tiger", 8),
-    ("独角兽", "unicorn", 10),
+    ("小兔", "rabbit", 2, "tone-rose"),
+    ("小鸭", "duckling", 2, "tone-butter"),
+    ("小鸟", "bird", 2, "tone-sky"),
+    ("小猫", "cat", 2, "tone-peach"),
+    ("小鸡", "chicken", 2, "tone-orange"),
+    ("小鱼", "fish", 2, "tone-mint"),
+    ("小猪", "pig", 2, "tone-pink"),
+    ("小狗", "dog", 2, "tone-sand"),
+    ("小仓鼠", "hamster", 2, "tone-apricot"),
+    ("小熊", "bear", 4, "tone-tan"),
+    ("小羊", "sheep", 4, "tone-cream"),
+    ("小企鹅", "penguin", 4, "tone-frost"),
+    ("小牛", "cow", 4, "tone-matcha"),
+    ("小猴子", "monkey", 4, "tone-tan"),
+    ("小狐狸", "fox", 6, "tone-coral"),
+    ("小熊猫", "panda", 6, "tone-lilac"),
+    ("长颈鹿", "giraffe", 6, "tone-butter"),
+    ("小象", "elephant", 6, "tone-frost"),
+    ("小海豚", "dolphin", 6, "tone-mint"),
+    ("小水獭", "otter", 6, "tone-tan"),
+    ("小恐龙", "dino", 8, "tone-matcha"),
+    ("小狮子", "lion", 8, "tone-orange"),
+    ("小老虎", "tiger", 8, "tone-butter"),
+    ("独角兽", "unicorn", 10, "tone-lilac"),
 ]
 
 
@@ -671,27 +668,28 @@ def make_task():
 
 
 def make_reward():
-    animals = sorted(ANIMALS, key=lambda item: (item[2], item[0]))
+    # 顺序即展示顺序（与 stickers.js 一致），不再按名称重排
+    animals = ANIMALS
     shop_cards = "".join(
-        f'<div class="sticker-card block {STICKER_TONES[i % len(STICKER_TONES)]}">'
+        f'<div class="sticker-card block {tone}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
         f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
         f'<div class="chip is-compact">兑换</div></div>'
-        for i, (name, asset, price) in enumerate(animals)
+        for name, asset, price, tone in animals
     )
     samples = animals[:3]
     album = "".join(
-        f'<div class="sticker-card is-album block {STICKER_TONES[i % len(STICKER_TONES)]}">'
+        f'<div class="sticker-card is-album block {tone}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
         f'<div class="sticker-card__name">{name}</div></div>'
-        for i, (name, asset, _price) in enumerate(samples)
+        for name, asset, _price, tone in samples
     )
     short = "".join(
-        f'<div class="sticker-card block {STICKER_TONES[i % len(STICKER_TONES)]}">'
+        f'<div class="sticker-card block {tone}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
         f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
         f'<div class="chip is-compact is-short">星星不足</div></div>'
-        for i, (name, asset, price) in enumerate(samples)
+        for name, asset, price, tone in samples
     )
     write(
         "reward/shop.html",

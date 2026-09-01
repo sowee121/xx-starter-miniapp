@@ -1,6 +1,13 @@
 <app-shell title="识字" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-{{tone}}" data-kind="char" bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view
+      class="detail-big block tone-{{tone}}"
+      data-kind="char"
+      bindtap="play"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <view class="detail-emoji">{{item.emoji}}</view>
       <view class="detail-big__glyph">{{item.char}}</view>
       <view class="detail-big__sub">{{item.pinyin}} · {{item.strokes}} 画</view>
@@ -15,9 +22,18 @@
         class="detail-pair__card block tone-cream"
         data-kind="word"
         data-index="{{widx}}"
-        bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+        bindtap="play"
+        hover-class="is-pressed"
+        hover-start-time="0"
+        hover-stay-time="80"
+      >
         <view>{{word}}</view>
-        <play-button compact="{{true}}" size="sm" passive="{{true}}" playing="{{playingSrc === item.wordAudios[widx]}}" />
+        <play-button
+          compact="{{true}}"
+          size="sm"
+          passive="{{true}}"
+          playing="{{playingSrc === item.wordAudios[widx]}}"
+        />
       </view>
     </view>
     <trail-nav

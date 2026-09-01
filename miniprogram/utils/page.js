@@ -32,7 +32,11 @@ function goTo(url, { mode = 'navigate' } = {}) {
       /** 跳转失败则改重定向 */
       fail(err) {
         const msg = (err && err.errMsg) || ''
-        if (mode === 'navigate' && /limit|timeout/i.test(msg) && typeof wx.redirectTo === 'function') {
+        if (
+          mode === 'navigate' &&
+          /limit|timeout/i.test(msg) &&
+          typeof wx.redirectTo === 'function'
+        ) {
           wx.redirectTo({ url, fail() {} })
           return
         }

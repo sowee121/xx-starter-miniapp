@@ -8,21 +8,21 @@ function getNavbar() {
   }
   let rawMenu = null
   try {
-    rawMenu = wx.getMenuButtonBoundingClientRect
-      ? wx.getMenuButtonBoundingClientRect()
-      : null
+    rawMenu = wx.getMenuButtonBoundingClientRect ? wx.getMenuButtonBoundingClientRect() : null
   } catch (error) {
     rawMenu = null
   }
   const statusBarHeight = windowInfo.statusBarHeight || 44
-  const menu = rawMenu && rawMenu.width
-    ? rawMenu
-    : {
-      top: statusBarHeight + 6,
-      height: 32,
-      width: 87,
-      left: (windowInfo.windowWidth || 375) - 94,
-    }
+  const menu =
+    rawMenu && rawMenu.width
+      ? rawMenu
+      : {
+          top: statusBarHeight + 6,
+          height: 32,
+          width: 87,
+          // 胶囊默认尺寸拿不到时的兜底左偏移：宽 87 + 右边距 7
+          left: (windowInfo.windowWidth || 375) - 94,
+        }
   const menuGap = Math.max(menu.top - statusBarHeight, 4)
   return {
     statusBarHeight,

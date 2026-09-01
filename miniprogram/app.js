@@ -13,7 +13,7 @@ App({
     try {
       require('./utils/audio').ensureAudioOption()
     } catch (error) {
-      // ignore
+      // 忽略
     }
     // 答题文字音频在主包，启动即建好上下文，各模块首次答题不再等加载
     feedback.preloadVoiceAudio()
@@ -26,7 +26,7 @@ App({
       try {
         require('./utils/stars').ensureSession(this)
       } catch (error) {
-        // ignore
+        // 忽略
       }
     }
     // 等基础库挂上 FileSystemManager，避免 init 内部 stat 报 undefined
@@ -41,7 +41,7 @@ App({
     try {
       require('./utils/audio').destroy()
     } catch (error) {
-      // ignore
+      // 忽略
     }
   },
 })

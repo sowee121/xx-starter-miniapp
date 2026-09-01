@@ -32,20 +32,26 @@ Page({
     try {
       require('../../utils/audio').stop()
     } catch (error) {
-      // ignore
+      // 忽略
     }
     this.setData({
       stars: starsUtil.getLocalStars(),
       taskProgress: dailyTasks.getProgress(),
     })
-    starsUtil.ensureSession().then(() => {
-      this.setData({ stars: starsUtil.getLocalStars() })
-    }).catch(() => {})
+    starsUtil
+      .ensureSession()
+      .then(() => {
+        this.setData({ stars: starsUtil.getLocalStars() })
+      })
+      .catch(() => {})
     // 每日任务云端为准：先本地首帧渲染，云同步成功后在原地刷新进度（本地清空也能恢复）
-    dailyTasks.syncFromCloud().then((synced) => {
-      if (!synced) return
-      this.setData({ taskProgress: dailyTasks.getProgress() })
-    }).catch(() => {})
+    dailyTasks
+      .syncFromCloud()
+      .then((synced) => {
+        if (!synced) return
+        this.setData({ taskProgress: dailyTasks.getProgress() })
+      })
+      .catch(() => {})
   },
 
   /** 打开功能入口 */

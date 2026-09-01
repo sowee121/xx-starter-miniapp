@@ -1,99 +1,105 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=750" />
-  <title>嘻嘻启蒙乐园 · 首页</title>
-  <link rel="stylesheet" href="css/home.css" />
-</head>
-<body>
-  <div class="page">
-    <div class="scene" aria-hidden="true">
-      <img class="scene__meadow" src="../atoms/meadow-hill.png" alt="" />
-      <div class="scene__blend"></div>
-      <div class="scene__dusk"></div>
-    </div>
-
-    <div class="shell">
-      <!-- 自定义导航 --size-header 88rpx：左标题，右积分（落在胶囊左侧安全区） -->
-      <div class="nav">
-        <div class="nav-title">嘻嘻启蒙乐园</div>
-        <div class="nav-right">
-          <div class="star-pill">
-            <img class="star-pill-icon" src="../atoms/star.png" alt="" />
-            <span class="star-pill-num">128</span>
-          </div>
-          <div class="capsule-slot"></div>
-        </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=750" />
+    <title>嘻嘻启蒙乐园 · 首页</title>
+    <link rel="stylesheet" href="css/home.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="scene" aria-hidden="true">
+        <img class="scene__meadow" src="../atoms/meadow-hill.png" alt="" />
+        <div class="scene__blend"></div>
+        <div class="scene__dusk"></div>
       </div>
 
-      <!-- 首页独有欢迎卡 -->
-      <a class="welcome block tone-cream" href="parent.html" aria-label="打开家长区">
-        <div class="welcome-avatar-slot">
-          <img class="welcome-avatar" src="../atoms/avatar.png" alt="" />
-        </div>
-        <div class="welcome__body">
-          <div class="welcome-hello">宝贝，你好呀</div>
-          <div class="welcome-sub">一起快乐学习吧～</div>
-        </div>
-        <img class="welcome-deco" src="../atoms/daisy-sprig.png" alt="" />
-      </a>
-
-      <!-- 通栏：每日任务（星星凹槽进度） -->
-      <div class="wide block tone-matcha">
-        <img class="wide-mascot" src="../atoms/dino.png" alt="" />
-        <div class="wide__body">
-          <div class="wide-title">每日任务</div>
-          <div class="sockets">
-            <div class="socket socket-on"><img class="socket-star" src="../atoms/star.png" alt="" /></div>
-            <div class="socket socket-on"><img class="socket-star" src="../atoms/star.png" alt="" /></div>
-            <div class="socket socket-on"><img class="socket-star" src="../atoms/star.png" alt="" /></div>
-            <div class="socket"></div>
-            <div class="socket"></div>
-            <div class="socket"></div>
+      <div class="shell">
+        <!-- 自定义导航 --size-header 88rpx：左标题，右积分（落在胶囊左侧安全区） -->
+        <div class="nav">
+          <div class="nav-title">嘻嘻启蒙乐园</div>
+          <div class="nav-right">
+            <div class="star-pill">
+              <img class="star-pill-icon" src="../atoms/star.png" alt="" />
+              <span class="star-pill-num">128</span>
+            </div>
+            <div class="capsule-slot"></div>
           </div>
         </div>
-        <img class="wide-deco" src="../atoms/check.png" alt="" />
-      </div>
 
-      <!-- 通栏：积分商城 -->
-      <div class="wide wide-shop block tone-rose">
-        <img class="wide-mascot" src="../atoms/unicorn.png" alt="" />
-        <div class="wide__body">
-          <div class="wide-title">积分商城</div>
-          <div class="wide-sub">用星星兑换动物贴纸</div>
-        </div>
-        <img class="wide-deco" src="../atoms/big-star.png" alt="" />
-      </div>
+        <!-- 首页独有欢迎卡 -->
+        <a class="welcome block tone-cream" href="parent.html" aria-label="打开家长区">
+          <div class="welcome-avatar-slot">
+            <img class="welcome-avatar" src="../atoms/avatar.png" alt="" />
+          </div>
+          <div class="welcome__body">
+            <div class="welcome-hello">宝贝，你好呀</div>
+            <div class="welcome-sub">一起快乐学习吧～</div>
+          </div>
+          <img class="welcome-deco" src="../atoms/daisy-sprig.png" alt="" />
+        </a>
 
-      <!-- 六个学习积木：一卡一色 -->
-      <div class="modules">
-        <div class="module block tone-butter">
-          <img class="module-mascot" src="../atoms/duckling.png" alt="" />
-          <div class="module-label">拼音</div>
+        <!-- 通栏：每日任务（星星凹槽进度） -->
+        <div class="wide block tone-matcha">
+          <img class="wide-mascot" src="../atoms/dino.png" alt="" />
+          <div class="wide__body">
+            <div class="wide-title">每日任务</div>
+            <div class="sockets">
+              <div class="socket socket-on">
+                <img class="socket-star" src="../atoms/star.png" alt="" />
+              </div>
+              <div class="socket socket-on">
+                <img class="socket-star" src="../atoms/star.png" alt="" />
+              </div>
+              <div class="socket socket-on">
+                <img class="socket-star" src="../atoms/star.png" alt="" />
+              </div>
+              <div class="socket"></div>
+              <div class="socket"></div>
+              <div class="socket"></div>
+            </div>
+          </div>
+          <img class="wide-deco" src="../atoms/check.png" alt="" />
         </div>
-        <div class="module block tone-tan">
-          <img class="module-mascot" src="../atoms/bear.png" alt="" />
-          <div class="module-label">英语</div>
+
+        <!-- 通栏：积分商城 -->
+        <div class="wide wide-shop block tone-rose">
+          <img class="wide-mascot" src="../atoms/unicorn.png" alt="" />
+          <div class="wide__body">
+            <div class="wide-title">积分商城</div>
+            <div class="wide-sub">用星星兑换动物贴纸</div>
+          </div>
+          <img class="wide-deco" src="../atoms/big-star.png" alt="" />
         </div>
-        <div class="module block tone-orange">
-          <img class="module-mascot" src="../atoms/cat.png" alt="" />
-          <div class="module-label">识字</div>
-        </div>
-        <div class="module block tone-coral">
-          <img class="module-mascot" src="../atoms/rabbit.png" alt="" />
-          <div class="module-label">古诗</div>
-        </div>
-        <div class="module block tone-sand">
-          <img class="module-mascot" src="../atoms/dog.png" alt="" />
-          <div class="module-label">算术</div>
-        </div>
-        <div class="module block tone-frost">
-          <img class="module-mascot" src="../atoms/penguin.png" alt="" />
-          <div class="module-label">日历</div>
+
+        <!-- 六个学习积木：一卡一色 -->
+        <div class="modules">
+          <div class="module block tone-butter">
+            <img class="module-mascot" src="../atoms/duckling.png" alt="" />
+            <div class="module-label">拼音</div>
+          </div>
+          <div class="module block tone-tan">
+            <img class="module-mascot" src="../atoms/bear.png" alt="" />
+            <div class="module-label">英语</div>
+          </div>
+          <div class="module block tone-orange">
+            <img class="module-mascot" src="../atoms/cat.png" alt="" />
+            <div class="module-label">识字</div>
+          </div>
+          <div class="module block tone-coral">
+            <img class="module-mascot" src="../atoms/rabbit.png" alt="" />
+            <div class="module-label">古诗</div>
+          </div>
+          <div class="module block tone-sand">
+            <img class="module-mascot" src="../atoms/dog.png" alt="" />
+            <div class="module-label">算术</div>
+          </div>
+          <div class="module block tone-frost">
+            <img class="module-mascot" src="../atoms/penguin.png" alt="" />
+            <div class="module-label">日历</div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

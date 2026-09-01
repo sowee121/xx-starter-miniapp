@@ -10,7 +10,12 @@
         wx:key="key"
         class="option block {{index === 0 ? 'tone-peach' : (index === 1 ? 'tone-butter' : 'tone-lilac')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-wrong' : ''}}"
         data-value="{{item.value}}"
-        bindtap="choose" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item.value}}</view>
+        bindtap="choose"
+        hover-class="is-pressed"
+        hover-start-time="0"
+        hover-stay-time="80"
+        >{{item.value}}</view
+      >
     </view>
     <trail-nav
       has-prev="{{nav.hasPrev}}"

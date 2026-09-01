@@ -8,9 +8,7 @@ const path = require('path')
 const ci = require('miniprogram-ci')
 
 const ROOT = path.join(__dirname, '..')
-const projectConfig = JSON.parse(
-  fs.readFileSync(path.join(ROOT, 'project.config.json'), 'utf8')
-)
+const projectConfig = JSON.parse(fs.readFileSync(path.join(ROOT, 'project.config.json'), 'utf8'))
 
 /** 解析上传私钥路径 */
 function resolveKeyPath() {
@@ -36,7 +34,7 @@ function createProject() {
         '2. 下载密钥，保存为 secrets/private.' + projectConfig.appid + '.key',
         '3. 配置 IP 白名单（本机公网 IP）',
         '详见 docs/ci-miniprogram.md',
-      ].join('\n')
+      ].join('\n'),
     )
     process.exit(1)
   }

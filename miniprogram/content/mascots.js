@@ -1,7 +1,10 @@
 const { mediaUrl } = require('../config/media')
 
+/** 首页专属素材目录 */
 const HOME_BASE = '/static/home'
+/** 通用图标目录 */
 const ICON_BASE = '/static/icons'
+/** 主包共享素材目录；首页与各分包共用，故必须留在主包内 */
 const SHARED_BASE = '/static/shared'
 
 /** 首页确认稿素材（上云） */

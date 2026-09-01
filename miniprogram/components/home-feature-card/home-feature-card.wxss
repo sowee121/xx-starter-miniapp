@@ -47,8 +47,7 @@
   flex-shrink: 0;
   border-radius: 50%;
   background: rgba(154, 182, 138, 0.22);
-  box-shadow:
-    var(--shadow-socket);
+  box-shadow: var(--shadow-socket);
   transition: var(--motion-tap);
 }
 

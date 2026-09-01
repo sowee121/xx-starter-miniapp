@@ -1,130 +1,139 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=750" />
-  <title>嘻嘻启蒙乐园 · 家长区</title>
-  <link rel="stylesheet" href="css/pages.css" />
-</head>
-<body>
-  <main class="page">
-    <div class="scene" aria-hidden="true">
-      <img class="scene__meadow" src="../atoms/meadow-hill.png" alt="" />
-      <div class="scene__blend"></div>
-      <div class="scene__dusk"></div>
-    </div>
-    <div class="shell">
-      <nav class="nav" aria-label="页面导航">
-        <div class="nav-home" aria-label="返回首页"><img class="nav-home__icon" src="../atoms/home-clay.png" alt="" /></div>
-        <div class="nav-title">家长区</div>
-        <div class="nav-right">
-          <div class="star-pill"><img src="../atoms/star.png" alt="" /><b>1</b></div>
-          <div class="capsule-slot"></div>
-        </div>
-      </nav>
-      <header class="inner-head"><h1>家长设置</h1><p>陪伴宝贝，轻松调整</p></header>
-      <div class="parent-stack">
-        <section class="setting-block block tone-sky">
-          <div class="setting-head">
-            <span class="play-btn is-lg" aria-label="试听"><img src="../atoms/play.png" alt="" /></span>
-            <div class="setting-head__body"><strong>音量大小</strong><span>调节点读和答题音量大小</span></div>
-          </div>
-          <div class="volume-options">
-            <div class="volume-thumb" aria-hidden="true"></div>
-            <button class="volume-option">静音</button>
-            <button class="volume-option">柔和</button>
-            <button class="volume-option is-active">正常</button>
-          </div>
-        </section>
-        <section class="setting-block clear-block block tone-matcha">
-          <div class="setting-head">
-            <div class="clear-icon-slot is-dino">
-              <img class="clear-icon" src="../atoms/dino.png" alt="" />
-            </div>
-            <div class="setting-head__body">
-              <strong>每日任务</strong>
-              <span>重置今日任务，不能恢复</span>
-            </div>
-          </div>
-          <button type="button" class="clear-groove is-matcha" data-hold>
-            <span class="clear-groove__bar" aria-hidden="true"></span>
-            <span class="clear-label">长按 3 秒重置</span>
-          </button>
-        </section>
-        <section class="setting-block clear-block block tone-frost">
-          <div class="setting-head">
-            <div class="clear-icon-slot is-penguin">
-              <img class="clear-icon" src="../atoms/penguin.png" alt="" />
-            </div>
-            <div class="setting-head__body">
-              <strong>学习记录</strong>
-              <span>清除已学记录，不能恢复</span>
-            </div>
-          </div>
-          <button type="button" class="clear-groove is-sky" data-hold>
-            <span class="clear-groove__bar" aria-hidden="true"></span>
-            <span class="clear-label">长按 3 秒清除</span>
-          </button>
-        </section>
-        <section class="setting-block clear-block block tone-rose">
-          <div class="setting-head">
-            <div class="clear-icon-slot is-unicorn">
-              <img class="clear-icon" src="../atoms/unicorn.png" alt="" />
-            </div>
-            <div class="setting-head__body">
-              <strong>兑换贴纸</strong>
-              <span>清空已兑贴纸，不能恢复 </span>
-            </div>
-          </div>
-          <button type="button" class="clear-groove" data-hold>
-            <span class="clear-groove__bar" aria-hidden="true"></span>
-            <span class="clear-label">长按 3 秒清空</span>
-          </button>
-        </section>
-        <section class="setting-block clear-block block tone-apricot">
-          <div class="setting-head">
-            <img class="clear-icon" src="../atoms/big-star.png" alt="" />
-            <div class="setting-head__body">
-              <strong>星星积分</strong>
-              <span>清零星星积分，不能恢复</span>
-            </div>
-          </div>
-          <button type="button" class="clear-groove is-apricot" data-hold>
-            <span class="clear-groove__bar" aria-hidden="true"></span>
-            <span class="clear-label">长按 3 秒清零</span>
-          </button>
-        </section>
-        <footer class="parent-about">嘻嘻启蒙乐园 · 版本 1.0</footer>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=750" />
+    <title>嘻嘻启蒙乐园 · 家长区</title>
+    <link rel="stylesheet" href="css/pages.css" />
+  </head>
+  <body>
+    <main class="page">
+      <div class="scene" aria-hidden="true">
+        <img class="scene__meadow" src="../atoms/meadow-hill.png" alt="" />
+        <div class="scene__blend"></div>
+        <div class="scene__dusk"></div>
       </div>
-    </div>
-  </main>
-  <script>
-    (function () {
-      var HOLD_MS = 3000
-      var buttons = document.querySelectorAll('[data-hold]')
-      buttons.forEach(function (btn) {
-        var bar = btn.querySelector('.clear-groove__bar')
-        var timer = null
-        function reset() {
-          if (timer) clearTimeout(timer)
-          timer = null
-          btn.classList.remove('is-holding')
-          bar.classList.remove('is-filling')
-        }
-        btn.addEventListener('pointerdown', function (event) {
-          reset()
-          btn.classList.add('is-holding')
-          bar.classList.add('is-filling')
-          btn.setPointerCapture(event.pointerId)
-          timer = setTimeout(reset, HOLD_MS + 120)
+      <div class="shell">
+        <nav class="nav" aria-label="页面导航">
+          <div class="nav-home" aria-label="返回首页">
+            <img class="nav-home__icon" src="../atoms/home-clay.png" alt="" />
+          </div>
+          <div class="nav-title">家长区</div>
+          <div class="nav-right">
+            <div class="star-pill"><img src="../atoms/star.png" alt="" /><b>1</b></div>
+            <div class="capsule-slot"></div>
+          </div>
+        </nav>
+        <header class="inner-head">
+          <h1>家长设置</h1>
+          <p>陪伴宝贝，轻松调整</p>
+        </header>
+        <div class="parent-stack">
+          <section class="setting-block block tone-sky">
+            <div class="setting-head">
+              <span class="play-btn is-lg" aria-label="试听"
+                ><img src="../atoms/play.png" alt=""
+              /></span>
+              <div class="setting-head__body">
+                <strong>音量大小</strong><span>调节点读和答题音量大小</span>
+              </div>
+            </div>
+            <div class="volume-options">
+              <div class="volume-thumb" aria-hidden="true"></div>
+              <button class="volume-option">静音</button>
+              <button class="volume-option">柔和</button>
+              <button class="volume-option is-active">正常</button>
+            </div>
+          </section>
+          <section class="setting-block clear-block block tone-matcha">
+            <div class="setting-head">
+              <div class="clear-icon-slot is-dino">
+                <img class="clear-icon" src="../atoms/dino.png" alt="" />
+              </div>
+              <div class="setting-head__body">
+                <strong>每日任务</strong>
+                <span>重置今日任务，不能恢复</span>
+              </div>
+            </div>
+            <button type="button" class="clear-groove is-matcha" data-hold>
+              <span class="clear-groove__bar" aria-hidden="true"></span>
+              <span class="clear-label">长按 3 秒重置</span>
+            </button>
+          </section>
+          <section class="setting-block clear-block block tone-frost">
+            <div class="setting-head">
+              <div class="clear-icon-slot is-penguin">
+                <img class="clear-icon" src="../atoms/penguin.png" alt="" />
+              </div>
+              <div class="setting-head__body">
+                <strong>学习记录</strong>
+                <span>清除已学记录，不能恢复</span>
+              </div>
+            </div>
+            <button type="button" class="clear-groove is-sky" data-hold>
+              <span class="clear-groove__bar" aria-hidden="true"></span>
+              <span class="clear-label">长按 3 秒清除</span>
+            </button>
+          </section>
+          <section class="setting-block clear-block block tone-rose">
+            <div class="setting-head">
+              <div class="clear-icon-slot is-unicorn">
+                <img class="clear-icon" src="../atoms/unicorn.png" alt="" />
+              </div>
+              <div class="setting-head__body">
+                <strong>兑换贴纸</strong>
+                <span>清空已兑贴纸，不能恢复 </span>
+              </div>
+            </div>
+            <button type="button" class="clear-groove" data-hold>
+              <span class="clear-groove__bar" aria-hidden="true"></span>
+              <span class="clear-label">长按 3 秒清空</span>
+            </button>
+          </section>
+          <section class="setting-block clear-block block tone-apricot">
+            <div class="setting-head">
+              <img class="clear-icon" src="../atoms/big-star.png" alt="" />
+              <div class="setting-head__body">
+                <strong>星星积分</strong>
+                <span>清零星星积分，不能恢复</span>
+              </div>
+            </div>
+            <button type="button" class="clear-groove is-apricot" data-hold>
+              <span class="clear-groove__bar" aria-hidden="true"></span>
+              <span class="clear-label">长按 3 秒清零</span>
+            </button>
+          </section>
+          <footer class="parent-about">嘻嘻启蒙乐园 · 版本 1.0</footer>
+        </div>
+      </div>
+    </main>
+    <script>
+      ;(function () {
+        var HOLD_MS = 3000
+        var buttons = document.querySelectorAll('[data-hold]')
+        buttons.forEach(function (btn) {
+          var bar = btn.querySelector('.clear-groove__bar')
+          var timer = null
+          function reset() {
+            if (timer) clearTimeout(timer)
+            timer = null
+            btn.classList.remove('is-holding')
+            bar.classList.remove('is-filling')
+          }
+          btn.addEventListener('pointerdown', function (event) {
+            reset()
+            btn.classList.add('is-holding')
+            bar.classList.add('is-filling')
+            btn.setPointerCapture(event.pointerId)
+            timer = setTimeout(reset, HOLD_MS + 120)
+          })
+          function endHold() {
+            reset()
+          }
+          btn.addEventListener('pointerup', endHold)
+          btn.addEventListener('pointercancel', endHold)
         })
-        function endHold() {
-          reset()
-        }
-        btn.addEventListener('pointerup', endHold)
-        btn.addEventListener('pointercancel', endHold)
-      })
-    })()
-  </script>
-</body>
+      })()
+    </script>
+  </body>
 </html>

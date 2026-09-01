@@ -9,7 +9,11 @@
         class="word-card word-card--hanzi block tone-{{item.tone}}"
         data-char="{{hanzi.char}}"
         data-cat="{{item.id}}"
-        bindtap="open" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+        bindtap="open"
+        hover-class="is-pressed"
+        hover-start-time="0"
+        hover-stay-time="80"
+      >
         <view class="word-card__emoji">{{hanzi.emoji}}</view>
         <view class="word-card__label">{{hanzi.char}}</view>
       </view>

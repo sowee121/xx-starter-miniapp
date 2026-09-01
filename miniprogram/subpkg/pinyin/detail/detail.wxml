@@ -1,6 +1,12 @@
 <app-shell title="拼音" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-cream" bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view
+      class="detail-big block tone-cream"
+      bindtap="play"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <image class="pinyin-vowel-image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="detail-big__sub">{{item.phonetic}}</view>
       <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
@@ -20,11 +26,15 @@
         wx:key="id"
         class="trail-nav__item {{item.current ? 'is-current' : ''}}"
         data-id="{{item.id}}"
-        bindtap="onTrailTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80"><text class="trail-nav__glyph">{{item.letter}}</text></view>
+        bindtap="onTrailTap"
+        hover-class="is-pressed"
+        hover-start-time="0"
+        hover-stay-time="80"
+        ><text class="trail-nav__glyph">{{item.letter}}</text></view
+      >
     </view>
 
     <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
-
   </view>
   <praise-sun
     show="{{feedback.show}}"

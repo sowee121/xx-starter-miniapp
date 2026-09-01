@@ -1,6 +1,7 @@
 const { mediaUrl } = require('../config/media')
 const { LAYERS, INLINE } = require('../content/feedback')
 
+/** 浮层进出动画时长（ms），需与 feedback.wxss 的 transition 保持一致 */
 const LAYER_TRANSITION = 250
 
 /** 规范化行内提示结构 */
@@ -29,7 +30,7 @@ function preloadVoiceAudio() {
   try {
     require('./audio').ensureAudioOption()
   } catch (error) {
-    // ignore
+    // 忽略
   }
 }
 

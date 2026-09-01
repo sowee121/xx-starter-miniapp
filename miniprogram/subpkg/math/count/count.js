@@ -33,5 +33,5 @@ Page(
         items: Array.from({ length: question.answer }, () => src),
       }
     },
-  })
+  }),
 )

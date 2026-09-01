@@ -4,6 +4,7 @@ const feedback = require('../../utils/feedback')
 const { LAYERS } = require('../../content/feedback')
 const { tap } = require('../../utils/tap-guard')
 
+/** 回顶滚动总时长（ms）；与 easeScrollTop 的缓动曲线配套，太快会显得生硬 */
 const SCROLL_MS = 560
 
 /** 缓出滚回顶部，避免原生 200ms 一顿到底 */

@@ -14,5 +14,5 @@ Page(
       const avoidKey = prev ? `${prev.a}${prev.op}${prev.b}` : null
       return { question: randomCalcQuestion(null, avoidKey) }
     },
-  })
+  }),
 )

@@ -7,9 +7,13 @@ const starsUtil = require('../../utils/stars')
 const dailyTasksUtil = require('../../utils/daily-tasks')
 const { tap } = require('../../utils/tap-guard')
 
+/** 长按多久算确认清除；够长才能挡住宝宝误触 */
 const HOLD_MS = 3000
+/** 拖动滑块后延迟试听，避开连续滑动过程中的每一帧 */
 const VOLUME_PREVIEW_DELAY = 120
+/** 滑块两端留白（rpx），保证两端档位也能完整显示滑块 */
 const VOLUME_SLIDER_PADDING = 8
+/** 音量试听音源 */
 const VOLUME_PREVIEW_AUDIO = mediaUrl('/static/shared/volume-preview.mp3')
 /** 家长区各清除操作的动词：清零 / 清空 / 重置 / 清除 */
 const ACTION_VERBS = {

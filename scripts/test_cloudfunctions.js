@@ -49,7 +49,10 @@ function applyPatch(doc, patch) {
     }
     if (value.__command === 'inc') doc[key] = (doc[key] || 0) + value.value
     if (value.__command === 'push') doc[key] = [...(doc[key] || []), value.value]
-    if (value.__command === 'set') { doc[key] = clone(value.value); continue }
+    if (value.__command === 'set') {
+      doc[key] = clone(value.value)
+      continue
+    }
   }
 }
 
@@ -174,10 +177,14 @@ async function testInitDb() {
   reset()
   const result = await fn('initDb')()
   assert.equal(result.ok, true)
-  assert.deepEqual(
-    result.results.map((item) => item.name).sort(),
-    ['daily_tasks', 'progress', 'reward_logs', 'star_logs', 'task_logs', 'users']
-  )
+  assert.deepEqual(result.results.map((item) => item.name).sort(), [
+    'daily_tasks',
+    'progress',
+    'reward_logs',
+    'star_logs',
+    'task_logs',
+    'users',
+  ])
   assert.ok(result.results.every((item) => item.status === 'created'))
 }
 
@@ -254,10 +261,10 @@ async function testAddStars() {
   })
   assert.equal(pinyinDaily.ok, true)
   assert.equal(pinyinDaily.stars, 10)
-  assert.deepEqual(
-    await addStars({ delta: 7, reason: 'daily_task', clientId: 'daily-too-big' }),
-    { ok: false, error: 'invalid_params' }
-  )
+  assert.deepEqual(await addStars({ delta: 7, reason: 'daily_task', clientId: 'daily-too-big' }), {
+    ok: false,
+    error: 'invalid_params',
+  })
   const dailyDup = await addStars({
     delta: 2,
     reason: 'daily_task',
@@ -321,11 +328,21 @@ async function testDailyTasks() {
   assert.equal(created.ok, true)
   assert.equal(created.day.tasks.length, 6)
   for (const id of ['poem', 'hanzi', 'math', 'english', 'pinyin', 'calendar']) {
-    assert.ok(created.day.tasks.some((t) => t.id === id), `任务应包含 ${id}`)
+    assert.ok(
+      created.day.tasks.some((t) => t.id === id),
+      `任务应包含 ${id}`,
+    )
   }
   assert.ok(
-    created.day.tasks.every((t) => typeof t.target === 'number' && t.target >= 1 && typeof t.reward === 'number' && t.title && t.url),
-    '任务应含 target/reward/title/url'
+    created.day.tasks.every(
+      (t) =>
+        typeof t.target === 'number' &&
+        t.target >= 1 &&
+        typeof t.reward === 'number' &&
+        t.title &&
+        t.url,
+    ),
+    '任务应含 target/reward/title/url',
   )
   assert.equal(records('daily_tasks').length, 1)
   assert.equal(records('daily_tasks')[0]._openid, OPENID, 'daily_tasks 记录必须带 _openid')
@@ -346,8 +363,20 @@ async function testDailyTasks() {
   // 同 openid+date 多条脏数据：get 自愈保留一条
   reset()
   records('daily_tasks').push(
-    { _id: 'dt-a', _openid: OPENID, date: '2026-08-31', tasks: seedTasks, progress: { poem: ['x'] } },
-    { _id: 'dt-b', _openid: OPENID, date: '2026-08-31', tasks: seedTasks, progress: { poem: ['y'] } },
+    {
+      _id: 'dt-a',
+      _openid: OPENID,
+      date: '2026-08-31',
+      tasks: seedTasks,
+      progress: { poem: ['x'] },
+    },
+    {
+      _id: 'dt-b',
+      _openid: OPENID,
+      date: '2026-08-31',
+      tasks: seedTasks,
+      progress: { poem: ['y'] },
+    },
   )
   const healed = await dailyTasks({ action: 'get', date: '2026-08-31' })
   assert.equal(healed.ok, true)
@@ -358,7 +387,13 @@ async function testDailyTasks() {
   const syncAdd = await dailyTasks({
     action: 'sync',
     date: '2026-08-31',
-    day: { schema: 10, tasks: seedTasks, progress: { poem: ['a', 'b'] }, done: { poem: true }, awarded: { poem: true } },
+    day: {
+      schema: 10,
+      tasks: seedTasks,
+      progress: { poem: ['a', 'b'] },
+      done: { poem: true },
+      awarded: { poem: true },
+    },
   })
   assert.equal(syncAdd.ok, true)
   assert.equal(records('daily_tasks').length, 1)
@@ -375,16 +410,21 @@ async function testDailyTasks() {
   assert.equal(records('daily_tasks')[0].progress.poem.length, 1, 'sync 应整体替换当天文档')
   assert.equal(records('daily_tasks')[0].done.poem, undefined)
 
-  assert.deepEqual(
-    await dailyTasks({ action: 'sync', date: '2026-08-31', day: { tasks: [] } }),
-    { ok: false, error: 'invalid_params' }
-  )
+  assert.deepEqual(await dailyTasks({ action: 'sync', date: '2026-08-31', day: { tasks: [] } }), {
+    ok: false,
+    error: 'invalid_params',
+  })
   assert.deepEqual(await dailyTasks({ action: 'nope' }), { ok: false, error: 'invalid_action' })
 
   // reset：删当天 daily_tasks + 当天 task_logs，别天保留
   reset()
   await fn('initDb')() // 先建集合，mock 的 records 在集合未创建时是临时数组、push 不落库
-  records('daily_tasks').push({ _id: 'dt-1', _openid: OPENID, date: '2026-08-31', tasks: seedTasks })
+  records('daily_tasks').push({
+    _id: 'dt-1',
+    _openid: OPENID,
+    date: '2026-08-31',
+    tasks: seedTasks,
+  })
   records('task_logs').push({ _id: 'tl-1', _openid: OPENID, date: '2026-08-31', tasks: [] })
   records('task_logs').push({ _id: 'tl-2', _openid: OPENID, date: '2026-08-30', tasks: [] })
   const resetted = await dailyTasks({ action: 'reset', date: '2026-08-31' })
@@ -405,7 +445,14 @@ async function testOwnership() {
   records('users')[0].stars = 12
   await fn('exchangeReward')({ rewardId: 'rabbit' })
 
-  for (const name of ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs', 'daily_tasks']) {
+  for (const name of [
+    'users',
+    'star_logs',
+    'progress',
+    'task_logs',
+    'reward_logs',
+    'daily_tasks',
+  ]) {
     const rows = records(name)
     assert.ok(rows.length > 0, `${name} 应有记录`)
     for (const row of rows) {

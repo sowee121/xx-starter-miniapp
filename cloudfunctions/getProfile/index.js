@@ -13,11 +13,7 @@ async function ensureUsers() {
   }
 }
 
-/**
- * 读取或创建用户。
- * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
- * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
- */
+/** 读取或创建用户（幂等：同 openid 多条则保留首条、删其余） */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
   const found = await col.where({ _openid: openid }).limit(10).get()

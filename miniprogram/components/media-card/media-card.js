@@ -16,7 +16,7 @@ Component({
     wideImage: { type: Boolean, value: false },
   },
   methods: {
-    /** 点击播放钮 */
+    /** 点击媒体卡，向父级抛出 tap 事件 */
     onTap: tap(function () {
       this.triggerEvent('tap')
     }),

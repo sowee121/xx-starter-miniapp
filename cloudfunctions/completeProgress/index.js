@@ -11,10 +11,7 @@ exports.main = async (event) => {
   if (!moduleName || !itemId) return { ok: false, error: 'invalid_params' }
 
   const col = db.collection('progress')
-  const found = await col
-    .where({ _openid: OPENID, module: moduleName, itemId })
-    .limit(1)
-    .get()
+  const found = await col.where({ _openid: OPENID, module: moduleName, itemId }).limit(1).get()
 
   if (found.data[0]) {
     await col.doc(found.data[0]._id).update({

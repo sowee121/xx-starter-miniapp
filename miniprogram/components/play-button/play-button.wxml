@@ -18,7 +18,11 @@
   class="play-btn-hit custom-class"
   catchtap="onTap"
   aria-role="button"
-  aria-label="{{playing ? '停止' : '播放'}}" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+  aria-label="{{playing ? '停止' : '播放'}}"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
   <view
     class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >

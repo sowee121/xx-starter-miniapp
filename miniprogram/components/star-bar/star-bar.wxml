@@ -1,7 +1,4 @@
-<view
-  class="star-bar {{night ? 'is-night' : ''}}"
-  style="height: {{barHeight}}px;"
->
+<view class="star-bar {{night ? 'is-night' : ''}}" style="height: {{barHeight}}px;">
   <image
     class="star-bar__icon"
     src="{{starIcon}}"

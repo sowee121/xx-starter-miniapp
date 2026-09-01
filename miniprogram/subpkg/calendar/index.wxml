@@ -1,12 +1,8 @@
-<app-shell
-  title="日历"
-  hint=""
-  stars="{{stars}}"
-  background="{{background}}"
-  night="{{isNight}}"
->
+<app-shell title="日历" hint="" stars="{{stars}}" background="{{background}}" night="{{isNight}}">
   <view class="detail-stack">
-    <view class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}">
+    <view
+      class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}"
+    >
       <view class="calendar-scene__sky">
         <image class="calendar-scene__sky-image" src="{{skyIcon}}" mode="aspectFit" />
       </view>
@@ -20,7 +16,12 @@
         bind:tap="onCheckin"
       />
     </view>
-    <activity-month title="{{heat.title}}" weekdays="{{heat.weekdays}}" cells="{{heat.cells}}" night="{{isNight}}" />
+    <activity-month
+      title="{{heat.title}}"
+      weekdays="{{heat.weekdays}}"
+      cells="{{heat.cells}}"
+      night="{{isNight}}"
+    />
   </view>
   <praise-sun
     show="{{feedback.show}}"

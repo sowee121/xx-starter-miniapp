@@ -20,8 +20,21 @@ const KEEP = new Set([
   'static/shared/grass-tuft.png',
 ])
 const EXTS = new Set([
-  '.jpg', '.jpeg', '.png', '.svg', '.png', '.gif',
-  '.flac', '.m4a', '.ogg', '.ape', '.amr', '.wma', '.wav', '.mp3', '.mp4',
+  '.jpg',
+  '.jpeg',
+  '.png',
+  '.svg',
+  '.png',
+  '.gif',
+  '.flac',
+  '.m4a',
+  '.ogg',
+  '.ape',
+  '.amr',
+  '.wma',
+  '.wav',
+  '.mp3',
+  '.mp4',
 ])
 
 /** 递归收集文件 */

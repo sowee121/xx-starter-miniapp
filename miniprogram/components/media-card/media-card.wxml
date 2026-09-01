@@ -1,6 +1,15 @@
-<view class="media-row block tone-{{tone || 'cream'}} custom-class" bindtap="onTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+<view
+  class="media-row block tone-{{tone || 'cream'}} custom-class"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
   <view class="media-main">
-    <view wx:if="{{image}}" class="media-main__thumb {{wideImage ? 'media-main__thumb--wide' : ''}}">
+    <view
+      wx:if="{{image}}"
+      class="media-main__thumb {{wideImage ? 'media-main__thumb--wide' : ''}}"
+    >
       <image class="media-main__image" src="{{image}}" mode="aspectFit" lazy-load />
     </view>
     <view class="media-main__body">

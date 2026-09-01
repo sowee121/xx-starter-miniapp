@@ -1,9 +1,21 @@
 const { categories } = require('../content/english-words')
-const { toneOf, detailImageUrl, detailPageUrl, mediaOwner, wordOwner, catIdOfPackage } = require('./english-media')
+const {
+  toneOf,
+  detailImageUrl,
+  detailPageUrl,
+  mediaOwner,
+  wordOwner,
+  catIdOfPackage,
+} = require('./english-media')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
-const { playPreview, playPrimaryAndAward, playAfterRender, markPageReady } = require('../../../utils/read-award')
+const {
+  playPreview,
+  playPrimaryAndAward,
+  playAfterRender,
+  markPageReady,
+} = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue, goTo } = require('../../../utils/page')

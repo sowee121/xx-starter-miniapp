@@ -1,16 +1,10 @@
 {
-  "pages": [
-    "pages/home/home",
-    "pages/parent/parent"
-  ],
+  "pages": ["pages/home/home", "pages/parent/parent"],
   "subPackages": [
     {
       "root": "subpkg/poem",
       "name": "poem",
-      "pages": [
-        "poem/poem",
-        "detail/detail"
-      ]
+      "pages": ["poem/poem", "detail/detail"]
     },
     {
       "root": "subpkg/hanzi",
@@ -25,11 +19,7 @@
     {
       "root": "subpkg/english",
       "name": "english",
-      "pages": [
-        "hub/hub",
-        "list/list",
-        "detail/detail"
-      ]
+      "pages": ["hub/hub", "list/list", "detail/detail"]
     },
     {
       "root": "subpkg/english-fruit",

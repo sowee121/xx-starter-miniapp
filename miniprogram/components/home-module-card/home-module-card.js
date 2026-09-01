@@ -30,7 +30,7 @@ Component({
     },
   },
   methods: {
-    /** 点击播放钮 */
+    /** 点击模块卡，向父级抛出 tap 事件 */
     onTap: tap(function () {
       this.triggerEvent('tap', {
         id: this.data.moduleId,

@@ -1,9 +1,11 @@
 const cloud = require('./cloud')
 // 静态引入 activity：动态 require 一旦失败会被 catch 静默吞掉，
-// 表现为「清除学习记录后热力图毫无反应」，且线上不留任何痕迹。
+/** 表现为「清除学习记录后热力图毫无反应」，且线上不留任何痕迹。 */
 const activity = require('./activity')
 
+/** 本地学习进度表：{ 'module::itemId': true } */
 const STORAGE_KEY = 'learning_progress'
+/** 未同步到云端的学习进度队列 */
 const QUEUE_KEY = 'progress_retry_queue'
 /**
  * 防御上限：长期离线时避免队列无限堆积挤占存储。
@@ -11,6 +13,7 @@ const QUEUE_KEY = 'progress_retry_queue'
  */
 const MAX_SIZE = 500
 
+/** 冲刷中，禁止并发重入 */
 let flushing = false
 
 /** 读本地进度表 */
@@ -28,7 +31,7 @@ function saveMap(map) {
   try {
     wx.setStorageSync(STORAGE_KEY, map)
   } catch (error) {
-    // ignore
+    // 忽略
   }
 }
 
@@ -47,7 +50,7 @@ function saveQueue(list) {
   try {
     wx.setStorageSync(QUEUE_KEY, list)
   } catch (error) {
-    // ignore
+    // 忽略
   }
 }
 

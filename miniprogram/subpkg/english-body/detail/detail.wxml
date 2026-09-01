@@ -1,6 +1,13 @@
 <app-shell title="英语" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-{{tone}}" data-kind="word" bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view
+      class="detail-big block tone-{{tone}}"
+      data-kind="word"
+      bindtap="play"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <image class="detail-big__image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="detail-big__title">{{item.word}}</view>
       <view class="detail-big__sub">{{item.phonetic}}</view>
@@ -10,9 +17,18 @@
     <view
       class="poem-line block tone-cream"
       data-kind="sentence"
-      bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+      bindtap="play"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <view class="poem-line__text">{{item.sentence}}</view>
-      <play-button size="sm" compact="{{true}}" passive="{{true}}" playing="{{playingSrc === item.sentenceAudio}}" />
+      <play-button
+        size="sm"
+        compact="{{true}}"
+        passive="{{true}}"
+        playing="{{playingSrc === item.sentenceAudio}}"
+      />
     </view>
     <trail-nav
       show="{{nav.total > 1}}"

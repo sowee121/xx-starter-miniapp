@@ -1,6 +1,12 @@
 <app-shell title="英语" stars="{{stars}}">
   <view wx:if="{{item}}" class="detail-stack">
-    <view class="detail-big block tone-sky" bindtap="play" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view
+      class="detail-big block tone-sky"
+      bindtap="play"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <image class="pinyin-vowel-image" src="{{item.image}}" mode="aspectFit" lazy-load />
       <view class="detail-big__sub">{{item.phonetic}}</view>
       <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />

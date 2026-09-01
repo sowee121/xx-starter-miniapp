@@ -4,7 +4,9 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+/** 日期键格式校验，挡住非 YYYY-MM-DD 的脏数据 */
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/
+/** 热力保留窗口（月），与小程序端 utils/activity.js 的 KEEP_MONTHS 必须一致 */
 const KEEP_MONTHS = 12
 
 /** 丢掉一年前的格子 */
@@ -19,11 +21,7 @@ function prune(days) {
   })
 }
 
-/**
- * 读取或创建用户。
- * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
- * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
- */
+/** 读取或创建用户（幂等：同 openid 多条则保留首条、删其余） */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
   const found = await col.where({ _openid: openid }).limit(10).get()
@@ -68,8 +66,11 @@ exports.main = async (event) => {
   prune(heatDays)
   // 用 where + _.set 覆盖同 openid 的全部文档：
   // 竞态下短暂存在多条时，doc(user._id) 只更新一条，另一条会残留旧热力。
-  await db.collection('users').where({ _openid: OPENID }).update({
-    data: { heatDays: _.set(heatDays), updatedAt: Date.now() },
-  })
+  await db
+    .collection('users')
+    .where({ _openid: OPENID })
+    .update({
+      data: { heatDays: _.set(heatDays), updatedAt: Date.now() },
+    })
   return { ok: true, heatDays }
 }

@@ -4,15 +4,14 @@
     <view class="scene__blend"></view>
   </view>
 
-  <custom-header
-    variant="home"
-    title="嘻嘻启蒙乐园"
-    stars="{{stars}}"
-    show-home="{{false}}"
-  />
+  <custom-header variant="home" title="嘻嘻启蒙乐园" stars="{{stars}}" show-home="{{false}}" />
 
   <view class="home-page__shell" style="padding-top: calc({{headerHeight}}px + 30rpx);">
-    <view class="home-welcome tone-cream" bindtap="onOpenParent" hover-class="home-welcome--pressed">
+    <view
+      class="home-welcome tone-cream"
+      bindtap="onOpenParent"
+      hover-class="home-welcome--pressed"
+    >
       <view class="home-welcome__avatar-slot">
         <image class="home-welcome__avatar" src="{{avatar}}" mode="aspectFit" />
       </view>

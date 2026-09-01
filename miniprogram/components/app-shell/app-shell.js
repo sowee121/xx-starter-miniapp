@@ -12,7 +12,10 @@ Component({
     stars: { type: Number, value: 0 },
     showHome: { type: Boolean, value: true },
     night: { type: Boolean, value: false },
-    background: { type: String, value: require('../../config/media').mediaUrl('/static/shared/meadow.png') },
+    background: {
+      type: String,
+      value: require('../../config/media').mediaUrl('/static/shared/meadow.png'),
+    },
   },
 
   data: {
@@ -32,7 +35,7 @@ Component({
       try {
         require('../../utils/audio').stop()
       } catch (error) {
-        // ignore
+        // 忽略
       }
       goTo('/pages/home/home', { mode: 'reLaunch' })
     },

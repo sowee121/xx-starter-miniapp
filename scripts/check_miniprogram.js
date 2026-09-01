@@ -10,16 +10,66 @@ const ROOT = path.join(__dirname, '..')
 const MP = path.join(ROOT, 'miniprogram')
 
 const NATIVE_TAGS = new Set([
-  'view', 'scroll-view', 'swiper', 'swiper-item', 'movable-area', 'movable-view',
-  'cover-view', 'cover-image', 'icon', 'text', 'rich-text', 'progress',
-  'button', 'checkbox', 'checkbox-group', 'form', 'input', 'label', 'picker',
-  'picker-view', 'picker-view-column', 'radio', 'radio-group', 'slider', 'switch',
-  'textarea', 'navigator', 'audio', 'camera', 'image', 'video', 'live-player',
-  'live-pusher', 'map', 'canvas', 'web-view', 'ad', 'official-account',
-  'open-data', 'functional-page-navigator', 'editor', 'match-media', 'page-meta',
-  'navigation-bar', 'voip-room', 'ad-custom', 'page-container', 'share-element',
-  'keyboard-accessory', 'root-portal', 'channel-live', 'channel-video',
-  'snapshot', 'span', 'block', 'template', 'slot', 'import', 'include', 'wxs',
+  'view',
+  'scroll-view',
+  'swiper',
+  'swiper-item',
+  'movable-area',
+  'movable-view',
+  'cover-view',
+  'cover-image',
+  'icon',
+  'text',
+  'rich-text',
+  'progress',
+  'button',
+  'checkbox',
+  'checkbox-group',
+  'form',
+  'input',
+  'label',
+  'picker',
+  'picker-view',
+  'picker-view-column',
+  'radio',
+  'radio-group',
+  'slider',
+  'switch',
+  'textarea',
+  'navigator',
+  'audio',
+  'camera',
+  'image',
+  'video',
+  'live-player',
+  'live-pusher',
+  'map',
+  'canvas',
+  'web-view',
+  'ad',
+  'official-account',
+  'open-data',
+  'functional-page-navigator',
+  'editor',
+  'match-media',
+  'page-meta',
+  'navigation-bar',
+  'voip-room',
+  'ad-custom',
+  'page-container',
+  'share-element',
+  'keyboard-accessory',
+  'root-portal',
+  'channel-live',
+  'channel-video',
+  'snapshot',
+  'span',
+  'block',
+  'template',
+  'slot',
+  'import',
+  'include',
+  'wxs',
 ])
 
 const errors = []
@@ -84,7 +134,10 @@ function resolveComponentPath(fromJson, compPath) {
   for (const c of candidates) {
     if (fs.existsSync(c)) {
       if (c.endsWith('.json') || c.endsWith('.js')) return path.dirname(c)
-      if (fs.existsSync(path.join(c, `${path.basename(c)}.js`)) || fs.existsSync(path.join(c, 'index.js'))) {
+      if (
+        fs.existsSync(path.join(c, `${path.basename(c)}.js`)) ||
+        fs.existsSync(path.join(c, 'index.js'))
+      ) {
         return c
       }
       // directory with component files
@@ -117,7 +170,7 @@ function checkPageOrComponent(jsonPath) {
   for (const tag of used) {
     if (!registered[tag]) {
       errors.push(
-        `${rel(wxmlPath)}: 使用了 <${tag}>，但 ${path.basename(jsonPath)} 的 usingComponents 未注册`
+        `${rel(wxmlPath)}: 使用了 <${tag}>，但 ${path.basename(jsonPath)} 的 usingComponents 未注册`,
       )
     }
   }
@@ -125,9 +178,7 @@ function checkPageOrComponent(jsonPath) {
   for (const [tag, compPath] of Object.entries(registered)) {
     const resolved = resolveComponentPath(jsonPath, compPath)
     if (!resolved) {
-      errors.push(
-        `${rel(jsonPath)}: usingComponents["${tag}"] 路径无效 → ${compPath}`
-      )
+      errors.push(`${rel(jsonPath)}: usingComponents["${tag}"] 路径无效 → ${compPath}`)
       continue
     }
     // 未在本页 wxml 使用 → 阻断（避免 json 残留无用组件）
@@ -157,7 +208,7 @@ function checkStaticRefs() {
 
   // js data 里常见的硬编码路径（mediaUrl(...) 会转成 cloud://，允许文件不在代码包）
   const jss = walk(path.join(MP, 'components'), ['.js']).concat(
-    walk(path.join(MP, 'pages'), ['.js'])
+    walk(path.join(MP, 'pages'), ['.js']),
   )
   const jsRe = /['"](\/static\/[^'"]+\.(?:webp|png|jpg|jpeg|gif|mp3))['"]/g
   for (const file of jss) {
@@ -193,9 +244,7 @@ function checkWxssNoLocalUrl() {
     while ((m = re.exec(text))) {
       const u = m[1]
       if (u.startsWith('data:') || u.startsWith('https:') || u.startsWith('http:')) continue
-      errors.push(
-        `${rel(file)}: WXSS 不可引用本地图片 url(${u})，请改用 <image> / base64 / 网络图`
-      )
+      errors.push(`${rel(file)}: WXSS 不可引用本地图片 url(${u})，请改用 <image> / base64 / 网络图`)
     }
   }
 }
@@ -212,14 +261,10 @@ function checkFlexWrapUsesGap() {
       const body = match[2]
       if (!/flex-wrap\s*:\s*wrap\b/.test(body)) continue
       if (!/\b(?:gap|row-gap|column-gap)\s*:/.test(body)) {
-        errors.push(
-          `${rel(file)}: ${selector} 使用 flex-wrap: wrap 时必须用 gap 定义均匀间距`
-        )
+        errors.push(`${rel(file)}: ${selector} 使用 flex-wrap: wrap 时必须用 gap 定义均匀间距`)
       }
       if (/justify-content\s*:\s*space-between\b/.test(body)) {
-        errors.push(
-          `${rel(file)}: ${selector} 不要用 space-between 模拟卡片间距，请使用 gap`
-        )
+        errors.push(`${rel(file)}: ${selector} 不要用 space-between 模拟卡片间距，请使用 gap`)
       }
     }
   }
@@ -227,10 +272,7 @@ function checkFlexWrapUsesGap() {
 
 /** 禁止负 margin 外扩热区，间距交给 flex + gap / 容器尺寸 */
 function checkNoNegativeMargin() {
-  const files = [
-    ...walk(MP, ['.wxss']),
-    ...walk(path.join(ROOT, 'docs/design/h5/css'), ['.css']),
-  ]
+  const files = [...walk(MP, ['.wxss']), ...walk(path.join(ROOT, 'docs/design/h5/css'), ['.css'])]
   const re = /\bmargin(?:-(?:top|right|bottom|left))?\s*:\s*[^;{}]*-\d/
   for (const file of files) {
     const text = fs.readFileSync(file, 'utf8')
@@ -254,9 +296,7 @@ function checkStackSpacingUsesGap() {
     const text = fs.readFileSync(file, 'utf8')
     const rule = text.match(/(^|\n)([^{}]*\.block[^{}]*)\{([^{}]*)\}/)
     if (rule && /\bmargin(-bottom|-top)?\s*:/.test(rule[3])) {
-      errors.push(
-        `${rel(file)}: ${selector} 不得用 margin 撑纵向间距，请交给容器的 gap`
-      )
+      errors.push(`${rel(file)}: ${selector} 不得用 margin 撑纵向间距，请交给容器的 gap`)
     }
   }
 
@@ -267,9 +307,7 @@ function checkStackSpacingUsesGap() {
   ]
   for (const { file, selector } of gapOwners) {
     const text = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : ''
-    const rule = text.match(
-      new RegExp(`\\${selector}\\s*\\{([^{}]*)\\}`)
-    )
+    const rule = text.match(new RegExp(`\\${selector}\\s*\\{([^{}]*)\\}`))
     if (!rule || !/\b(?:gap|row-gap)\s*:/.test(rule[1])) {
       errors.push(`${rel(file)}: ${selector} 需要用 gap 定义纵向积木间距`)
     }
@@ -315,7 +353,7 @@ function checkComponentRootWidth() {
     if (!rule) continue
     if (/width\s*:\s*calc\([^;]*%/.test(rule[1])) {
       errors.push(
-        `${rel(wxss)}: .${name} 不能用百分比 calc 定宽，组件宿主节点无宽度，请把宽度放到页面里参与排列的节点上`
+        `${rel(wxss)}: .${name} 不能用百分比 calc 定宽，组件宿主节点无宽度，请把宽度放到页面里参与排列的节点上`,
       )
     }
   }
@@ -340,11 +378,11 @@ function checkHomeTwoColumnSync() {
     const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const rule = text.match(new RegExp(`${escaped}\\s*\\{([^{}]*)\\}`))
     const expected = new RegExp(
-      `width\\s*:\\s*(?:var\\(--col-2\\)|calc\\(\\(100% - (?:30${unit}|var\\(--gap-grid\\))\\)\\s*/\\s*2\\))`
+      `width\\s*:\\s*(?:var\\(--col-2\\)|calc\\(\\(100% - (?:30${unit}|var\\(--gap-grid\\))\\)\\s*/\\s*2\\))`,
     )
     if (!rule || !expected.test(rule[1])) {
       errors.push(
-        `${rel(file)}: ${selector} 需要用 var(--col-2) 或 calc((100% - 30${unit}) / 2) 定首页两列宽度`
+        `${rel(file)}: ${selector} 需要用 var(--col-2) 或 calc((100% - 30${unit}) / 2) 定首页两列宽度`,
       )
     }
   }
@@ -376,7 +414,9 @@ function checkMainPackageContentOwnership() {
   const stickersMain = path.join(MP, 'content/stickers.js')
   const stickersShop = path.join(MP, 'subpkg/shop/content/stickers.js')
   if (fs.existsSync(stickersMain)) {
-    errors.push('content/stickers.js 只能放在 subpkg/shop/content/，主包不得包含仅被积分商城使用的脚本')
+    errors.push(
+      'content/stickers.js 只能放在 subpkg/shop/content/，主包不得包含仅被积分商城使用的脚本',
+    )
   }
   if (!fs.existsSync(stickersShop)) {
     errors.push('subpkg/shop/content/stickers.js 缺失')
@@ -397,8 +437,12 @@ function checkMainPackageContentOwnership() {
     if (!relPath.startsWith('subpkg/')) mainJs.add(relPath)
   })
   const queue = ['app.js']
-  walk(path.join(MP, 'pages'), ['.js']).forEach((f) => queue.push(path.relative(MP, f).split(path.sep).join('/')))
-  walk(path.join(MP, 'components'), ['.js']).forEach((f) => queue.push(path.relative(MP, f).split(path.sep).join('/')))
+  walk(path.join(MP, 'pages'), ['.js']).forEach((f) =>
+    queue.push(path.relative(MP, f).split(path.sep).join('/')),
+  )
+  walk(path.join(MP, 'components'), ['.js']).forEach((f) =>
+    queue.push(path.relative(MP, f).split(path.sep).join('/')),
+  )
   const visited = new Set()
   while (queue.length) {
     const cur = queue.pop()
@@ -441,7 +485,7 @@ function checkNoLocalWebp() {
     errors.push(`${rel(file)}: 代码包内禁止 webp，请转为 png/jpg（真机不渲染本地 webp）`)
   }
   const refs = walk(MP, ['.js', '.wxml', '.wxss']).filter((file) =>
-    /\.webp\b/.test(fs.readFileSync(file, 'utf8'))
+    /\.webp\b/.test(fs.readFileSync(file, 'utf8')),
   )
   for (const file of refs) {
     errors.push(`${rel(file)}: 仍引用 .webp，请改为 .png`)
@@ -462,7 +506,9 @@ function checkAsciiAssetNames() {
       const full = path.join(dir, name)
       // eslint-disable-next-line no-control-regex
       if (/[^\x20-\x7e]/.test(name)) {
-        errors.push(`${rel(full)}: 代码包内文件名必须是纯 ASCII（真机 readFile 查不到编码后的路径）`)
+        errors.push(
+          `${rel(full)}: 代码包内文件名必须是纯 ASCII（真机 readFile 查不到编码后的路径）`,
+        )
       }
       if (fs.statSync(full).isDirectory()) stack.push(full)
     }
@@ -510,7 +556,7 @@ function checkCrossSubpackageMedia() {
     if (pkg !== 'main') {
       if (dynRe.test(text)) {
         errors.push(
-          `${rel(file)}: 分包内禁止动态拼接其它分包的 static（真机跨包读本地图/音频会失败）`
+          `${rel(file)}: 分包内禁止动态拼接其它分包的 static（真机跨包读本地图/音频会失败）`,
         )
       }
       litRe.lastIndex = 0
@@ -518,7 +564,7 @@ function checkCrossSubpackageMedia() {
       while ((m = litRe.exec(text))) {
         if (m[2] !== pkg) {
           errors.push(
-            `${rel(file)}: 引用了分包 ${m[2]} 的本地资源 ${m[1]}，当前在 ${pkg}。真机无法跨分包读取。`
+            `${rel(file)}: 引用了分包 ${m[2]} 的本地资源 ${m[1]}，当前在 ${pkg}。真机无法跨分包读取。`,
           )
         }
       }
@@ -534,7 +580,7 @@ function checkCrossSubpackageMedia() {
     let m
     while ((m = litRe.exec(text))) {
       errors.push(
-        `${rel(file)}: 主包页面/组件引用了分包本地资源 ${m[1]}。请把图放到主包 /static/ 或改为打开该分包页面。`
+        `${rel(file)}: 主包页面/组件引用了分包本地资源 ${m[1]}。请把图放到主包 /static/ 或改为打开该分包页面。`,
       )
     }
   }
@@ -570,7 +616,7 @@ function checkEnglishMediaOwnership() {
     const text = fs.readFileSync(abs, 'utf8')
     if (!text.includes(`createEnglishDetailPage('${pkg}')`)) {
       errors.push(
-        `${file}: 必须调用 createEnglishDetailPage('${pkg}')，避免详情页加载其它分包的图/音频`
+        `${file}: 必须调用 createEnglishDetailPage('${pkg}')，避免详情页加载其它分包的图/音频`,
       )
     }
   }
@@ -584,13 +630,13 @@ function checkEnglishMediaOwnership() {
       const img = path.join(MP, 'subpkg', owner, 'static', `${item.image}.png`)
       if (!fs.existsSync(img)) {
         errors.push(
-          `英语词图缺失: subpkg/${owner}/static/${item.image}.png（${cat.id}/${item.word}）`
+          `英语词图缺失: subpkg/${owner}/static/${item.image}.png（${cat.id}/${item.word}）`,
         )
       }
       const thumb = path.join(MP, 'subpkg/english/static/list', `${item.image}.png`)
       if (!fs.existsSync(thumb)) {
         errors.push(
-          `英语列表缩略图缺失: subpkg/english/static/list/${item.image}.png（列表必须用本包 128px 小图）`
+          `英语列表缩略图缺失: subpkg/english/static/list/${item.image}.png（列表必须用本包 128px 小图）`,
         )
       }
       for (const key of ['audio', 'sentenceAudio']) {
@@ -598,9 +644,7 @@ function checkEnglishMediaOwnership() {
         if (!src) continue
         const m = String(src).match(/^\/subpkg\/([^/]+)\/static\//)
         if (m && m[1] !== owner) {
-          errors.push(
-            `英语音频分包不一致: ${cat.id}/${item.word} ${key} 在 ${m[1]}，应在 ${owner}`
-          )
+          errors.push(`英语音频分包不一致: ${cat.id}/${item.word} ${key} 在 ${m[1]}，应在 ${owner}`)
         }
       }
     }
@@ -650,7 +694,7 @@ function checkEnglishRuntimeCopies() {
       }
       if (fs.readFileSync(file, 'utf8') !== srcText[key]) {
         errors.push(
-          `english-${cat}: ${path.basename(file)} 与 english 源文件不一致（自动同步后仍不同）`
+          `english-${cat}: ${path.basename(file)} 与 english 源文件不一致（自动同步后仍不同）`,
         )
       }
     }
@@ -688,7 +732,7 @@ function checkH5FlexGapSync() {
   for (const item of required) {
     if (!item.re.test(joined)) {
       errors.push(
-        `H5 未同步 flex+gap：${item.name} 缺少 gap（请同步 docs/design/h5/css 与 miniprogram 样式）`
+        `H5 未同步 flex+gap：${item.name} 缺少 gap（请同步 docs/design/h5/css 与 miniprogram 样式）`,
       )
     }
   }
@@ -752,7 +796,7 @@ function checkPackageSizeBudgets() {
     const mb = (pkg.bytes / 1024 / 1024).toFixed(2)
     if (pkg.name === 'main' && pkg.bytes > MAIN_QUALITY_LIMIT) {
       errors.push(
-        `${pkg.name}: 体积 ${mb}MB 超过开发者工具代码质量 1.5MB 上限（主包图需再缩小或外置）`
+        `${pkg.name}: 体积 ${mb}MB 超过开发者工具代码质量 1.5MB 上限（主包图需再缩小或外置）`,
       )
     } else if (pkg.bytes > PACKAGE_HARD_LIMIT) {
       errors.push(`${pkg.name}: 体积 ${mb}MB 超过微信 2MB 硬上限`)
@@ -827,16 +871,14 @@ function checkPreloadRule() {
       }
     }
     if (pageBytes > PACKAGE_HARD_LIMIT) {
-      errors.push(
-        `preloadRule ${page}: 预下载 ${(pageBytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`
-      )
+      errors.push(`preloadRule ${page}: 预下载 ${(pageBytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`)
     }
   }
   for (const [src, q] of quota) {
     if (q.bytes > PACKAGE_HARD_LIMIT) {
       const label = src === '__MAIN__' ? '主包' : src
       errors.push(
-        `preloadRule: ${label} 内页面预下载合计 ${(q.bytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`
+        `preloadRule: ${label} 内页面预下载合计 ${(q.bytes / 1024 / 1024).toFixed(2)}MB 超过 2MB`,
       )
     }
   }
@@ -846,8 +888,11 @@ function checkPreloadRule() {
 function main() {
   const jsons = walk(MP, ['.json']).filter((f) => {
     const name = path.basename(f)
-    return !['app.json', 'sitemap.json', 'project.config.json', 'project.private.config.json'].includes(name)
-      && !name.endsWith('.config.json')
+    return (
+      !['app.json', 'sitemap.json', 'project.config.json', 'project.private.config.json'].includes(
+        name,
+      ) && !name.endsWith('.config.json')
+    )
   })
 
   for (const jsonPath of jsons) {

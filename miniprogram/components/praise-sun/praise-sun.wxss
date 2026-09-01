@@ -137,7 +137,9 @@
 }
 
 @keyframes praise-sun-in {
-  to { opacity: 1; }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes praise-card-in {
@@ -148,7 +150,9 @@
 }
 
 @keyframes praise-sun-out {
-  to { opacity: 0; }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes praise-card-out {

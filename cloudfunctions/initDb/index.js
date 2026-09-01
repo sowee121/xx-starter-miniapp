@@ -4,6 +4,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+/** 业务集合清单；initDb 负责按需创建，缺一个会导致对应功能静默失败 */
 const COLLECTIONS = ['users', 'star_logs', 'progress', 'task_logs', 'reward_logs', 'daily_tasks']
 
 /** 确保集合存在 */
@@ -26,7 +27,10 @@ async function emptyCollection(name) {
   const col = db.collection(name)
   let removed = 0
   for (;;) {
-    const res = await col.where({ _id: _.exists(true) }).limit(1000).remove()
+    const res = await col
+      .where({ _id: _.exists(true) })
+      .limit(1000)
+      .remove()
     removed += (res.stats && res.stats.removed) || 0
     if (!res.stats || res.stats.removed < 1000) break
   }

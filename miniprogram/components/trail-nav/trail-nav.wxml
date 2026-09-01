@@ -1,8 +1,4 @@
-<view
-  wx:if="{{show}}"
-  class="trail-nav is-step"
-  aria-label="{{label}}"
->
+<view wx:if="{{show}}" class="trail-nav is-step" aria-label="{{label}}">
   <view
     class="trail-nav__item {{hasPrev ? '' : 'is-disabled'}}"
     bindtap="onPrev"

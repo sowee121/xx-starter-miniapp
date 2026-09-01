@@ -4,6 +4,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+/** 模板结构版本；与小程序端 utils/daily-tasks.js 的 SCHEMA 同步递增 */
 const SCHEMA = 10
 
 /**
@@ -11,12 +12,54 @@ const SCHEMA = 10
  * 修改前端模板时此处必须同步更新，避免云端生成与本地规则漂移。
  */
 const TEMPLATES = [
-  { id: 'poem', min: 1, max: 2, url: '/subpkg/poem/poem/poem', titleOf: (n) => `读 ${n} 首古诗`, rewardOf: (n) => n + 1 },
-  { id: 'hanzi', min: 1, max: 5, url: '/subpkg/hanzi/list/list', titleOf: (n) => `认 ${n} 个汉字`, rewardOf: (n) => n },
-  { id: 'math', min: 1, max: 5, url: '/subpkg/math/hub/hub', titleOf: (n) => `做 ${n} 道算术题`, rewardOf: (n) => n },
-  { id: 'english', min: 1, max: 5, url: '/subpkg/english/hub/hub', titleOf: (n) => `学 ${n} 个英语`, rewardOf: (n) => n },
-  { id: 'pinyin', min: 1, max: 6, url: '/subpkg/pinyin/list/list', titleOf: (n) => `读 ${n} 个拼音`, rewardOf: (n) => n },
-  { id: 'calendar', min: 1, max: 1, url: '/subpkg/calendar/index', titleOf: () => '日历打卡', rewardOf: () => 1 },
+  {
+    id: 'poem',
+    min: 1,
+    max: 2,
+    url: '/subpkg/poem/poem/poem',
+    titleOf: (n) => `读 ${n} 首古诗`,
+    rewardOf: (n) => n + 1,
+  },
+  {
+    id: 'hanzi',
+    min: 1,
+    max: 5,
+    url: '/subpkg/hanzi/list/list',
+    titleOf: (n) => `认 ${n} 个汉字`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'math',
+    min: 1,
+    max: 5,
+    url: '/subpkg/math/hub/hub',
+    titleOf: (n) => `做 ${n} 道算术题`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'english',
+    min: 1,
+    max: 5,
+    url: '/subpkg/english/hub/hub',
+    titleOf: (n) => `学 ${n} 个英语`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'pinyin',
+    min: 1,
+    max: 6,
+    url: '/subpkg/pinyin/list/list',
+    titleOf: (n) => `读 ${n} 个拼音`,
+    rewardOf: (n) => n,
+  },
+  {
+    id: 'calendar',
+    min: 1,
+    max: 1,
+    url: '/subpkg/calendar/index',
+    titleOf: () => '日历打卡',
+    rewardOf: () => 1,
+  },
 ]
 
 /** 闭区间随机整数 */
@@ -46,10 +89,7 @@ function generateTasks() {
   })
 }
 
-/**
- * 拉当天文档；同 openid+date 存在多条时保留第一条并删除其余
- * （并发「先查后插」竞态自愈，参考 resetProfile 的 getOrCreateUser）。
- */
+/** 拉当天文档（幂等：同 openid+date 多条则保留首条、删其余） */
 async function findDay(openid, date) {
   const col = db.collection('daily_tasks')
   const found = await col.where({ _openid: openid, date }).limit(10).get()
@@ -64,10 +104,10 @@ async function findDay(openid, date) {
 /** seed 是否有效：客户端本地已生成的当天任务列表 */
 function validSeed(seed) {
   return !!(
-    seed
-    && Array.isArray(seed.tasks)
-    && seed.tasks.length === TEMPLATES.length
-    && seed.tasks.every((t) => t && t.id && TEMPLATES.some((tpl) => tpl.id === t.id))
+    seed &&
+    Array.isArray(seed.tasks) &&
+    seed.tasks.length === TEMPLATES.length &&
+    seed.tasks.every((t) => t && t.id && TEMPLATES.some((tpl) => tpl.id === t.id))
   )
 }
 

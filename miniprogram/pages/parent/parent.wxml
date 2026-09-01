@@ -21,15 +21,16 @@
           wx:key="value"
           class="volume-option {{volume === item.value ? 'is-active' : ''}}"
           data-value="{{item.value}}"
-          bindtap="onVolume" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">{{item.label}}</view>
+          bindtap="onVolume"
+          hover-class="is-pressed"
+          hover-start-time="0"
+          hover-stay-time="80"
+          >{{item.label}}</view
+        >
       </view>
     </view>
 
-    <view
-      wx:for="{{actions}}"
-      wx:key="key"
-      class="setting-block clear-block block {{item.tone}}"
-    >
+    <view wx:for="{{actions}}" wx:key="key" class="setting-block clear-block block {{item.tone}}">
       <view class="setting-head">
         <view wx:if="{{item.iconClass}}" class="clear-icon-slot {{item.iconClass}}">
           <image class="clear-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />

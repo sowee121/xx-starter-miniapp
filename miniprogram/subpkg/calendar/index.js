@@ -4,6 +4,7 @@ const { trackDaily, getToday, readToday } = require('../../utils/daily-tasks')
 const activity = require('../../utils/activity')
 const feedback = require('../../utils/feedback')
 
+/** 表头星期文案，索引与 Date.getDay() 对齐 */
 const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
 
 /** 今日是否已打卡 */
@@ -34,12 +35,17 @@ Page({
       weekday: WEEKDAYS[now.getDay()],
       isNight,
       checkedIn: calendarCheckedIn(),
-      skyIcon: mediaUrl(isNight ? '/subpkg/calendar/static/moon-stars.png' : '/subpkg/calendar/static/sun.png'),
+      skyIcon: mediaUrl(
+        isNight ? '/subpkg/calendar/static/moon-stars.png' : '/subpkg/calendar/static/sun.png',
+      ),
       heat: activity.monthBoard(),
     })
-    activity.syncFromCloud().then(() => {
-      this.setData({ heat: activity.monthBoard() })
-    }).catch(() => {})
+    activity
+      .syncFromCloud()
+      .then(() => {
+        this.setData({ heat: activity.monthBoard() })
+      })
+      .catch(() => {})
   },
 
   /** 日历打卡 */

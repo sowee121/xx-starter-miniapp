@@ -1,8 +1,10 @@
+/** 本地每日任务文档（含当天及最近日期） */
 const STORAGE_KEY = 'daily_tasks'
+/** 模板结构版本；与云端 dailyTasks 的 SCHEMA 同步递增，本地读到旧版本即丢弃重建 */
 const SCHEMA = 10
-// 静态引入：动态 require 失败会被 catch 吞掉，导致学习热力漏记且无痕迹
+/** 静态引入：动态 require 失败会被 catch 吞掉，导致学习热力漏记且无痕迹 */
 const activity = require('./activity')
-// 每日任务「云端为准 + 本地缓存」：模板需与 cloudfunctions/dailyTasks/index.js 的 TEMPLATES 保持同步
+/** 每日任务「云端为准 + 本地缓存」：模板需与 cloudfunctions/dailyTasks/index.js 的 TEMPLATES 保持同步 */
 const cloud = require('./cloud')
 
 /**
@@ -108,7 +110,7 @@ function readToday() {
     const raw = wx.getStorageSync(STORAGE_KEY)
     if (raw && typeof raw === 'object') memCache = raw
   } catch (error) {
-    // ignore
+    // 忽略
   }
   return memCache
 }
@@ -128,10 +130,10 @@ function ensureToday() {
   if (memCache) {
     const date = getToday()
     if (
-      memCache.date === date
-      && memCache.schema === SCHEMA
-      && Array.isArray(memCache.tasks)
-      && memCache.tasks.length === TEMPLATES.length
+      memCache.date === date &&
+      memCache.schema === SCHEMA &&
+      Array.isArray(memCache.tasks) &&
+      memCache.tasks.length === TEMPLATES.length
     ) {
       return memCache
     }
@@ -141,17 +143,17 @@ function ensureToday() {
   try {
     const raw = wx.getStorageSync(STORAGE_KEY)
     if (
-      raw
-      && raw.date === date
-      && raw.schema === SCHEMA
-      && Array.isArray(raw.tasks)
-      && raw.tasks.length === TEMPLATES.length
+      raw &&
+      raw.date === date &&
+      raw.schema === SCHEMA &&
+      Array.isArray(raw.tasks) &&
+      raw.tasks.length === TEMPLATES.length
     ) {
       memCache = raw
       return raw
     }
   } catch (error) {
-    // ignore
+    // 忽略
   }
   const day = emptyDay(date)
   saveToday(day)
@@ -202,7 +204,16 @@ function reportUnit(taskId, unitKey) {
   const day = ensureToday()
   const task = day.tasks.find((item) => item.id === taskId)
   if (!task || !unitKey) {
-    return { ok: false, completed: false, reward: 0, current: 0, target: 0, firstAward: false, taskId: taskId || '', taskTitle: '' }
+    return {
+      ok: false,
+      completed: false,
+      reward: 0,
+      current: 0,
+      target: 0,
+      firstAward: false,
+      taskId: taskId || '',
+      taskTitle: '',
+    }
   }
 
   if (!day.progress[taskId]) day.progress[taskId] = []
@@ -271,7 +282,7 @@ function persistDailyCloud(taskId, unitKey, result) {
         reason: 'daily_task',
         ref: `${date}:${taskId}`,
         clientId: `daily-${Date.now()}-${date}-${taskId}`,
-      })
+      }),
     )
   }
 
@@ -281,14 +292,14 @@ function persistDailyCloud(taskId, unitKey, result) {
         try {
           await progress.markDone(taskId, itemId)
         } catch (error) {
-          // ignore
+          // 忽略
         }
       }
       if (!result.firstAward) return
       try {
         await starsUtil.checkinTask(taskId)
       } catch (error) {
-        // ignore
+        // 忽略
       }
     })
     .catch(() => {
@@ -314,6 +325,7 @@ function trackDaily(taskId, unitKey) {
 
 /** 上传防抖间隔：合并连续答题上报，避免每答一题一次云写 */
 const SYNC_DEBOUNCE_MS = 300
+/** 待执行的上传定时器句柄，用于防抖时清掉上一次 */
 let syncTimer = null
 
 /** 整体上传当天文档（last-write-wins；云失败静默，学习流程不受影响） */
@@ -323,7 +335,7 @@ async function pushToCloud() {
   try {
     await cloud.call('dailyTasks', { action: 'sync', date: day.date, day })
   } catch (error) {
-    // ignore：下次上报 / 页面进入时会再同步
+    // 忽略：下次上报 / 页面进入时会再同步
   }
 }
 
@@ -340,10 +352,10 @@ function scheduleCloudSync() {
 function mergeCloudDay(cloudDay) {
   const local = readToday()
   if (
-    !local
-    || local.date !== cloudDay.date
-    || !Array.isArray(local.tasks)
-    || local.tasks.length !== TEMPLATES.length
+    !local ||
+    local.date !== cloudDay.date ||
+    !Array.isArray(local.tasks) ||
+    local.tasks.length !== TEMPLATES.length
   ) {
     return { ...cloudDay }
   }
@@ -373,7 +385,11 @@ async function syncFromCloud() {
   const { ok, data } = await cloud.call('dailyTasks', { action: 'get', date, seed })
   if (!ok || !data || !data.day) return false
   const cloudDay = data.day
-  if (cloudDay.date !== date || !Array.isArray(cloudDay.tasks) || cloudDay.tasks.length !== TEMPLATES.length) {
+  if (
+    cloudDay.date !== date ||
+    !Array.isArray(cloudDay.tasks) ||
+    cloudDay.tasks.length !== TEMPLATES.length
+  ) {
     return false
   }
   const merged = mergeCloudDay(cloudDay)
@@ -395,7 +411,7 @@ async function resetDailyTasks() {
   try {
     wx.removeStorageSync(STORAGE_KEY)
   } catch (error) {
-    // ignore
+    // 忽略
   }
   const { ok } = await cloud.call('dailyTasks', { action: 'reset', date: getToday() })
   return { ok }

@@ -1,0 +1,28 @@
+# 依赖与产物
+node_modules
+.ci-output
+
+# 锁文件与密钥
+package-lock.json
+secrets
+
+# 微信工具维护的配置（含注释，避免重排破坏工具识别）
+project.config.json
+project.private.config.json
+
+# 媒体资源（非文本，不格式化）
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.bmp
+*.ico
+*.mp3
+*.wav
+*.ogg
+*.woff
+*.woff2
+*.ttf
+*.eot

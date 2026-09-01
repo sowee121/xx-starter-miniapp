@@ -53,58 +53,41 @@ page {
   --size-trail: 96rpx; /* 拼音石子径单字圆面 */
   --size-tap-compact: 128rpx; /* 选项高度 */
 
-
   /* —— 石子径（拼音字母圆面） —— */
   --font-trail: 56rpx; /* 石子径字母字号 */
   --tone-trail: linear-gradient(165deg, #fafcf9 0%, #f2f6f1 55%, #e8efe9 100%); /* 石子径圆面 */
   --shadow-trail: /* 石子径默认鼓边 */
     inset 7rpx 6rpx 12rpx rgba(255, 255, 255, 0.14),
-    inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2),
-    0 1rpx 0 rgba(255, 255, 255, 0.08),
-    0 10rpx 18rpx rgba(96, 122, 96, 0.15),
-    0 18rpx 28rpx rgba(96, 122, 96, 0.08);
+    inset -7rpx -9rpx 16rpx rgba(148, 170, 152, 0.2), 0 1rpx 0 rgba(255, 255, 255, 0.08),
+    0 10rpx 18rpx rgba(96, 122, 96, 0.15), 0 18rpx 28rpx rgba(96, 122, 96, 0.08);
   --shadow-trail-current: /* 石子径当前项：叶绿面 + 绿环 */
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
-    0 0 0 9rpx var(--ring-ok),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
+    0 0 0 9rpx var(--ring-ok), var(--shadow-lift);
 
   /* —— 阴影 —— */
   --shadow-lift: /* 卡片外托，浮起厚度 */
-    0 8rpx 14rpx rgba(96, 122, 96, 0.1),
-    0 18rpx 36rpx rgba(96, 122, 96, 0.12),
+    0 8rpx 14rpx rgba(96, 122, 96, 0.1), 0 18rpx 36rpx rgba(96, 122, 96, 0.12),
     0 28rpx 48rpx rgba(96, 122, 96, 0.08);
   --shadow-clay-hi: inset 8rpx 7rpx 14rpx rgba(255, 255, 255, 0.1); /* 鼓边上左高光 */
   --shadow-clay-lo: inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2); /* 奶油面下右压暗 */
   --shadow-clay: /* 标准奶油鹅卵石：高光 + 压暗 + 外托 */
-    var(--shadow-clay-hi),
-    var(--shadow-clay-lo),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), var(--shadow-clay-lo), var(--shadow-lift);
   --shadow-clay-praise: /* 表扬弹层：加厚鼓边 + 柔和外托，强化鹅卵石感 */
     inset 10rpx 9rpx 20rpx rgba(255, 255, 255, 0.18),
-    inset -12rpx -14rpx 28rpx rgba(198, 182, 146, 0.3),
-    0 10rpx 18rpx rgba(96, 122, 96, 0.14),
-    0 24rpx 44rpx rgba(96, 122, 96, 0.16),
-    0 44rpx 80rpx rgba(96, 122, 96, 0.1);
+    inset -12rpx -14rpx 28rpx rgba(198, 182, 146, 0.3), 0 10rpx 18rpx rgba(96, 122, 96, 0.14),
+    0 24rpx 44rpx rgba(96, 122, 96, 0.16), 0 44rpx 80rpx rgba(96, 122, 96, 0.1);
   --shadow-clay-leaf: /* 浅绿黏土（回首页钮、日间星条） */
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(112, 145, 91, 0.22),
-    0 8rpx 16rpx rgba(83, 112, 73, 0.14),
-    0 16rpx 28rpx rgba(83, 112, 73, 0.08);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(112, 145, 91, 0.22),
+    0 8rpx 16rpx rgba(83, 112, 73, 0.14), 0 16rpx 28rpx rgba(83, 112, 73, 0.08);
   --shadow-clay-night: /* 夜色鹅卵石 */
     inset 8rpx 8rpx 16rpx rgba(255, 255, 255, 0.22),
-    inset -8rpx -10rpx 18rpx rgba(12, 18, 46, 0.32),
-    0 10rpx 20rpx rgba(18, 26, 57, 0.22),
+    inset -8rpx -10rpx 18rpx rgba(12, 18, 46, 0.32), 0 10rpx 20rpx rgba(18, 26, 57, 0.22),
     0 22rpx 40rpx rgba(18, 26, 57, 0.14);
   --shadow-owned: /* 已拥有贴纸：加深外托 */
-    var(--shadow-clay-hi),
-    var(--shadow-clay-lo),
-    0 16rpx 32rpx rgba(96, 122, 96, 0.36),
+    var(--shadow-clay-hi), var(--shadow-clay-lo), 0 16rpx 32rpx rgba(96, 122, 96, 0.36),
     0 36rpx 64rpx rgba(96, 122, 96, 0.3);
   --shadow-chip: /* 绿钮 / 播放圆钮鼓边（与卡片同套对角，压暗偏绿） */
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(78, 128, 84, 0.3),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(78, 128, 84, 0.3), var(--shadow-lift);
   --shadow-socket: /* 首页星槽空槽（凹） */
     inset 6rpx 6rpx 11rpx rgba(104, 136, 102, 0.22),
     inset -5rpx -6rpx 10rpx rgba(255, 255, 255, 0.14);
@@ -116,9 +99,7 @@ page {
   --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA / 播放圆钮面 */
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
   --shadow-tone-cream:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(148, 170, 152, 0.2),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(148, 170, 152, 0.2), var(--shadow-lift);
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
   --ring-picked: #e0b43c; /* 选中环 */
@@ -134,24 +115,20 @@ page {
   /* —— 家长区四卡主题：每日任务 / 学习记录 / 兑换贴纸 / 星星积分 —— */
   --tone-matcha: linear-gradient(180deg, #f4fae8 0%, #dcecc4 100%); /* 任务卡面（绿） */
   --tone-sky: linear-gradient(180deg, #f4fafd 0%, #dbeaf7 100%); /* 记录卡面（蓝） */
-  --tone-rose: linear-gradient(180deg, #fef5f8 0%, #f6d4e0 100%); /* 贴纸卡面（玫红，同首页积分商城） */
+  --tone-rose: linear-gradient(
+    180deg,
+    #fef5f8 0%,
+    #f6d4e0 100%
+  ); /* 贴纸卡面（玫红，同首页积分商城） */
   --tone-apricot: linear-gradient(180deg, #fff8ee 0%, #fbe4cb 100%); /* 积分卡面（杏橙） */
   --shadow-tone-matcha:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(152, 186, 122, 0.26),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(152, 186, 122, 0.26), var(--shadow-lift);
   --shadow-tone-sky:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(136, 174, 204, 0.24),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(136, 174, 204, 0.24), var(--shadow-lift);
   --shadow-tone-rose:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(206, 148, 170, 0.28),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(206, 148, 170, 0.28), var(--shadow-lift);
   --shadow-tone-apricot:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(210, 164, 112, 0.24),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(210, 164, 112, 0.24), var(--shadow-lift);
 
   /* —— 首页六模块色调（拼音/英语/识字/古诗/算术/日历）—— */
   --tone-butter: linear-gradient(180deg, #fefbee 0%, #f9edc6 100%); /* 拼音/选项·黄油 */
@@ -162,50 +139,30 @@ page {
   --tone-pink: linear-gradient(180deg, #fdf2f0 0%, #f0deda 100%); /* 算术·粉米 */
   --tone-frost: linear-gradient(180deg, #eef4fa 0%, #d4e1ee 100%); /* 日历·霜蓝 */
   --shadow-tone-butter:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(206, 178, 108, 0.24),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(206, 178, 108, 0.24), var(--shadow-lift);
   --shadow-tone-tan:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(196, 162, 118, 0.20),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(196, 162, 118, 0.2), var(--shadow-lift);
   --shadow-tone-sand:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(200, 170, 130, 0.22),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(200, 170, 130, 0.22), var(--shadow-lift);
   --shadow-tone-orange:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(216, 170, 122, 0.22),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(216, 170, 122, 0.22), var(--shadow-lift);
   --shadow-tone-coral:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(198, 148, 132, 0.24),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(198, 148, 132, 0.24), var(--shadow-lift);
   --shadow-tone-pink:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(198, 160, 150, 0.20),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(198, 160, 150, 0.2), var(--shadow-lift);
   --shadow-tone-frost:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(142, 174, 206, 0.20),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(142, 174, 206, 0.2), var(--shadow-lift);
 
   /* —— 功能浅色：选项 / 任务行 / 古诗列表等 —— */
   --tone-peach: linear-gradient(180deg, #fef7f3 0%, #f8e2da 100%); /* 选项·蜜桃 */
   --tone-mint: linear-gradient(180deg, #f1fbf6 0%, #d3ebe0 100%); /* 数一数/已完成任务·薄荷 */
   --tone-lilac: linear-gradient(180deg, #f8f5fd 0%, #e8e1f6 100%); /* 选项/古诗列表·丁香 */
   --shadow-tone-peach:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(206, 158, 142, 0.22),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(206, 158, 142, 0.22), var(--shadow-lift);
   --shadow-tone-mint:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(126, 178, 156, 0.24),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(126, 178, 156, 0.24), var(--shadow-lift);
   --shadow-tone-lilac:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(160, 142, 198, 0.22),
-    var(--shadow-lift);
+    var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(160, 142, 198, 0.22), var(--shadow-lift);
   --tone-night:
     radial-gradient(circle at 20% 12%, rgba(150, 164, 224, 0.24), transparent 34%),
     linear-gradient(180deg, #424a78 0%, #29345f 52%, #202a4d 100%); /* 夜景卡面（阴影复用 --shadow-clay-night） */
@@ -214,19 +171,18 @@ page {
   --btn-apricot: linear-gradient(180deg, #eec99a, #d5a264); /* 积分清除钮 */
   --shadow-btn-hi: inset 0 4rpx 8rpx rgba(255, 255, 255, 0.28); /* 清除钮上沿高光 */
   --shadow-btn-rose:
-    var(--shadow-btn-hi),
-    inset 0 -6rpx 12rpx rgba(160, 90, 110, 0.28),
+    var(--shadow-btn-hi), inset 0 -6rpx 12rpx rgba(160, 90, 110, 0.28),
     0 8rpx 16rpx rgba(180, 120, 140, 0.18);
   --shadow-btn-sky:
-    var(--shadow-btn-hi),
-    inset 0 -6rpx 12rpx rgba(90, 140, 190, 0.28),
+    var(--shadow-btn-hi), inset 0 -6rpx 12rpx rgba(90, 140, 190, 0.28),
     0 8rpx 16rpx rgba(120, 160, 210, 0.18);
   --shadow-btn-apricot:
-    var(--shadow-btn-hi),
-    inset 0 -6rpx 12rpx rgba(170, 120, 60, 0.28),
+    var(--shadow-btn-hi), inset 0 -6rpx 12rpx rgba(170, 120, 60, 0.28),
     0 8rpx 16rpx rgba(190, 140, 90, 0.18);
 
-  --motion-tap: transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out, color 120ms ease-out; /* 按下过渡 */
+  --motion-tap:
+    transform 80ms ease-out, box-shadow 120ms ease-out, background 120ms ease-out,
+    color 120ms ease-out; /* 按下过渡 */
 
   /* —— 字号 —— */
   --font-nav: 28rpx; /* 导航、积分数字；全站下限 */
@@ -241,7 +197,8 @@ page {
   --font-hero: 48rpx; /* 古诗封面题名、日历日期 */
   --font-display: 58rpx; /* 选项数字、字卡 */
   --letter-btn: 2rpx; /* 全站字距；所有文字继承 */
-  --font-family: "Yuanti SC", "Yuanti TC", "PingFang SC", "Hiragino Sans GB", "Heiti SC", sans-serif; /* 有圆体用圆体，否则苹方 */
+  --font-family:
+    'Yuanti SC', 'Yuanti TC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif; /* 有圆体用圆体，否则苹方 */
 
   /* —— 间距 —— */
   --gap-tight: 8rpx; /* 任务行内文案 */

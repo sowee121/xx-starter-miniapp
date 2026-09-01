@@ -3,6 +3,7 @@ const stars = require('./stars')
 const feedback = require('./feedback')
 const { INLINE } = require('../content/feedback')
 
+/** 当前绑定页实例；全局 stop 时用它把播放钮收回三角（同时只可能一页在播） */
 let boundPage = null
 
 /** 当前页播放钮收回三角 */

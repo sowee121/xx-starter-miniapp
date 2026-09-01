@@ -4,6 +4,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
+/** 合法的加星原因白名单；不在表内的一律拒绝，防止客户端自造原因刷分 */
 const REASONS = new Set([
   'answer_ok',
   'poem_done',
@@ -41,11 +42,7 @@ function clientIssuedAt(clientId) {
   return Number.isFinite(t) ? t : 0
 }
 
-/**
- * 读取或创建用户。
- * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
- * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
- */
+/** 读取或创建用户（幂等：同 openid 多条则保留首条、删其余） */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
   const found = await col.where({ _openid: openid }).limit(10).get()
@@ -115,22 +112,28 @@ exports.main = async (event) => {
     // 已有流水：下面认领 credited，避免「流水在、余额没加上」被当成重复丢掉
   }
 
-  const claim = await db.collection('star_logs').where({
-    _id: clientId,
-    _openid: OPENID,
-    credited: false,
-  }).update({
-    data: { credited: true },
-  })
+  const claim = await db
+    .collection('star_logs')
+    .where({
+      _id: clientId,
+      _openid: OPENID,
+      credited: false,
+    })
+    .update({
+      data: { credited: true },
+    })
   const claimed = !!(claim.stats && claim.stats.updated)
 
   if (claimed) {
-    await db.collection('users').doc(user._id).update({
-      data: {
-        stars: _.inc(delta),
-        updatedAt: Date.now(),
-      },
-    })
+    await db
+      .collection('users')
+      .doc(user._id)
+      .update({
+        data: {
+          stars: _.inc(delta),
+          updatedAt: Date.now(),
+        },
+      })
   }
 
   return {

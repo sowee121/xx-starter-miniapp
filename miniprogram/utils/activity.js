@@ -2,12 +2,18 @@
 
 const cloud = require('./cloud')
 
+/** 本地热力表：{ days: { 'YYYY-MM-DD': 次数 } } */
 const STORAGE_KEY = 'learn_heat'
+/** 未同步到云端的日期队列 */
 const QUEUE_KEY = 'heat_retry_queue'
+/** 清除学习记录时写入的时间戳；本地据此判断复位前入队的旧记录是否已作废 */
 const RESET_AT_KEY = 'heat_reset_at'
+/** 热力保留窗口（月），与云端 bumpHeat 的 prune 必须一致，否则两端裁剪结果会漂移 */
 const KEEP_MONTHS = 12
+/** 日期键格式校验，挡住非 YYYY-MM-DD 的脏数据 */
 const DAY_RE = /^\d{4}-\d{2}-\d{2}$/
 
+/** 冲刷中，禁止并发重入 */
 let flushing = false
 
 /** YYYY-MM-DD */

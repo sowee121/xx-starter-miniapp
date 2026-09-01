@@ -1,22 +1,33 @@
 <app-shell title="每日任务" hint="{{pageHint}}" sub-hint="{{pageSubHint}}" stars="{{stars}}">
   <view class="page-list">
-  <view
-    wx:for="{{tasks}}"
-    wx:key="id"
-    class="task-row block {{item.done ? 'tone-mint is-done' : 'tone-cream'}}"
-    data-id="{{item.id}}"
-    bindtap="onTaskTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
-    <view class="task-row__tick">
-      <image wx:if="{{item.done}}" class="task-row__check" src="/static/shared/check.png" mode="aspectFit" />
+    <view
+      wx:for="{{tasks}}"
+      wx:key="id"
+      class="task-row block {{item.done ? 'tone-mint is-done' : 'tone-cream'}}"
+      data-id="{{item.id}}"
+      bindtap="onTaskTap"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
+      <view class="task-row__tick">
+        <image
+          wx:if="{{item.done}}"
+          class="task-row__check"
+          src="/static/shared/check.png"
+          mode="aspectFit"
+        />
+      </view>
+      <view class="task-row__body">
+        <view class="task-row__title">{{item.title}}</view>
+        <view wx:if="{{item.showProgress}}" class="task-row__progress"
+          >{{item.current}}/{{item.target}}</view
+        >
+      </view>
+      <view class="task-row__reward">
+        <view>+{{item.reward}}</view>
+        <image src="/static/home/star.png" mode="aspectFit" />
+      </view>
     </view>
-    <view class="task-row__body">
-      <view class="task-row__title">{{item.title}}</view>
-      <view wx:if="{{item.showProgress}}" class="task-row__progress">{{item.current}}/{{item.target}}</view>
-    </view>
-    <view class="task-row__reward">
-      <view>+{{item.reward}}</view>
-      <image src="/static/home/star.png" mode="aspectFit" />
-    </view>
-  </view>
   </view>
 </app-shell>

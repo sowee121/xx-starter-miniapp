@@ -10,7 +10,7 @@ Component({
     disabled: { type: Boolean, value: false },
   },
   methods: {
-    /** 点击播放钮 */
+    /** 点击按钮，向父级抛出 tap 事件（禁用则忽略） */
     onTap: tap(function () {
       if (this.data.disabled) return
       this.triggerEvent('tap')

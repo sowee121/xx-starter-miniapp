@@ -32,11 +32,13 @@ const APPLY = process.argv.includes('--apply')
 
 /** 执行单条 nosql 命令，返回解析后的 data */
 function nosql(table, type, command) {
-  const payload = JSON.stringify([{ TableName: table, CommandType: type, Command: JSON.stringify(command) }])
+  const payload = JSON.stringify([
+    { TableName: table, CommandType: type, Command: JSON.stringify(command) },
+  ])
   const result = spawnSync(
     'npx',
     ['tcb', 'db', 'nosql', 'execute', '-e', ENV, '--json', '--command', payload],
-    { cwd: ROOT, encoding: 'utf8', env: { ...process.env, CI: '1' } }
+    { cwd: ROOT, encoding: 'utf8', env: { ...process.env, CI: '1' } },
   )
   if (result.status !== 0) {
     console.error(`命令失败(${type} ${table}):`, (result.stderr || result.stdout || '').trim())
@@ -66,10 +68,7 @@ function auditEmpty() {
 function auditDuplicates() {
   const data = nosql('users', 'AGGREGATE', {
     aggregate: 'users',
-    pipeline: [
-      { $group: { _id: '$_openid', cnt: { $sum: 1 } } },
-      { $match: { cnt: { $gt: 1 } } },
-    ],
+    pipeline: [{ $group: { _id: '$_openid', cnt: { $sum: 1 } } }, { $match: { cnt: { $gt: 1 } } }],
     cursor: {},
   })
   const rows = (data.results && data.results[0]) || []
@@ -117,7 +116,10 @@ async function main() {
   console.log('\n--- 执行清理 ---')
   for (const [name, count] of Object.entries(empty)) {
     if (count > 0) {
-      nosql(name, 'DELETE', { delete: name, deletes: [{ q: { _openid: { $exists: false } }, limit: 0 }] })
+      nosql(name, 'DELETE', {
+        delete: name,
+        deletes: [{ q: { _openid: { $exists: false } }, limit: 0 }],
+      })
       console.log(`删除 ${name} 空壳：${count} 条`)
     }
   }
@@ -131,11 +133,18 @@ async function main() {
   let removed = 0
   for (const item of duplicates) {
     if (item.openid === '(null/空壳)') continue
-    const data = nosql('users', 'QUERY', { find: 'users', filter: { _openid: item.openid }, limit: 100 })
+    const data = nosql('users', 'QUERY', {
+      find: 'users',
+      filter: { _openid: item.openid },
+      limit: 100,
+    })
     const docs = (data.results && data.results[0]) || []
     const staleIds = docs.slice(1).map((doc) => doc._id)
     if (staleIds.length) {
-      nosql('users', 'DELETE', { delete: 'users', deletes: [{ q: { _id: { $in: staleIds } }, limit: 0 }] })
+      nosql('users', 'DELETE', {
+        delete: 'users',
+        deletes: [{ q: { _id: { $in: staleIds } }, limit: 0 }],
+      })
       removed += staleIds.length
     }
   }

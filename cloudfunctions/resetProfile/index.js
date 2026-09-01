@@ -4,11 +4,7 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 const db = cloud.database()
 const _ = db.command
 
-/**
- * 读取或创建用户。
- * 幂等：同 openid 若存在多条（并发「先查后插」竞态会产生），
- * 保留第一条并删除其余，避免积分/热力各写一条、getProfile 读到残留旧值。
- */
+/** 读取或创建用户（幂等：同 openid 多条则保留首条、删其余） */
 async function getOrCreateUser(openid) {
   const col = db.collection('users')
   const found = await col.where({ _openid: openid }).limit(10).get()
@@ -51,9 +47,12 @@ exports.main = async (event) => {
     // 配合 _.set 强制覆盖，避免空对象被 update 忽略导致热力残留。
     await getOrCreateUser(OPENID)
     const heatResetAt = Date.now()
-    await db.collection('users').where({ _openid: OPENID }).update({
-      data: { heatDays: _.set({}), heatResetAt: _.set(heatResetAt), updatedAt: heatResetAt },
-    })
+    await db
+      .collection('users')
+      .where({ _openid: OPENID })
+      .update({
+        data: { heatDays: _.set({}), heatResetAt: _.set(heatResetAt), updatedAt: heatResetAt },
+      })
     return {
       ok: true,
       scope,

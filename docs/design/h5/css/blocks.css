@@ -1,4 +1,4 @@
-@import url("shell.css");
+@import url('shell.css');
 
 .block {
   position: relative;
@@ -243,7 +243,8 @@ a.block:active,
   pointer-events: none;
 }
 
-.chip, .big-btn {
+.chip,
+.big-btn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -312,7 +313,10 @@ a.block:active,
   pointer-events: none;
 }
 
-.section-title { font-size: var(--font-title); font-weight: 700; }
+.section-title {
+  font-size: var(--font-title);
+  font-weight: 700;
+}
 
 .media-row {
   display: flex;
@@ -344,8 +348,12 @@ a.block:active,
   height: var(--size-media-thumb);
 }
 
-.media-main__body strong { font-size: var(--font-card); }
-.media-main__body span { white-space: nowrap; }
+.media-main__body strong {
+  font-size: var(--font-card);
+}
+.media-main__body span {
+  white-space: nowrap;
+}
 .media-play {
   display: flex;
   align-items: center;
@@ -378,9 +386,18 @@ a.block:active,
   box-sizing: border-box;
   border-radius: var(--radius-tile);
 }
-.duo-card img { width: 188px; height: 188px; object-fit: contain; }
-.duo-card strong { font-size: var(--font-card); }
-.duo-card span { font-size: var(--font-hint); color: var(--muted); }
+.duo-card img {
+  width: 188px;
+  height: 188px;
+  object-fit: contain;
+}
+.duo-card strong {
+  font-size: var(--font-card);
+}
+.duo-card span {
+  font-size: var(--font-hint);
+  color: var(--muted);
+}
 
 /* 公共反馈弹层（对齐小程序 praise-sun；审查稿静态展示已打开态） */
 .praise-sun {

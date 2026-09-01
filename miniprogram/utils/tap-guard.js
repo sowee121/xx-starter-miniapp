@@ -8,10 +8,10 @@ const TAP_GAP = 300
 /** 是否为点击/组件冒泡来的 UI 事件 */
 function isUiEvent(e) {
   return !!(
-    e
-    && typeof e === 'object'
-    && typeof e.type === 'string'
-    && (e.currentTarget || e.target)
+    e &&
+    typeof e === 'object' &&
+    typeof e.type === 'string' &&
+    (e.currentTarget || e.target)
   )
 }
 

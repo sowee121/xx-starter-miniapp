@@ -2,7 +2,12 @@ const { categories } = require('../content/hanzi')
 const { toneOf } = require('../content/tones')
 const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
-const { playPreview, playPrimaryAndAward, playAfterRender, markPageReady } = require('../../../utils/read-award')
+const {
+  playPreview,
+  playPrimaryAndAward,
+  playAfterRender,
+  markPageReady,
+} = require('../../../utils/read-award')
 const feedback = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')

@@ -4,6 +4,7 @@
  */
 const { CLOUD_ENV } = require('../config/cloud')
 
+/** wx.cloud.init 是否已完成；重复 init 会抛错，故用模块标志兜住 */
 let inited = false
 
 /** 云函数调用默认超时（ms），启动链快速兜底以免挂住模拟器 */

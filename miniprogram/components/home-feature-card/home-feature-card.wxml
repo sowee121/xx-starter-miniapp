@@ -1,9 +1,11 @@
-<view class="home-feature-card tone-{{tone}}" bindtap="onTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
-  <image
-    class="home-feature-card__mascot"
-    src="{{image}}"
-    mode="aspectFit"
-  />
+<view
+  class="home-feature-card tone-{{tone}}"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <image class="home-feature-card__mascot" src="{{image}}" mode="aspectFit" />
   <view class="home-feature-card__body">
     <view class="home-feature-card__title">{{title}}</view>
     <view wx:if="{{subtitle}}" class="home-feature-card__sub">{{subtitle}}</view>
@@ -22,10 +24,5 @@
       </view>
     </view>
   </view>
-  <image
-    wx:if="{{deco}}"
-    class="home-feature-card__deco"
-    src="{{deco}}"
-    mode="aspectFit"
-  />
+  <image wx:if="{{deco}}" class="home-feature-card__deco" src="{{deco}}" mode="aspectFit" />
 </view>

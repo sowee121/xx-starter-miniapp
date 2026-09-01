@@ -1,3 +1,9 @@
-<view class="big-btn custom-class {{disabled ? 'is-disabled' : ''}}" catchtap="onTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+<view
+  class="big-btn custom-class {{disabled ? 'is-disabled' : ''}}"
+  catchtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
   <view class="big-btn__text">{{text}}</view>
 </view>

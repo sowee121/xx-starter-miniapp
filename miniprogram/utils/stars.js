@@ -4,7 +4,9 @@ const activity = require('./activity')
 
 /** 云端权威值的本地快照（只存云端已确认的余额）。 */
 const STORAGE_KEY = 'local_stars'
+/** 已兑换贴纸 id 列表的本地快照（云端为准，本地仅缓存） */
 const OWNED_KEY = 'owned_stickers'
+/** 上次清零时间戳；本地据此丢弃复位前迟到的加星响应 */
 const RESET_AT_KEY = 'stars_reset_at'
 /** 本地版本号：清零/扣星/复位时递增，用于丢弃迟到的旧加星响应，防止把低值顶回。 */
 const EPOCH_KEY = 'star_epoch'
@@ -104,7 +106,7 @@ function bumpEpoch() {
   try {
     wx.setStorageSync(EPOCH_KEY, next)
   } catch (error) {
-    // ignore
+    // 忽略
   }
   return next
 }
@@ -156,7 +158,7 @@ function setOwnedStickers(stickers) {
   try {
     wx.setStorageSync(OWNED_KEY, stickers)
   } catch (error) {
-    // ignore
+    // 忽略
   }
 }
 
@@ -183,7 +185,7 @@ function applyStarsResetAt(resetAt) {
   try {
     wx.setStorageSync(RESET_AT_KEY, next)
   } catch (error) {
-    // ignore
+    // 忽略
   }
 }
 
@@ -210,14 +212,14 @@ function applyProfile(profile) {
     try {
       wx.setStorageSync(STORAGE_KEY, next.stars)
     } catch (error) {
-      // ignore
+      // 忽略
     }
   }
   if (Array.isArray(next.stickers)) {
     try {
       wx.setStorageSync(OWNED_KEY, next.stickers)
     } catch (error) {
-      // ignore
+      // 忽略
     }
   }
   // 热力档案：按复位代际整份采纳或丢弃，

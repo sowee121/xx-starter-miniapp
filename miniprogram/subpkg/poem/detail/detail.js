@@ -109,7 +109,7 @@ Page({
     const index = Number(
       Object.prototype.hasOwnProperty.call(detail, 'index')
         ? detail.index
-        : e.currentTarget.dataset.index
+        : e.currentTarget.dataset.index,
     )
     const line = this.data.poem && this.data.poem.lines[index]
     if (!line) return

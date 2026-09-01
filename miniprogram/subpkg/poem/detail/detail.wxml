@@ -1,6 +1,12 @@
 <app-shell title="古诗" stars="{{stars}}">
   <view class="page-list" wx:if="{{poem}}">
-    <view class="hero block tone-{{poem.tone}}" bindtap="onFullPlay" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+    <view
+      class="hero block tone-{{poem.tone}}"
+      bindtap="onFullPlay"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <image class="hero__image" src="{{poem.icon}}" mode="widthFix" lazy-load />
       <view class="hero__bar">
         <view class="hero__heading">
@@ -18,10 +24,18 @@
       wx:key="text"
       class="poem-line block tone-cream {{activeIndex === index ? 'is-active' : ''}}"
       data-index="{{index}}"
-      bindtap="onLineTap" hover-class="is-pressed" hover-start-time="0" hover-stay-time="80">
+      bindtap="onLineTap"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+    >
       <view class="poem-line__text">{{item.text}}</view>
       <view class="media-play">
-        <play-button compact="{{true}}" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
+        <play-button
+          compact="{{true}}"
+          passive="{{true}}"
+          playing="{{playingSrc === item.audio}}"
+        />
       </view>
     </view>
 

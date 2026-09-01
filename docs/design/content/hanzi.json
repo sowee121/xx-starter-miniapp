@@ -9,120 +9,84 @@
           "strokes": 1,
           "pinyin": "yi",
           "emoji": "1️⃣",
-          "words": [
-            "一个",
-            "一起"
-          ]
+          "words": ["一个", "一起"]
         },
         {
           "char": "二",
           "strokes": 2,
           "pinyin": "er",
           "emoji": "2️⃣",
-          "words": [
-            "两个",
-            "二月"
-          ]
+          "words": ["两个", "二月"]
         },
         {
           "char": "三",
           "strokes": 3,
           "pinyin": "san",
           "emoji": "3️⃣",
-          "words": [
-            "三个",
-            "三月"
-          ]
+          "words": ["三个", "三月"]
         },
         {
           "char": "四",
           "strokes": 5,
           "pinyin": "si",
           "emoji": "4️⃣",
-          "words": [
-            "四个",
-            "四月"
-          ]
+          "words": ["四个", "四月"]
         },
         {
           "char": "五",
           "strokes": 4,
           "pinyin": "wu",
           "emoji": "5️⃣",
-          "words": [
-            "五个",
-            "五月"
-          ]
+          "words": ["五个", "五月"]
         },
         {
           "char": "六",
           "strokes": 4,
           "pinyin": "liu",
           "emoji": "6️⃣",
-          "words": [
-            "六个",
-            "六月"
-          ]
+          "words": ["六个", "六月"]
         },
         {
           "char": "七",
           "strokes": 2,
           "pinyin": "qi",
           "emoji": "7️⃣",
-          "words": [
-            "七个",
-            "七月"
-          ]
+          "words": ["七个", "七月"]
         },
         {
           "char": "八",
           "strokes": 2,
           "pinyin": "ba",
           "emoji": "8️⃣",
-          "words": [
-            "八个",
-            "八月"
-          ]
+          "words": ["八个", "八月"]
         },
         {
           "char": "九",
           "strokes": 2,
           "pinyin": "jiu",
           "emoji": "9️⃣",
-          "words": [
-            "九个",
-            "九月"
-          ]
+          "words": ["九个", "九月"]
         },
         {
           "char": "十",
           "strokes": 2,
           "pinyin": "shi",
           "emoji": "🔟",
-          "words": [
-            "十个",
-            "十月"
-          ]
+          "words": ["十个", "十月"]
         },
         {
           "char": "百",
           "strokes": 6,
           "pinyin": "bai",
           "emoji": "💯",
-          "words": [
-            "一百",
-            "百分"
-          ]
+          "words": ["一百", "百分"]
         },
         {
           "char": "千",
           "strokes": 3,
           "pinyin": "qian",
           "emoji": "🔢",
-          "words": [
-            "一千",
-            "千万"
-          ]
+          "words": ["一千", "千万"]
         }
       ]
     },
@@ -135,120 +99,84 @@
           "strokes": 6,
           "pinyin": "hong",
           "emoji": "🔴",
-          "words": [
-            "红花",
-            "红色"
-          ]
+          "words": ["红花", "红色"]
         },
         {
           "char": "黄",
           "strokes": 11,
           "pinyin": "huang",
           "emoji": "🟡",
-          "words": [
-            "黄花",
-            "黄色"
-          ]
+          "words": ["黄花", "黄色"]
         },
         {
           "char": "蓝",
           "strokes": 13,
           "pinyin": "lan",
           "emoji": "🔵",
-          "words": [
-            "蓝天",
-            "蓝色"
-          ]
+          "words": ["蓝天", "蓝色"]
         },
         {
           "char": "绿",
           "strokes": 11,
           "pinyin": "lü",
           "emoji": "🟢",
-          "words": [
-            "绿叶",
-            "绿色"
-          ]
+          "words": ["绿叶", "绿色"]
         },
         {
           "char": "白",
           "strokes": 5,
           "pinyin": "bai",
           "emoji": "⬜",
-          "words": [
-            "小白",
-            "白云"
-          ]
+          "words": ["小白", "白云"]
         },
         {
           "char": "黑",
           "strokes": 12,
           "pinyin": "hei",
           "emoji": "⚫",
-          "words": [
-            "小黑",
-            "黑色"
-          ]
+          "words": ["小黑", "黑色"]
         },
         {
           "char": "粉",
           "strokes": 10,
           "pinyin": "fen",
           "emoji": "💗",
-          "words": [
-            "粉花",
-            "粉色"
-          ]
+          "words": ["粉花", "粉色"]
         },
         {
           "char": "紫",
           "strokes": 12,
           "pinyin": "zi",
           "emoji": "🟣",
-          "words": [
-            "紫花",
-            "紫色"
-          ]
+          "words": ["紫花", "紫色"]
         },
         {
           "char": "青",
           "strokes": 8,
           "pinyin": "qing",
           "emoji": "🌿",
-          "words": [
-            "青草",
-            "青天"
-          ]
+          "words": ["青草", "青天"]
         },
         {
           "char": "灰",
           "strokes": 6,
           "pinyin": "hui",
           "emoji": "🩶",
-          "words": [
-            "小灰",
-            "灰色"
-          ]
+          "words": ["小灰", "灰色"]
         },
         {
           "char": "棕",
           "strokes": 12,
           "pinyin": "zong",
           "emoji": "🟤",
-          "words": [
-            "棕色",
-            "棕毛"
-          ]
+          "words": ["棕色", "棕毛"]
         },
         {
           "char": "橙",
           "strokes": 16,
           "pinyin": "cheng",
           "emoji": "🟠",
-          "words": [
-            "橙子",
-            "橙色"
-          ]
+          "words": ["橙子", "橙色"]
         }
       ]
     },
@@ -261,120 +189,84 @@
           "strokes": 11,
           "pinyin": "mao",
           "emoji": "🐱",
-          "words": [
-            "小猫",
-            "猫咪"
-          ]
+          "words": ["小猫", "猫咪"]
         },
         {
           "char": "狗",
           "strokes": 8,
           "pinyin": "gou",
           "emoji": "🐶",
-          "words": [
-            "小狗",
-            "狗狗"
-          ]
+          "words": ["小狗", "狗狗"]
         },
         {
           "char": "鸡",
           "strokes": 7,
           "pinyin": "ji",
           "emoji": "🐔",
-          "words": [
-            "小鸡",
-            "鸡蛋"
-          ]
+          "words": ["小鸡", "鸡蛋"]
         },
         {
           "char": "鸭",
           "strokes": 10,
           "pinyin": "ya",
           "emoji": "🦆",
-          "words": [
-            "鸭子",
-            "小鸭"
-          ]
+          "words": ["鸭子", "小鸭"]
         },
         {
           "char": "鸟",
           "strokes": 5,
           "pinyin": "niao",
           "emoji": "🐦",
-          "words": [
-            "小鸟",
-            "飞鸟"
-          ]
+          "words": ["小鸟", "飞鸟"]
         },
         {
           "char": "鱼",
           "strokes": 8,
           "pinyin": "yu",
           "emoji": "🐟",
-          "words": [
-            "小鱼",
-            "金鱼"
-          ]
+          "words": ["小鱼", "金鱼"]
         },
         {
           "char": "虫",
           "strokes": 6,
           "pinyin": "chong",
           "emoji": "🐛",
-          "words": [
-            "虫子",
-            "毛毛虫"
-          ]
+          "words": ["虫子", "毛毛虫"]
         },
         {
           "char": "兔",
           "strokes": 8,
           "pinyin": "tu",
           "emoji": "🐰",
-          "words": [
-            "兔子",
-            "小兔"
-          ]
+          "words": ["兔子", "小兔"]
         },
         {
           "char": "马",
           "strokes": 3,
           "pinyin": "ma",
           "emoji": "🐴",
-          "words": [
-            "小马",
-            "木马"
-          ]
+          "words": ["小马", "木马"]
         },
         {
           "char": "牛",
           "strokes": 4,
           "pinyin": "niu",
           "emoji": "🐮",
-          "words": [
-            "牛奶",
-            "奶牛"
-          ]
+          "words": ["牛奶", "奶牛"]
         },
         {
           "char": "羊",
           "strokes": 6,
           "pinyin": "yang",
           "emoji": "🐑",
-          "words": [
-            "小羊",
-            "羊羊"
-          ]
+          "words": ["小羊", "羊羊"]
         },
         {
           "char": "猪",
           "strokes": 11,
           "pinyin": "zhu",
           "emoji": "🐷",
-          "words": [
-            "小猪",
-            "猪猪"
-          ]
+          "words": ["小猪", "猪猪"]
         }
       ]
     },
@@ -387,120 +279,84 @@
           "strokes": 2,
           "pinyin": "ren",
           "emoji": "👤",
-          "words": [
-            "大人",
-            "小人"
-          ]
+          "words": ["大人", "小人"]
         },
         {
           "char": "爸",
           "strokes": 8,
           "pinyin": "ba",
           "emoji": "👨",
-          "words": [
-            "爸爸",
-            "老爸"
-          ]
+          "words": ["爸爸", "老爸"]
         },
         {
           "char": "妈",
           "strokes": 6,
           "pinyin": "ma",
           "emoji": "👩",
-          "words": [
-            "妈妈",
-            "老妈"
-          ]
+          "words": ["妈妈", "老妈"]
         },
         {
           "char": "爷",
           "strokes": 6,
           "pinyin": "ye",
           "emoji": "👴",
-          "words": [
-            "爷爷",
-            "姥爷"
-          ]
+          "words": ["爷爷", "姥爷"]
         },
         {
           "char": "奶",
           "strokes": 5,
           "pinyin": "nai",
           "emoji": "👵",
-          "words": [
-            "奶奶",
-            "姥姥"
-          ]
+          "words": ["奶奶", "姥姥"]
         },
         {
           "char": "哥",
           "strokes": 10,
           "pinyin": "ge",
           "emoji": "👦",
-          "words": [
-            "哥哥",
-            "大哥"
-          ]
+          "words": ["哥哥", "大哥"]
         },
         {
           "char": "姐",
           "strokes": 8,
           "pinyin": "jie",
           "emoji": "👧",
-          "words": [
-            "姐姐",
-            "大姐"
-          ]
+          "words": ["姐姐", "大姐"]
         },
         {
           "char": "弟",
           "strokes": 7,
           "pinyin": "di",
           "emoji": "🧒",
-          "words": [
-            "弟弟",
-            "小弟"
-          ]
+          "words": ["弟弟", "小弟"]
         },
         {
           "char": "妹",
           "strokes": 8,
           "pinyin": "mei",
           "emoji": "👧🏻",
-          "words": [
-            "妹妹",
-            "小妹"
-          ]
+          "words": ["妹妹", "小妹"]
         },
         {
           "char": "我",
           "strokes": 7,
           "pinyin": "wo",
           "emoji": "🙂",
-          "words": [
-            "我的",
-            "我们"
-          ]
+          "words": ["我的", "我们"]
         },
         {
           "char": "你",
           "strokes": 7,
           "pinyin": "ni",
           "emoji": "😊",
-          "words": [
-            "你的",
-            "你们"
-          ]
+          "words": ["你的", "你们"]
         },
         {
           "char": "他",
           "strokes": 5,
           "pinyin": "ta",
           "emoji": "🙋",
-          "words": [
-            "他的",
-            "他们"
-          ]
+          "words": ["他的", "他们"]
         }
       ]
     },
@@ -513,120 +369,84 @@
           "strokes": 5,
           "pinyin": "tou",
           "emoji": "🗣️",
-          "words": [
-            "头头",
-            "头发"
-          ]
+          "words": ["头头", "头发"]
         },
         {
           "char": "目",
           "strokes": 5,
           "pinyin": "mu",
           "emoji": "👀",
-          "words": [
-            "眼睛",
-            "眨眼"
-          ]
+          "words": ["眼睛", "眨眼"]
         },
         {
           "char": "耳",
           "strokes": 6,
           "pinyin": "er",
           "emoji": "👂",
-          "words": [
-            "耳朵",
-            "耳耳"
-          ]
+          "words": ["耳朵", "耳耳"]
         },
         {
           "char": "口",
           "strokes": 3,
           "pinyin": "kou",
           "emoji": "👄",
-          "words": [
-            "大口",
-            "小口"
-          ]
+          "words": ["大口", "小口"]
         },
         {
           "char": "牙",
           "strokes": 4,
           "pinyin": "ya",
           "emoji": "🦷",
-          "words": [
-            "刷牙",
-            "牙齿"
-          ]
+          "words": ["刷牙", "牙齿"]
         },
         {
           "char": "舌",
           "strokes": 6,
           "pinyin": "she",
           "emoji": "👅",
-          "words": [
-            "舌头",
-            "舌尖"
-          ]
+          "words": ["舌头", "舌尖"]
         },
         {
           "char": "身",
           "strokes": 7,
           "pinyin": "shen",
           "emoji": "🧍",
-          "words": [
-            "身体",
-            "身上"
-          ]
+          "words": ["身体", "身上"]
         },
         {
           "char": "手",
           "strokes": 4,
           "pinyin": "shou",
           "emoji": "🖐️",
-          "words": [
-            "洗手",
-            "小手"
-          ]
+          "words": ["洗手", "小手"]
         },
         {
           "char": "心",
           "strokes": 4,
           "pinyin": "xin",
           "emoji": "❤️",
-          "words": [
-            "开心",
-            "小心"
-          ]
+          "words": ["开心", "小心"]
         },
         {
           "char": "肚",
           "strokes": 7,
           "pinyin": "du",
           "emoji": "🤰",
-          "words": [
-            "肚子",
-            "肚肚"
-          ]
+          "words": ["肚子", "肚肚"]
         },
         {
           "char": "足",
           "strokes": 7,
           "pinyin": "zu",
           "emoji": "🦶",
-          "words": [
-            "小脚",
-            "脚步"
-          ]
+          "words": ["小脚", "脚步"]
         },
         {
           "char": "毛",
           "strokes": 4,
           "pinyin": "mao",
           "emoji": "🪶",
-          "words": [
-            "毛毛",
-            "羽毛"
-          ]
+          "words": ["毛毛", "羽毛"]
         }
       ]
     },
@@ -639,120 +459,84 @@
           "strokes": 4,
           "pinyin": "tian",
           "emoji": "🌤️",
-          "words": [
-            "蓝天",
-            "天气"
-          ]
+          "words": ["蓝天", "天气"]
         },
         {
           "char": "日",
           "strokes": 4,
           "pinyin": "ri",
           "emoji": "☀️",
-          "words": [
-            "太阳",
-            "日出"
-          ]
+          "words": ["太阳", "日出"]
         },
         {
           "char": "月",
           "strokes": 4,
           "pinyin": "yue",
           "emoji": "🌙",
-          "words": [
-            "月亮",
-            "月光"
-          ]
+          "words": ["月亮", "月光"]
         },
         {
           "char": "雨",
           "strokes": 8,
           "pinyin": "yu",
           "emoji": "🌧️",
-          "words": [
-            "下雨",
-            "雨伞"
-          ]
+          "words": ["下雨", "雨伞"]
         },
         {
           "char": "花",
           "strokes": 7,
           "pinyin": "hua",
           "emoji": "🌸",
-          "words": [
-            "小花",
-            "红花"
-          ]
+          "words": ["小花", "红花"]
         },
         {
           "char": "草",
           "strokes": 9,
           "pinyin": "cao",
           "emoji": "🌱",
-          "words": [
-            "小草",
-            "草地"
-          ]
+          "words": ["小草", "草地"]
         },
         {
           "char": "木",
           "strokes": 4,
           "pinyin": "mu",
           "emoji": "🌳",
-          "words": [
-            "木头",
-            "大树"
-          ]
+          "words": ["木头", "大树"]
         },
         {
           "char": "山",
           "strokes": 3,
           "pinyin": "shan",
           "emoji": "⛰️",
-          "words": [
-            "大山",
-            "山上"
-          ]
+          "words": ["大山", "山上"]
         },
         {
           "char": "水",
           "strokes": 4,
           "pinyin": "shui",
           "emoji": "💧",
-          "words": [
-            "喝水",
-            "小水"
-          ]
+          "words": ["喝水", "小水"]
         },
         {
           "char": "石",
           "strokes": 5,
           "pinyin": "shi",
           "emoji": "🪨",
-          "words": [
-            "石头",
-            "小石"
-          ]
+          "words": ["石头", "小石"]
         },
         {
           "char": "火",
           "strokes": 4,
           "pinyin": "huo",
           "emoji": "🔥",
-          "words": [
-            "火火",
-            "火车"
-          ]
+          "words": ["火火", "火车"]
         },
         {
           "char": "土",
           "strokes": 3,
           "pinyin": "tu",
           "emoji": "🪴",
-          "words": [
-            "泥巴",
-            "土地"
-          ]
+          "words": ["泥巴", "土地"]
         }
       ]
     },
@@ -765,120 +549,84 @@
           "strokes": 3,
           "pinyin": "da",
           "emoji": "🐘",
-          "words": [
-            "大人",
-            "大象"
-          ]
+          "words": ["大人", "大象"]
         },
         {
           "char": "小",
           "strokes": 3,
           "pinyin": "xiao",
           "emoji": "🐱",
-          "words": [
-            "小孩",
-            "小鸟"
-          ]
+          "words": ["小孩", "小鸟"]
         },
         {
           "char": "上",
           "strokes": 3,
           "pinyin": "shang",
           "emoji": "⬆️",
-          "words": [
-            "上面",
-            "上去"
-          ]
+          "words": ["上面", "上去"]
         },
         {
           "char": "下",
           "strokes": 3,
           "pinyin": "xia",
           "emoji": "⬇️",
-          "words": [
-            "下面",
-            "下来"
-          ]
+          "words": ["下面", "下来"]
         },
         {
           "char": "左",
           "strokes": 5,
           "pinyin": "zuo",
           "emoji": "⬅️",
-          "words": [
-            "左边",
-            "左手"
-          ]
+          "words": ["左边", "左手"]
         },
         {
           "char": "右",
           "strokes": 5,
           "pinyin": "you",
           "emoji": "➡️",
-          "words": [
-            "右边",
-            "右手"
-          ]
+          "words": ["右边", "右手"]
         },
         {
           "char": "前",
           "strokes": 9,
           "pinyin": "qian",
           "emoji": "⏩",
-          "words": [
-            "前面",
-            "前边"
-          ]
+          "words": ["前面", "前边"]
         },
         {
           "char": "后",
           "strokes": 6,
           "pinyin": "hou",
           "emoji": "⏪",
-          "words": [
-            "后面",
-            "后门"
-          ]
+          "words": ["后面", "后门"]
         },
         {
           "char": "里",
           "strokes": 7,
           "pinyin": "li",
           "emoji": "🏠",
-          "words": [
-            "家里",
-            "里面"
-          ]
+          "words": ["家里", "里面"]
         },
         {
           "char": "外",
           "strokes": 5,
           "pinyin": "wai",
           "emoji": "🚪",
-          "words": [
-            "外面",
-            "门外"
-          ]
+          "words": ["外面", "门外"]
         },
         {
           "char": "中",
           "strokes": 4,
           "pinyin": "zhong",
           "emoji": "🎯",
-          "words": [
-            "中间",
-            "中午"
-          ]
+          "words": ["中间", "中午"]
         },
         {
           "char": "边",
           "strokes": 5,
           "pinyin": "bian",
           "emoji": "📍",
-          "words": [
-            "旁边",
-            "身边"
-          ]
+          "words": ["旁边", "身边"]
         }
       ]
     },
@@ -891,120 +639,84 @@
           "strokes": 3,
           "pinyin": "men",
           "emoji": "🚪",
-          "words": [
-            "开门",
-            "大门"
-          ]
+          "words": ["开门", "大门"]
         },
         {
           "char": "开",
           "strokes": 4,
           "pinyin": "kai",
           "emoji": "🔓",
-          "words": [
-            "打开",
-            "开车"
-          ]
+          "words": ["打开", "开车"]
         },
         {
           "char": "出",
           "strokes": 5,
           "pinyin": "chu",
           "emoji": "🚪",
-          "words": [
-            "出门",
-            "出来"
-          ]
+          "words": ["出门", "出来"]
         },
         {
           "char": "走",
           "strokes": 7,
           "pinyin": "zou",
           "emoji": "🚶",
-          "words": [
-            "走路",
-            "走开"
-          ]
+          "words": ["走路", "走开"]
         },
         {
           "char": "坐",
           "strokes": 7,
           "pinyin": "zuo",
           "emoji": "🪑",
-          "words": [
-            "坐下",
-            "坐车"
-          ]
+          "words": ["坐下", "坐车"]
         },
         {
           "char": "车",
           "strokes": 4,
           "pinyin": "che",
           "emoji": "🚗",
-          "words": [
-            "小车",
-            "坐车"
-          ]
+          "words": ["小车", "坐车"]
         },
         {
           "char": "船",
           "strokes": 11,
           "pinyin": "chuan",
           "emoji": "🚢",
-          "words": [
-            "小船",
-            "轮船"
-          ]
+          "words": ["小船", "轮船"]
         },
         {
           "char": "飞",
           "strokes": 3,
           "pinyin": "fei",
           "emoji": "✈️",
-          "words": [
-            "飞机",
-            "飞飞"
-          ]
+          "words": ["飞机", "飞飞"]
         },
         {
           "char": "电",
           "strokes": 5,
           "pinyin": "dian",
           "emoji": "⚡",
-          "words": [
-            "电灯",
-            "电话"
-          ]
+          "words": ["电灯", "电话"]
         },
         {
           "char": "灯",
           "strokes": 6,
           "pinyin": "deng",
           "emoji": "💡",
-          "words": [
-            "红灯",
-            "路灯"
-          ]
+          "words": ["红灯", "路灯"]
         },
         {
           "char": "回",
           "strokes": 6,
           "pinyin": "hui",
           "emoji": "🏠",
-          "words": [
-            "回家",
-            "回来"
-          ]
+          "words": ["回家", "回来"]
         },
         {
           "char": "到",
           "strokes": 8,
           "pinyin": "dao",
           "emoji": "✅",
-          "words": [
-            "到了",
-            "来到"
-          ]
+          "words": ["到了", "来到"]
         }
       ]
     }

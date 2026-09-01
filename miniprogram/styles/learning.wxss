@@ -450,28 +450,77 @@
 }
 
 /* 图标尺寸随数量缩放；max-width = 列数 × 边长 + 列间距 */
-.count-stage--1 .count-item { width: 256rpx; height: 256rpx; }
-.count-stage--2 .count-item { width: 208rpx; height: 208rpx; }
-.count-stage--3 .count-item { width: 194rpx; height: 194rpx; }
-.count-stage--4 .count-item { width: 208rpx; height: 208rpx; }
-.count-stage--5 .count-item { width: 194rpx; height: 194rpx; }
-.count-stage--6 .count-item { width: 194rpx; height: 194rpx; }
-.count-stage--7 .count-item { width: 142rpx; height: 142rpx; }
-.count-stage--8 .count-item { width: 142rpx; height: 142rpx; }
-.count-stage--9 .count-item { width: 128rpx; height: 128rpx; }
-.count-stage--10 .count-item { width: 110rpx; height: 110rpx; }
+.count-stage--1 .count-item {
+  width: 256rpx;
+  height: 256rpx;
+}
+.count-stage--2 .count-item {
+  width: 208rpx;
+  height: 208rpx;
+}
+.count-stage--3 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--4 .count-item {
+  width: 208rpx;
+  height: 208rpx;
+}
+.count-stage--5 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--6 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--7 .count-item {
+  width: 142rpx;
+  height: 142rpx;
+}
+.count-stage--8 .count-item {
+  width: 142rpx;
+  height: 142rpx;
+}
+.count-stage--9 .count-item {
+  width: 128rpx;
+  height: 128rpx;
+}
+.count-stage--10 .count-item {
+  width: 110rpx;
+  height: 110rpx;
+}
 
-.count-stage--1 { max-width: 256rpx; }
-.count-stage--2 { max-width: 432rpx; }
-.count-stage--3 { max-width: 614rpx; }
-.count-stage--4 { max-width: 432rpx; }
-.count-stage--5 { max-width: 614rpx; }
-.count-stage--6 { max-width: 614rpx; }
-.count-stage--7 { max-width: 616rpx; }
-.count-stage--8 { max-width: 616rpx; }
-.count-stage--9 { max-width: 416rpx; }
-.count-stage--10 { max-width: 614rpx; }
-
+.count-stage--1 {
+  max-width: 256rpx;
+}
+.count-stage--2 {
+  max-width: 432rpx;
+}
+.count-stage--3 {
+  max-width: 614rpx;
+}
+.count-stage--4 {
+  max-width: 432rpx;
+}
+.count-stage--5 {
+  max-width: 614rpx;
+}
+.count-stage--6 {
+  max-width: 614rpx;
+}
+.count-stage--7 {
+  max-width: 616rpx;
+}
+.count-stage--8 {
+  max-width: 616rpx;
+}
+.count-stage--9 {
+  max-width: 416rpx;
+}
+.count-stage--10 {
+  max-width: 614rpx;
+}
 
 .options {
   display: flex;

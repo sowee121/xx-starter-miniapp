@@ -10,6 +10,7 @@ const { CLOUD_ENV } = require('./cloud')
 /** 从临时链接域名解析出的存储桶 ID（与控制台 FileID 一致） */
 const CLOUD_BUCKET = '636c-cloudbase-d7gygre2uc80dcd42-1469407935'
 
+/** 云文件前缀；USE_CLOUD=true 时由它拼出 cloud:// 地址 */
 const CLOUD_PREFIX = `cloud://${CLOUD_ENV}.${CLOUD_BUCKET}`
 
 /**

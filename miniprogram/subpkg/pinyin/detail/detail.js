@@ -23,7 +23,7 @@ function buildTrail(currentLetter) {
 
 /** 按 id 取韵母 */
 function resolveItem(id) {
-  const key = id === 'umlaut-u' ? 'ü' : (id || 'a')
+  const key = id === 'umlaut-u' ? 'ü' : id || 'a'
   return vowels.find((x) => x.letter === key) || vowels[0]
 }
 
