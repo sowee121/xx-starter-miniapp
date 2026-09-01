@@ -2,12 +2,12 @@ const { tap } = require('../../utils/tap-guard')
 
 /** 六模块吉祥物卡面色（按动物主色），命中则替换 tone 类；其余模块回退原 tone */
 const MASCOT_TONES = {
-  pinyin: 'mascot-duckling',
-  english: 'mascot-bear',
-  hanzi: 'mascot-cat',
-  poem: 'mascot-rabbit',
-  math: 'mascot-dog',
-  calendar: 'mascot-penguin',
+  pinyin: 'tone-butter',
+  english: 'tone-tan',
+  hanzi: 'tone-orange',
+  poem: 'tone-coral',
+  math: 'tone-sand',
+  calendar: 'tone-frost',
 }
 
 Component({

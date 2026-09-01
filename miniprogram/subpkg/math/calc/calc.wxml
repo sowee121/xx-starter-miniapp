@@ -1,6 +1,6 @@
 <app-shell title="算一算" stars="{{stars}}">
   <view wx:if="{{question}}" class="detail-stack">
-    <view class="quiz-head block tone-sky">
+    <view class="quiz-head block tone-sand">
       <image class="quiz-head__image" src="{{calcImage}}" mode="aspectFit" />
       <view class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</view>
     </view>

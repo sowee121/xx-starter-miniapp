@@ -57,7 +57,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 
 **图片** — 代码包禁止 webp（真机空白、工具正常）；统一 PNG。素材：`docs/design/atoms/` → `scripts/chroma_to_png.py` / `scripts/normalize_atoms.py`。须在开发者工具关闭「忽略未使用的文件」（`ignoreDevUnusedFiles: false`），否则未被直接引用的图片/音频上传时会被剔除、真机空白；当前 `project.config.json` 为 `true`，需重新关闭。
 
-**样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。H5 **只出静态 UI**，点读与点击只做小程序（`.cursor/rules/h5-static-review.mdc`）。Token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。卡面色分两类：`tone-*` 全站主题 token（家长区/枢纽/贴纸复用）；`mascot-*` 首页六卡与学习记录按吉祥物配色（见 [CONTENT §3](docs/design/CONTENT.md)）。
+**样式** — 视觉基准 `docs/design/h5/`；改布局/色调须与 `miniprogram/**/*.wxss` **同批同步**（规则：`.cursor/rules/h5-miniapp-style-sync.mdc`）。H5 **只出静态 UI**，点读与点击只做小程序（`.cursor/rules/h5-static-review.mdc`）。Token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）；正文字号最小 28px/28rpx。卡面色统一为 `tone-*` 全站主题 token、按颜色命名（家长区/枢纽/贴纸/首页六卡全复用，见 [CONTENT §3](docs/design/CONTENT.md)）。
 
 **点读** — `miniprogram/utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。音色与语速：古诗/识字/英语词句为晓晓或 Emma **`-30%`**；拼音韵母为晓辰 **`-10%`**；字母名为 Jenny **`-10%`**（详见 [CONTENT §2.10](docs/design/CONTENT.md)）。**拼音**喂注音「ㄚㄛㄜㄧㄨㄩ」；**字母 Z** 念 `zee`。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
@@ -85,7 +85,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 | 项 | 状态 |
 | --- | --- |
 | 八大板块业务页 + TTS | 已落地 |
-| 首页六宫格（`mascot-*` 吉祥物入口卡） | 已落地 |
+| 首页六宫格（`tone-*` 彩色入口卡） | 已落地 |
 | 每日任务（数量每日随机 + 云端同步）+ 日历打卡按钮 | 已落地 |
 | 反馈闭环（弹层 / soft-note / 音效） | 已落地 |
 | 家长区（音量三档 + 四类数据长按 3 秒清除） | 已落地 |

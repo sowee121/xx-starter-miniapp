@@ -1,13 +1,13 @@
 /** 识字分类色，列表与详情共用 */
 const TONE_MAP = {
-  number: 'peach',
-  color: 'cream',
+  number: 'lilac',
+  color: 'rose',
   animal: 'butter',
-  family: 'rose',
-  body: 'matcha',
-  nature: 'lilac',
-  place: 'sky',
-  transport: 'peach',
+  family: 'coral',
+  body: 'peach',
+  nature: 'matcha',
+  place: 'sand',
+  transport: 'sky',
 }
 
 /** 分类对应色调 */

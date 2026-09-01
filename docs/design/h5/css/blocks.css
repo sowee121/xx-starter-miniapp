@@ -59,10 +59,7 @@ a.block:active,
 /* 对角 inset = 鹅卵石鼓边（上左高光 / 下右压暗），外阴影托起厚度 */
 .tone-cream {
   background: var(--tone-cream);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(148, 170, 152, 0.2),
-    var(--shadow-lift);
+  box-shadow: var(--shadow-tone-cream);
 }
 .tone-matcha {
   background: var(--tone-matcha);
@@ -72,81 +69,49 @@ a.block:active,
   background: var(--tone-sky);
   box-shadow: var(--shadow-tone-sky);
 }
-/* 学习记录（企鹅）：冰川蓝浅渐变，与音量 tone-sky 区分 */
-.mascot-penguin {
-  background: linear-gradient(180deg, #eef4fa 0%, #d4e1ee 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(142, 174, 206, 0.20),
-    var(--shadow-lift);
+/* 学习记录（霜蓝）：与音量 tone-sky 区分 */
+.tone-frost {
+  background: var(--tone-frost);
+  box-shadow: var(--shadow-tone-frost);
 }
-/* 六模块吉祥物卡面（首页）：按动物主色浅渐变 + 鼓边阴影 */
-.mascot-duckling {
-  background: linear-gradient(180deg, #fffce8 0%, #f3e8b6 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(212, 186, 98, 0.22),
-    var(--shadow-lift);
-}
-
-.mascot-bear {
-  background: linear-gradient(180deg, #f3e7da 0%, #ddc4a4 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(184, 148, 104, 0.22),
-    var(--shadow-lift);
-}
-
-.mascot-cat {
-  background: linear-gradient(180deg, #fff0e0 0%, #f5d4ac 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(216, 170, 122, 0.22),
-    var(--shadow-lift);
-}
-
-.mascot-rabbit {
-  background: linear-gradient(180deg, #fff8e0 0%, #f4e2a6 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(208, 182, 108, 0.22),
-    var(--shadow-lift);
-}
-
-.mascot-dog {
-  background: linear-gradient(180deg, #fdf2f0 0%, #f0deda 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(198, 160, 150, 0.20),
-    var(--shadow-lift);
-}
+/* 六模块卡面（首页）：按主色浅渐变 + 鼓边阴影 */
 .tone-butter {
-  background: linear-gradient(180deg, #fefbee 0%, #f9edc6 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(206, 178, 108, 0.24),
-    var(--shadow-lift);
+  background: var(--tone-butter);
+  box-shadow: var(--shadow-tone-butter);
+}
+
+.tone-tan {
+  background: var(--tone-tan);
+  box-shadow: var(--shadow-tone-tan);
+}
+.tone-sand {
+  background: var(--tone-sand);
+  box-shadow: var(--shadow-tone-sand);
+}
+
+.tone-orange {
+  background: var(--tone-orange);
+  box-shadow: var(--shadow-tone-orange);
+}
+.tone-coral {
+  background: var(--tone-coral);
+  box-shadow: var(--shadow-tone-coral);
+}
+.tone-pink {
+  background: var(--tone-pink);
+  box-shadow: var(--shadow-tone-pink);
 }
 .tone-peach {
-  background: linear-gradient(180deg, #fef7f3 0%, #f8e2da 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(206, 158, 142, 0.22),
-    var(--shadow-lift);
+  background: var(--tone-peach);
+  box-shadow: var(--shadow-tone-peach);
 }
 .tone-mint {
-  background: linear-gradient(180deg, #f1fbf6 0%, #d3ebe0 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(126, 178, 156, 0.24),
-    var(--shadow-lift);
+  background: var(--tone-mint);
+  box-shadow: var(--shadow-tone-mint);
 }
 .tone-lilac {
-  background: linear-gradient(180deg, #f8f5fd 0%, #e8e1f6 100%);
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8px -10px 18px rgba(160, 142, 198, 0.22),
-    var(--shadow-lift);
+  background: var(--tone-lilac);
+  box-shadow: var(--shadow-tone-lilac);
 }
 .tone-apricot {
   background: var(--tone-apricot);
@@ -157,9 +122,7 @@ a.block:active,
   box-shadow: var(--shadow-tone-rose);
 }
 .tone-night {
-  background:
-    radial-gradient(circle at 20% 12%, rgba(150, 164, 224, 0.24), transparent 34%),
-    linear-gradient(180deg, #424a78 0%, #29345f 52%, #202a4d 100%);
+  background: var(--tone-night);
   box-shadow: var(--shadow-clay-night);
 }
 

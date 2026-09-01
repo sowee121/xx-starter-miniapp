@@ -44,7 +44,7 @@ function actionList() {
       hint: '清除已学记录，不能恢复',
       icon: mascots.HOME_ASSETS.penguin,
       iconClass: 'is-penguin',
-      tone: 'mascot-penguin',
+      tone: 'tone-frost',
       groove: 'is-sky',
       holding: false,
       label: idleLabelOf('progress'),

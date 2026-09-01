@@ -234,14 +234,14 @@ def make_poem():
 def make_hanzi():
     data = load_json("hanzi.json")
     tone_map = {
-        "number": "tone-peach",
-        "color": "tone-cream",
+        "number": "tone-lilac",
+        "color": "tone-rose",
         "animal": "tone-butter",
-        "family": "tone-rose",
-        "body": "tone-matcha",
-        "nature": "tone-lilac",
-        "place": "tone-sky",
-        "transport": "tone-peach",
+        "family": "tone-coral",
+        "body": "tone-peach",
+        "nature": "tone-matcha",
+        "place": "tone-sand",
+        "transport": "tone-sky",
     }
     sections = []
     for cat in data["categories"]:
@@ -296,7 +296,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block mascot-dog"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-pink"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None, wrong=False):
@@ -458,14 +458,14 @@ def make_english():
 
     sections = []
     tone_map = {
-        "fruit": "tone-rose",
+        "fruit": "tone-apricot",
         "animal": "tone-butter",
-        "color": "tone-sky",
-        "number": "tone-apricot",
-        "body": "tone-matcha",
-        "transport": "tone-peach",
-        "food": "tone-cream",
-        "nature": "tone-lilac",
+        "color": "tone-rose",
+        "number": "tone-lilac",
+        "body": "tone-peach",
+        "transport": "tone-sky",
+        "food": "tone-orange",
+        "nature": "tone-matcha",
     }
     for cat in data["categories"]:
         tone = tone_map.get(cat["id"], "tone-cream")

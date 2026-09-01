@@ -112,6 +112,10 @@
   /* —— 填充 / 色面 —— */
   --btn-green: linear-gradient(180deg, #88c08d, var(--btn-green-solid)); /* 绿 CTA / 播放圆钮面 */
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
+  --shadow-tone-cream:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(148, 170, 152, 0.2),
+    var(--shadow-lift);
   --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
   --ring-picked: #e0b43c; /* 选中环 */
@@ -145,6 +149,63 @@
     var(--shadow-clay-hi),
     inset -8px -10px 18px rgba(210, 164, 112, 0.24),
     var(--shadow-lift);
+
+  /* —— 首页六模块色调（拼音/英语/识字/古诗/算术/日历）—— */
+  --tone-butter: linear-gradient(180deg, #fefbee 0%, #f9edc6 100%); /* 拼音/选项·黄油 */
+  --tone-tan: linear-gradient(180deg, #f7ecdf 0%, #e6cfb3 100%); /* 英语·茶棕（调淡） */
+  --tone-sand: linear-gradient(180deg, #fbf4e8 0%, #ecd9c0 100%); /* 算术/小狗·燕麦米 */
+  --tone-orange: linear-gradient(180deg, #fff0e0 0%, #f5d4ac 100%); /* 识字·杏橘 */
+  --tone-coral: linear-gradient(180deg, #fff0ec 0%, #f5c9bd 100%); /* 古诗·珊瑚 */
+  --tone-pink: linear-gradient(180deg, #fdf2f0 0%, #f0deda 100%); /* 算术·粉米 */
+  --tone-frost: linear-gradient(180deg, #eef4fa 0%, #d4e1ee 100%); /* 日历·霜蓝 */
+  --shadow-tone-butter:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 178, 108, 0.24),
+    var(--shadow-lift);
+  --shadow-tone-tan:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(196, 162, 118, 0.20),
+    var(--shadow-lift);
+  --shadow-tone-sand:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(200, 170, 130, 0.22),
+    var(--shadow-lift);
+  --shadow-tone-orange:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(216, 170, 122, 0.22),
+    var(--shadow-lift);
+  --shadow-tone-coral:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(198, 148, 132, 0.24),
+    var(--shadow-lift);
+  --shadow-tone-pink:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(198, 160, 150, 0.20),
+    var(--shadow-lift);
+  --shadow-tone-frost:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(142, 174, 206, 0.20),
+    var(--shadow-lift);
+
+  /* —— 功能浅色：选项 / 任务行 / 古诗列表等 —— */
+  --tone-peach: linear-gradient(180deg, #fef7f3 0%, #f8e2da 100%); /* 选项·蜜桃 */
+  --tone-mint: linear-gradient(180deg, #f1fbf6 0%, #d3ebe0 100%); /* 数一数/已完成任务·薄荷 */
+  --tone-lilac: linear-gradient(180deg, #f8f5fd 0%, #e8e1f6 100%); /* 选项/古诗列表·丁香 */
+  --shadow-tone-peach:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(206, 158, 142, 0.22),
+    var(--shadow-lift);
+  --shadow-tone-mint:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(126, 178, 156, 0.24),
+    var(--shadow-lift);
+  --shadow-tone-lilac:
+    var(--shadow-clay-hi),
+    inset -8px -10px 18px rgba(160, 142, 198, 0.22),
+    var(--shadow-lift);
+  --tone-night:
+    radial-gradient(circle at 20% 12%, rgba(150, 164, 224, 0.24), transparent 34%),
+    linear-gradient(180deg, #424a78 0%, #29345f 52%, #202a4d 100%); /* 夜景卡面（阴影复用 --shadow-clay-night） */
   --btn-sky: linear-gradient(180deg, #a8cff2, #82b2e6); /* 记录清除钮 */
   --btn-rose: linear-gradient(180deg, #e0a4b4, #c88698); /* 贴纸清除钮（默认钮面） */
   --btn-apricot: linear-gradient(180deg, #eec99a, #d5a264); /* 积分清除钮 */
