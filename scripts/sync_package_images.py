@@ -213,7 +213,8 @@ def write_english_list_thumbs() -> None:
     dest_dir = MP / "subpkg/english/static/list"
     dest_dir.mkdir(parents=True, exist_ok=True)
     words_js = MP / "subpkg/english/content/english-words.js"
-    stems = re.findall(r'"image":\s*"(english-[^"]+)"', words_js.read_text())
+    # 兼容单/双引号：english-words.js 里 image 值为单引号，旧正则只认双引号会整目录判 stale
+    stems = re.findall(r"image:\s*['\"](english-[^'\"]+)['\"]", words_js.read_text())
     wanted: set[str] = set()
     for stem in stems:
         name = f"{stem}.png"
