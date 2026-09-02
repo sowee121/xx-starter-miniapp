@@ -583,7 +583,8 @@
   }
 }
 
-.option.is-wrong {
+.option.is-wrong,
+.soft-note.is-wrong {
   animation: option-wiggle 420ms ease-in-out;
 }
 

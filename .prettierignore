@@ -26,3 +26,6 @@ project.private.config.json
 *.woff2
 *.ttf
 *.eot
+
+# 脚本生成的英语分类包词库（JSON.stringify 输出格式，勿用 prettier 重排）
+miniprogram/subpkg/english-*/content/english-words.js

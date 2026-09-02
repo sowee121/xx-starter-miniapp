@@ -32,7 +32,11 @@
       bind:prev="goPrev"
       bind:next="goNext"
     />
-    <view wx:if="{{softNote}}" class="soft-note block {{softNoteTone}}">{{softNote}}</view>
+    <view
+      wx:if="{{softNote}}"
+      class="soft-note block {{softNoteTone}} {{wrongShake ? 'is-wrong' : ''}}"
+      >{{softNote}}</view
+    >
   </view>
   <praise-sun
     show="{{feedback.show}}"

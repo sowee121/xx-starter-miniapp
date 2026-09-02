@@ -486,6 +486,9 @@
 .option.is-wrong {
   animation: option-wiggle 420ms ease-in-out;
 }
+.soft-note.is-wrong {
+  animation: option-wiggle 420ms ease-in-out;
+}
 .soft-note {
   display: flex;
   align-items: center;
