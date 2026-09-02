@@ -35,7 +35,7 @@ Component({
       try {
         require('../../utils/audio').stop()
       } catch (error) {
-        // 忽略
+        // ignore
       }
       goTo('/pages/home/home', { mode: 'reLaunch' })
     },

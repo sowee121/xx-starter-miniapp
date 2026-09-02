@@ -31,7 +31,7 @@ function saveMap(map) {
   try {
     wx.setStorageSync(STORAGE_KEY, map)
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -50,7 +50,7 @@ function saveQueue(list) {
   try {
     wx.setStorageSync(QUEUE_KEY, list)
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 

@@ -52,7 +52,7 @@ function dropNativeSrc() {
   try {
     ctx.src = ''
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -62,7 +62,7 @@ function notifyStopWatchers() {
     try {
       fn()
     } catch (error) {
-      // 忽略
+      // ignore
     }
   })
 }
@@ -84,7 +84,7 @@ function startKeepScreen() {
   try {
     wx.setKeepScreenOn({ keepScreenOn: true })
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -95,7 +95,7 @@ function stopKeepScreen() {
   try {
     wx.setKeepScreenOn({ keepScreenOn: false })
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -155,7 +155,7 @@ function ensureCtx() {
   try {
     ctx.obeyMuteSwitch = false
   } catch (error) {
-    // 忽略
+    // ignore
   }
   ctx.onPlay(() => {
     playAlive = true
@@ -187,7 +187,7 @@ function ensureCtx() {
       try {
         ctx.play()
       } catch (error) {
-        // 忽略
+        // ignore
       }
       clearErrorRetry()
       errorRetryTimer = setTimeout(() => {
@@ -271,7 +271,7 @@ function startSrc(src, options = {}) {
     try {
       audio.stop()
     } catch (error) {
-      // 忽略
+      // ignore
     }
     setTimeout(doPlay, 30)
     return
@@ -306,7 +306,7 @@ function stop() {
     try {
       ctx.stop()
     } catch (error) {
-      // 忽略
+      // ignore
     }
     dropNativeSrc()
   }
@@ -330,7 +330,7 @@ function destroy() {
     if (typeof ctx.offError === 'function') ctx.offError()
     ctx.destroy()
   } catch (error) {
-    // 忽略
+    // ignore
   }
   ctx = null
 }

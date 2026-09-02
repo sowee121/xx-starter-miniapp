@@ -22,8 +22,6 @@ ROOT = Path(__file__).resolve().parents[1]
 MP = ROOT / "miniprogram"
 
 SKIP_NAMES = {"alphabet-song.mp3"}
-TARGET_BR = 24000
-TARGET_AR = 22050
 SPEECH_16K_BR = 16000
 SPEECH_16K_AR = 16000
 SONG_16K_AR = 22050
@@ -224,13 +222,6 @@ def _encode_mp3(path: Path, br: int, ar: int) -> tuple[bool, str]:
             tmp_path.unlink()
 
 
-def encode_mp3_24k(path: Path) -> tuple[bool, str]:
-    """高于 24kbps 的点读转成 22.05kHz / 24kbps。字母歌跳过。"""
-    if path.name in SKIP_NAMES:
-        return False, "skip-song"
-    return _encode_mp3(path, TARGET_BR, TARGET_AR)
-
-
 def encode_mp3_16k(path: Path) -> tuple[bool, str]:
     """点读 16kHz / 16kbps；字母歌保留 22.05kHz / 16kbps。"""
     ar = SONG_16K_AR if path.name in SKIP_NAMES else SPEECH_16K_AR
@@ -240,11 +231,6 @@ def encode_mp3_16k(path: Path) -> tuple[bool, str]:
 def main() -> None:
     parser = argparse.ArgumentParser(description="裁点读 MP3 首尾静音；可选降码率")
     parser.add_argument("--file", type=Path, default=None, help="只处理单个文件")
-    parser.add_argument(
-        "--to-24k",
-        action="store_true",
-        help="把高于 24kbps 的文件转到 22.05kHz / 24kbps（已是 24k 的跳过）",
-    )
     parser.add_argument(
         "--to-16k",
         action="store_true",
@@ -262,9 +248,6 @@ def main() -> None:
     if args.to_16k:
         action = encode_mp3_16k
         label = "16k"
-    elif args.to_24k:
-        action = encode_mp3_24k
-        label = "24k"
     else:
         action = trim_mp3_file
         label = "trim"

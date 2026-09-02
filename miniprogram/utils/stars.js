@@ -106,7 +106,7 @@ function bumpEpoch() {
   try {
     wx.setStorageSync(EPOCH_KEY, next)
   } catch (error) {
-    // 忽略
+    // ignore
   }
   return next
 }
@@ -158,7 +158,7 @@ function setOwnedStickers(stickers) {
   try {
     wx.setStorageSync(OWNED_KEY, stickers)
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -185,7 +185,7 @@ function applyStarsResetAt(resetAt) {
   try {
     wx.setStorageSync(RESET_AT_KEY, next)
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 
@@ -212,14 +212,14 @@ function applyProfile(profile) {
     try {
       wx.setStorageSync(STORAGE_KEY, next.stars)
     } catch (error) {
-      // 忽略
+      // ignore
     }
   }
   if (Array.isArray(next.stickers)) {
     try {
       wx.setStorageSync(OWNED_KEY, next.stickers)
     } catch (error) {
-      // 忽略
+      // ignore
     }
   }
   // 热力档案：按复位代际整份采纳或丢弃，

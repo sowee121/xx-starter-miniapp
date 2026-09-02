@@ -32,7 +32,7 @@ Page({
     try {
       require('../../utils/audio').stop()
     } catch (error) {
-      // 忽略
+      // ignore
     }
     this.setData({
       stars: starsUtil.getLocalStars(),

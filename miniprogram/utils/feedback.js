@@ -30,7 +30,7 @@ function preloadVoiceAudio() {
   try {
     require('./audio').ensureAudioOption()
   } catch (error) {
-    // 忽略
+    // ignore
   }
 }
 

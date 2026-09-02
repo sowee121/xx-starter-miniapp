@@ -134,7 +134,7 @@ node scripts/ci_upload_storage.js subpkg
       → 公众平台：选为体验版
 ```
 
-本地预编译 `npm run build` 也会先跑 `npm test`。临时真机：`npm run mp:preview`（同样先检查）。清包内媒体、裁音频、传云存储仍手跑。
+临时真机：`npm run mp:preview`（先跑 `npm test`）。清包内媒体、裁音频、传云存储仍手跑。
 
 ---
 

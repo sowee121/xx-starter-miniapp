@@ -2,8 +2,8 @@
 
 > 唯一需求源：
 >
-> - `[小程序需求优化版.txt](../小程序需求优化版.txt)`
-> - `[小程序开发核对清单（最终验收版）.txt](../小程序开发核对清单（最终验收版）.txt)`
+> - `[小程序需求优化版.md](../小程序需求优化版.md)`
+> - `[小程序开发核对清单.md](../小程序开发核对清单.md)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
 >
 > 旧设计稿/素材已清空。本文件为执行基准；**题库与视觉已于 2026-08-16 定稿**，2026-08-17 起业务页与每日任务随机数量已对齐代码；2026-08-20 起反馈闭环、日历打卡按钮、家长区清除、设计 token 收敛已写入 CONTENT；2026-08-21 起拼音 TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（勿喂拉丁字母）；2026-08-22 起英语先进枢纽，再选字母表（26 大写点读）或单词 96（见 CONTENT §2.4）；2026-08-24 起 `addStars` 白名单含 `letter_done`（字母点读可上云），云函数已与本地对齐；点读音色/语速定稿见 CONTENT §2.10；云函数/云存储文档见 `cloudfunctions/README.md`、`cloud-assets/README.md`；业务样式与 H5 双向同步；P5 云端已完成（云为主存 + 本地兜底冲刷策略）。2026-08-27：设计 token 做减法收拢并语义化——`--btn-play`/`--shadow-play`/`--size-btn`/`--size-play-lg`/`--size-trail-bar` 并入 `--btn-green`/`--shadow-chip`/`--size-slot`，新增 `--size-mascot: 168`（首页/商城大方形配图），删除零引用死变量（`--size-heat-cell` 等）；收拢纪律见 §2.1 与 CONTENT §3「设计 token」。2026-08-31：首页六卡与家长区按吉祥物配色，新增 `mascot-*` 类（不入 token，仅首页六卡 + 学习记录用）；删除 `tone-apple`/`tone-abc`，复用 `tone-rose`/`tone-sky`；`math/hub` 双卡定为 `tone-rose`/`mascot-dog`（生成脚本已同步）。2026-09-01：颜色命名去动物化——`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin` 全部改为颜色名（`butter`/`tan`/`orange`/`pink`/`frost`），近黄三变量 `tone-duckling`/`tone-rabbit`/内联 `tone-butter` 合并为 `tone-butter` 并提为 token，`mascot-*` 类全部退役；古诗模块卡改 `tone-coral`（珊瑚）与拼音 `tone-butter` 区分；算术数一数入口卡与详情 quiz-head 由 `tone-mint`/`tone-pink` 统一为 `tone-rose`，与英语入口苹果卡（同图 english-fruit-apple）同色。
@@ -82,7 +82,7 @@
 ### 2.2 布局与热区
 
 - **无左侧栏、无底部 Tab**；八大功能在首页平铺大积木卡
-- 同级卡片、选项、入口等均匀排列优先使用 **`display: flex` + `gap`**；不要用子项 margin 伪间距。主轴两端对齐可用 `space-between`（与 gap 可并存）
+- 同级卡片、选项、入口等均匀排列优先使用 **`display: flex` + `gap`**；不要用子项 margin 伪间距。**`flex-wrap: wrap` 的规则内禁止 `space-between`**（`scripts/check_miniprogram.js` 直接报错）；非 wrap 的行内两端对齐才可用 `space-between`，且须与 `gap` 并存
 - 点击热区默认 ≥ **152rpx × 152rpx**（紧凑控件 `--size-tap-compact` 128rpx）；小图标用透明热区包一层。**例外（可低于 152）**：导航回首页（`--size-header` 88）、chip CTA、紧凑点读钮、家长区音量档 / 清除槽等——以布局可点为准，不强制撑满 152
 - 圆角（H5 `tokens.css` ↔ 小程序 `tokens.wxss`，1px = 1rpx）：
   - **`--radius-card: 56`**：大卡（**首页全部卡片**、通栏、详情主卡、带缩略图的列表行）
@@ -199,7 +199,7 @@ flowchart LR
 | 阶段     | 产出                            | 目录 / 状态                                            | 对照验收     |
 | ------ | ----------------------------- | ----------------------------------------------- | -------- |
 | D1 母版  | 首页 / 列表 / 详情视觉语言               | 已收敛进 H5 审查帧                    | 清单 §一–§三 |
-| D2 全套  | 八大板块 + 家长区 + 反馈合页静态审查     | **已定稿** `docs/design/h5/`（约 21 帧，合页收敛；**仅静态 UI，无点读/点击**） | 清单 §五、§八 |
+| D2 全套  | 八大板块 + 家长区 + 反馈合页静态审查     | **已定稿** `docs/design/h5/`（22 帧，合页收敛；**仅静态 UI，无点读/点击**） | 清单 §五、§八 |
 | D3 原子包 | 草地、动物、果蔬、封面、拼音字母等透明底切图    | **已归档** `docs/design/atoms/` → 开发时同步 `miniprogram/static/` | 清单 §七    |
 
 
@@ -229,7 +229,7 @@ flowchart LR
 
 ## 7. 验收对照（最终必过）
 
-直接使用 `docs/小程序开发核对清单（最终验收版）.txt` 八章作为打勾标准：
+直接使用 `docs/小程序开发核对清单.md` 八章作为打勾标准：
 
 1. 基础整体规范
 2. 全局 UI 视觉

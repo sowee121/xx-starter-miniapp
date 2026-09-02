@@ -19,11 +19,13 @@ alwaysApply: true
 
 | 分类 | 分包 | 列表 | 详情大图/音频 |
 | --- | --- | --- | --- |
-| 总列表 + 枢纽 | `english` | `english/static/list/` 96 张 96px 小图 | 无大图；旧详情页只做跳转 |
-| fruit / animal / color / body / transport / number / food / nature | `english-{分类}` | — | 该包 `static/` 160px + `static/audio/` |
-| 字母 | `english-abc` | 本包 | 本包 |
+| 总列表 + 枢纽 | `english` | `english/static/list/` 96 张 **128px** 缩略图 | 无大图；旧详情页只做跳转 |
+| fruit / animal / color / body / transport / number / food / nature | `english-{分类}` | — | 该包 `static/` **320px** 大图 + `static/audio/` |
+| 字母 | `english-abc` | 本包 | 本包（字母图 **272px** + 字母音频 + 字母歌） |
 
-列表**一律**用 `english/static/list/` 的 96px 小图。详情页必须 `Page(createEnglishDetailPage('english-fruit'))` 这类带分包名的工厂，词条不属于本包时 `redirectTo` 到归属页。
+尺寸由 `scripts/sync_package_images.py` 从 `docs/design/atoms/` 下采样，**禁止压到 160px**（定稿见 `docs/design/CONTENT.md` §2.4.2）。
+
+列表**一律**用 `english/static/list/` 的 128px 缩略图（由 `sync_package_images.py` 下采样）。详情页必须 `Page(createEnglishDetailPage('english-fruit'))` 这类带分包名的工厂，词条不属于本包时 `redirectTo` 到归属页。
 
 **禁止把只给分包用的 JS 放进主包**。英语词库、`english-media.js`、`english-detail-page.js` 放在各英语分包 `content/` / `lib/`。
 

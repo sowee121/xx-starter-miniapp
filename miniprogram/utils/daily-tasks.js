@@ -110,7 +110,7 @@ function readToday() {
     const raw = wx.getStorageSync(STORAGE_KEY)
     if (raw && typeof raw === 'object') memCache = raw
   } catch (error) {
-    // 忽略
+    // ignore
   }
   return memCache
 }
@@ -153,7 +153,7 @@ function ensureToday() {
       return raw
     }
   } catch (error) {
-    // 忽略
+    // ignore
   }
   const day = emptyDay(date)
   saveToday(day)
@@ -292,14 +292,14 @@ function persistDailyCloud(taskId, unitKey, result) {
         try {
           await progress.markDone(taskId, itemId)
         } catch (error) {
-          // 忽略
+          // ignore
         }
       }
       if (!result.firstAward) return
       try {
         await starsUtil.checkinTask(taskId)
       } catch (error) {
-        // 忽略
+        // ignore
       }
     })
     .catch(() => {
@@ -335,7 +335,7 @@ async function pushToCloud() {
   try {
     await cloud.call('dailyTasks', { action: 'sync', date: day.date, day })
   } catch (error) {
-    // 忽略：下次上报 / 页面进入时会再同步
+    // ignore：下次上报 / 页面进入时会再同步
   }
 }
 
@@ -411,7 +411,7 @@ async function resetDailyTasks() {
   try {
     wx.removeStorageSync(STORAGE_KEY)
   } catch (error) {
-    // 忽略
+    // ignore
   }
   const { ok } = await cloud.call('dailyTasks', { action: 'reset', date: getToday() })
   return { ok }

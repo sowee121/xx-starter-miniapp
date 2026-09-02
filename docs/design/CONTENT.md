@@ -8,7 +8,6 @@
 > 2026-08-24 增量：字母点读发星 `reason: letter_done` 已写入云函数 `addStars` 白名单并完成部署。
 > 2026-08-24 增量：点读/反馈音频的音色与语速定稿见 §2.10（晓晓 / Emma / Jenny / 晓辰；词句 `-30%`，拼音与字母名 `-10%`）。
 > 2026-08-27 增量：设计 token 收拢语义化，播放钮 token 由 `--btn-play`/`--shadow-play` 统一为 `--btn-green`/`--shadow-chip`，新增 `--size-mascot: 168`（吉祥物/贴纸大图），详见 §3「设计 token」。
-> 2026-08-31 增量：首页六卡与家长区按吉祥物配色，新增 `mascot-*` 类（黄鸭/棕熊/橘猫/白兔/小狗/企鹅，仅首页六卡与学习记录用，不入 token）；`tone-apple`/`tone-abc` 已删除，复用 `tone-rose`/`tone-sky`；枢纽双卡配色定稿见 §3「设计 token」。
 > 2026-09-01 增量：颜色命名去动物化——`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin` 全部改为颜色名 `butter`/`tan`/`orange`/`pink`/`frost`；近黄三变量（`tone-duckling`/`tone-rabbit`/内联 `tone-butter`）合并为 `tone-butter` 并提为 token，`mascot-*` 类退役；随后古诗卡改 `tone-coral`（珊瑚）与拼音的 `tone-butter` 区分，详见 §3「设计 token」。
 
 ---
@@ -211,7 +210,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 
 ## 3. 视觉与素材定稿要点
 
-- H5 审查目录：`docs/design/h5/index.html`（约 **21** 页**静态 UI 帧**；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
+- H5 审查目录：`docs/design/h5/index.html`（**22** 页**静态 UI 帧**：`index` / `home` / `parent` + 八大板块 + `shared` 合页；反馈合页、日历合页、拼音详情合页，不再拆多状态散页）
   - **H5 禁止点读、进页自动播、点击切题等交互**；音频与手势只做小程序。审查稿用多帧对照状态，不写可玩脚本
 - 原子素材：`docs/design/atoms/`（一图一主体、透明底；去背用 `scripts/chroma_to_png.py`）
 - **素材纪律**（详见 PLAN §2.1.2、`.cursor/rules/image-asset-generation.mdc`）：
@@ -228,7 +227,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
   - **尺寸族**：`--size-mascot: 168`（首页通栏 / 模块卡吉祥物、商城贴纸大图）；`--size-slot: 112`（通栏钮、清除槽、音量档、切题条、大号播放共用）；`--size-header: 88`（导航高、回首页钮、绿胶囊紧凑高）；`--size-tap-compact: 128`（紧凑热区 / 选项高）；`--size-word: 210`（词/字卡高）；`--size-play: 92` / `--size-play-sm: 76`（播放圆钮）
   - **卡面色统一为 `tone-*`**（全部入 token，颜色命名）：变量在 `tokens.css`/`tokens.wxss`，类在 `blocks.css`/`cards.wxss`，每个类 `background` 与 `box-shadow` 均引用变量、无内联渐变。家长区四卡：任务 `tone-matcha`（绿）/ 音量 `tone-sky`（蓝）/ 贴纸 `tone-rose`（玫红）/ 积分 `tone-apricot`（杏橙）。枢纽双卡：英语字母表 `tone-sky` + 单词 `tone-rose`；算术数一数 `tone-rose`（随英语苹果卡同色）+ 算一算 `tone-sand`（燕麦米，随小狗图）
-    - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油，原 `tone-duckling` 并入）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米，.module/算一算 随小狗图）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分；旧 `tone-apple`/`tone-abc` 已删除，动物命名（`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin`）已全部改为颜色名
+    - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油，原 `tone-duckling` 并入）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米，.module/算一算 随小狗图）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分；动物命名（`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin`）已全部改为颜色名
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast
 - 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）

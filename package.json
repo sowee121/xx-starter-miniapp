@@ -2,22 +2,21 @@
   "name": "xx-starter-miniapp",
   "private": true,
   "scripts": {
-    "test": "node scripts/check_miniprogram.js",
-    "prebuild": "npm test",
-    "build": "node scripts/build_package.js",
-    "sync:english": "node scripts/sync_english_runtime.js",
-    "check": "node scripts/check_miniprogram.js",
     "format": "prettier --write \"miniprogram/**/*.{js,wxml,wxss,json}\" \"cloudfunctions/**/*.{js,json}\" \"scripts/**/*.js\" \"docs/design/h5/**/*.{html,css}\"",
-    "test:cloud": "node scripts/test_cloudfunctions.js",
-    "assets:purge": "node scripts/purge_package_media.js",
-    "assets:restore": "node scripts/restore_package_media.js",
+    "sync:english": "node scripts/sync_english_runtime.js",
+
     "assets:sync-images": "python3 scripts/sync_package_images.py",
     "assets:optimize-png": "python3 scripts/optimize_package_png.py",
     "assets:trim-audio": "python3 scripts/trim_package_audio.py",
-    "assets:audio-24k": "python3 scripts/trim_package_audio.py --to-24k",
     "assets:audio-16k": "python3 scripts/trim_package_audio.py --to-16k",
+    "assets:purge": "node scripts/purge_package_media.js",
+    "assets:restore": "node scripts/restore_package_media.js",
     "assets:upload": "npx tcb storage upload ./cloud-assets/static static -e cloudbase-d7gygre2uc80dcd42 --times 3 && npx tcb storage upload ./cloud-assets/subpkg subpkg -e cloudbase-d7gygre2uc80dcd42 --times 3",
     "assets:ci-upload": "node scripts/ci_upload_storage.js",
+
+    "test": "node scripts/check_miniprogram.js",
+    "test:cloud": "node scripts/test_cloudfunctions.js",
+
     "precloud:deploy": "npm run test:cloud",
     "cloud:deploy": "node scripts/deploy_cloud_functions.js",
     "precloud:init": "npm run test:cloud",
@@ -26,6 +25,7 @@
     "cloud:ci-deploy": "node scripts/ci_deploy_cloud_functions.js",
     "precloud:ci-init": "npm run test:cloud",
     "cloud:ci-init": "node scripts/ci_deploy_cloud_functions.js initDb login addStars",
+
     "premp:preview": "npm test",
     "mp:preview": "node scripts/ci_preview.js",
     "premp:upload": "npm test",
@@ -34,7 +34,6 @@
   "devDependencies": {
     "@cloudbase/cli": "^3.7.3",
     "miniprogram-ci": "^2.1.31",
-    "prettier": "^3.9.6",
-    "terser": "^5.36.0"
+    "prettier": "^3.9.6"
   }
 }
