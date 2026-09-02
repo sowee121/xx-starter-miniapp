@@ -34,7 +34,7 @@
       >
     </view>
 
-    <view wx:if="{{softNote}}" class="soft-note block tone-butter">{{softNote}}</view>
+    <feedback-note wx:if="{{softNote}}" text="{{softNote}}" />
   </view>
   <praise-sun
     show="{{feedback.show}}"

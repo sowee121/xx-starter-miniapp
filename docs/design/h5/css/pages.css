@@ -32,7 +32,7 @@
 /* 反馈弹层审查框：每段独立占位，弹层 absolute 铺满 */
 .feedback-frame {
   position: relative;
-  min-height: 900px;
+  min-height: 820px;
   border-radius: var(--radius-card);
   overflow: hidden;
   flex-shrink: 0;
@@ -467,7 +467,7 @@
     var(--shadow-lift);
 }
 
-@keyframes option-wiggle {
+@keyframes option-shake {
   0%,
   100% {
     transform: translateX(0);
@@ -483,11 +483,11 @@
   }
 }
 
-.option.is-wrong {
-  animation: option-wiggle 420ms ease-in-out;
+.option.is-shaking {
+  animation: option-shake 420ms ease-in-out;
 }
-.soft-note.is-wrong {
-  animation: option-wiggle 420ms ease-in-out;
+.soft-note.is-shaking {
+  animation: option-shake 420ms ease-in-out;
 }
 .soft-note {
   display: flex;

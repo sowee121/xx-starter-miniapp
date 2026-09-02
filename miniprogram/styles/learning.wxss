@@ -567,7 +567,7 @@
     var(--shadow-lift);
 }
 
-@keyframes option-wiggle {
+@keyframes option-shake {
   0%,
   100% {
     transform: translateX(0);
@@ -583,25 +583,6 @@
   }
 }
 
-.option.is-wrong,
-.soft-note.is-wrong {
-  animation: option-wiggle 420ms ease-in-out;
-}
-
-.soft-note {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 88rpx;
-  padding: var(--pad-card);
-  text-align: center;
-  font-size: var(--font-note);
-  font-weight: 700;
-  color: var(--note);
-  border-radius: var(--radius-bar);
-  box-sizing: border-box;
-}
-
-.soft-note.tone-matcha {
-  color: var(--ink);
+.option.is-shaking {
+  animation: option-shake 420ms ease-in-out;
 }

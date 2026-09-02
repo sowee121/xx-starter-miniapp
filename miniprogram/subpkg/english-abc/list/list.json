@@ -1,6 +1,7 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
+    "feedback-note": "/components/feedback-note/feedback-note",
     "play-button": "/components/play-button/play-button"
   }
 }

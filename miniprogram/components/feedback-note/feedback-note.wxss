@@ -1,0 +1,48 @@
+.soft-note {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 88rpx;
+  padding: var(--pad-card);
+  text-align: center;
+  font-size: var(--font-note);
+  font-weight: 700;
+  color: var(--note);
+  border-radius: var(--radius-bar);
+  box-sizing: border-box;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* 自包含背景与阴影：组件样式隔离下不依赖页面 tone-* 工具类 */
+.soft-note.tone-butter {
+  background: var(--tone-butter);
+  box-shadow: var(--shadow-tone-butter);
+}
+
+.soft-note.tone-matcha {
+  background: var(--tone-matcha);
+  box-shadow: var(--shadow-tone-matcha);
+  color: var(--ink);
+}
+
+.soft-note.is-shaking {
+  animation: feedback-note-shake 420ms ease-in-out;
+}
+
+@keyframes feedback-note-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10rpx);
+  }
+  50% {
+    transform: translateX(10rpx);
+  }
+  75% {
+    transform: translateX(-6rpx);
+  }
+}

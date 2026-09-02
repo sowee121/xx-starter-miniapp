@@ -306,7 +306,7 @@ def make_math():
             if picked is not None and choice == picked:
                 mods.append("is-picked")
                 if wrong:
-                    mods.append("is-wrong")
+                    mods.append("is-shaking")
             if correct is not None and choice == correct:
                 mods.append("is-correct")
             cls = " ".join(["option", "block", tone] + mods)
