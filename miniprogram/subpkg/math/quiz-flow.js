@@ -43,7 +43,8 @@ function handleCorrect(page, { reason, ref, taskId }) {
     result.awardPromise.then(() => refreshStars(page)).catch(() => {})
   }
   if (result.firstAward) {
-    feedback.showTaskAward(page, result)
+    // 任务奖励层等答对提示音播完（与 2s 切下一题时机一致）再弹
+    feedback.showTaskAward(page, result, ADVANCE_DELAY)
     // 这里照常展示，弹窗关闭后 goNext 会清软提示
     feedback.showInline(page, INLINE.answerCorrect)
     return

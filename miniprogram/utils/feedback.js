@@ -55,16 +55,23 @@ function showLayer(page, payload) {
   }
 }
 
-/** L1：单条每日任务首次发星 */
-function showTaskAward(page, result) {
+/** 任务奖励层延迟弹出时长（ms）：给幼儿留出完成动作后的自然停顿，避免弹层来得太急 */
+const SHOW_DELAY = 500
+
+/** L1：单条每日任务首次发星；delay 可覆盖默认延时（如算术题等答对提示音播完再弹） */
+function showTaskAward(page, result, delay = SHOW_DELAY) {
   if (!page || !result || !result.firstAward) return
   const layer = result.taskId === 'calendar' ? LAYERS.checkinDone : LAYERS.taskDone
-  showLayer(page, {
-    variant: layer.variant,
-    title: layer.title,
-    desc: typeof layer.desc === 'function' ? layer.desc(result.taskTitle || '') : layer.desc,
-    action: layer.action,
-  })
+  clearTimeout(page._taskAwardTimer)
+  page._taskAwardTimer = setTimeout(() => {
+    page._taskAwardTimer = null
+    showLayer(page, {
+      variant: layer.variant,
+      title: layer.title,
+      desc: typeof layer.desc === 'function' ? layer.desc(result.taskTitle || '') : layer.desc,
+      action: layer.action,
+    })
+  }, delay)
 }
 
 /** 关闭表扬层 */
