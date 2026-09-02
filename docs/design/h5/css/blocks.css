@@ -428,6 +428,7 @@ a.block:active,
   text-align: center;
   background: var(--tone-cream);
   box-shadow: var(--shadow-clay-praise);
+  transition: transform 460ms ease-in-out, opacity 460ms ease-in-out; /* 出场原路翻回 */
 }
 .praise-sun__card.is-soft-fail {
   background: var(--tone-soft-fail);
@@ -486,6 +487,7 @@ a.block:active,
   justify-content: center;
   width: var(--size-chip-wide);
   height: var(--size-chip-lg);
+  border: 0;
   border-radius: var(--radius-pill);
   background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
@@ -514,3 +516,78 @@ a.block:active,
   object-fit: contain;
   pointer-events: none;
 }
+
+/* 反馈弹层动效演示（仅 shared/feedback.html 顶部演示区；keyframes 对齐小程序 praise-sun.wxss） */
+.feedback-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-grid);
+}
+.feedback-demo__bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-row);
+}
+.feedback-demo__stage {
+  position: relative;
+  min-height: 820px;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: rgba(65, 87, 75, 0.04);
+}
+.fb-demo-layer {
+  opacity: 0;
+  pointer-events: none;
+  perspective: 800px; /* 与小程序一致：卡片 3D 立起纵深 */
+  transition: opacity 460ms ease-in-out; /* 出场淡出走 transition */
+}
+.fb-demo-layer.is-show {
+  opacity: 1;
+  pointer-events: auto;
+  /* 入场动画不留 fill：播完回落到静态显示态，出场由纯静态切换触发 transition */
+  animation: fb-demo-sun-in 320ms ease-out;
+}
+.fb-demo-layer.is-show .praise-sun__card {
+  transform-origin: center 50%;
+  /* opacity 与 transform 拆开：fade 320ms 快速落满（与遮罩同步），rise 单区间缓落翻正。
+     不去中间帧就不会产生区间速度跳变（前段减速近停→后段猛启动），翻转全程连续丝滑 */
+  animation:
+    fb-demo-card-fade 320ms ease-out,
+    fb-demo-card-rise 800ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* 出场走「终态类 + transition」：与小程序 praise-sun 一致，不依赖动画重播 */
+.fb-demo-layer.is-closing {
+  animation: none;
+  opacity: 0;
+  pointer-events: none;
+}
+.fb-demo-layer.is-closing .praise-sun__card {
+  animation: none; /* 摘掉入场动画，让 transform/opacity 交给 transition */
+  opacity: 0;
+  transform: rotateX(88deg) translateY(70px) scale(0.92); /* 原路翻回垂直成缝 */
+}
+@keyframes fb-demo-sun-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fb-demo-card-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fb-demo-card-rise {
+  0% {
+    transform: rotateX(88deg) translateY(70px) scale(0.92); /* 垂直屏幕成一条缝 */
+  }
+  100% {
+    transform: rotateX(0) translateY(0) scale(1); /* 单区间缓落，速度连续不卡顿 */
+  }
+}
+

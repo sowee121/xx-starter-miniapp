@@ -1,8 +1,8 @@
 const { mediaUrl } = require('../config/media')
 const { LAYERS, INLINE } = require('../content/feedback')
 
-/** 浮层进出动画时长（ms），需与 feedback.wxss 的 transition 保持一致 */
-const LAYER_TRANSITION = 250
+/** 浮层进出动画时长（ms），需与 praise-sun.wxss 出场动画保持一致 */
+const LAYER_TRANSITION = 480
 
 /** 规范化行内提示结构 */
 function resolveInline(input) {
@@ -55,8 +55,12 @@ function showLayer(page, payload) {
   }
 }
 
-/** 任务奖励层延迟弹出时长（ms）：给幼儿留出完成动作后的自然停顿，避免弹层来得太急 */
-const SHOW_DELAY = 500
+/**
+ * 任务奖励层延迟弹出时长（ms）：只保留「完成瞬间的一拍」停顿。
+ * 弹层入场动画（遮罩 320ms + 卡片 800ms 柔和立起）已自带渐入缓冲，无需再靠前置延时挡"突然弹出"；
+ * 过长会让完成→夸奖全链路拖到 1.3s+，宝宝期待感断档。
+ */
+const SHOW_DELAY = 300
 
 /** L1：单条每日任务首次发星；delay 可覆盖默认延时（如算术题等答对提示音播完再弹） */
 function showTaskAward(page, result, delay = SHOW_DELAY) {

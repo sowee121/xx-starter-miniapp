@@ -15,6 +15,7 @@ Component({
   },
   data: {
     visible: false,
+    closingState: '', // 出场类；出场过渡走 CSS transition，无需动画重播
     starIcon: require('../../config/media').mediaUrl('/static/shared/big-star.png'),
     cloudIcon: require('../../config/media').mediaUrl('/static/shared/cloud.png'),
     grassIcon: require('../../config/media').mediaUrl('/static/shared/grass-tuft.png'),
@@ -24,6 +25,9 @@ Component({
     /** 显隐变化 */
     show(val) {
       this.setData({ visible: !!val })
+    },
+    closing(val) {
+      this.setData({ closingState: val ? 'is-closing' : '' })
     },
     'variant, action'(variant, action) {
       const byVariant = {

@@ -10,8 +10,9 @@
   justify-content: center;
   letter-spacing: var(--letter-btn); /* 全站字距；弹层样式隔离需自写 */
   background: rgba(65, 87, 75, 0.22);
-  opacity: 0;
-  animation: praise-sun-in 250ms ease-out forwards;
+  perspective: 800rpx; /* 透视越近，rotateX 立起的纵深越夸张 */
+  animation: praise-sun-in 320ms ease-out; /* 不留 fill：播完回落静态显示态，出场走纯静态 transition */
+  transition: opacity 460ms ease-in-out; /* 出场淡出走 transition，避免动画替换不重播 */
 }
 
 .praise-sun__card {
@@ -30,17 +31,27 @@
   text-align: center;
   background: var(--tone-cream);
   box-shadow: var(--shadow-clay-praise);
-  opacity: 0;
-  transform: translateY(24rpx) scale(0.96);
-  animation: praise-card-in 250ms ease-out forwards;
+  /* 基础态=显示态：出场收起由 transition 从显示态过渡，不依赖动画 fill 状态 */
+  transform-origin: center 50%; /* 翻转轴在卡片高度一半，上下对称翻出 */
+  /* opacity 与 transform 拆开：fade 320ms 快速落满，rise 单区间缓落翻正。
+     不去中间帧就不会产生区间速度跳变（前段减速近停→后段猛启动），翻转全程连续丝滑 */
+  animation:
+    praise-card-fade 320ms ease-out,
+    praise-card-rise 800ms cubic-bezier(0.4, 0, 0.2, 1); /* 不留 fill：播完回落静态显示态 */
+  transition: transform 460ms ease-in-out, opacity 460ms ease-in-out; /* 出场原路翻回走 transition */
 }
 
+/* 出场走「终态类 + transition」：解除入场动画 fill 后改到收起终值，
+   由基础 transition 过渡，不依赖动画替换重播，真机表现稳定 */
 .praise-sun.is-closing {
-  animation: praise-sun-out 250ms ease-in forwards;
+  animation: none;
+  opacity: 0;
 }
 
 .praise-sun.is-closing .praise-sun__card {
-  animation: praise-card-out 250ms ease-in forwards;
+  animation: none; /* 摘掉入场动画，让 transform/opacity 交给 transition */
+  opacity: 0;
+  transform: rotateX(88deg) translateY(70rpx) scale(0.92); /* 原路翻回垂直成缝 */
 }
 
 .praise-sun__card.is-soft-fail {
@@ -137,27 +148,28 @@
 }
 
 @keyframes praise-sun-in {
-  to {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
   }
 }
 
-@keyframes praise-card-in {
-  to {
+@keyframes praise-card-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+  }
+}
+@keyframes praise-card-rise {
+  0% {
+    transform: rotateX(88deg) translateY(70rpx) scale(0.92); /* 垂直屏幕成一条缝 */
+  }
+  100% {
+    transform: rotateX(0) translateY(0) scale(1); /* 单区间缓落，速度连续不卡顿 */
   }
 }
 
-@keyframes praise-sun-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes praise-card-out {
-  to {
-    opacity: 0;
-    transform: translateY(16rpx) scale(0.97);
-  }
-}

@@ -1,4 +1,4 @@
-<view wx:if="{{visible}}" class="praise-sun {{closing ? 'is-closing' : ''}}" bindtap="onContinue">
+<view wx:if="{{visible}}" class="praise-sun {{closingState}}" bindtap="onContinue">
   <view
     class="praise-sun__card {{variant === 'softFail' ? 'is-soft-fail' : ''}} {{variant === 'exchange' ? 'is-exchange' : ''}}"
     catchtap="onCardTap"
