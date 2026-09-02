@@ -190,7 +190,6 @@ page {
   --font-body: 34rpx; /* 正文默认 */
   --font-title: 36rpx; /* 页标题、欢迎语副级 */
   --font-card: 38rpx; /* 卡片标题、长条按钮 */
-  --font-hello: 40rpx; /* 首页欢迎主句 */
   --font-note: 42rpx; /* 软提示、伙伴气泡 */
   --font-line: 44rpx; /* 诗行、组词、例句 */
   --font-inner: 46rpx; /* 详情内页大标题 */
@@ -201,7 +200,6 @@ page {
     'Yuanti SC', 'Yuanti TC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif; /* 有圆体用圆体，否则苹方 */
 
   /* —— 间距 —— */
-  --gap-tight: 8rpx; /* 任务行内文案 */
   --gap-snug: 10rpx; /* 欢迎卡内、音量轨内边距 */
   --gap-text: 12rpx; /* 标题与说明 */
   --gap-row: 16rpx; /* 行内：文案与播放钮 */
@@ -222,8 +220,7 @@ page {
   --col-2: calc((100% - var(--gap-grid)) / 2); /* 首页两列 */
   --col-3: calc((100% - var(--gap-grid) * 2) / 3); /* 字卡/贴纸三列 */
 
-  --opacity-disabled: 0.68; /* 禁用、未完成弱化 */
-  --opacity-soft: 0.86; /* 弹层关闭钮等轻弱化 */
+  --opacity-disabled: 0.86; /* 禁用、未完成弱化 */
 
   background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 58%, var(--board) 100%);
   color: var(--ink);

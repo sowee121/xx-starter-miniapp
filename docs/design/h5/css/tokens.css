@@ -185,7 +185,6 @@
   --font-body: 34px; /* 正文默认 */
   --font-title: 36px; /* 页标题、欢迎语副级 */
   --font-card: 38px; /* 卡片标题、长条按钮 */
-  --font-hello: 40px; /* 首页欢迎主句 */
   --font-note: 42px; /* 软提示、伙伴气泡 */
   --font-line: 44px; /* 诗行、组词、例句 */
   --font-inner: 46px; /* 详情内页大标题 */
@@ -196,7 +195,6 @@
     'Yuanti SC', 'Yuanti TC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif; /* 有圆体用圆体，否则苹方 */
 
   /* —— 间距 —— */
-  --gap-tight: 8px; /* 任务行内文案 */
   --gap-snug: 10px; /* 欢迎卡内、音量轨内边距 */
   --gap-text: 12px; /* 标题与说明 */
   --gap-row: 16px; /* 行内：文案与播放钮 */
@@ -217,6 +215,5 @@
   --col-2: calc((100% - var(--gap-grid)) / 2); /* 首页两列 */
   --col-3: calc((100% - var(--gap-grid) * 2) / 3); /* 字卡/贴纸三列 */
 
-  --opacity-disabled: 0.68; /* 禁用、未完成弱化 */
-  --opacity-soft: 0.86; /* 弹层关闭钮等轻弱化 */
+  --opacity-disabled: 0.86; /* 禁用、未完成弱化 */
 }
