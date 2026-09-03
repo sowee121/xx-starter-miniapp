@@ -1,41 +1,44 @@
-/* 拼音石子径：纵向侧边 is-step 箭头导航，本组件自包含，不依赖全局公共样式 */
+/* 拼音韵母石子径：复用通用石子径视觉，当前项高亮 */
 .trail-nav {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  gap: var(--gap-block);
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-trail);
   box-sizing: border-box;
-}
-
-.trail-nav.is-step {
-  justify-content: stretch;
 }
 
 .trail-nav__item {
   position: relative;
   display: grid;
   place-items: center;
-  box-sizing: border-box;
-}
-
-.trail-nav.is-step .trail-nav__item {
-  flex: 1;
-  width: auto;
-  min-width: 0;
-  height: var(--size-slot);
+  width: var(--size-trail);
+  height: var(--size-trail);
   border-radius: var(--radius-pill);
-  /* 跟组词 / 诗行 / 例句同一套奶油黏土面 */
-  background: var(--tone-cream);
-  box-shadow: var(--shadow-clay);
+  border: 0;
+  background: var(--tone-trail);
+  box-shadow: var(--shadow-trail);
+  font-size: var(--font-trail);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  text-decoration: none;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
-.trail-nav__arrow {
-  width: var(--size-arrow);
-  height: var(--size-arrow);
+/* 墨水区相对字盒偏下：只上移字形，不挪动石子圆面 */
+.trail-nav__glyph {
   display: block;
+  line-height: 1;
+  transform: translateY(-0.08em);
 }
 
-.trail-nav__arrow.is-flip {
-  transform: scaleX(-1);
+.trail-nav__item.is-current {
+  background: var(--tone-ok);
+  box-shadow: var(--shadow-trail-current);
+}
+
+.trail-nav__item.is-disabled {
+  opacity: 0.45;
 }
