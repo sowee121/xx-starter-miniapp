@@ -1,0 +1,18 @@
+<view class="sticker-card block tone-{{tone}} {{mode === 'album' ? 'is-album' : ''}}">
+  <image class="sticker-card__image" src="{{image}}" mode="aspectFit" lazy-load />
+  <view class="sticker-card__name">{{name}}</view>
+  <block wx:if="{{mode === 'shop'}}">
+    <view class="sticker-card__price">
+      <view>{{cost}}</view>
+      <image src="/static/home/star.png" mode="aspectFit" />
+    </view>
+    <view
+      class="chip is-compact {{affordable ? '' : 'is-short'}}"
+      catchtap="onExchange"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+      >{{affordable ? '兑换' : '星星不足'}}</view
+    >
+  </block>
+</view>

@@ -1,0 +1,70 @@
+:host {
+  /* 宿主是 sticker-grid 的 flex 子项，承担三列等宽列宽 */
+  display: block;
+  width: var(--col-3);
+}
+
+.sticker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--gap-text);
+  /* 列宽由宿主承担，本卡根填满宿主 */
+  width: 100%;
+  min-height: 312rpx;
+  padding: var(--pad-card-sm);
+  border-radius: var(--radius-tile);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* 已拥有贴纸：加深原阴影，不加描边（原全局 cards.wxss） */
+.sticker-card.block.is-owned {
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2),
+    var(--shadow-owned);
+}
+
+.sticker-card.is-album {
+  min-height: 0;
+}
+
+.sticker-card__image {
+  width: var(--size-mascot);
+  height: var(--size-mascot);
+  align-self: center;
+  border-radius: var(--radius-thumb);
+}
+
+.sticker-card__name {
+  font-size: var(--font-nav);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.sticker-card__price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-snug);
+  min-height: var(--size-star);
+  color: var(--note);
+  font-size: var(--font-nav);
+  font-weight: 700;
+}
+
+.sticker-card .chip.is-compact {
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+}
+
+.sticker-card__price image {
+  width: var(--size-star);
+  height: var(--size-star);
+}

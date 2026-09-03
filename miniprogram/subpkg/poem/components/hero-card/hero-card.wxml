@@ -1,0 +1,18 @@
+<view
+  class="hero-card block tone-{{tone}} {{cls}}"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+  bindtap="onTap"
+>
+  <image class="hero-card__image" src="{{image}}" mode="widthFix" lazy-load />
+  <view class="hero-card__bar">
+    <view class="hero-card__heading">
+      <view class="hero-card__title">{{title}}</view>
+      <view class="hero-card__sub">{{author}}</view>
+    </view>
+    <view class="hero-card__play">
+      <play-button size="lg" playing="{{playing}}" passive="{{true}}" />
+    </view>
+  </view>
+</view>

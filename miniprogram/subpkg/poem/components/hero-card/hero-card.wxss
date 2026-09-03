@@ -1,0 +1,68 @@
+/* 整诗封面主卡：由 styles/learn.wxss 迁入并按组件更名，数值不变 */
+
+.hero-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--gap-row);
+  padding: var(--pad-card);
+  text-align: left;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.hero-card__bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--pad-card);
+  width: 100%;
+}
+
+.hero-card__heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
+  width: 100%;
+}
+
+.hero-card__title {
+  max-width: 100%;
+  font-size: var(--font-hero);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-card__play {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.hero-card__sub {
+  max-width: 100%;
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.3;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-card__image {
+  display: block;
+  align-self: stretch;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-thumb);
+}
