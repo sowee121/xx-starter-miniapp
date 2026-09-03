@@ -1,4 +1,4 @@
-<view class="sticker-card block tone-{{tone}} {{mode === 'album' ? 'is-album' : ''}}">
+<view class="sticker-card motion-tap block tone-{{tone}} {{mode === 'album' ? 'is-album' : ''}}">
   <image class="sticker-card__image" src="{{image}}" mode="aspectFit" lazy-load />
   <view class="sticker-card__name">{{name}}</view>
   <block wx:if="{{mode === 'shop'}}">
@@ -7,7 +7,7 @@
       <image src="/static/home/star.png" mode="aspectFit" />
     </view>
     <view
-      class="chip is-compact {{affordable ? '' : 'is-short'}}"
+      class="chip motion-tap is-compact {{affordable ? '' : 'is-short'}}"
       catchtap="onExchange"
       hover-class="is-pressed"
       hover-start-time="0"

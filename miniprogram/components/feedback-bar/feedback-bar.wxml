@@ -1,3 +1,5 @@
-<view wx:if="{{text}}" class="feedback-bar block {{toneClass}} {{shaking ? 'is-shaking' : ''}}"
+<view
+  wx:if="{{text}}"
+  class="feedback-bar motion-tap block {{toneClass}} {{shaking ? 'is-shaking' : ''}}"
   >{{text}}</view
 >

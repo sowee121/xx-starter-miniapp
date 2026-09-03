@@ -1,5 +1,5 @@
 <view
-  class="block-btn custom-class {{disabled ? 'is-disabled' : ''}}"
+  class="block-btn motion-tap custom-class {{disabled ? 'is-disabled' : ''}}"
   catchtap="onTap"
   hover-class="is-pressed"
   hover-start-time="0"

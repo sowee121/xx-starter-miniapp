@@ -285,7 +285,7 @@ function checkNoNegativeMargin() {
 /** 纵向间距只能来自容器 gap：积木本身不得带 margin */
 function checkStackSpacingUsesGap() {
   const targets = [
-    { file: path.join(MP, 'styles/cards.wxss'), selector: '.block' },
+    { file: path.join(MP, 'styles/blocks.wxss'), selector: '.block' },
     { file: path.join(ROOT, 'docs/design/h5/css/blocks.css'), selector: '.block' },
   ]
   for (const { file, selector } of targets) {
@@ -319,7 +319,7 @@ function checkContentUsesFullShellWidth() {
   const targets = [
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.word-grid' },
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.sticker-grid' },
-    { file: path.join(MP, 'styles/learn.wxss'), selector: '.word-grid' },
+    { file: path.join(MP, 'styles/layout.wxss'), selector: '.word-grid' },
     { file: path.join(MP, 'subpkg/shop/shop.wxss'), selector: '.sticker-grid' },
   ]
 

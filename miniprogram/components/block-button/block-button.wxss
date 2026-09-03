@@ -24,10 +24,6 @@
   gap: var(--gap-inner);
 }
 
-.block-btn:active {
-  transform: scale(0.98);
-}
-
 .block-btn__text {
   color: #ffffff;
   font-size: var(--font-card);

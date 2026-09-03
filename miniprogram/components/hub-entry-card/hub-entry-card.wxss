@@ -21,10 +21,6 @@
   box-sizing: border-box;
 }
 
-.hub-entry-card:active {
-  transform: scale(0.985);
-}
-
 /* 色面：取值对齐全局 tone-sky/rose/sand；新增色调需在此补充 */
 .hub-entry-card--sky {
   background: var(--tone-sky);

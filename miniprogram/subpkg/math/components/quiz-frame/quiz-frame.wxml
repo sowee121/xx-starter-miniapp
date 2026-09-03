@@ -25,7 +25,7 @@
       <view
         wx:for="{{decoratedChoices}}"
         wx:key="key"
-        class="option block tone-{{item.tone}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-shaking' : ''}}"
+        class="option motion-tap block tone-{{item.tone}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-shaking' : ''}}"
         data-value="{{item.value}}"
         bindtap="emitChoose"
         hover-class="is-pressed"

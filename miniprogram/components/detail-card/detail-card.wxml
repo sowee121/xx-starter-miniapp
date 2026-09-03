@@ -1,5 +1,5 @@
 <view
-  class="detail-card block tone-{{tone}} {{cls}}"
+  class="detail-card motion-tap block tone-{{tone}} {{cls}}"
   hover-class="is-pressed"
   hover-start-time="0"
   hover-stay-time="80"

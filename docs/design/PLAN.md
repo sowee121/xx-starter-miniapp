@@ -63,7 +63,7 @@
 | 鼓边 | **对角 inset**：上左高光 + 下右压暗；禁止只写 `inset 0 ±N` 的「扁按钮」阴影冒充鹅卵石 | `--shadow-clay-hi` / `--shadow-clay-lo` / `--shadow-clay`；各 `tone-*` 可换色压暗 |
 | 外托 | 多层柔外阴影托起厚度 | `--shadow`；石子径用 `--shadow-trail` |
 | 选中环 | 石子径当前项：与答题答对相同的叶绿面 + 6px 绿环鼓边（无同心环） | `--shadow-trail-current`、`--tone-ok` / `--ring-ok` |
-| 切题导航 | 通用组件 `trail-nav` / `trail-nav__item` | `blocks.css` ↔ `cards.wxss` |
+| 切题导航 | 通用组件 `trail-nav` / `trail-nav__item` | `blocks.css` ↔ `blocks.wxss` |
 | 例外（可正圆 / 扁边） | chip CTA、星条、气泡、音量档、导航回首页圆钮（**无描边**，仅鼓边阴影）、播放钮（绿底 + 小三角 + `--shadow-chip`） | `--radius-pill`（`999`）、`.play-btn`、`.nav-home` |
 
 新增「面」级容器：优先 `block` + `tone-*`，或复用 `--shadow-clay` / `--shadow-trail`；禁止另起一套扁平阴影。

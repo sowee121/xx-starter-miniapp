@@ -18,15 +18,14 @@
 miniprogram/
 ├── app.js / app.json / app.wxss   # 启动链、分包与预下载注册、全局样式
 ├── pages/
-│   ├── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
-│   └── parent/                    # 家长区：音量三档 + 长按 3 秒清除
+│   └── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
 ├── components/                    # 13 个主包通用组件
 ├── utils/                         # 12 个通用模块（云端、发星、点读、进度、热力…）
 ├── content/                       # 静态内容配置：mascots / modules / feedback
-├── styles/                        # tokens / reset / layout / cards / learn
+├── styles/                        # tokens / reset / layout / blocks
 ├── config/                        # cloud.js（envId）、media.js（USE_CLOUD）
 ├── static/                        # 主包共享图与音频（shared/ icons/ home/）
-└── subpkg/                        # 17 个分包，媒体随包；分包独有组件放各自 components/
+└── subpkg/                        # 18 个分包（含家长区），媒体随包；分包独有组件放各自 components/
 ```
 
 ---
@@ -47,6 +46,7 @@ miniprogram/
 | `calendar` | `index` | 月历热力（`utils/activity.js` 供数） |
 | `task` | `list` | 每日任务（`utils/daily-tasks.js`） |
 | `shop` | `shop` | 积分商城（`subpkg/shop/content/stickers.js`，24 款） |
+| `parent` | `parent/parent` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
 
 > 改英语分类页时只改 `subpkg/english/lib/*` 与 `subpkg/english/detail/detail.{wxml,json}`，`npm test` 会自动同步到 8 个分类包；直接改分类包会被检查拦回。
 
@@ -81,7 +81,7 @@ miniprogram/
 
 ## 组件索引
 
-组件按落位分三类；统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/cards.wxss`。
+组件按落位分三类；统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/blocks.wxss`。
 
 ### 主包 `components/`（13）
 
@@ -152,9 +152,8 @@ miniprogram/
 | --- | --- |
 | `styles/tokens.wxss` | 设计变量（色 / 间距 / 圆角 / 字号），1px = 1rpx 与 H5 `docs/design/h5/css/tokens.css` 对齐 |
 | `styles/reset.wxss` | 基础重置；正文字号最小 28rpx |
-| `styles/layout.wxss` | 页面骨架（shell / 网格 / 安全区） |
-| `styles/cards.wxss` | `tone-*` 卡面色（与 H5 15 色同源，按颜色命名） |
-| `styles/learn.wxss` | 学习页共用样式（词卡网格、点读区、选项） |
+| `styles/layout.wxss` | 布局原子：只管"怎么排"（页面栈 / 词卡网格 / 列表分组），不含颜色与阴影 |
+| `styles/blocks.wxss` | 积木与控件：`.block` 形体、`tone-*` 卡面色（与 H5 15 色同源）、`.chip`、交互原子类（`motion-tap` / `is-pressed` / `is-disabled`）、设置卡头与场景背景 |
 
 ---
 

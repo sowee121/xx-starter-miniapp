@@ -1,5 +1,4 @@
 @import 'styles/reset.wxss';
 @import 'styles/tokens.wxss';
 @import 'styles/layout.wxss';
-@import 'styles/cards.wxss';
-@import 'styles/learn.wxss';
+@import 'styles/blocks.wxss';

@@ -1,5 +1,5 @@
 <view
-  class="home-module-card {{cardTone}}"
+  class="home-module-card motion-tap {{cardTone}}"
   bindtap="onTap"
   hover-class="is-pressed"
   hover-start-time="0"

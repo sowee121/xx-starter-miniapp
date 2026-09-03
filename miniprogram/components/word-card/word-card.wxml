@@ -1,5 +1,5 @@
 <view
-  class="word-card block {{cls}}"
+  class="word-card motion-tap block {{cls}}"
   hover-class="is-pressed"
   hover-start-time="0"
   hover-stay-time="80"

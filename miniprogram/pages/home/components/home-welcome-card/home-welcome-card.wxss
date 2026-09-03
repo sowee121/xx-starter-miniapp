@@ -13,10 +13,6 @@
   flex-shrink: 0;
 }
 
-.home-welcome-card:active {
-  transform: scale(0.985);
-}
-
 .home-welcome-card__body {
   display: flex;
   flex-direction: column;

@@ -12,7 +12,7 @@
       <view class="feedback-layer__desc">{{desc}}</view>
     </view>
     <view
-      class="feedback-layer__continue"
+      class="feedback-layer__continue motion-tap"
       catchtap="onContinue"
       hover-class="is-pressed"
       hover-start-time="0"

@@ -47,8 +47,10 @@ a.block:active,
 .play-btn:active,
 .custom-header__home:active,
 .feedback-layer__continue:active,
-.volume-option:active {
-  transform: scale(0.985);
+.volume-option:active,
+.chip:active,
+.block-btn:active {
+  transform: scale(0.98);
 }
 
 .chip.is-owned:active,
@@ -242,9 +244,8 @@ a.block:active,
   box-shadow: var(--shadow-trail-current);
 }
 
-
 .trail-nav__item:active {
-  transform: scale(0.985);
+  transform: scale(0.98);
 }
 
 .trail-nav__item.is-disabled:active {
@@ -295,16 +296,9 @@ a.block:active,
 .chip.is-short {
   opacity: var(--opacity-disabled);
 }
-.chip:active {
-  transform: scale(0.97);
-}
 .chip.is-owned,
 .chip.is-short {
   pointer-events: none;
-}
-.chip.is-owned:active,
-.chip.is-short:active {
-  transform: none;
 }
 .sticker-card.block.is-owned {
   box-shadow:
@@ -318,11 +312,7 @@ a.block:active,
   font-size: var(--font-card);
   gap: var(--gap-inner);
 }
-.block-btn:active {
-  transform: scale(0.98);
-}
-.block-btn.is-disabled,
-.block-btn.is-disabled:active {
+.block-btn.is-disabled {
   transform: none;
 }
 

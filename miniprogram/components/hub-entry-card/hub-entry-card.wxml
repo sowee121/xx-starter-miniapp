@@ -1,5 +1,5 @@
 <view
-  class="hub-entry-card hub-entry-card--{{tone}}"
+  class="hub-entry-card motion-tap hub-entry-card--{{tone}}"
   bindtap="onTap"
   hover-class="is-pressed"
   hover-start-time="0"

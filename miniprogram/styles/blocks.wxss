@@ -1,4 +1,5 @@
-/* H5 blocks.css · 积木卡与基础控件（仅保留主包相关 + 公共样式） */
+/* 积木与控件：只管"长什么样 + 怎么响应"（积木形体、色调皮肤、控件、交互原子类）
+   排列与间距一律放 layout.wxss */
 
 /* 纵向积木间距统一由容器 gap 提供，积木自身不带 margin */
 .block {
@@ -9,46 +10,24 @@
   flex-shrink: 0;
 }
 
-.block,
-.play-btn-hit,
-.play-btn,
-.chip,
-.block-btn,
-.custom-header__home,
-.feedback-layer__continue,
-.volume-option,
-.home-welcome-card,
-.home-feature-card,
-.home-feature-card__socket,
-.home-module-card,
-.hub-entry-card,
-.word-row,
-.task-row,
-.task-row__tick,
-.clear-groove,
-.option,
-.trail-nav__item {
+/* 过渡原子类：任何需要过渡的元素都在 wxml 加 class="motion-tap"（积木卡同样要加）
+   注意必须挂在常驻 class 上 —— hover-class 只在按下期间存在，
+   若把 transition 写进 .is-pressed，松手时会瞬间跳回、没有回弹 */
+.motion-tap {
   transition: var(--motion-tap);
 }
 
-/* 仅 hover-class / 可点控件按下；静态积木不要 .block:active */
+/* 按下态：元素在 wxml 加 hover-class="is-pressed" 即可启用，新增可按压组件无需改动本文件
+   （play-btn 的 hover-class 在外层 .play-btn-hit 上，故用后代选择器驱动内部圆钮） */
 .is-pressed,
-.play-btn-hit:active .play-btn,
-.play-btn:active,
-.custom-header__home:active,
-.feedback-layer__continue:active,
-.volume-option:active,
-.trail-nav__item:active {
-  transform: scale(0.985);
+.play-btn-hit.is-pressed .play-btn {
+  transform: scale(0.98);
 }
 
-.chip.is-owned:active,
+/* 禁用 / 已拥有态不缩放（防御：程序化加类时也不触发） */
 .chip.is-owned.is-pressed,
-.chip.is-short:active,
 .chip.is-short.is-pressed,
-.block-btn.is-disabled:active,
 .block-btn.is-disabled.is-pressed,
-.trail-nav__item.is-disabled:active,
 .trail-nav__item.is-disabled.is-pressed {
   transform: none;
 }
@@ -177,34 +156,113 @@
   opacity: var(--opacity-disabled);
 }
 
-.chip:active {
-  transform: scale(0.97);
-}
-
 .chip.is-owned,
 .chip.is-short {
   pointer-events: none;
 }
 
-.chip.is-owned:active,
-.chip.is-short:active {
-  transform: none;
-}
-
 /* 圆钮视觉在 components/play-button；此处只保留按下过渡 */
 
-/* 列表分组：标题与同类卡片用网格间距 30 */
-.section-title {
-  margin: 0;
-  font-size: var(--font-title);
-  font-weight: 700;
-  color: var(--muted);
-}
-
-.section {
+/* 设置卡头部：clear-card / volume-card 共用（字号与行高由 parent.wxss 补充） */
+.setting-head__body {
   display: flex;
   flex-direction: column;
-  gap: var(--gap-grid);
+  justify-content: center;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
 }
 
+.setting-head__hint {
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.3;
+}
 
+.setting-head__title {
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+/* 底部黏土草地：只铺原图裁出的丘坡，天空仍用页面渐变 */
+.scene {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scene__meadow {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--size-meadow);
+  display: block;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 14%,
+    rgba(0, 0, 0, 0.62) 32%,
+    #000 52%,
+    #000 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.18) 14%,
+    rgba(0, 0, 0, 0.62) 32%,
+    #000 52%,
+    #000 100%
+  );
+}
+
+.scene__blend {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--size-meadow);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    var(--board) 0%,
+    rgba(233, 242, 220, 0.78) 16%,
+    rgba(233, 242, 220, 0.28) 38%,
+    rgba(233, 242, 220, 0) 58%
+  );
+}
+
+.scene__dusk {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: var(--size-meadow);
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(94, 110, 145, 0.08) 0%, rgba(58, 72, 112, 0.52) 100%);
+}
+
+.app-shell.is-night .scene__meadow {
+  filter: brightness(0.7) saturate(0.55);
+}
+
+.app-shell.is-night .scene__blend {
+  background: linear-gradient(
+    180deg,
+    var(--night-top) 0%,
+    rgba(94, 110, 145, 0.28) 40%,
+    rgba(94, 110, 145, 0.42) 100%
+  );
+}
+
+.app-shell.is-night .scene__dusk {
+  opacity: 0;
+}

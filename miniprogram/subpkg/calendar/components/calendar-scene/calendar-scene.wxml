@@ -1,4 +1,6 @@
-<view class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}">
+<view
+  class="calendar-scene motion-tap block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}"
+>
   <view class="calendar-scene__sky">
     <image class="calendar-scene__sky-image" src="{{skyIcon}}" mode="aspectFit" />
   </view>

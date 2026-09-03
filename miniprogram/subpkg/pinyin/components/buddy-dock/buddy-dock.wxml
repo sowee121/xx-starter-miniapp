@@ -1,4 +1,4 @@
-<view class="buddy-dock block tone-{{tone}}">
+<view class="buddy-dock motion-tap block tone-{{tone}}">
   <image class="buddy-dock__mascot" src="{{icon}}" mode="aspectFit" lazy-load />
   <view class="buddy-dock__bubble">
     <view class="buddy-dock__bubble-tail" aria-hidden="true"></view>

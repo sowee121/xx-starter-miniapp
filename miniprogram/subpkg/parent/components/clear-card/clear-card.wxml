@@ -1,4 +1,4 @@
-<view class="clear-card setting-block clear-block block {{tone}} custom-class">
+<view class="clear-card motion-tap setting-block clear-block block {{tone}} custom-class">
   <view class="setting-head">
     <view wx:if="{{iconClass}}" class="clear-icon-slot {{iconClass}}">
       <image class="clear-icon" src="{{icon}}" mode="aspectFit" lazy-load />
@@ -10,7 +10,7 @@
     </view>
   </view>
   <view
-    class="clear-groove {{groove}} {{holding ? 'is-holding' : ''}}"
+    class="clear-groove motion-tap {{groove}} {{holding ? 'is-holding' : ''}}"
     bindtouchstart="onHoldStart"
     bindtouchend="onHoldEnd"
     bindtouchcancel="onHoldEnd"

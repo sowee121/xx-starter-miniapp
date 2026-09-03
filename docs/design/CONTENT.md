@@ -226,7 +226,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
   - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；`--radius-cell: 16` 热力小方块；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
   - **尺寸族**：`--size-mascot: 168`（首页通栏 / 模块卡吉祥物、商城贴纸大图）；`--size-slot: 112`（通栏钮、清除槽、音量档、切题条、大号播放共用）；`--size-header: 88`（导航高、回首页钮、绿胶囊紧凑高）；`--size-tap-compact: 128`（紧凑热区 / 选项高）；`--size-word: 210`（词/字卡高）；`--size-play: 92` / `--size-play-sm: 76`（播放圆钮）
-  - **卡面色统一为 `tone-*`**（全部入 token，颜色命名）：变量在 `tokens.css`/`tokens.wxss`，类在 `blocks.css`/`cards.wxss`，每个类 `background` 与 `box-shadow` 均引用变量、无内联渐变。家长区四卡：任务 `tone-matcha`（绿）/ 音量 `tone-sky`（蓝）/ 贴纸 `tone-rose`（玫红）/ 积分 `tone-apricot`（杏橙）。枢纽双卡：英语字母表 `tone-sky` + 单词 `tone-rose`；算术数一数 `tone-rose`（随英语苹果卡同色）+ 算一算 `tone-sand`（燕麦米，随小狗图）
+  - **卡面色统一为 `tone-*`**（全部入 token，颜色命名）：变量在 `tokens.css`/`tokens.wxss`，类在 `blocks.css`/`blocks.wxss`，每个类 `background` 与 `box-shadow` 均引用变量、无内联渐变。家长区：音量卡 `tone-sky`（蓝）；长按清除四卡——每日任务 `tone-matcha`（绿，重置）/ 学习记录 `tone-frost`（霜蓝，清除）/ 兑换贴纸 `tone-rose`（玫红，清空）/ 星星积分 `tone-apricot`（杏橙，清零）。枢纽双卡：英语字母表 `tone-sky` + 单词 `tone-rose`；算术数一数 `tone-rose`（随英语苹果卡同色）+ 算一算 `tone-sand`（燕麦米，随小狗图）
     - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油，原 `tone-duckling` 并入）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米，.module/算一算 随小狗图）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分；动物命名（`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin`）已全部改为颜色名
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `feedback-layer` 允许（非营销弹窗）；禁 Toast
@@ -251,7 +251,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 | 点读播放 | `miniprogram/utils/audio.js` |
 | 主点读发星 | `miniprogram/utils/read-award.js` |
 | 反馈弹层 / 行内 | `miniprogram/utils/feedback.js`、`miniprogram/content/feedback.js`、`components/feedback-layer`、`components/play-button` |
-| 家长区 | `miniprogram/pages/parent/` |
+| 家长区 | `miniprogram/subpkg/parent/` |
 | 云环境 ID | `miniprogram/config/cloud.js` → `CLOUD_ENV`（当前 `cloudbase-d7gygre2uc80dcd42`） |
 | 云函数部署 | [`cloudfunctions/README.md`](../../cloudfunctions/README.md) |
 | 申请素材 | `docs/apply/` |

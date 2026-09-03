@@ -1,4 +1,4 @@
-<view class="volume-card setting-block block tone-{{tone}} custom-class">
+<view class="volume-card motion-tap setting-block block tone-{{tone}} custom-class">
   <view class="setting-head">
     <play-button size="lg" playing="{{playingSrc === previewSrc}}" bind:tap="onPreviewTap" />
     <view class="setting-head__body">
@@ -17,7 +17,7 @@
     <view
       wx:for="{{volumes}}"
       wx:key="value"
-      class="volume-option {{volume === item.value ? 'is-active' : ''}}"
+      class="volume-option motion-tap {{volume === item.value ? 'is-active' : ''}}"
       data-value="{{item.value}}"
       bindtap="onVolume"
       hover-class="is-pressed"

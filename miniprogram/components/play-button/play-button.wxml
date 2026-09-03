@@ -1,11 +1,11 @@
 <view
   wx:if="{{passive}}"
-  class="play-btn-hit custom-class"
+  class="play-btn-hit motion-tap custom-class"
   aria-role="button"
   aria-label="{{playing ? '停止' : '播放'}}"
 >
   <view
-    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
+    class="play-btn motion-tap {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
     <view class="play-btn__flip {{playing ? 'is-flipped' : ''}}">
       <image class="play-btn__icon play-btn__icon--front" src="{{playIcon}}" mode="aspectFit" />
@@ -15,7 +15,7 @@
 </view>
 <view
   wx:else
-  class="play-btn-hit custom-class"
+  class="play-btn-hit motion-tap custom-class"
   catchtap="onTap"
   aria-role="button"
   aria-label="{{playing ? '停止' : '播放'}}"
@@ -24,7 +24,7 @@
   hover-stay-time="80"
 >
   <view
-    class="play-btn {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
+    class="play-btn motion-tap {{size === 'lg' ? 'is-lg' : ''}} {{size === 'sm' || compact ? 'is-sm' : ''}} {{playing ? 'is-playing' : ''}}"
   >
     <view class="play-btn__flip {{playing ? 'is-flipped' : ''}}">
       <image class="play-btn__icon play-btn__icon--front" src="{{playIcon}}" mode="aspectFit" />

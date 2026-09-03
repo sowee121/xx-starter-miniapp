@@ -725,7 +725,7 @@
   transition: var(--motion-tap);
 }
 .task-row:active {
-  transform: scale(0.985);
+  transform: scale(0.98);
 }
 .task-row .task-row__tick {
   display: flex;

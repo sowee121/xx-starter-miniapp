@@ -11,10 +11,6 @@
   flex-shrink: 0;
 }
 
-.home-feature-card:active {
-  transform: scale(0.985);
-}
-
 .home-feature-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);

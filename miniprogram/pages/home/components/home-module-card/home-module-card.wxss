@@ -14,10 +14,6 @@
   flex-shrink: 0;
 }
 
-.home-module-card:active {
-  transform: scale(0.985);
-}
-
 .home-module-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);

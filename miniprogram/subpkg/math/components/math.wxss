@@ -143,10 +143,6 @@
   box-sizing: border-box;
 }
 
-.option:active {
-  transform: scale(0.98);
-}
-
 .option.is-picked {
   background: var(--tone-picked) !important;
   box-shadow:

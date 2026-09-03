@@ -1,5 +1,5 @@
 <view
-  class="home-feature-card tone-{{tone}}"
+  class="home-feature-card motion-tap tone-{{tone}}"
   bindtap="onTap"
   hover-class="is-pressed"
   hover-start-time="0"
@@ -13,7 +13,7 @@
       <view
         wx:for="{{sockets}}"
         wx:key="index"
-        class="home-feature-card__socket {{item ? 'is-on' : ''}}"
+        class="home-feature-card__socket motion-tap {{item ? 'is-on' : ''}}"
       >
         <image
           wx:if="{{item}}"

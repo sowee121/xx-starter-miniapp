@@ -15,7 +15,7 @@
     <block wx:else>
       <view
         wx:if="{{showHome}}"
-        class="custom-header__home"
+        class="custom-header__home motion-tap"
         bindtap="onHome"
         hover-class="is-pressed"
         hover-start-time="0"

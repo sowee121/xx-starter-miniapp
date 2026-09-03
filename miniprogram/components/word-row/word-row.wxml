@@ -1,5 +1,5 @@
 <view
-  class="word-row block tone-cream {{active ? 'is-active' : ''}} {{half ? 'is-half' : ''}}"
+  class="word-row motion-tap block tone-cream {{active ? 'is-active' : ''}} {{half ? 'is-half' : ''}}"
   hover-class="is-pressed"
   hover-start-time="0"
   hover-stay-time="80"

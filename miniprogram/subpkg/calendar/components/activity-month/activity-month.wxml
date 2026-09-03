@@ -1,4 +1,4 @@
-<view class="heat block {{night ? 'tone-night' : 'tone-cream'}}">
+<view class="heat motion-tap block {{night ? 'tone-night' : 'tone-cream'}}">
   <view class="heat__title">{{title}}</view>
   <view class="heat__week">
     <view wx:for="{{weekdays}}" wx:key="*this" class="heat__wd">{{item}}</view>

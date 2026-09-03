@@ -9,10 +9,6 @@
   box-sizing: border-box;
 }
 
-.task-row:active {
-  transform: scale(0.985);
-}
-
 .task-row__body {
   display: flex;
   flex-direction: row;

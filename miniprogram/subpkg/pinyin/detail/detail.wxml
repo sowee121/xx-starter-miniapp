@@ -17,10 +17,6 @@
 
     <buddy-dock icon="{{buddyIcon}}" text="{{item.hint}}" tone="cream" />
 
-    <pinyin-trail
-      trail="{{trail}}"
-      label="韵母石子径"
-      bind:tap="onTrailTap"
-    />
+    <pinyin-trail trail="{{trail}}" label="韵母石子径" bind:tap="onTrailTap" />
   </view>
 </app-shell>
