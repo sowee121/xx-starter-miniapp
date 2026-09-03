@@ -1,0 +1,24 @@
+<view
+  class="task-row block {{done ? 'tone-mint is-done' : 'tone-cream'}} custom-class"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <view class="task-row__tick">
+    <image
+      wx:if="{{done}}"
+      class="task-row__check"
+      src="/static/shared/check.png"
+      mode="aspectFit"
+    />
+  </view>
+  <view class="task-row__body">
+    <view class="task-row__title">{{title}}</view>
+    <view wx:if="{{showProgress}}" class="task-row__progress">{{current}}/{{target}}</view>
+  </view>
+  <view class="task-row__reward">
+    <view>+{{reward}}</view>
+    <image src="/static/home/star.png" mode="aspectFit" />
+  </view>
+</view>

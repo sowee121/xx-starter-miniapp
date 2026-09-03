@@ -21,8 +21,8 @@ function resetPick() {
     pickedValue: null,
     pickedCorrect: false,
     wrongShake: false,
-    softNote: '',
-    softNoteTone: 'tone-butter',
+    barText: '',
+    barTone: 'tone-butter',
   }
 }
 
@@ -135,8 +135,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
     /** 选择答案 */
     choose: tap(function (e) {
       if (this._busy || !this.data.question) return
-      const raw = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.value
-      const value = Number(raw)
+      const value = Number(e.detail && e.detail.value)
       if (!Number.isFinite(value)) return
       const correct = value === this.data.question.answer
       if (!correct) {

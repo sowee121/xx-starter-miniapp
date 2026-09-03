@@ -3,7 +3,6 @@ const starsUtil = require('../../utils/stars')
 const feedback = require('../../utils/feedback')
 const feedbackBehavior = feedback.feedbackBehavior
 const { LAYERS } = require('../../content/feedback')
-const { tap } = require('../../utils/tap-guard')
 
 /** 回顶滚动总时长（ms）；与 easeScrollTop 的缓动曲线配套，太快会显得生硬 */
 const SCROLL_MS = 560
@@ -78,10 +77,10 @@ Page({
     this.paint()
   },
 
-  /** 兑换贴纸 */
-  onExchange: tap(async function (event) {
+  /** 兑换贴纸（卡片抛出 exchange 事件，detail.id 为贴纸 id） */
+  async onExchange(event) {
     if (this.data.exchanging) return
-    const id = event.currentTarget && event.currentTarget.dataset && event.currentTarget.dataset.id
+    const id = event.detail && event.detail.id
     const sticker = this.data.shop.find((item) => item.id === id)
     if (!sticker || !sticker.affordable) return
 
@@ -103,7 +102,7 @@ Page({
     } finally {
       this.setData({ exchanging: false })
     }
-  }),
+  },
 
   onUnload() {
     this._destroyed = true

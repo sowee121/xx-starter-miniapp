@@ -1,44 +1,21 @@
-<app-shell
+<quiz-frame
+  type="count"
   title="数一数"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
-  note-type="{{softNoteTone === 'tone-matcha' ? 'success' : 'warning'}}"
-  note-shake="{{wrongShake}}"
+  bar-text="{{barText}}"
+  bar-tone="{{barTone}}"
+  wrong-shake="{{wrongShake}}"
+  question="{{question}}"
+  choices="{{choices}}"
+  picked-value="{{pickedValue}}"
+  picked-correct="{{pickedCorrect}}"
+  option-tones="{{['sky', 'butter', 'peach']}}"
+  items="{{items}}"
+  count="{{count}}"
+  has-prev="{{nav.hasPrev}}"
+  bind:choose="choose"
+  bind:prev="goPrev"
+  bind:next="goNext"
   bind:continue="next"
->
-  <view wx:if="{{question}}" class="detail-stack">
-    <view class="quiz-head block tone-rose">
-      <view class="count-stage count-stage--{{count}}">
-        <image
-          wx:for="{{items}}"
-          wx:key="index"
-          class="count-item"
-          src="{{item}}"
-          mode="aspectFit"
-          lazy-load
-        />
-      </view>
-      <view class="quiz-head__title">{{question.prompt}}</view>
-    </view>
-    <view class="options">
-      <view
-        wx:for="{{choices}}"
-        wx:key="key"
-        class="option block {{index === 0 ? 'tone-sky' : (index === 1 ? 'tone-butter' : 'tone-peach')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-shaking' : ''}}"
-        data-value="{{item.value}}"
-        bindtap="choose"
-        hover-class="is-pressed"
-        hover-start-time="0"
-        hover-stay-time="80"
-        >{{item.value}}</view
-      >
-    </view>
-    <trail-nav
-      has-prev="{{nav.hasPrev}}"
-      has-next="{{true}}"
-      bind:prev="goPrev"
-      bind:next="goNext"
-    />
-  </view>
-</app-shell>
+/>

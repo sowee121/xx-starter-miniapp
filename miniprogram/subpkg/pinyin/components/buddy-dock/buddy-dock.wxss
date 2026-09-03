@@ -1,0 +1,54 @@
+/* 伙伴气泡：吉祥物 + 提示语，样式收拢于此（原在 learn.wxss） */
+.buddy-dock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 176rpx;
+  padding: var(--pad-card);
+  border-radius: var(--radius-bar);
+  box-sizing: border-box;
+}
+
+.buddy-dock__mascot {
+  width: 156rpx;
+  height: 156rpx;
+  flex-shrink: 0;
+}
+
+.buddy-dock__bubble {
+  --buddy-bubble-fill: #dce6cc; /* 伙伴气泡填色（含啾啾） */
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--pad-card);
+  overflow: visible;
+  border-radius: var(--radius-pill);
+  background: var(--buddy-bubble-fill);
+  filter: drop-shadow(0 6rpx 12rpx rgba(96, 122, 96, 0.14));
+  font-size: var(--font-note);
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.buddy-dock__bubble-tail {
+  position: absolute;
+  left: 12rpx;
+  top: 50%;
+  width: 46rpx;
+  height: 42rpx;
+  background: var(--buddy-bubble-fill);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+  transform: translate(-62%, -50%);
+  z-index: 0;
+}
+
+.buddy-dock__bubble-text {
+  position: relative;
+  z-index: 1;
+}

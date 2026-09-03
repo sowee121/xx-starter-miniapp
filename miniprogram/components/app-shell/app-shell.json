@@ -3,7 +3,7 @@
   "styleIsolation": "apply-shared",
   "usingComponents": {
     "custom-header": "/components/custom-header/custom-header",
-    "feedback-note": "/components/feedback-note/feedback-note",
+    "feedback-bar": "/components/feedback-bar/feedback-bar",
     "feedback-layer": "/components/feedback-layer/feedback-layer"
   }
 }

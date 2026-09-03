@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "styleIsolation": "apply-shared",
+  "usingComponents": {
+    "app-shell": "/components/app-shell/app-shell",
+    "trail-nav": "/components/trail-nav/trail-nav",
+    "count-card": "/subpkg/math/components/count-card/count-card",
+    "calc-card": "/subpkg/math/components/calc-card/calc-card"
+  }
+}

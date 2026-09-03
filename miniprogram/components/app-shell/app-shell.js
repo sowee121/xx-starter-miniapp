@@ -17,9 +17,9 @@ Component({
       value: require('../../config/media').mediaUrl('/static/shared/meadow.png'),
     },
     feedback: { type: Object, value: {} }, // { show, closing, variant, title, desc, action }
-    softNote: { type: String, value: '' },
-    noteType: { type: String, value: 'warning' }, // success=绿条，warning=黄条
-    noteShake: { type: Boolean, value: false },
+    barText: { type: String, value: '' },
+    barType: { type: String, value: 'warning' }, // success=绿条，warning=黄条
+    barShake: { type: Boolean, value: false },
   },
 
   data: {

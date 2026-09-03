@@ -7,11 +7,19 @@
   padding: var(--pad-card);
   border-radius: var(--radius-tile);
   box-sizing: border-box;
-  transition: var(--motion-tap);
 }
 
 .task-row:active {
   transform: scale(0.985);
+}
+
+.task-row__body {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
 }
 
 .task-row__tick {
@@ -26,7 +34,6 @@
     inset 0 3rpx 6rpx rgba(255, 255, 255, 0.28),
     inset 0 -4rpx 8rpx rgba(96, 122, 96, 0.12);
   flex-shrink: 0;
-  transition: var(--motion-tap);
 }
 
 .is-done .task-row__tick {

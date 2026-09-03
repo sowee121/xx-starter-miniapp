@@ -1,4 +1,4 @@
-.soft-note {
+.feedback-bar {
   position: relative;
   display: flex;
   align-items: center;
@@ -16,22 +16,22 @@
 }
 
 /* 自包含背景与阴影：组件样式隔离下不依赖页面 tone-* 工具类 */
-.soft-note.tone-butter {
+.feedback-bar.tone-butter {
   background: var(--tone-butter);
   box-shadow: var(--shadow-tone-butter);
 }
 
-.soft-note.tone-matcha {
+.feedback-bar.tone-matcha {
   background: var(--tone-matcha);
   box-shadow: var(--shadow-tone-matcha);
   color: var(--ink);
 }
 
-.soft-note.is-shaking {
-  animation: feedback-note-shake 420ms ease-in-out;
+.feedback-bar.is-shaking {
+  animation: feedback-bar-shake 420ms ease-in-out;
 }
 
-@keyframes feedback-note-shake {
+@keyframes feedback-bar-shake {
   0%,
   100% {
     transform: translateX(0);

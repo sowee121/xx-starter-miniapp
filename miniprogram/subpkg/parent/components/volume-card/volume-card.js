@@ -1,7 +1,7 @@
-const audioUtil = require('../../utils/audio')
-const { togglePlay, playClip, detachLongPlay } = require('../../utils/read-award')
-const { mediaUrl } = require('../../config/media')
-const { tap } = require('../../utils/tap-guard')
+const audioUtil = require('../../../../utils/audio')
+const { togglePlay, playClip, detachLongPlay } = require('../../../../utils/read-award')
+const { mediaUrl } = require('../../../../config/media')
+const { tap } = require('../../../../utils/tap-guard')
 
 /** 拖动滑块后延迟试听，避开连续滑动过程中的每一帧 */
 const VOLUME_PREVIEW_DELAY = 120

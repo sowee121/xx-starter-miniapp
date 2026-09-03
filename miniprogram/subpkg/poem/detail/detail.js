@@ -77,7 +77,7 @@ Page({
         poem,
         poemTitle: poem.title || '古诗',
         poemAuthor: poem.author || '',
-        softNote: '',
+        barText: '',
         fullAward: fullAward(poem),
         longPlaying: false,
         playingSrc: '',

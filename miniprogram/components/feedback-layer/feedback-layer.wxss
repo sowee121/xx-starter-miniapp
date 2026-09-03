@@ -56,11 +56,11 @@
   transform: rotateX(88deg) translateY(70rpx) scale(0.92); /* 原路翻回垂直成缝 */
 }
 
-.feedback-layer__card.is-soft-fail {
-  background: var(--tone-soft-fail);
+.feedback-layer__card.is-fail {
+  background: var(--tone-fail);
 }
 
-.feedback-layer__card.is-soft-fail .feedback-layer__text {
+.feedback-layer__card.is-fail .feedback-layer__text {
   color: var(--note);
 }
 
@@ -96,7 +96,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gap-soft);
+  gap: var(--gap-inner);
 }
 
 .feedback-layer__text {

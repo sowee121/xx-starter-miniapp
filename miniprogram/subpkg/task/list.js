@@ -34,7 +34,7 @@ Page({
 
   /** 打开任务对应页 */
   onTaskTap: tap(function (event) {
-    const id = event.currentTarget.dataset.id
+    const id = event.detail.id
     const url = dailyTasks.nextUrl(id)
     if (!url) return
     goTo(url)

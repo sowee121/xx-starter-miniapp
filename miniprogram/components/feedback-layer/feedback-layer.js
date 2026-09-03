@@ -33,7 +33,7 @@ Component({
       const byVariant = {
         success: '继续学',
         exchange: '收下啦',
-        softFail: '再看看',
+        fail: '再看看',
       }
       this.setData({ actionLabel: action || byVariant[variant] || '继续学' })
     },

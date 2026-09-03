@@ -2,7 +2,7 @@
   "usingComponents": {
     "detail-card": "/components/detail-card/detail-card",
     "app-shell": "/components/app-shell/app-shell",
-    "word-line": "/components/word-line/word-line",
+    "word-row": "/components/word-row/word-row",
     "trail-nav": "/components/trail-nav/trail-nav"
   }
 }

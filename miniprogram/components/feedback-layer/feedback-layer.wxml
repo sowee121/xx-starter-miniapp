@@ -1,6 +1,6 @@
 <view wx:if="{{visible}}" class="feedback-layer {{closingState}}" bindtap="onContinue">
   <view
-    class="feedback-layer__card {{variant === 'softFail' ? 'is-soft-fail' : ''}} {{variant === 'exchange' ? 'is-exchange' : ''}}"
+    class="feedback-layer__card {{variant === 'fail' ? 'is-fail' : ''}} {{variant === 'exchange' ? 'is-exchange' : ''}}"
     catchtap="onCardTap"
   >
     <image class="feedback-layer__cloud" src="{{cloudIcon}}" mode="aspectFit" />

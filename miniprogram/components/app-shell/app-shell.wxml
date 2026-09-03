@@ -18,11 +18,11 @@
       <view wx:if="{{subHint}}" class="inner-head__sub">{{subHint}}</view>
     </view>
     <slot />
-    <feedback-note
-      wx:if="{{softNote}}"
-      text="{{softNote}}"
-      type="{{noteType}}"
-      shake="{{noteShake}}"
+    <feedback-bar
+      wx:if="{{barText}}"
+      text="{{barText}}"
+      type="{{barType}}"
+      shake="{{barShake}}"
     />
   </view>
   <feedback-layer

@@ -104,8 +104,8 @@ function showInline(page, input) {
   const { text, audio, tone } = resolveInline(input)
   try {
     page.setData({
-      softNote: text,
-      softNoteTone: tone || 'tone-butter',
+      barText: text,
+      barTone: tone || 'tone-butter',
     })
   } catch (error) {
     return
@@ -119,7 +119,7 @@ function showInline(page, input) {
 function clearInline(page) {
   if (!page || typeof page.setData !== 'function') return
   try {
-    page.setData({ softNote: '', softNoteTone: 'tone-butter' })
+    page.setData({ barText: '', barTone: 'tone-butter' })
   } catch (error) {
     // 页面已销毁
   }
@@ -134,12 +134,12 @@ function audioFallback(page) {
   return () => showInline(page, INLINE.audioUnavailable)
 }
 
-/** 反馈层与软提示的公共状态：页面接入后不再自持 feedback / softNote / closeFeedback */
+/** 反馈层与软提示的公共状态：页面接入后不再自持 feedback / barText / closeFeedback */
 const feedbackBehavior = Behavior({
   data: {
     feedback: { show: false, closing: false },
-    softNote: '',
-    softNoteTone: 'tone-butter',
+    barText: '',
+    barTone: 'tone-butter',
   },
   methods: {
     /** 关闭反馈层 */

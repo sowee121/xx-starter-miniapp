@@ -154,10 +154,10 @@ def praise_layer(title: str, desc: str, variant: str = "", action: str = "") -> 
         "": "继续学",
         "success": "继续学",
         "exchange": "收下啦",
-        "softFail": "再看看",
+        "fail": "再看看",
     }
-    if variant == "softFail":
-        card_cls += " is-soft-fail"
+    if variant == "fail":
+        card_cls += " is-fail"
         icon = "rabbit"
     elif variant == "exchange":
         card_cls += " is-exchange"
@@ -204,8 +204,8 @@ def make_poem():
         for i, line in enumerate(sample["lines"]):
             active_cls = " is-active" if active == i else ""
             parts.append(
-                f'<div class="word-line block tone-cream{active_cls}">'
-                f'<strong class="word-line__text">{line["text"]}</strong>'
+                f'<div class="word-row block tone-cream{active_cls}">'
+                f'<strong class="word-row__text">{line["text"]}</strong>'
                 f'<div class="media-play">{play()}</div></div>'
             )
         return "".join(parts)
@@ -217,7 +217,7 @@ def make_poem():
         f'<div class="hero__play">{play("is-lg")}</div></div></div>'
     )
     step = trail_step_nav(2, 6)
-    audio_note = '<div class="soft-note block tone-butter">语音准备中～</div>'
+    audio_note = '<div class="feedback-bar block tone-butter">语音准备中～</div>'
     write(
         "poem/detail.html",
         "古诗",
@@ -269,8 +269,8 @@ def make_hanzi():
     write(
         "hanzi/detail.html",
         "识字",
-        f"""<div class="detail-stack"><div class="detail-card block tone-rose"><div class="detail-card__emoji" aria-hidden="true">{sample["emoji"]}</div><div class="detail-card__glyph">{sample["char"]}</div><p class="detail-card__sub">{sample["pinyin"]} · {sample["strokes"]} 画</p>{play("is-lg")}</div><div class="detail-pair"><div class="word-line is-half block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="word-line is-half block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
-{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
+        f"""<div class="detail-stack"><div class="detail-card block tone-rose"><div class="detail-card__emoji" aria-hidden="true">{sample["emoji"]}</div><div class="detail-card__glyph">{sample["char"]}</div><p class="detail-card__sub">{sample["pinyin"]} · {sample["strokes"]} 画</p>{play("is-lg")}</div><div class="detail-pair"><div class="word-row is-half block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="word-row is-half block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
+{section("语音准备中", '<div class="feedback-bar block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("hanzi/hub.html", "hanzi/poem-list.html", "hanzi/life-list.html", "hanzi/praise.html")
 
@@ -294,7 +294,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 ~ 10</span></div><div class="duo-card block tone-pink"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 ~ 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="hub-entry-cards"><div class="hub-entry-card block tone-rose"><img class="hub-entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="hub-entry-card__title">数一数</strong><span class="hub-entry-card__sub">1 ~ 10</span></div><div class="hub-entry-card block tone-pink"><img class="hub-entry-card__image" src="{ASSET}/dog.png" alt="" /><strong class="hub-entry-card__title">算一算</strong><span class="hub-entry-card__sub">1 ~ 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None, wrong=False):
@@ -322,8 +322,8 @@ def make_math():
             + note
         )
 
-    retry_note = '<div class="soft-note block tone-butter">答错啦！再试一次吧～</div>'
-    correct_note = '<div class="soft-note block tone-matcha">答对啦！你真棒！</div>'
+    retry_note = '<div class="feedback-bar block tone-butter">答错啦！再试一次吧～</div>'
+    correct_note = '<div class="feedback-bar block tone-matcha">答对啦！你真棒！</div>'
 
     # 数一数审查帧：固定苹果样例；真机只换数量，水果固定苹果
     count_q = by_id[samples["count"]]
@@ -419,7 +419,7 @@ def make_english():
     write(
         "english/hub.html",
         "英语",
-        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A ~ Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>生活常见词</span></div></div>""",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="hub-entry-cards"><div class="hub-entry-card block tone-sky"><img class="hub-entry-card__image" src="{ASSET}/english-letter-a.png" alt="" /><strong class="hub-entry-card__title">字母表</strong><span class="hub-entry-card__sub">A ~ Z</span></div><div class="hub-entry-card block tone-rose"><img class="hub-entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="hub-entry-card__title">单词</strong><span class="hub-entry-card__sub">生活常见词</span></div></div>""",
     )
 
     abc_cards = "".join(
@@ -451,7 +451,7 @@ def make_english():
         "english/alphabet-detail.html",
         "英语",
         f"""<div class="detail-stack"><div class="detail-card block tone-sky"><img class="detail-card__image--wide" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p class="detail-card__sub">{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
-{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
+{section("语音准备中", '<div class="feedback-bar block tone-butter">语音准备中～</div>')}""",
     )
 
     sections = []
@@ -487,8 +487,8 @@ def make_english():
     write(
         "english/detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-card block tone-apricot"><img class="detail-card__image" src="{ASSET}/{sample['image']}.png" alt="" /><h2 class="detail-card__title">{sample['word']}</h2><p class="detail-card__sub">{sample['phonetic']}</p><p class="detail-card__meaning">{sample.get('meaning', '')}</p>{play("is-lg")}</div><div class="word-line block tone-cream"><div class="word-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
-{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
+        f"""<div class="detail-stack"><div class="detail-card block tone-apricot"><img class="detail-card__image" src="{ASSET}/{sample['image']}.png" alt="" /><h2 class="detail-card__title">{sample['word']}</h2><p class="detail-card__sub">{sample['phonetic']}</p><p class="detail-card__meaning">{sample.get('meaning', '')}</p>{play("is-lg")}</div><div class="word-row block tone-cream"><div class="word-row__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
+{section("语音准备中", '<div class="feedback-bar block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("english/praise.html")
 
@@ -523,7 +523,7 @@ def make_pinyin():
         "拼音",
         f"""<div class="detail-stack"><div class="detail-card block tone-cream"><img class="detail-card__image--wide" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p class="detail-card__sub">{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
 <div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-card block tone-cream"><img class="detail-card__image--wide" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p class="detail-card__sub">{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
-{section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
+{section("语音准备中", '<div class="feedback-bar block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths(
         "pinyin/praise.html",
@@ -601,14 +601,14 @@ def make_calendar():
         f'<div class="calendar-scene block tone-butter">'
         f'<div class="calendar-scene__sky"><img class="calendar-scene__sky-image" src="{ASSET}/sun.png" alt="" /></div>'
         '<div class="calendar-scene__today"><div class="calendar-scene__date">2026 年 8 月 15 日</div><div class="calendar-scene__week">星期六</div></div>'
-        '<div class="big-btn">打卡</div>'
+        '<div class="block-btn">打卡</div>'
         f'</div>{heat_day}'
     )
     night = (
         f'<div class="calendar-scene calendar-scene--night block tone-night">'
         f'<div class="calendar-scene__sky"><img class="calendar-scene__sky-image" src="{ASSET}/moon-stars.png" alt="" /></div>'
         '<div class="calendar-scene__today"><div class="calendar-scene__date">2026 年 8 月 15 日</div><div class="calendar-scene__week">星期六</div></div>'
-        '<div class="big-btn is-disabled">今天已打卡</div>'
+        '<div class="block-btn is-disabled">今天已打卡</div>'
         f'</div>{heat_night}'
     )
     # 昼夜是同一页的两种时段态：审查稿拆成两个 HTML，各自一屏完整页
@@ -697,7 +697,7 @@ def make_reward():
         f"""<div class="inner-head"><h1>动物贴纸</h1><p>我的贴纸与兑换</p></div>
 {section("我的贴纸", '<div class="album-hint">去兑换小动物吧～</div>')}
 {section("我的贴纸 · 已收集", f'<div class="sticker-grid">{album}</div>')}
-{section("去兑换", f'<div class="sticker-grid">{shop_cards}</div>')}
+{section("兑换贴纸", f'<div class="sticker-grid">{shop_cards}</div>')}
 {section("星星不足", f'<div class="sticker-grid">{short}</div>')}""",
     )
 
@@ -738,7 +738,7 @@ def make_shared():
         )
         + section(
             "积分商城 · 兑换失败",
-            praise_layer("兑换失败", "稍后再来兑贴纸吧～", "softFail"),
+            praise_layer("兑换失败", "稍后再来兑贴纸吧～", "fail"),
         )
     )
     write("shared/feedback.html", "公共反馈弹窗", body)

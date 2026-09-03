@@ -36,7 +36,6 @@
   font-weight: 700;
   position: relative;
   z-index: 1;
-  transition: var(--motion-tap);
 }
 
 .volume-option.is-active {

@@ -9,33 +9,33 @@
   <view class="section">
     <view class="section-title">我的贴纸</view>
     <view wx:if="{{mine.length}}" class="sticker-grid">
-      <view wx:for="{{mine}}" wx:key="id" class="sticker-card is-album block tone-{{item.tone}}">
-        <image class="sticker-card__image" src="{{item.image}}" mode="aspectFit" lazy-load />
-        <view class="sticker-card__name">{{item.name}}</view>
-      </view>
+      <sticker-card
+        wx:for="{{mine}}"
+        wx:key="id"
+        mode="album"
+        name="{{item.name}}"
+        image="{{item.image}}"
+        tone="{{item.tone}}"
+      />
     </view>
     <view wx:else class="album-hint">去兑换小动物吧～</view>
   </view>
 
   <view class="section">
-    <view class="section-title">去兑换</view>
+    <view class="section-title">兑换贴纸</view>
     <view wx:if="{{shop.length}}" class="sticker-grid">
-      <view wx:for="{{shop}}" wx:key="id" class="sticker-card block tone-{{item.tone}}">
-        <image class="sticker-card__image" src="{{item.image}}" mode="aspectFit" lazy-load />
-        <view class="sticker-card__price">
-          <view>{{item.cost}}</view>
-          <image src="/static/home/star.png" mode="aspectFit" />
-        </view>
-        <view
-          class="chip is-compact {{item.affordable ? '' : 'is-short'}}"
-          data-id="{{item.id}}"
-          catchtap="onExchange"
-          hover-class="is-pressed"
-          hover-start-time="0"
-          hover-stay-time="80"
-          >{{item.affordable ? '兑换' : '星星不足'}}</view
-        >
-      </view>
+      <sticker-card
+        wx:for="{{shop}}"
+        wx:key="id"
+        mode="shop"
+        name="{{item.name}}"
+        image="{{item.image}}"
+        tone="{{item.tone}}"
+        cost="{{item.cost}}"
+        affordable="{{item.affordable}}"
+        sticker-id="{{item.id}}"
+        bind:exchange="onExchange"
+      />
     </view>
     <view wx:else class="album-hint">全部集齐啦～</view>
   </view>

@@ -20,20 +20,20 @@ miniprogram/
 ├── pages/
 │   ├── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
 │   └── parent/                    # 家长区：音量三档 + 长按 3 秒清除
-├── components/                    # 19 个主包通用组件
+├── components/                    # 13 个主包通用组件
 ├── utils/                         # 12 个通用模块（云端、发星、点读、进度、热力…）
 ├── content/                       # 静态内容配置：mascots / modules / feedback
 ├── styles/                        # tokens / reset / layout / cards / learn
 ├── config/                        # cloud.js（envId）、media.js（USE_CLOUD）
 ├── static/                        # 主包共享图与音频（shared/ icons/ home/）
-└── subpkg/                        # 17 个分包，媒体各自随包
+└── subpkg/                        # 17 个分包，媒体随包；分包独有组件放各自 components/
 ```
 
 ---
 
 ## 页面与分包
 
-主包只有 `pages/home/home` 与 `pages/parent/parent` 两页，其余全在 `app.json` 的 `subPackages` 里：
+主包只有 `pages/home/home` 一页，其余全在 `app.json` 的 `subPackages` 里（含 `subpkg/parent` 家长区）：
 
 | 分包 | 页面 | 内容源 |
 | --- | --- | --- |
@@ -73,37 +73,61 @@ miniprogram/
 | 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet`（Jenny `-10%`；Z=`zee`） |
 | 点读音色/语速 | 见仓库 `docs/design/CONTENT.md` §2.10 |
 | 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/feedback-layer`（主包） |
-| 列表媒体卡 | `components/media-card`（主包） |
+| 列表媒体卡 | `subpkg/poem/components/media-card`（poem 分包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |
-| 家长区 | `pages/parent/`（首页欢迎卡进入；音量三档 + 长按 3 秒清除） |
+| 家长区 | `subpkg/parent/`（首页欢迎卡进入；音量三档 + 长按 3 秒清除） |
 
 ---
 
-## 组件索引（全在主包 `components/`）
+## 组件索引
+
+组件按落位分三类；统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/cards.wxss`。
+
+### 主包 `components/`（13）
 
 | 组件 | 用途 |
 | --- | --- |
 | `app-shell` | 页面外壳：自定义导航 + 背景草地 + 内容区（纵向 `gap` 由它提供） |
 | `custom-header` | 胶囊按钮下方对齐的自定义标题栏（含返回） |
 | `star-bar` | 顶栏星星数，订阅 `utils/stars.js` 刷新 |
-| `big-button` | 大号主行动按钮，点击节流走 `utils/tap-guard` |
-| `media-card` | 列表/详情页通用媒体卡（图 + 标题 + 可选播放钮） |
+| `block-button` | 大号主行动按钮，点击节流走 `utils/tap-guard`（由 `big-button` 改名） |
 | `play-button` | 播放/停止切换钮，全局 stop 时会收回三角 |
 | `detail-card` | 详情页学习主卡（图/emoji/字形/词/注音/释义组合 + 播放钮 + 整卡可点，抛 `tap`） |
 | `word-card` | 字卡网格单元（图/emoji/label + 可选播放钮 + 整卡可点，抛 `tap`） |
-| `word-line` | 点读行（诗行 / 组词 / 例句，抛 `tap`） |
+| `word-row` | 点读行（诗行 / 组词 / 例句，抛 `tap`） |
 | `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
-| `home-module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
-| `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
-| `home-welcome-card` | 首页欢迎卡（头像 + 问候语，点整卡进家长区；`title` / `subtitle` / `avatar` / `deco` / `tone` / `url` 均可覆盖） |
-| `activity-month` | 日历页月历热力网格（`title` / `weekdays` / `cells` / `night`），已下沉到 `subpkg/calendar/components` |
+| `feedback-bar` | 行内轻反馈条（语音准备中 / 答对啦等提示） |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
 | `hub-entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `hub-entry-card`，抛 `go` |
 | `hub-entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
-| `volume-card` | 家长区音量卡（试听钮 + 三档滑块），自管音量读写与试听，抛 `change` |
-| `clear-card` | 家长区清除卡（长按 3 秒进度槽），长按计时与文案自管，抛 `confirm`，结果由 `result` 回写 |
 
-组件统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/cards.wxss`。
+### 首页 `pages/home/components/`（3）
+
+| 组件 | 用途 |
+| --- | --- |
+| `home-welcome-card` | 首页欢迎卡（头像 + 问候语，点整卡进家长区；`title` / `subtitle` / `avatar` / `deco` / `tone` / `url` 均可覆盖） |
+| `home-module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
+| `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
+
+### 分包下沉 `subpkg/<pkg>/components/`
+
+> 仅被单个分包引用的组件，下沉到对应分包 `components/`，不再占用主包体积。
+
+| 组件 | 落位 | 用途 |
+| --- | --- | --- |
+| `media-card` | `poem` | 古诗列表/详情通用媒体卡（图 + 标题 + 可选播放钮） |
+| `hero-card` | `poem` | 古诗详情头部大卡（封面 + 标题/作者 + 大播放钮） |
+| `buddy-dock` | `pinyin` | 拼音详情伙伴坞（吉祥物 + 提示气泡） |
+| `pinyin-trail` | `pinyin` | 拼音详情韵母石子径导航 |
+| `sticker-card` | `shop` | 积分商城贴纸卡（图 + 星价 + 兑换态 / 星星不足态） |
+| `volume-card` | `parent` | 家长区音量卡（试听钮 + 三档滑块），抛 `change` |
+| `clear-card` | `parent` | 家长区清除卡（长按 3 秒进度槽），抛 `confirm` |
+| `task-row` | `task` | 每日任务行（任务名 + 进度 + 奖励星；完成态 `is-done`） |
+| `quiz-frame` | `math` | 算术题外壳（题头 + 选项网格 + 切题导航） |
+| `count-card` | `math` | 数一数题卡（果树计数舞台 + 选项） |
+| `calc-card` | `math` | 算一算题卡（算式 + 选项） |
+| `activity-month` | `calendar` | 月历热力网格（`title` / `weekdays` / `cells` / `night`） |
+| `calendar-scene` | `calendar` | 日历打卡场景（天空 + 今日日期 + `block-button` 打卡钮 + 月历热力；`night` 态） |
 
 ## utils 索引
 
@@ -117,7 +141,7 @@ miniprogram/
 | `progress.js` | 学习进度：`{ 'module::itemId': true }` + 云端 `completeProgress` / `getProgress` |
 | `activity.js` | 按日学习热力；本地先写再同步云端，`KEEP_MONTHS = 12`（须与云端 `bumpHeat` 一致） |
 | `daily-tasks.js` | 每日任务：云端为准 + 本地缓存，`SCHEMA = 10`（须与云端 `dailyTasks` 一致） |
-| `feedback.js` | 弹层 / 行内 soft-note 调度，动画时长与 `feedback.wxss` 对齐 |
+| `feedback.js` | 弹层 / 行内 feedback-bar 调度，动画时长与 `feedback.wxss` 对齐 |
 | `page.js` | 跳转与 query 解析；`navigateTo` 栈满自动降级 `redirectTo` |
 | `navbar.js` | 状态栏 + 胶囊按钮尺寸，供 `app-shell` / `custom-header` / `star-bar` 对齐 |
 | `tap-guard.js` | 点击节流：首次立即执行，窗口内重复点击忽略 |
@@ -148,8 +172,8 @@ miniprogram/
 1. `app.json` 注册新分包（页面路径放 `subPackages`），需要时给 `pages/home/home` 加 `preloadRule`
 2. `content/modules.js` 加板块条目（id / 标题 / 图标 / `tone` / url），按需加进 `HOME_MODULE_ENTRIES`
 3. 题库放 `subpkg/<name>/content/*.js`，图片音频放 `subpkg/<name>/static/`（**不要跨分包引用**）
-4. 列表 / 详情复用 `components/media-card` + `components/play-button`，发星走 `utils/read-award.js`
-5. 用 `utils/tap-guard` 包住点击，用 `utils/feedback.js` 给反馈（任务用弹层，答题用行内 soft-note）
+4. 列表 / 详情复用 `subpkg/poem/components/media-card` + `components/play-button`，发星走 `utils/read-award.js`
+5. 用 `utils/tap-guard` 包住点击，用 `utils/feedback.js` 给反馈（任务用弹层，答题用行内 feedback-bar）
 6. 若接入每日任务：同步改云端 `cloudfunctions/dailyTasks/index.js` 的 `TEMPLATES` 与本仓 `utils/daily-tasks.js`（两处 `SCHEMA` 一起递增）
 7. 出音频：`.cursor/skills/edge-tts-batch`（音色 / 语速见 CONTENT §2.10）
 8. 跑 `npm test`（会自动同步英语运行时 + 校验分包/体积/资源），再 `npm run mp:upload`

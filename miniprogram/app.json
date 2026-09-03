@@ -1,5 +1,5 @@
 {
-  "pages": ["pages/home/home", "pages/parent/parent"],
+  "pages": ["pages/home/home"],
   "subPackages": [
     {
       "root": "subpkg/poem",
@@ -85,6 +85,11 @@
       "root": "subpkg/shop",
       "name": "shop",
       "pages": ["shop"]
+    },
+    {
+      "root": "subpkg/parent",
+      "name": "parent",
+      "pages": ["parent/parent"]
     }
   ],
   "window": {

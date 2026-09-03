@@ -100,7 +100,7 @@ function createEnglishDetailPage(pkg) {
         {
           item: mapItem(raw, this._catId),
           tone: toneOf(this._catId),
-          softNote: '',
+          barText: '',
           nav: stepNavState(index, items.length),
         },
         () => {

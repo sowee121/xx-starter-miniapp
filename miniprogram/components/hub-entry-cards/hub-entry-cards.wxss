@@ -1,8 +1,9 @@
 :host {
+  /* 宿主做块级占位，内部双卡网格自管布局 */
   display: block;
 }
 
-/* duo 双卡入口容器（english/hub 与 math/hub 共用），卡面样式见 hub-entry-card */
+/* hub-entry-cards：双卡入口容器（english/hub 与 math/hub 共用），卡面样式见 hub-entry-card */
 
 .hub-entry-cards {
   display: flex;

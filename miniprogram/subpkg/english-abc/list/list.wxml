@@ -3,7 +3,7 @@
   hint="字母表"
   sub-hint="听一听，学字母"
   stars="{{stars}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
 >
   <view class="word-grid">
     <word-card

@@ -54,7 +54,7 @@ Page({
     this.setData(
       {
         item: mapItem(raw),
-        softNote: '',
+        barText: '',
         nav: stepNavState(index, letters.length),
       },
       () => {

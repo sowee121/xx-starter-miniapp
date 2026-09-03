@@ -145,7 +145,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 
 **点读** — `miniprogram/utils/audio.js`；主点读发星走 `utils/read-award.js`；播放钮主包组件 `components/play-button`。音频文件名必须纯 ASCII slug，`npm test` 会拦。音色与语速：古诗/识字/英语词句为晓晓或 Emma **`-30%`**；拼音韵母为晓辰 **`-10%`**；字母名为 Jenny **`-10%`**（详见 [CONTENT §2.10](docs/design/CONTENT.md)）。**拼音**喂注音「ㄚㄛㄜㄧㄨㄩ」；**字母 Z** 念 `zee`。真机无声时查：`setInnerAudioOption`、家长区音量。TTS 见 [edge-tts skill](.cursor/skills/edge-tts-batch/SKILL.md)。
 
-**反馈** — 任务/兑换用弹层 `praise-sun`；算术对错用行内 soft-note + 共享音效；禁止 Toast。
+**反馈** — 任务/兑换用弹层 `praise-sun`；算术对错用行内 feedback-bar + 共享音效；禁止 Toast。
 
 **星星** — `miniprogram/utils/stars.js` 不加乐观计数：以云函数确认的**权威余额**为准，成功单调采纳（只增不减）；清零/扣星（epoch 变化）后迟到的旧加星响应整笔作废，防旧值顶回；失败入本地队列、云通畅自动补账（幂等 `clientId`）。顶栏在「本单学习星」与「任务奖励星」任一确认后都会刷新；任务奖励星在微任务中发起，保证请求顺序 = 业务顺序（先答对加星、后任务达成发奖励）。
 
@@ -189,7 +189,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 | 八大板块业务页 + TTS | 已落地 |
 | 首页六宫格（`tone-*` 彩色入口卡） | 已落地 |
 | 每日任务（数量每日随机 + 云端同步）+ 日历打卡按钮 | 已落地 |
-| 反馈闭环（弹层 / soft-note / 音效） | 已落地 |
+| 反馈闭环（弹层 / feedback-bar / 音效） | 已落地 |
 | 家长区（音量三档 + 四类数据长按 3 秒清除） | 已落地 |
 | 云存储切 `cloud://` | 未开（`USE_CLOUD = false`） |
 | 云函数 | 已全量部署并与本地对齐；`addStars` 含 `letter_done` |

@@ -1,4 +1,4 @@
-const { tap } = require('../../utils/tap-guard')
+const { tap } = require('../../../../utils/tap-guard')
 
 Component({
   options: {

@@ -12,7 +12,6 @@
   border-radius: var(--radius-card);
   box-sizing: border-box;
   flex-shrink: 0;
-  transition: var(--motion-tap);
 }
 
 .home-module-card:active {

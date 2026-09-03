@@ -1,4 +1,65 @@
-/* 主体样式复用全局 learn.wxss 的 media-card */
+/* 媒体卡样式归并到本组件（原全局 learn.wxss / layout.wxss） */
+.media-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-row);
+  min-height: var(--size-media-card);
+  padding: var(--pad-card);
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.media-main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--pad-card);
+  flex: 1;
+  min-width: 0;
+}
+
+.media-main__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-text);
+  flex: 1;
+  min-width: 0;
+}
+
+.media-main__thumb {
+  width: var(--size-media-thumb);
+  height: var(--size-media-thumb);
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: var(--radius-thumb);
+}
+
+.media-main__thumb--wide {
+  width: calc(var(--size-media-thumb) * 4 / 3);
+}
+
+.media-main__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.media-main__title {
+  font-size: var(--font-card);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.media-main__sub {
+  white-space: nowrap;
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.3;
+}
+
 .media-card__meta {
   display: flex;
   align-items: center;
@@ -15,4 +76,20 @@
   font-size: var(--font-hint);
   font-weight: 700;
   color: var(--ink);
+}
+
+/* 播放区定位在卡片右侧；含 play-button 时右对齐收紧（原主包 learn.wxss 残留，迁回本组件） */
+.media-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.media-card .media-play,
+.media-card .play-btn-hit {
+  min-width: 0;
+  min-height: 0;
+  justify-content: flex-end;
 }

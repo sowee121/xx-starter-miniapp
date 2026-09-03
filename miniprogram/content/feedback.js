@@ -19,7 +19,7 @@ const LAYERS = {
     action: '收下啦',
   },
   exchangeFailed: {
-    variant: 'softFail',
+    variant: 'fail',
     title: '兑换失败',
     desc: '稍后再来兑贴纸吧～',
     action: '再看看',

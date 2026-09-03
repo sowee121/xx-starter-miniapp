@@ -1,0 +1,4 @@
+<view class="quiz-head block tone-sand">
+  <image class="quiz-head__image" src="{{image}}" mode="aspectFit" />
+  <view class="quiz-head__equation">{{a}} {{op}} {{b}} = ?</view>
+</view>

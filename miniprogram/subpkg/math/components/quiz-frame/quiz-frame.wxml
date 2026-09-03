@@ -1,0 +1,44 @@
+<app-shell
+  title="{{title}}"
+  stars="{{stars}}"
+  feedback="{{feedback}}"
+  bar-text="{{barText}}"
+  bar-type="{{barType}}"
+  bar-shake="{{wrongShake}}"
+  bind:continue="emitContinue"
+>
+  <view wx:if="{{question}}" class="detail-stack">
+    <count-card
+      wx:if="{{type === 'count'}}"
+      items="{{items}}"
+      count="{{count}}"
+      prompt="{{question.prompt}}"
+    />
+    <calc-card
+      wx:elif="{{type === 'calc'}}"
+      image="{{calcImage}}"
+      a="{{question.a}}"
+      op="{{question.op}}"
+      b="{{question.b}}"
+    />
+    <view class="options">
+      <view
+        wx:for="{{decoratedChoices}}"
+        wx:key="key"
+        class="option block tone-{{item.tone}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-shaking' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="emitChoose"
+        hover-class="is-pressed"
+        hover-start-time="0"
+        hover-stay-time="80"
+        >{{item.value}}</view
+      >
+    </view>
+    <trail-nav
+      has-prev="{{hasPrev}}"
+      has-next="{{true}}"
+      bind:prev="emitPrev"
+      bind:next="emitNext"
+    />
+  </view>
+</app-shell>

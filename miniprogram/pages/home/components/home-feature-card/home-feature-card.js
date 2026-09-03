@@ -1,5 +1,5 @@
-const { HOME_ASSETS } = require('../../content/mascots')
-const { tap } = require('../../utils/tap-guard')
+const { HOME_ASSETS } = require('../../../../content/mascots')
+const { tap } = require('../../../../utils/tap-guard')
 
 Component({
   options: {
@@ -12,7 +12,7 @@ Component({
     tone: { type: String, value: 'matcha' },
     /** 入口类型 */
     type: { type: String, value: 'task' },
-    actionText: { type: String, value: '去兑换' },
+    actionText: { type: String, value: '兑换贴纸' },
     /** 已点亮星数，0–6（每日任务六模块） */
     progress: { type: Number, value: 0 },
     url: { type: String, value: '' },

@@ -2,7 +2,7 @@
   title="识字"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
@@ -16,7 +16,7 @@
       bindtap="play"
     />
     <view class="detail-pair">
-      <word-line
+      <word-row
         wx:for="{{item.words}}"
         wx:for-item="word"
         wx:for-index="widx"

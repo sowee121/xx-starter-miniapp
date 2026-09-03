@@ -1,0 +1,186 @@
+/* 数学分包局部样式：题头 / 数一数舞台 / 选项容器（原全局 learn.wxss） */
+.quiz-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pad-card);
+  padding: var(--pad-card-xl) var(--pad-card-lg);
+  text-align: center;
+  border-radius: var(--radius-card);
+  box-sizing: border-box;
+}
+
+.quiz-head__image {
+  width: 292rpx;
+  height: 292rpx;
+}
+
+.quiz-head__title {
+  font-size: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.quiz-head__equation {
+  font-size: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.count-stage {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: 420rpx;
+  margin: 0 auto;
+  column-gap: var(--gap-row);
+  row-gap: var(--gap-row);
+}
+
+.count-item {
+  display: block;
+  width: 110rpx;
+  height: 110rpx;
+}
+
+/* 图标尺寸随数量缩放；max-width = 列数 × 边长 + 列间距 */
+.count-stage--1 .count-item {
+  width: 256rpx;
+  height: 256rpx;
+}
+.count-stage--2 .count-item {
+  width: 208rpx;
+  height: 208rpx;
+}
+.count-stage--3 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--4 .count-item {
+  width: 208rpx;
+  height: 208rpx;
+}
+.count-stage--5 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--6 .count-item {
+  width: 194rpx;
+  height: 194rpx;
+}
+.count-stage--7 .count-item {
+  width: 142rpx;
+  height: 142rpx;
+}
+.count-stage--8 .count-item {
+  width: 142rpx;
+  height: 142rpx;
+}
+.count-stage--9 .count-item {
+  width: 128rpx;
+  height: 128rpx;
+}
+.count-stage--10 .count-item {
+  width: 110rpx;
+  height: 110rpx;
+}
+
+.count-stage--1 {
+  max-width: 256rpx;
+}
+.count-stage--2 {
+  max-width: 432rpx;
+}
+.count-stage--3 {
+  max-width: 614rpx;
+}
+.count-stage--4 {
+  max-width: 432rpx;
+}
+.count-stage--5 {
+  max-width: 614rpx;
+}
+.count-stage--6 {
+  max-width: 614rpx;
+}
+.count-stage--7 {
+  max-width: 616rpx;
+}
+.count-stage--8 {
+  max-width: 616rpx;
+}
+.count-stage--9 {
+  max-width: 416rpx;
+}
+.count-stage--10 {
+  max-width: 614rpx;
+}
+
+.options {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-block);
+}
+
+/* 选项：仅在算术分包 quiz-frame 内使用（原主包 learn.wxss 残留，迁回本分包） */
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: auto;
+  min-width: 0;
+  height: var(--size-tap-compact);
+  font-size: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-bar);
+  box-sizing: border-box;
+}
+
+.option:active {
+  transform: scale(0.98);
+}
+
+.option.is-picked {
+  background: var(--tone-picked) !important;
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(184, 136, 28, 0.3),
+    0 0 0 9rpx var(--ring-picked),
+    var(--shadow-lift);
+}
+
+.option.is-correct {
+  background: var(--tone-ok) !important;
+  box-shadow:
+    var(--shadow-clay-hi),
+    inset -8rpx -10rpx 18rpx rgba(78, 128, 64, 0.28),
+    0 0 0 9rpx var(--ring-ok),
+    var(--shadow-lift);
+}
+
+@keyframes option-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10rpx);
+  }
+  50% {
+    transform: translateX(10rpx);
+  }
+  75% {
+    transform: translateX(-6rpx);
+  }
+}
+
+.option.is-shaking {
+  animation: option-shake 420ms ease-in-out;
+}

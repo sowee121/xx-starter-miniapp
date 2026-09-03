@@ -1,4 +1,4 @@
-const { tap } = require('../../utils/tap-guard')
+const { tap } = require('../../../../utils/tap-guard')
 
 /** 六模块吉祥物卡面色（按动物主色），命中则替换 tone 类；其余模块回退原 tone */
 const MASCOT_TONES = {

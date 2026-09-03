@@ -1,3 +1,0 @@
-<view wx:if="{{text}}" class="soft-note block {{toneClass}} {{shaking ? 'is-shaking' : ''}}"
-  >{{text}}</view
->

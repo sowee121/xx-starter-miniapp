@@ -100,7 +100,7 @@ page {
   --tone-cream: linear-gradient(180deg, #fafcf9 0%, #f1f5f1 100%); /* 奶油卡面 */
   --shadow-tone-cream:
     var(--shadow-clay-hi), inset -8rpx -10rpx 18rpx rgba(148, 170, 152, 0.2), var(--shadow-lift);
-  --tone-soft-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
+  --tone-fail: linear-gradient(180deg, #fffaf0 0%, #f8e8c5 100%); /* 软失败提示面 */
   --tone-picked: linear-gradient(180deg, #fff3c4, #f0cc58); /* 选项选中 */
   --ring-picked: #e0b43c; /* 选中环 */
   --tone-ok: linear-gradient(180deg, #e4f5c4, #9fce6e); /* 答对 / 当前石子 */
@@ -203,7 +203,7 @@ page {
   --gap-snug: 10rpx; /* 欢迎卡内、音量轨内边距 */
   --gap-text: 12rpx; /* 标题与说明 */
   --gap-row: 16rpx; /* 行内：文案与播放钮 */
-  --gap-soft: 18rpx; /* 绿钮内、反馈卡内 */
+  --gap-inner: 18rpx; /* 绿钮内、反馈卡内（组件内部子元素间距）*/
   --gap-trail: 22rpx; /* 拼音石子径圆面间距 */
   --gap-inset: 24rpx; /* 导航内、字卡内 */
   --gap-grid: 30rpx; /* 列表卡片、两列/三列网格 */

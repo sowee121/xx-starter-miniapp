@@ -2,7 +2,7 @@
   title="英语"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
@@ -16,7 +16,7 @@
       playing="{{playingSrc === item.audio}}"
       bindtap="play"
     />
-    <word-line
+    <word-row
       text="{{item.sentence}}"
       active="{{playingSrc === item.sentenceAudio}}"
       playing="{{playingSrc === item.sentenceAudio}}"

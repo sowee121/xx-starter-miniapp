@@ -70,7 +70,7 @@ Page({
 
   /** 点拼音石子 */
   onTrailTap: tap(function (e) {
-    const id = e.currentTarget.dataset.id
+    const id = e.detail.id
     const next = resolveItem(id)
     if (!next) return
     if (this.data.item && next.letter === this.data.item.letter) {

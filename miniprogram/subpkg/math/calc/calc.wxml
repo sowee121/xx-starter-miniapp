@@ -1,35 +1,20 @@
-<app-shell
+<quiz-frame
+  type="calc"
   title="算一算"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
-  note-type="{{softNoteTone === 'tone-matcha' ? 'success' : 'warning'}}"
-  note-shake="{{wrongShake}}"
+  bar-text="{{barText}}"
+  bar-tone="{{barTone}}"
+  wrong-shake="{{wrongShake}}"
+  question="{{question}}"
+  choices="{{choices}}"
+  picked-value="{{pickedValue}}"
+  picked-correct="{{pickedCorrect}}"
+  option-tones="{{['mint', 'lilac', 'rose']}}"
+  calc-image="{{calcImage}}"
+  has-prev="{{nav.hasPrev}}"
+  bind:choose="choose"
+  bind:prev="goPrev"
+  bind:next="goNext"
   bind:continue="next"
->
-  <view wx:if="{{question}}" class="detail-stack">
-    <view class="quiz-head block tone-sand">
-      <image class="quiz-head__image" src="{{calcImage}}" mode="aspectFit" />
-      <view class="quiz-head__equation">{{question.a}} {{question.op}} {{question.b}} = ?</view>
-    </view>
-    <view class="options">
-      <view
-        wx:for="{{choices}}"
-        wx:key="key"
-        class="option block {{index === 0 ? 'tone-peach' : (index === 1 ? 'tone-butter' : 'tone-lilac')}} {{item.value === pickedValue ? 'is-picked' : ''}} {{pickedCorrect && item.value === pickedValue ? 'is-correct' : ''}} {{!pickedCorrect && item.value === pickedValue && wrongShake ? 'is-shaking' : ''}}"
-        data-value="{{item.value}}"
-        bindtap="choose"
-        hover-class="is-pressed"
-        hover-start-time="0"
-        hover-stay-time="80"
-        >{{item.value}}</view
-      >
-    </view>
-    <trail-nav
-      has-prev="{{nav.hasPrev}}"
-      has-next="{{true}}"
-      bind:prev="goPrev"
-      bind:next="goNext"
-    />
-  </view>
-</app-shell>
+/>

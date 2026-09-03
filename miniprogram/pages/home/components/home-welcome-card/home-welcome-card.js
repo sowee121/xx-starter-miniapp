@@ -1,6 +1,6 @@
-const { HOME_ASSETS } = require('../../content/mascots')
-const { goTo } = require('../../utils/page')
-const { tap } = require('../../utils/tap-guard')
+const { HOME_ASSETS } = require('../../../../content/mascots')
+const { goTo } = require('../../../../utils/page')
+const { tap } = require('../../../../utils/tap-guard')
 
 Component({
   options: {
@@ -14,7 +14,7 @@ Component({
     deco: { type: String, value: HOME_ASSETS.daisy },
     tone: { type: String, value: 'cream' },
     /** 点击落地页，默认家长区 */
-    url: { type: String, value: '/pages/parent/parent' },
+    url: { type: String, value: '/subpkg/parent/parent/parent' },
   },
   methods: {
     /** 点击整卡进落地页 */

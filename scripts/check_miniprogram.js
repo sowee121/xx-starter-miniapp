@@ -723,7 +723,7 @@ function checkH5FlexGapSync() {
   const required = [
     { name: '.word-grid', re: /\.word-grid\s*\{[^}]*\bgap\s*:/s },
     { name: '.sticker-grid', re: /\.sticker-grid\s*\{[^}]*\bgap\s*:/s },
-    { name: '.duo', re: /\.duo\s*\{[^}]*\bgap\s*:/s },
+    { name: '.hub-entry-cards', re: /\.hub-entry-cards\s*\{[^}]*\bgap\s*:/s },
     { name: '.options', re: /\.options\s*\{[^}]*\bgap\s*:/s },
     { name: '.detail-pair', re: /\.detail-pair\s*\{[^}]*\bgap\s*:/s },
     { name: '.home-modules', re: /\.home-modules\s*\{[^}]*\bgap\s*:/s },

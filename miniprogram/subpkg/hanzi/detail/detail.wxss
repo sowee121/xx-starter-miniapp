@@ -7,8 +7,8 @@
   width: 100%;
 }
 
-/* 双卡各占一半：word-line 是自定义组件，flex 必须落在宿主标签上（内部根节点不参与外层 flex） */
-.detail-pair word-line {
+/* 双卡各占一半：word-row 是自定义组件，flex 必须落在宿主标签上（内部根节点不参与外层 flex） */
+.detail-pair word-row {
   flex: 1;
   min-width: 0;
 }

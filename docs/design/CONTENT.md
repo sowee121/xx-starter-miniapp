@@ -84,7 +84,7 @@
 - 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
 - **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-number`
 - **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（枢纽 A/苹果入口 320px + 128px 列表缩略图，缩略图从原子直接生成）· `english-{fruit,animal,color,body,transport,number,food,nature}`（各类详情 320px 大图/音频）· `english-abc`（字母表页 + 272px 字母图 + 字母音频 + 字母歌）。详情边长由 `scripts/sync_package_images.py` 从原子下采样，禁止再压到 160px
-- **共享 UI**：`feedback-layer` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
+- **共享 UI**：`feedback-layer` / `play-button` 等放主包 `components/`；仅单分包使用的组件（如 `media-card` 已下沉 `poem`）放对应分包 `components/`；勿放 `subpkg/common`，避免跨分包组件未加载
 - **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 PNG（`meadow.png`，750×390）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
 
 
@@ -143,13 +143,13 @@
 | 场景 | 形态 | 说明 |
 | --- | --- | --- |
 | 每日任务首次完成发星 | 弹层 `feedback-layer` | 文案「宝贝真棒」+ 任务名；按钮「继续学」（日历打卡用「好的」）；禁 Toast |
-| 贴纸兑换成功 / 失败 | 同弹层，`exchange` / `softFail` 变体 | 成功按钮「收下啦」，失败「再看看」；失败语气仍温柔正向 |
-| 算术答对 / 再试 | 行内 `soft-note` + 音效 | `answer-correct.mp3` / `answer-wrong.mp3` |
-| 点读音频缺失 | 行内 soft-note | 「语音准备中～」 |
+| 贴纸兑换成功 / 失败 | 同弹层，`exchange` / `fail` 变体 | 成功按钮「收下啦」，失败「再看看」；失败语气仍温柔正向 |
+| 算术答对 / 再试 | 行内 `feedback-bar` + 音效 | `answer-correct.mp3` / `answer-wrong.mp3` |
+| 点读音频缺失 | 行内 feedback-bar | 「语音准备中～」 |
 
 文案与音频入口：`miniprogram/content/feedback.js`；编排：`miniprogram/utils/feedback.js`。H5 审查：`docs/design/h5/shared/feedback.html`。答题音效音色见 §2.10。
 
-积分商城分两截：**我的贴纸**（已兑换，图下显示名字）在上，**去兑换**（未拥有货架）在下。还没有贴纸时只显示提示「去兑换小动物吧」。兑成后页面回到顶部，刚换的小动物出现在「我的贴纸」。
+积分商城分两截：**我的贴纸**（已兑换，图下显示名字）在上，**兑换贴纸**（未拥有货架）在下。还没有贴纸时只显示提示「去兑换小动物吧」。兑成后页面回到顶部，刚换的小动物出现在「我的贴纸」。
 
 日历页日期卡内放「打卡」按钮；卡下方展示**本月学习热力**：一周七列小方块，颜色越深当天有效学习（点读新内容 / 答对 / 打卡）越多。仅本月；先写本地再同步云端，换机登录后格子还在。H5 为示意帧。
 

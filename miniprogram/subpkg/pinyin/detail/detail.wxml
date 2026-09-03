@@ -2,7 +2,7 @@
   title="拼音"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
@@ -15,26 +15,12 @@
       bindtap="play"
     />
 
-    <view class="buddy-dock block tone-cream">
-      <image class="buddy-dock__mascot" src="{{buddyIcon}}" mode="aspectFit" lazy-load />
-      <view class="buddy-dock__bubble">
-        <view class="buddy-dock__bubble-tail" aria-hidden="true"></view>
-        <text class="buddy-dock__bubble-text">{{item.hint}}</text>
-      </view>
-    </view>
+    <buddy-dock icon="{{buddyIcon}}" text="{{item.hint}}" tone="cream" />
 
-    <view class="trail-nav" aria-label="韵母石子径">
-      <view
-        wx:for="{{trail}}"
-        wx:key="id"
-        class="trail-nav__item {{item.current ? 'is-current' : ''}}"
-        data-id="{{item.id}}"
-        bindtap="onTrailTap"
-        hover-class="is-pressed"
-        hover-start-time="0"
-        hover-stay-time="80"
-        ><text class="trail-nav__glyph">{{item.letter}}</text></view
-      >
-    </view>
+    <pinyin-trail
+      trail="{{trail}}"
+      label="韵母石子径"
+      bind:tap="onTrailTap"
+    />
   </view>
 </app-shell>

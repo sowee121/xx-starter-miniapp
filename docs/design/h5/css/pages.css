@@ -96,28 +96,28 @@
   font-size: var(--font-hero);
 }
 
-.word-line {
+.word-row {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-row);
-  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-line 对齐 */
+  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-row 对齐 */
   min-height: 132px;
   padding: var(--pad-card);
   border-radius: var(--radius-bar);
 }
-.word-line.is-active,
-.word-line.active {
+.word-row.is-active,
+.word-row.active {
   background: linear-gradient(180deg, #fff8ee, #f9edc6);
 }
-.word-line__text {
+.word-row__text {
   flex: 1;
   min-width: 0;
   font-size: var(--font-line);
   line-height: 1.4;
   font-weight: 700;
 }
-.word-line .media-play {
+.word-row .media-play {
   min-width: 0;
   min-height: 0;
   justify-content: flex-end;
@@ -303,7 +303,7 @@
   gap: var(--gap-block);
 }
 .detail-pair .block,
-.word-line.is-half {
+.word-row.is-half {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -312,7 +312,7 @@
   flex: 1;
   width: auto;
   min-width: 0;
-  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-line 对齐 */
+  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-row 对齐 */
   min-height: 132px;
   padding: var(--pad-card);
   font-size: var(--font-line);
@@ -489,10 +489,10 @@
 .option.is-shaking {
   animation: option-shake 420ms ease-in-out;
 }
-.soft-note.is-shaking {
+.feedback-bar.is-shaking {
   animation: option-shake 420ms ease-in-out;
 }
-.soft-note {
+.feedback-bar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -505,7 +505,7 @@
   border-radius: var(--radius-bar);
   box-sizing: border-box;
 }
-.soft-note.tone-matcha {
+.feedback-bar.tone-matcha {
   color: var(--ink);
 }
 
@@ -519,7 +519,7 @@
   overflow: visible;
 }
 
-.calendar-scene .big-btn {
+.calendar-scene .block-btn {
   align-self: stretch;
 }
 /* 日历 H5 审查：白天/夜景各一个 HTML（小程序按时间切一页） */

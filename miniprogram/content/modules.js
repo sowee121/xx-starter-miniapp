@@ -59,7 +59,7 @@ const MODULES = {
     tint: tintOf('reward'),
     url: '/subpkg/shop/shop',
     subtitle: '星星兑换动物贴纸',
-    actionText: '去兑换',
+    actionText: '兑换贴纸',
   },
 }
 

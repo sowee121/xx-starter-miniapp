@@ -1,7 +1,7 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "media-card": "/components/media-card/media-card"
+    "media-card": "/subpkg/poem/components/media-card/media-card"
   },
   "navigationBarTitleText": "古诗"
 }

@@ -6,7 +6,7 @@
     <view class="calendar-scene__date">{{dateText}}</view>
     <view class="calendar-scene__week">{{weekday}}</view>
   </view>
-  <big-button
+  <block-button
     text="{{checkedIn ? '今天已打卡' : '打卡'}}"
     disabled="{{checkedIn}}"
     bind:tap="onCheckinTap"

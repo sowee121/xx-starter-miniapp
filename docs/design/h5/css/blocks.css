@@ -8,9 +8,8 @@
 }
 
 .play-btn,
-.trail-nav__item,
 .chip,
-.big-btn,
+.block-btn,
 .custom-header__home,
 .feedback-layer__continue,
 .volume-option,
@@ -20,11 +19,17 @@ a.block,
 .home-module-card,
 .media-card,
 .word-card,
-.duo-card,
-.word-line,
+.hub-entry-card,
+.word-row,
 .hero,
 .detail-card {
   transition: var(--motion-tap);
+}
+
+/* 禁用态：统一透明 + 不可点，所有组件的 is-disabled 共用 */
+.is-disabled {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
 }
 
 /* 仅可点积木与控件按下；题干/日历场景/伙伴坞等静态卡不要缩放 */
@@ -34,23 +39,21 @@ a.block:active,
 .home-module-card:active,
 .media-card:active,
 .word-card:active,
-.duo-card:active,
-.word-line:active,
+.hub-entry-card:active,
+.word-row:active,
 .hero:active,
 .detail-card:active,
 .play-btn-hit:active .play-btn,
 .play-btn:active,
-.trail-nav__item:active,
 .custom-header__home:active,
 .feedback-layer__continue:active,
 .volume-option:active {
   transform: scale(0.985);
 }
 
-.trail-nav__item.is-disabled:active,
 .chip.is-owned:active,
 .chip.is-short:active,
-.big-btn.is-disabled:active {
+.block-btn.is-disabled:active {
   transform: none;
 }
 
@@ -217,6 +220,8 @@ a.block:active,
   text-decoration: none;
   box-sizing: border-box;
   flex-shrink: 0;
+  /* 按下过渡，对齐 --motion-tap（石子径交互反馈） */
+  transition: var(--motion-tap);
 }
 /* 墨水区相对字盒偏下：只上移字形，不挪动石子圆面 */
 .trail-nav__glyph {
@@ -236,13 +241,25 @@ a.block:active,
   background: var(--tone-ok);
   box-shadow: var(--shadow-trail-current);
 }
-.trail-nav__item.is-disabled {
-  opacity: var(--opacity-disabled);
-  pointer-events: none;
+
+
+.trail-nav__item:active {
+  transform: scale(0.985);
+}
+
+.trail-nav__item.is-disabled:active {
+  transform: none;
+}
+
+/* 拼音石子径：6 个单韵母纵向侧边导航 */
+.trail-nav.is-pinyin {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 
 .chip,
-.big-btn {
+.block-btn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -295,20 +312,18 @@ a.block:active,
     inset -8px -10px 18px rgba(198, 182, 146, 0.2),
     var(--shadow-owned);
 }
-.big-btn {
+.block-btn {
   width: 100%;
   height: var(--size-slot);
   font-size: var(--font-card);
-  gap: var(--gap-soft);
+  gap: var(--gap-inner);
 }
-.big-btn:active {
+.block-btn:active {
   transform: scale(0.98);
 }
-.big-btn.is-disabled,
-.big-btn.is-disabled:active {
-  opacity: var(--opacity-disabled);
+.block-btn.is-disabled,
+.block-btn.is-disabled:active {
   transform: none;
-  pointer-events: none;
 }
 
 .section-title {
@@ -365,13 +380,13 @@ a.block:active,
   justify-content: flex-end;
 }
 
-.duo {
+.hub-entry-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--gap-grid);
 }
-.duo-card {
+.hub-entry-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,15 +399,15 @@ a.block:active,
   box-sizing: border-box;
   border-radius: var(--radius-tile);
 }
-.duo-card img {
+.hub-entry-card__image {
   width: 188px;
   height: 188px;
   object-fit: contain;
 }
-.duo-card strong {
+.hub-entry-card__title {
   font-size: var(--font-card);
 }
-.duo-card span {
+.hub-entry-card__sub {
   font-size: var(--font-hint);
   color: var(--muted);
 }
@@ -430,10 +445,10 @@ a.block:active,
     transform 460ms ease-in-out,
     opacity 460ms ease-in-out; /* 出场原路翻回 */
 }
-.feedback-layer__card.is-soft-fail {
-  background: var(--tone-soft-fail);
+.feedback-layer__card.is-fail {
+  background: var(--tone-fail);
 }
-.feedback-layer__card.is-soft-fail .feedback-layer__text {
+.feedback-layer__card.is-fail .feedback-layer__text {
   color: var(--note);
 }
 .feedback-layer__card.is-exchange {
@@ -464,7 +479,7 @@ a.block:active,
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--gap-soft);
+  gap: var(--gap-inner);
 }
 .feedback-layer__text {
   margin: 0;

@@ -63,7 +63,7 @@ Page({
       {
         item,
         tone: toneOf(this._catId),
-        softNote: '',
+        barText: '',
         nav: stepNavState(index, items.length),
       },
       () => {

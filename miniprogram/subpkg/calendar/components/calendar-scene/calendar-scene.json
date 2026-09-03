@@ -2,6 +2,6 @@
   "component": true,
   "styleIsolation": "apply-shared",
   "usingComponents": {
-    "big-button": "/components/big-button/big-button"
+    "block-button": "/components/block-button/block-button"
   }
 }

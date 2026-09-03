@@ -2,30 +2,20 @@
   title="古诗"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
   bind:continue="closeFeedback"
 >
   <view class="page-list" wx:if="{{poem}}">
-    <view
-      class="hero block tone-{{poem.tone}}"
+    <hero-card
+      tone="{{poem.tone}}"
+      image="{{poem.icon}}"
+      title="{{poem.title}}"
+      author="{{poem.author}}"
+      playing="{{playingSrc === poem.fullAudio}}"
       bindtap="onFullPlay"
-      hover-class="is-pressed"
-      hover-start-time="0"
-      hover-stay-time="80"
-    >
-      <image class="hero__image" src="{{poem.icon}}" mode="widthFix" lazy-load />
-      <view class="hero__bar">
-        <view class="hero__heading">
-          <view class="hero__title">{{poem.title}}</view>
-          <view class="hero__sub">{{poem.author}}</view>
-        </view>
-        <view class="hero__play">
-          <play-button size="lg" playing="{{playingSrc === poem.fullAudio}}" passive="{{true}}" />
-        </view>
-      </view>
-    </view>
+    />
 
-    <word-line
+    <word-row
       wx:for="{{poem.lines}}"
       wx:key="text"
       text="{{item.text}}"

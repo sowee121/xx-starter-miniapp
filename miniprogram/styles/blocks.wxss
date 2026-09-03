@@ -1,4 +1,4 @@
-/* H5 blocks.css · 积木卡与基础控件 */
+/* H5 blocks.css · 积木卡与基础控件（仅保留主包相关 + 公共样式） */
 
 /* 纵向积木间距统一由容器 gap 提供，积木自身不带 margin */
 .block {
@@ -12,15 +12,22 @@
 .block,
 .play-btn-hit,
 .play-btn,
-.trail-nav__item,
 .chip,
-.big-btn,
+.block-btn,
 .custom-header__home,
 .feedback-layer__continue,
 .volume-option,
 .home-welcome-card,
 .home-feature-card,
-.home-module-card {
+.home-feature-card__socket,
+.home-module-card,
+.hub-entry-card,
+.word-row,
+.task-row,
+.task-row__tick,
+.clear-groove,
+.option,
+.trail-nav__item {
   transition: var(--motion-tap);
 }
 
@@ -28,22 +35,28 @@
 .is-pressed,
 .play-btn-hit:active .play-btn,
 .play-btn:active,
-.trail-nav__item:active,
 .custom-header__home:active,
 .feedback-layer__continue:active,
-.volume-option:active {
+.volume-option:active,
+.trail-nav__item:active {
   transform: scale(0.985);
 }
 
-.trail-nav__item.is-disabled:active,
-.trail-nav__item.is-disabled.is-pressed,
 .chip.is-owned:active,
 .chip.is-owned.is-pressed,
 .chip.is-short:active,
 .chip.is-short.is-pressed,
-.big-btn.is-disabled:active,
-.big-btn.is-disabled.is-pressed {
+.block-btn.is-disabled:active,
+.block-btn.is-disabled.is-pressed,
+.trail-nav__item.is-disabled:active,
+.trail-nav__item.is-disabled.is-pressed {
   transform: none;
+}
+
+/* 禁用态：统一透明 + 不可点，所有组件的 is-disabled 共用 */
+.is-disabled {
+  opacity: var(--opacity-disabled);
+  pointer-events: none;
 }
 
 /* 对角 inset = 鹅卵石鼓边（上左高光 / 下右压暗），外阴影托起厚度 */
@@ -126,8 +139,7 @@
   box-shadow: var(--shadow-clay-night);
 }
 
-.chip,
-.big-btn {
+.chip {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -140,9 +152,6 @@
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
   box-sizing: border-box;
-}
-
-.chip {
   width: var(--size-chip-wide);
   height: var(--size-chip-lg);
   font-size: var(--font-hint);
@@ -182,132 +191,9 @@
   transform: none;
 }
 
-/* 已拥有贴纸：加深原阴影，不加描边 */
-.sticker-card.block.is-owned {
-  box-shadow:
-    var(--shadow-clay-hi),
-    inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2),
-    var(--shadow-owned);
-}
-
-.big-btn {
-  width: 100%;
-  height: var(--size-slot);
-  font-size: var(--font-card);
-  gap: var(--gap-soft);
-}
-
-.big-btn:active {
-  transform: scale(0.98);
-}
-
-.big-btn.is-disabled,
-.big-btn.is-disabled:active {
-  opacity: var(--opacity-disabled);
-  transform: none;
-  pointer-events: none;
-}
-
 /* 圆钮视觉在 components/play-button；此处只保留按下过渡 */
 
-/* 通用石子径：详情切项 / 拼音字母 */
-.trail-nav {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-trail);
-  box-sizing: border-box;
-}
-
-.trail-nav.is-step {
-  justify-content: stretch;
-  gap: var(--gap-block);
-}
-
-.trail-nav.is-step .trail-nav__item {
-  flex: 1;
-  width: auto;
-  min-width: 0;
-  height: var(--size-slot);
-  border-radius: var(--radius-pill);
-  /* 跟组词 / 诗行 / 例句同一套奶油黏土面，不要石子径冷灰绿 */
-  background: var(--tone-cream);
-  box-shadow: var(--shadow-clay);
-}
-
-.trail-nav.is-step .trail-nav__arrow {
-  width: var(--size-arrow);
-  height: var(--size-arrow);
-}
-
-.trail-nav__item {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: var(--size-trail);
-  height: var(--size-trail);
-  /* 单字默认正圆 */
-  border-radius: var(--radius-pill);
-  border: 0;
-  background: var(--tone-trail);
-  box-shadow: var(--shadow-trail);
-  font-size: var(--font-trail);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ink);
-  text-decoration: none;
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-/* 墨水区相对字盒偏下：只上移字形，不挪动石子圆面 */
-.trail-nav__glyph {
-  display: block;
-  line-height: 1;
-  transform: translateY(-0.08em);
-}
-
-.trail-nav__arrow {
-  width: 64rpx;
-  height: 64rpx;
-  display: block;
-}
-
-.trail-nav__arrow.is-flip {
-  transform: scaleX(-1);
-}
-
-.trail-nav__item.is-current {
-  background: var(--tone-ok);
-  box-shadow: var(--shadow-trail-current);
-}
-
-.trail-nav__item.is-disabled {
-  opacity: var(--opacity-disabled);
-  pointer-events: none;
-}
-
-.inner-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--gap-text);
-}
-
-.inner-head__title {
-  font-size: var(--font-inner);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--ink);
-}
-
-.inner-head__sub {
-  font-size: var(--font-hint);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
+/* 列表分组：标题与同类卡片用网格间距 30 */
 .section-title {
   margin: 0;
   font-size: var(--font-title);
@@ -315,9 +201,10 @@
   color: var(--muted);
 }
 
-/* 列表分组：标题与同类卡片用网格间距 30 */
 .section {
   display: flex;
   flex-direction: column;
   gap: var(--gap-grid);
 }
+
+

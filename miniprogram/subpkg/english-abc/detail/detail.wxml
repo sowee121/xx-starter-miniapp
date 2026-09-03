@@ -2,7 +2,7 @@
   title="英语"
   stars="{{stars}}"
   feedback="{{feedback}}"
-  soft-note="{{softNote}}"
+  bar-text="{{barText}}"
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
