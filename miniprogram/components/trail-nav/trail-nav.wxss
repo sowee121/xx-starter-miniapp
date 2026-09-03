@@ -1,4 +1,4 @@
-/* 通用石子径：详情切项（单字石子）/ 上下步（箭头），本组件自包含，不依赖全局公共样式 */
+/* 石子径：上下步（上一个/下一个箭头），本组件自包含，不依赖全局公共样式 */
 .trail-nav {
   display: flex;
   flex-direction: row;
@@ -24,36 +24,18 @@
   box-shadow: var(--shadow-clay);
 }
 
-.trail-nav.is-step .trail-nav__arrow {
-  width: var(--size-arrow);
-  height: var(--size-arrow);
-}
-
 .trail-nav__item {
   position: relative;
   display: grid;
   place-items: center;
-  width: var(--size-trail);
-  height: var(--size-trail);
-  /* 单字默认正圆 */
-  border-radius: var(--radius-pill);
   border: 0;
-  background: var(--tone-trail);
-  box-shadow: var(--shadow-trail);
-  font-size: var(--font-trail);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ink);
-  text-decoration: none;
   box-sizing: border-box;
   flex-shrink: 0;
 }
 
-/* 墨水区相对字盒偏下：只上移字形，不挪动石子圆面 */
-.trail-nav__glyph {
-  display: block;
-  line-height: 1;
-  transform: translateY(-0.08em);
+.trail-nav.is-step .trail-nav__arrow {
+  width: var(--size-arrow);
+  height: var(--size-arrow);
 }
 
 .trail-nav__arrow {
@@ -64,9 +46,4 @@
 
 .trail-nav__arrow.is-flip {
   transform: scaleX(-1);
-}
-
-.trail-nav__item.is-current {
-  background: var(--tone-ok);
-  box-shadow: var(--shadow-trail-current);
 }

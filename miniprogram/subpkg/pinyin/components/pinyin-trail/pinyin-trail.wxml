@@ -1,13 +1,13 @@
-<view class="trail-nav" aria-label="{{label}}">
+<view class="pinyin-trail" aria-label="{{label}}">
   <view
     wx:for="{{trail}}"
     wx:key="id"
-    class="trail-nav__item motion-tap {{item.current ? 'is-current' : ''}}"
+    class="pinyin-trail__item motion-tap {{item.current ? 'is-current' : ''}}"
     data-id="{{item.id}}"
     bindtap="onTap"
     hover-class="is-pressed"
     hover-start-time="0"
     hover-stay-time="80"
-    ><text class="trail-nav__glyph">{{item.letter}}</text></view
+    ><text class="pinyin-trail__glyph">{{item.letter}}</text></view
   >
 </view>
