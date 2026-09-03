@@ -10,7 +10,7 @@ Page({
       {
         image: mediaUrl('/subpkg/english/static/english-letter-a.png'),
         title: '字母表',
-        sub: 'A 到 Z',
+        sub: 'A ~ Z',
         tone: 'sky',
         to: 'alphabet',
       },

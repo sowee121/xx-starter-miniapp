@@ -11,14 +11,14 @@ Page({
       {
         image: mediaUrl(`/subpkg/math/static/${content.fruitImage}.png`),
         title: '数一数',
-        sub: '1 到 10',
+        sub: '1 ~ 10',
         tone: 'rose',
         to: 'count',
       },
       {
         image: mediaUrl(`/subpkg/math/static/${content.calcImage}.png`),
         title: '算一算',
-        sub: '1 到 10',
+        sub: '1 ~ 10',
         tone: 'sand',
         to: 'calc',
       },

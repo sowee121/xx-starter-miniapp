@@ -294,7 +294,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 到 10</span></div><div class="duo-card block tone-pink"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 到 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="duo"><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>数一数</strong><span>1 ~ 10</span></div><div class="duo-card block tone-pink"><img src="{ASSET}/dog.png" alt="" /><strong>算一算</strong><span>1 ~ 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None, wrong=False):
@@ -419,7 +419,7 @@ def make_english():
     write(
         "english/hub.html",
         "英语",
-        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A 到 Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A ~ Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
     )
 
     abc_cards = "".join(
