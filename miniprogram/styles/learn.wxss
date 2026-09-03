@@ -1,11 +1,11 @@
 /* H5 pages.css · 学习列表 / 详情 / 答题公共结构 */
 
-.media-row {
+.media-card {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-row);
-  min-height: var(--size-media-row);
+  min-height: var(--size-media-card);
   padding: var(--pad-card);
   border-radius: var(--radius-card);
   box-sizing: border-box;
@@ -54,8 +54,8 @@
   box-sizing: border-box;
 }
 
-.media-row .media-play,
-.media-row .play-btn-hit {
+.media-card .media-play,
+.media-card .play-btn-hit {
   min-width: 0;
   min-height: 0;
   justify-content: flex-end;
@@ -100,85 +100,6 @@
   box-sizing: border-box;
   width: 100%;
   gap: var(--gap-grid);
-}
-
-.word-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-inset);
-  width: var(--col-3);
-  height: 248rpx;
-  font-size: var(--font-display);
-  font-weight: 700;
-  color: var(--ink);
-  border-radius: var(--radius-tile);
-  box-sizing: border-box;
-}
-
-.word-card:not(.word-card--english):not(.word-card--hanzi) {
-  justify-content: space-between;
-  padding-top: var(--gap-inset);
-  padding-bottom: var(--gap-inset);
-}
-
-.word-card__image {
-  width: 100rpx;
-  height: 100rpx;
-  flex-shrink: 0;
-}
-
-.word-card.is-song .word-card__image {
-  width: calc(100% - 48rpx);
-  aspect-ratio: 272 / 102;
-  height: auto;
-  margin-top: 20rpx;
-}
-
-.word-card .play-btn-hit {
-  margin-top: auto;
-}
-
-.word-card__label {
-  font-size: var(--font-hint);
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--ink);
-  text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.word-card--english {
-  height: var(--size-word);
-}
-
-.word-card--english .word-card__image {
-  width: var(--size-word-thumb);
-  height: var(--size-word-thumb);
-}
-
-.word-card--hanzi {
-  height: var(--size-word);
-}
-
-.word-card__emoji {
-  width: var(--size-word-thumb);
-  height: var(--size-word-thumb);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 56rpx;
-  line-height: 1;
-  flex-shrink: 0;
-}
-
-.word-card--hanzi .word-card__label {
-  font-size: var(--font-title);
 }
 
 .hero {
@@ -242,28 +163,6 @@
   border-radius: var(--radius-thumb);
 }
 
-.detail-big {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--gap-block);
-  padding: var(--pad-card-xl);
-  text-align: center;
-  border-radius: var(--radius-card);
-  box-sizing: border-box;
-}
-
-.detail-big__image {
-  width: 320rpx;
-  height: 320rpx;
-}
-
-.pinyin-vowel-image {
-  width: 360rpx;
-  height: 360rpx;
-}
-
 /* 跟读伙伴坞（对齐 H5 pages.css） */
 .buddy-dock {
   display: flex;
@@ -317,33 +216,6 @@
 .buddy-dock__bubble-text {
   position: relative;
   z-index: 1;
-}
-
-.detail-emoji {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 160rpx;
-  height: 160rpx;
-  font-size: 100rpx;
-  line-height: 1;
-}
-
-.detail-big__glyph {
-  font-size: 108rpx;
-  font-weight: 700;
-  line-height: 1;
-  color: var(--ink);
-}
-
-.detail-big__title {
-  font-size: var(--font-inner);
-}
-
-.detail-big__meaning {
-  font-size: var(--font-note);
-  font-weight: 700;
-  color: var(--ink);
 }
 
 .detail-pair {

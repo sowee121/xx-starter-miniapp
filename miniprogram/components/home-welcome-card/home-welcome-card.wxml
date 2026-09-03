@@ -1,0 +1,16 @@
+<view
+  class="home-welcome-card tone-{{tone}}"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <view class="home-welcome-card__avatar-slot">
+    <image class="home-welcome-card__avatar" src="{{avatar}}" mode="aspectFit" />
+  </view>
+  <view class="home-welcome-card__body">
+    <view class="home-welcome-card__hello">{{title}}</view>
+    <view wx:if="{{subtitle}}" class="home-welcome-card__sub">{{subtitle}}</view>
+  </view>
+  <image wx:if="{{deco}}" class="home-welcome-card__deco" src="{{deco}}" mode="aspectFit" />
+</view>

@@ -1,0 +1,15 @@
+<view
+  class="detail-card block tone-{{tone}} {{cls}}"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+  bindtap="onTap"
+>
+  <image wx:if="{{image}}" class="{{imageClass}}" src="{{image}}" mode="aspectFit" lazy-load />
+  <view wx:if="{{emoji}}" class="detail-card__emoji">{{emoji}}</view>
+  <view wx:if="{{glyph}}" class="detail-card__glyph">{{glyph}}</view>
+  <view wx:if="{{title}}" class="detail-card__title">{{title}}</view>
+  <view wx:if="{{sub}}" class="detail-card__sub">{{sub}}</view>
+  <view wx:if="{{meaning}}" class="detail-card__meaning">{{meaning}}</view>
+  <play-button wx:if="{{play}}" size="lg" passive="{{true}}" playing="{{playing}}" />
+</view>

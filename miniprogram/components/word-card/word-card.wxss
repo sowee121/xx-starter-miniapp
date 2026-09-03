@@ -1,0 +1,81 @@
+/* 字卡网格单元：词卡 / 字卡 / 字母歌卡共用，数值对齐全局 token 与 H5 pages.css */
+
+:host {
+  /* 宿主是 word-grid 的 flex 子项，承担三列等宽列宽 */
+  display: block;
+  width: var(--col-3);
+}
+
+.word-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* 内容纵向铺满：内容贴顶、标签 / 播放钮贴底 */
+  justify-content: space-between;
+  gap: var(--gap-inset);
+  padding-top: var(--gap-inset);
+  padding-bottom: var(--gap-inset);
+  /* 三列列宽由宿主承担，本卡根填满宿主 */
+  width: 100%;
+  height: 248rpx;
+  font-size: var(--font-display);
+  font-weight: 700;
+  color: var(--ink);
+  border-radius: var(--radius-tile);
+  box-sizing: border-box;
+}
+
+.word-card__image {
+  width: 100rpx;
+  height: 100rpx;
+  flex-shrink: 0;
+}
+
+/* 字母歌横幅卡：图占卡内宽，横 272:102 */
+.word-card.is-song .word-card__image {
+  width: calc(100% - 48rpx);
+  aspect-ratio: 272 / 102;
+  height: auto;
+  margin-top: 20rpx;
+}
+
+.word-card__label {
+  font-size: var(--font-hint);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--ink);
+  text-align: center;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.word-card--english {
+  height: var(--size-word);
+}
+
+.word-card--english .word-card__image {
+  width: var(--size-word-thumb);
+  height: var(--size-word-thumb);
+}
+
+.word-card--hanzi {
+  height: var(--size-word);
+}
+
+.word-card__emoji {
+  width: var(--size-word-thumb);
+  height: var(--size-word-thumb);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56rpx;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.word-card--hanzi .word-card__label {
+  font-size: var(--font-title);
+}

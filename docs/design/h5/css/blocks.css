@@ -11,39 +11,37 @@
 .trail-nav__item,
 .chip,
 .big-btn,
-.nav-home,
+.custom-header__home,
 .feedback-layer__continue,
 .volume-option,
 a.block,
-.welcome,
-.wide,
-.module,
-.media-row,
+.home-welcome-card,
+.home-feature-card,
+.home-module-card,
+.media-card,
 .word-card,
 .duo-card,
-.poem-line,
+.word-line,
 .hero,
-.detail-big,
-.detail-pair__card {
+.detail-card {
   transition: var(--motion-tap);
 }
 
 /* 仅可点积木与控件按下；题干/日历场景/伙伴坞等静态卡不要缩放 */
 a.block:active,
-.welcome:active,
-.wide:active,
-.module:active,
-.media-row:active,
+.home-welcome-card:active,
+.home-feature-card:active,
+.home-module-card:active,
+.media-card:active,
 .word-card:active,
 .duo-card:active,
-.poem-line:active,
+.word-line:active,
 .hero:active,
-.detail-big:active,
-.detail-pair__card:active,
+.detail-card:active,
 .play-btn-hit:active .play-btn,
 .play-btn:active,
 .trail-nav__item:active,
-.nav-home:active,
+.custom-header__home:active,
 .feedback-layer__continue:active,
 .volume-option:active {
   transform: scale(0.985);
@@ -318,12 +316,12 @@ a.block:active,
   font-weight: 700;
 }
 
-.media-row {
+.media-card {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-row);
-  min-height: var(--size-media-row);
+  min-height: var(--size-media-card);
   padding: var(--pad-card);
   border-radius: var(--radius-card);
 }
@@ -343,7 +341,7 @@ a.block:active,
   overflow: hidden;
   border-radius: var(--radius-thumb);
 }
-.media-main > img.media-main__image--wide {
+.media-main > img.media-main__thumb--wide {
   width: calc(var(--size-media-thumb) * 4 / 3);
   height: var(--size-media-thumb);
 }
@@ -361,7 +359,7 @@ a.block:active,
   flex-shrink: 0;
   box-sizing: border-box;
 }
-.media-row .media-play {
+.media-card .media-play {
   min-width: 0;
   min-height: 0;
   justify-content: flex-end;

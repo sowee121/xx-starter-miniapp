@@ -112,7 +112,7 @@ body {
   padding-bottom: var(--pad-page);
   padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
-.nav {
+.custom-header__row {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -120,7 +120,7 @@ body {
   height: var(--size-header);
   flex-shrink: 0;
 }
-.nav-home {
+.custom-header__home {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,13 +138,13 @@ body {
   background-size: 100% 100%;
   box-shadow: var(--shadow-clay-leaf);
 }
-.nav-home__icon {
+.custom-header__home-icon {
   width: 78px;
   height: 78px; /* 黏土屋 128×128 正方形 */
   transform: translateY(-4px);
   object-fit: contain;
 }
-.nav-title {
+.custom-header__title {
   flex: 1;
   min-width: 0;
   text-align: left;
@@ -157,14 +157,14 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.nav-right {
+.custom-header__right {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-inset);
   flex-shrink: 0;
 }
-.star-pill {
+.star-bar {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -175,12 +175,12 @@ body {
   background: var(--tone-leaf);
   box-shadow: var(--shadow-clay-leaf);
 }
-.star-pill img {
+.star-bar img {
   width: var(--size-star);
   height: var(--size-star);
   object-fit: contain;
 }
-.star-pill b {
+.star-bar b {
   font-size: var(--font-nav);
   color: var(--ink);
 }

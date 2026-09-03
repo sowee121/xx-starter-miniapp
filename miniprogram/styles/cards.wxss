@@ -18,7 +18,7 @@
 .custom-header__home,
 .feedback-layer__continue,
 .volume-option,
-.home-welcome,
+.home-welcome-card,
 .home-feature-card,
 .home-module-card {
   transition: var(--motion-tap);

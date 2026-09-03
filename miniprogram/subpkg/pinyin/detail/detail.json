@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "app-shell": "/components/app-shell/app-shell",
-    "play-button": "/components/play-button/play-button"
+    "detail-card": "/components/detail-card/detail-card",
+    "app-shell": "/components/app-shell/app-shell"
   }
 }

@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "styleIsolation": "apply-shared",
+  "externalClasses": ["custom-class"],
+  "usingComponents": {
+    "play-button": "/components/play-button/play-button"
+  }
+}

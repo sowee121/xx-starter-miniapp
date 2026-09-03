@@ -1,4 +1,4 @@
-/* 主体样式复用全局 learning.wxss 的 media-row */
+/* 主体样式复用全局 learn.wxss 的 media-card */
 .media-card__meta {
   display: flex;
   align-items: center;

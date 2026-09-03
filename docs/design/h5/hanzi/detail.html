@@ -13,33 +13,38 @@
         <div class="scene__blend"></div>
       </div>
       <div class="shell">
-        <div class="nav">
-          <div class="nav-home" aria-label="返回首页">
-            <img class="nav-home__icon" src="../../atoms/home-clay.png" alt="" />
+        <div class="custom-header__row">
+          <div class="custom-header__home" aria-label="返回首页">
+            <img class="custom-header__home-icon" src="../../atoms/home-clay.png" alt="" />
           </div>
-          <div class="nav-title">识字</div>
-          <div class="nav-right">
-            <div class="star-pill"><img src="../../atoms/star.png" alt="" /><b>128</b></div>
+          <div class="custom-header__title">识字</div>
+          <div class="custom-header__right">
+            <div class="star-bar">
+              <img class="star-bar__icon" src="../../atoms/star.png" alt="" /><b
+                class="star-bar__count"
+                >128</b
+              >
+            </div>
             <div class="capsule-slot"></div>
           </div>
         </div>
         <div class="detail-stack">
-          <div class="detail-big block tone-rose">
-            <div class="detail-emoji" aria-hidden="true">👤</div>
-            <div class="glyph">人</div>
-            <p>ren · 2 画</p>
+          <div class="detail-card block tone-rose">
+            <div class="detail-card__emoji" aria-hidden="true">👤</div>
+            <div class="detail-card__glyph">人</div>
+            <p class="detail-card__sub">ren · 2 画</p>
             <div class="play-btn is-lg" aria-label="播放">
               <img src="../../atoms/play.png" alt="" />
             </div>
           </div>
           <div class="detail-pair">
-            <div class="detail-pair__card block tone-cream">
+            <div class="word-line is-half block tone-cream">
               大人
               <div class="play-btn is-sm" aria-label="播放">
                 <img src="../../atoms/play.png" alt="" />
               </div>
             </div>
-            <div class="detail-pair__card block tone-cream">
+            <div class="word-line is-half block tone-cream">
               小人
               <div class="play-btn is-sm" aria-label="播放">
                 <img src="../../atoms/play.png" alt="" />
@@ -56,7 +61,7 @@
         </div>
         <div class="section">
           <div class="section-title">语音准备中</div>
-          <div class="soft-note block tone-butter is-shaking">语音准备中～</div>
+          <div class="soft-note block tone-butter">语音准备中～</div>
         </div>
       </div>
     </div>

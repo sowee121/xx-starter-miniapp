@@ -19,7 +19,7 @@
 }
 
 .media-main__body,
-.home-welcome__body,
+.home-welcome-card__body,
 .home-feature-card__body,
 .setting-head__body {
   display: flex;
@@ -40,11 +40,10 @@
 }
 
 .media-main__sub,
-.home-welcome__sub,
+.home-welcome-card__sub,
 .home-feature-card__sub,
 .hero__sub,
 .duo-card__sub,
-.detail-big__sub,
 .inner-head__sub,
 .setting-head__hint {
   font-size: var(--font-hint);
@@ -56,8 +55,7 @@
 .home-feature-card__title,
 .setting-head__title,
 .duo-card__title,
-.hero__title,
-.detail-big__title {
+.hero__title {
   font-weight: 700;
   color: var(--ink);
   line-height: 1.2;

@@ -46,7 +46,7 @@
   --size-play-icon-sm: 36px; /* 播放图标小号 */
   --size-star-bar: 64px; /* 积分星条高度 */
   --size-star: 48px; /* 星星图标边长 */
-  --size-media-row: 180px; /* 古诗等媒体列表行高 */
+  --size-media-card: 180px; /* 古诗等媒体列表行高 */
   --size-media-thumb: 132px; /* 媒体列表缩略图边长 */
   --size-trail: 96px; /* 拼音石子径单字圆面 */
   --size-tap-compact: 128px; /* 选项高度 */

@@ -1,0 +1,21 @@
+<view class="clear-card setting-block clear-block block {{tone}} custom-class">
+  <view class="setting-head">
+    <view wx:if="{{iconClass}}" class="clear-icon-slot {{iconClass}}">
+      <image class="clear-icon" src="{{icon}}" mode="aspectFit" lazy-load />
+    </view>
+    <image wx:else class="clear-icon" src="{{icon}}" mode="aspectFit" lazy-load />
+    <view class="setting-head__body">
+      <view class="setting-head__title">{{title}}</view>
+      <view class="setting-head__hint">{{hint}}</view>
+    </view>
+  </view>
+  <view
+    class="clear-groove {{groove}} {{holding ? 'is-holding' : ''}}"
+    bindtouchstart="onHoldStart"
+    bindtouchend="onHoldEnd"
+    bindtouchcancel="onHoldEnd"
+  >
+    <view class="clear-groove__bar {{holding ? 'is-filling' : ''}}"></view>
+    <view class="clear-label">{{label}}</view>
+  </view>
+</view>

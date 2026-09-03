@@ -1,5 +1,5 @@
 <view
-  class="media-row block tone-{{tone || 'cream'}} custom-class"
+  class="media-card block tone-{{tone || 'cream'}} custom-class"
   bindtap="onTap"
   hover-class="is-pressed"
   hover-start-time="0"

@@ -48,7 +48,7 @@ page {
   --size-play-icon-sm: 36rpx; /* 播放图标小号 */
   --size-star-bar: 64rpx; /* 积分星条高度 */
   --size-star: 48rpx; /* 星星图标边长 */
-  --size-media-row: 180rpx; /* 古诗等媒体列表行高 */
+  --size-media-card: 180rpx; /* 古诗等媒体列表行高 */
   --size-media-thumb: 132rpx; /* 媒体列表缩略图边长 */
   --size-trail: 96rpx; /* 拼音石子径单字圆面 */
   --size-tap-compact: 128rpx; /* 选项高度 */

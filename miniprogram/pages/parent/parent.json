@@ -1,7 +1,8 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "play-button": "/components/play-button/play-button"
+    "clear-card": "/components/clear-card/clear-card",
+    "volume-card": "/components/volume-card/volume-card"
   },
   "navigationBarTitleText": "家长区"
 }

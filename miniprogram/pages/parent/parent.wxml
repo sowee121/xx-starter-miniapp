@@ -1,57 +1,21 @@
 <app-shell title="家长区" hint="家长设置" sub-hint="陪伴宝贝，轻松调整" stars="{{stars}}">
   <view class="parent-stack">
-    <view class="setting-block block tone-sky">
-      <view class="setting-head">
-        <play-button size="lg" playing="{{playingSrc === previewSrc}}" bind:tap="onPreviewTap" />
-        <view class="setting-head__body">
-          <view class="setting-head__title">音量大小</view>
-          <view class="setting-head__hint">调节点读和答题音量大小</view>
-        </view>
-      </view>
-      <view
-        class="volume-options"
-        bindtouchstart="onVolumeTrackStart"
-        bindtouchmove="onVolumeTrackMove"
-        bindtouchend="onVolumeTrackEnd"
-        bindtouchcancel="onVolumeTrackEnd"
-      >
-        <view class="volume-thumb" style="{{volumeThumbStyle}}"></view>
-        <view
-          wx:for="{{volumes}}"
-          wx:key="value"
-          class="volume-option {{volume === item.value ? 'is-active' : ''}}"
-          data-value="{{item.value}}"
-          bindtap="onVolume"
-          hover-class="is-pressed"
-          hover-start-time="0"
-          hover-stay-time="80"
-          >{{item.label}}</view
-        >
-      </view>
-    </view>
+    <volume-card title="音量大小" hint="调节点读和答题音量大小" />
 
-    <view wx:for="{{actions}}" wx:key="key" class="setting-block clear-block block {{item.tone}}">
-      <view class="setting-head">
-        <view wx:if="{{item.iconClass}}" class="clear-icon-slot {{item.iconClass}}">
-          <image class="clear-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />
-        </view>
-        <image wx:else class="clear-icon" src="{{item.icon}}" mode="aspectFit" lazy-load />
-        <view class="setting-head__body">
-          <view class="setting-head__title">{{item.title}}</view>
-          <view class="setting-head__hint">{{item.hint}}</view>
-        </view>
-      </view>
-      <view
-        class="clear-groove {{item.groove}} {{item.holding ? 'is-holding' : ''}}"
-        data-key="{{item.key}}"
-        bindtouchstart="onHoldStart"
-        bindtouchend="onHoldEnd"
-        bindtouchcancel="onHoldEnd"
-      >
-        <view class="clear-groove__bar {{item.holding ? 'is-filling' : ''}}"></view>
-        <view class="clear-label">{{item.label}}</view>
-      </view>
-    </view>
+    <clear-card
+      wx:for="{{actions}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      icon="{{item.icon}}"
+      icon-class="{{item.iconClass}}"
+      title="{{item.title}}"
+      hint="{{item.hint}}"
+      tone="{{item.tone}}"
+      groove="{{item.groove}}"
+      verb="{{item.verb}}"
+      result="{{item.result}}"
+      bind:confirm="onClear"
+    />
 
     <view class="parent-about">嘻嘻启蒙乐园 · 版本 1.0</view>
   </view>

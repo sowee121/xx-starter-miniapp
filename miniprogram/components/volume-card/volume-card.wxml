@@ -1,0 +1,29 @@
+<view class="volume-card setting-block block tone-{{tone}} custom-class">
+  <view class="setting-head">
+    <play-button size="lg" playing="{{playingSrc === previewSrc}}" bind:tap="onPreviewTap" />
+    <view class="setting-head__body">
+      <view class="setting-head__title">{{title}}</view>
+      <view class="setting-head__hint">{{hint}}</view>
+    </view>
+  </view>
+  <view
+    class="volume-options"
+    bindtouchstart="onVolumeTrackStart"
+    bindtouchmove="onVolumeTrackMove"
+    bindtouchend="onVolumeTrackEnd"
+    bindtouchcancel="onVolumeTrackEnd"
+  >
+    <view class="volume-thumb" style="{{thumbStyle}}"></view>
+    <view
+      wx:for="{{volumes}}"
+      wx:key="value"
+      class="volume-option {{volume === item.value ? 'is-active' : ''}}"
+      data-value="{{item.value}}"
+      bindtap="onVolume"
+      hover-class="is-pressed"
+      hover-start-time="0"
+      hover-stay-time="80"
+      >{{item.label}}</view
+    >
+  </view>
+</view>

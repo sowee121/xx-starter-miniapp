@@ -1,0 +1,12 @@
+<view
+  class="word-card block {{cls}}"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+  bindtap="onTap"
+>
+  <image wx:if="{{image}}" class="word-card__image" src="{{image}}" mode="aspectFit" lazy-load />
+  <view wx:elif="{{emoji}}" class="word-card__emoji">{{emoji}}</view>
+  <view wx:if="{{label}}" class="word-card__label">{{label}}</view>
+  <play-button wx:if="{{play}}" size="sm" passive="{{passive}}" playing="{{playing}}" />
+</view>

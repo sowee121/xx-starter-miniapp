@@ -20,10 +20,10 @@ miniprogram/
 ├── pages/
 │   ├── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
 │   └── parent/                    # 家长区：音量三档 + 长按 3 秒清除
-├── components/                    # 13 个主包通用组件
+├── components/                    # 19 个主包通用组件
 ├── utils/                         # 12 个通用模块（云端、发星、点读、进度、热力…）
 ├── content/                       # 静态内容配置：mascots / modules / feedback
-├── styles/                        # tokens / reset / layout / cards / learning
+├── styles/                        # tokens / reset / layout / cards / learn
 ├── config/                        # cloud.js（envId）、media.js（USE_CLOUD）
 ├── static/                        # 主包共享图与音频（shared/ icons/ home/）
 └── subpkg/                        # 17 个分包，媒体各自随包
@@ -89,13 +89,19 @@ miniprogram/
 | `big-button` | 大号主行动按钮，点击节流走 `utils/tap-guard` |
 | `media-card` | 列表/详情页通用媒体卡（图 + 标题 + 可选播放钮） |
 | `play-button` | 播放/停止切换钮，全局 stop 时会收回三角 |
+| `detail-card` | 详情页学习主卡（图/emoji/字形/词/注音/释义组合 + 播放钮 + 整卡可点，抛 `tap`） |
+| `word-card` | 字卡网格单元（图/emoji/label + 可选播放钮 + 整卡可点，抛 `tap`） |
+| `word-line` | 点读行（诗行 / 组词 / 例句，抛 `tap`） |
 | `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
 | `home-module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
 | `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
+| `home-welcome-card` | 首页欢迎卡（头像 + 问候语，点整卡进家长区；`title` / `subtitle` / `avatar` / `deco` / `tone` / `url` 均可覆盖） |
 | `activity-month` | 日历页月历热力网格（`title` / `weekdays` / `cells` / `night`），已下沉到 `subpkg/calendar/components` |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
 | `hub-entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `hub-entry-card`，抛 `go` |
 | `hub-entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
+| `volume-card` | 家长区音量卡（试听钮 + 三档滑块），自管音量读写与试听，抛 `change` |
+| `clear-card` | 家长区清除卡（长按 3 秒进度槽），长按计时与文案自管，抛 `confirm`，结果由 `result` 回写 |
 
 组件统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/cards.wxss`。
 
@@ -124,7 +130,7 @@ miniprogram/
 | `styles/reset.wxss` | 基础重置；正文字号最小 28rpx |
 | `styles/layout.wxss` | 页面骨架（shell / 网格 / 安全区） |
 | `styles/cards.wxss` | `tone-*` 卡面色（与 H5 15 色同源，按颜色命名） |
-| `styles/learning.wxss` | 学习页共用样式（词卡网格、点读区、选项） |
+| `styles/learn.wxss` | 学习页共用样式（词卡网格、点读区、选项） |
 
 ---
 

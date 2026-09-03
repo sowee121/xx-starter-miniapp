@@ -1,4 +1,4 @@
-"""Generate static H5 review pages for the eight approved learning modules.
+"""Generate static H5 review pages for the eight approved learn modules.
 
 State variants of the same layout are merged into one HTML per module area
 (section titles inside the page) so the design index stays compact.
@@ -102,10 +102,10 @@ def page_frame(title, body, night=False, full_scene=False):
     return f"""<div class="{page_cls}">
     {scene_html(night, full=full_scene)}
     <div class="shell">
-      <div class="nav">
-        <div class="nav-home" aria-label="返回首页"><img class="nav-home__icon" src="{ASSET}/home-clay.png" alt="" /></div>
-        <div class="nav-title">{title}</div>
-        <div class="nav-right"><div class="star-pill"><img src="{ASSET}/star.png" alt="" /><b>128</b></div><div class="capsule-slot"></div></div>
+      <div class="custom-header__row">
+        <div class="custom-header__home" aria-label="返回首页"><img class="custom-header__home-icon" src="{ASSET}/home-clay.png" alt="" /></div>
+        <div class="custom-header__title">{title}</div>
+        <div class="custom-header__right"><div class="star-bar"><img class="star-bar__icon" src="{ASSET}/star.png" alt="" /><b class="star-bar__count">128</b></div><div class="capsule-slot"></div></div>
       </div>
       {body}
     </div>
@@ -136,8 +136,8 @@ def write(path, title, body, night=False, doc_title=None):
 
 
 def media(image, title, sub, tone="tone-cream", wide=False):
-    img_cls = ' class="media-main__image--wide"' if wide else ""
-    return f"""<div class="media-row block {tone}">
+    img_cls = ' class="media-main__thumb--wide"' if wide else ""
+    return f"""<div class="media-card block {tone}">
   <div class="media-main">
     <img{img_cls} src="{ASSET}/{image}.png" alt="" />
     <div class="media-main__body"><strong>{title}</strong><span>{sub}</span></div>
@@ -147,8 +147,8 @@ def media(image, title, sub, tone="tone-cream", wide=False):
 
 
 def praise_layer(title: str, desc: str, variant: str = "", action: str = "") -> str:
-    """静态审查：弹层已打开态（对齐小程序 praise-sun）。"""
-    card_cls = "praise-sun__card"
+    """静态审查：弹层已打开态（对齐小程序 feedback-layer）。"""
+    card_cls = "feedback-layer__card"
     icon = "big-star"
     actions = {
         "": "继续学",
@@ -162,15 +162,15 @@ def praise_layer(title: str, desc: str, variant: str = "", action: str = "") -> 
     elif variant == "exchange":
         card_cls += " is-exchange"
     label = action or actions.get(variant, "继续学")
-    return f"""<div class="feedback-frame"><div class="praise-sun"><div class="{card_cls}">
-  <img class="praise-sun__cloud" src="{ASSET}/cloud.png" alt="" />
-  <div class="praise-sun__icon-slot"><img class="praise-sun__icon" src="{ASSET}/{icon}.png" alt="" /></div>
-  <div class="praise-sun__body">
-    <div class="praise-sun__text">{title}</div>
-    <div class="praise-sun__desc">{desc}</div>
+    return f"""<div class="feedback-frame"><div class="feedback-layer"><div class="{card_cls}">
+  <img class="feedback-layer__cloud" src="{ASSET}/cloud.png" alt="" />
+  <div class="feedback-layer__icon-slot"><img class="feedback-layer__icon" src="{ASSET}/{icon}.png" alt="" /></div>
+  <div class="feedback-layer__body">
+    <div class="feedback-layer__text">{title}</div>
+    <div class="feedback-layer__desc">{desc}</div>
   </div>
-  <div class="praise-sun__continue">{label}</div>
-  <img class="praise-sun__grass" src="{ASSET}/grass-tuft.png" alt="" />
+  <div class="feedback-layer__continue">{label}</div>
+  <img class="feedback-layer__grass" src="{ASSET}/grass-tuft.png" alt="" />
 </div></div></div>"""
 
 
@@ -204,8 +204,8 @@ def make_poem():
         for i, line in enumerate(sample["lines"]):
             active_cls = " is-active" if active == i else ""
             parts.append(
-                f'<div class="poem-line block tone-cream{active_cls}">'
-                f'<strong class="poem-line__text">{line["text"]}</strong>'
+                f'<div class="word-line block tone-cream{active_cls}">'
+                f'<strong class="word-line__text">{line["text"]}</strong>'
                 f'<div class="media-play">{play()}</div></div>'
             )
         return "".join(parts)
@@ -269,7 +269,7 @@ def make_hanzi():
     write(
         "hanzi/detail.html",
         "识字",
-        f"""<div class="detail-stack"><div class="detail-big block tone-rose"><div class="detail-emoji" aria-hidden="true">{sample["emoji"]}</div><div class="glyph">{sample["char"]}</div><p>{sample["pinyin"]} · {sample["strokes"]} 画</p>{play("is-lg")}</div><div class="detail-pair"><div class="detail-pair__card block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="detail-pair__card block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
+        f"""<div class="detail-stack"><div class="detail-card block tone-rose"><div class="detail-card__emoji" aria-hidden="true">{sample["emoji"]}</div><div class="detail-card__glyph">{sample["char"]}</div><p class="detail-card__sub">{sample["pinyin"]} · {sample["strokes"]} 画</p>{play("is-lg")}</div><div class="detail-pair"><div class="word-line is-half block tone-cream">{sample["words"][0]}{play("is-sm")}</div><div class="word-line is-half block tone-cream">{sample["words"][1]}{play("is-sm")}</div></div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("hanzi/hub.html", "hanzi/poem-list.html", "hanzi/life-list.html", "hanzi/praise.html")
@@ -450,7 +450,7 @@ def make_english():
     write(
         "english/alphabet-detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-big block tone-sky"><img class="pinyin-vowel-image" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p>{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
+        f"""<div class="detail-stack"><div class="detail-card block tone-sky"><img class="detail-card__image--wide" src="{ASSET}/{abc_sample["image"]}.png" alt="{abc_sample["letter"]}" /><p class="detail-card__sub">{abc_sample["phonetic"]}</p>{play("is-lg")}</div>{abc_step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
 
@@ -487,7 +487,7 @@ def make_english():
     write(
         "english/detail.html",
         "英语",
-        f"""<div class="detail-stack"><div class="detail-big block tone-apricot"><img src="{ASSET}/{sample['image']}.png" alt="" /><h2>{sample['word']}</h2><p>{sample['phonetic']}</p><p class="detail-big__meaning">{sample.get('meaning', '')}</p>{play("is-lg")}</div><div class="poem-line block tone-cream"><div class="poem-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
+        f"""<div class="detail-stack"><div class="detail-card block tone-apricot"><img class="detail-card__image" src="{ASSET}/{sample['image']}.png" alt="" /><h2 class="detail-card__title">{sample['word']}</h2><p class="detail-card__sub">{sample['phonetic']}</p><p class="detail-card__meaning">{sample.get('meaning', '')}</p>{play("is-lg")}</div><div class="word-line block tone-cream"><div class="word-line__text">{sample['sentence']}</div>{play("is-sm")}</div>{step}</div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths("english/praise.html")
@@ -521,8 +521,8 @@ def make_pinyin():
     write(
         "pinyin/detail.html",
         "拼音",
-        f"""<div class="detail-stack"><div class="detail-big block tone-cream"><img class="pinyin-vowel-image" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p>{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
-<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-big block tone-cream"><img class="pinyin-vowel-image" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p>{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
+        f"""<div class="detail-stack"><div class="detail-card block tone-cream"><img class="detail-card__image--wide" src="{ASSET}/{sample['asset']}.png" alt="{sample['letter']}" /><p class="detail-card__sub">{sample.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{sample['hint']}</div></div><nav class="trail-nav" aria-label="韵母石子径">{pebbles}</nav></div>
+<div class="section" id="{alt['letter']}"><div class="section-title">{alt['letter']}（对照）</div><div class="detail-stack"><div class="detail-card block tone-cream"><img class="detail-card__image--wide" src="{ASSET}/{alt['asset']}.png" alt="{alt['letter']}" /><p class="detail-card__sub">{alt.get('phonetic', '')}</p>{play("is-lg")}</div><div class="buddy-dock block tone-cream"><img class="buddy-dock__mascot" src="{ASSET}/buddy-duckling.png" alt="" /><div class="buddy-dock__bubble">{alt['hint']}</div></div></div></div>
 {section("语音准备中", '<div class="soft-note block tone-butter">语音准备中～</div>')}""",
     )
     remove_paths(
@@ -599,15 +599,15 @@ def make_calendar():
     heat_night = heat_month_html(night=True)
     day = (
         f'<div class="calendar-scene block tone-butter">'
-        f'<div class="calendar-sky-icon"><img src="{ASSET}/sun.png" alt="" /></div>'
-        '<div class="calendar-today"><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div></div>'
+        f'<div class="calendar-scene__sky"><img class="calendar-scene__sky-image" src="{ASSET}/sun.png" alt="" /></div>'
+        '<div class="calendar-scene__today"><div class="calendar-scene__date">2026 年 8 月 15 日</div><div class="calendar-scene__week">星期六</div></div>'
         '<div class="big-btn">打卡</div>'
         f'</div>{heat_day}'
     )
     night = (
-        f'<div class="calendar-scene calendar-scene-night block tone-night">'
-        f'<div class="calendar-sky-icon"><img src="{ASSET}/moon-stars.png" alt="" /></div>'
-        '<div class="calendar-today"><div class="calendar-date">2026 年 8 月 15 日</div><div class="calendar-week">星期六</div></div>'
+        f'<div class="calendar-scene calendar-scene--night block tone-night">'
+        f'<div class="calendar-scene__sky"><img class="calendar-scene__sky-image" src="{ASSET}/moon-stars.png" alt="" /></div>'
+        '<div class="calendar-scene__today"><div class="calendar-scene__date">2026 年 8 月 15 日</div><div class="calendar-scene__week">星期六</div></div>'
         '<div class="big-btn is-disabled">今天已打卡</div>'
         f'</div>{heat_night}'
     )
@@ -648,10 +648,10 @@ def make_task():
                 else:
                     progress = f'<span class="task-row__progress">0/{target}</span>'
             parts.append(
-                f'<div class="task-row block tone-cream {"done" if i < done else ""}">'
-                f'<div class="tick"><img src="{ASSET}/check.png" alt="" /></div>'
+                f'<div class="task-row block tone-cream {"is-done" if i < done else ""}">'
+                f'<div class="task-row__tick"><img src="{ASSET}/check.png" alt="" /></div>'
                 f'<div class="task-row__body"><strong>{title}</strong>{progress}</div>'
-                f'<span class="task-reward">+{reward}'
+                f'<span class="task-row__reward">+{reward}'
                 f'<img src="{ASSET}/star.png" alt="星星" /></span></div>'
             )
         return "".join(parts)
@@ -673,7 +673,7 @@ def make_reward():
     shop_cards = "".join(
         f'<div class="sticker-card block {tone}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
-        f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
+        f'<span class="sticker-card__price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
         f'<div class="chip is-compact">兑换</div></div>'
         for name, asset, price, tone in animals
     )
@@ -687,7 +687,7 @@ def make_reward():
     short = "".join(
         f'<div class="sticker-card block {tone}">'
         f'<img src="{ASSET}/sticker-{asset}.png" alt="{name}" />'
-        f'<span class="sticker-price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
+        f'<span class="sticker-card__price"><b>{price}</b><img src="{ASSET}/star.png" alt="星星" /></span>'
         f'<div class="chip is-compact is-short">星星不足</div></div>'
         for name, asset, price, tone in samples
     )

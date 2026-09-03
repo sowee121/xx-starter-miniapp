@@ -96,7 +96,7 @@
   font-size: var(--font-hero);
 }
 
-.poem-line {
+.word-line {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -106,18 +106,18 @@
   padding: var(--pad-card);
   border-radius: var(--radius-bar);
 }
-.poem-line.is-active,
-.poem-line.active {
+.word-line.is-active,
+.word-line.active {
   background: linear-gradient(180deg, #fff8ee, #f9edc6);
 }
-.poem-line__text {
+.word-line__text {
   flex: 1;
   min-width: 0;
   font-size: var(--font-line);
   line-height: 1.4;
   font-weight: 700;
 }
-.poem-line .media-play {
+.word-line .media-play {
   min-width: 0;
   min-height: 0;
   justify-content: flex-end;
@@ -162,7 +162,7 @@
   aspect-ratio: 272 / 102;
   height: auto;
   object-fit: contain;
-  margin-top: 14px;
+  margin-top: 20px;
 }
 .word-card .play-btn {
   margin-top: auto;
@@ -203,7 +203,7 @@
   font-size: var(--font-title);
 }
 
-.detail-big {
+.detail-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -213,17 +213,17 @@
   text-align: center;
   box-sizing: border-box;
 }
-.detail-big > img {
+.detail-card__image {
   width: 320px;
   height: 320px;
   object-fit: contain;
 }
-.detail-big > .pinyin-vowel-image {
+.detail-card__image--wide {
   width: 360px;
   height: 360px;
   object-fit: contain;
 }
-.detail-big .detail-emoji {
+.detail-card__emoji {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -232,16 +232,16 @@
   font-size: 100px;
   line-height: 1;
 }
-.detail-big .glyph {
+.detail-card__glyph {
   font-size: 108px;
   font-weight: 700;
   line-height: 1;
 }
 
-.detail-big h2 {
+.detail-card__title {
   font-size: var(--font-inner);
 }
-.detail-big__meaning {
+.detail-card__meaning {
   font-size: var(--font-note);
   font-weight: 700;
   color: var(--ink);
@@ -303,7 +303,7 @@
   gap: var(--gap-block);
 }
 .detail-pair .block,
-.detail-pair__card {
+.word-line.is-half {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -526,7 +526,7 @@
 .shell:has(.calendar-scene) {
   gap: var(--gap-grid);
 }
-.calendar-sky-icon {
+.calendar-scene__sky {
   display: flex;
   position: relative;
   z-index: 1;
@@ -534,38 +534,38 @@
   justify-content: center;
   width: 240px;
 }
-.calendar-sky-icon img {
+.calendar-scene__sky img {
   display: block;
   width: 240px;
   height: 242px; /* 太阳 445×448 */
   object-fit: contain;
   object-position: center;
 }
-.calendar-scene-night .calendar-sky-icon img {
+.calendar-scene--night .calendar-scene__sky img {
   height: 176px; /* 月亮 448×328 */
 }
-.calendar-today {
+.calendar-scene__today {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--gap-text);
 }
-.calendar-date {
+.calendar-scene__date {
   font-size: var(--font-hero);
   font-weight: 700;
 }
-.calendar-week {
+.calendar-scene__week {
   font-size: var(--font-hint);
   color: var(--muted);
 }
-.calendar-scene-night {
+.calendar-scene--night {
   color: var(--night-ink);
 }
-.calendar-scene-night .calendar-date {
+.calendar-scene--night .calendar-scene__date {
   color: var(--night-ink);
   text-shadow: 0 3px 8px rgba(12, 18, 46, 0.28);
 }
-.calendar-scene-night .calendar-week {
+.calendar-scene--night .calendar-scene__week {
   color: var(--night-muted);
 }
 
@@ -691,22 +691,23 @@
 .page.is-night .shell {
   background: transparent;
 }
-.page.is-night .nav-title {
+.page.is-night .custom-header__title,
+.page.is-night .custom-header__brand {
   color: var(--night-ink);
   text-shadow: 0 2px 8px rgba(12, 18, 46, 0.35);
 }
-.page.is-night .star-pill {
+.page.is-night .star-bar {
   background: var(--tone-leaf-night);
   box-shadow: var(--shadow-clay-night);
 }
-.page.is-night .star-pill b {
+.page.is-night .star-bar__count {
   color: var(--night-strong);
 }
 .page.is-night .capsule-slot {
   border-color: rgba(220, 226, 250, 0.42);
   background: rgba(24, 32, 64, 0.28);
 }
-.page.is-night .nav-home {
+.page.is-night .custom-header__home {
   background-color: #dce3f4;
   background-image: var(--tone-leaf-night);
   box-shadow: var(--shadow-clay-night);
@@ -726,7 +727,7 @@
 .task-row:active {
   transform: scale(0.985);
 }
-.task-row .tick {
+.task-row .task-row__tick {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -739,18 +740,18 @@
     inset 0 -4px 8px rgba(96, 122, 96, 0.12);
   transition: var(--motion-tap);
 }
-.task-row .tick img {
+.task-row .task-row__tick img {
   display: none;
   width: 56px;
   height: 56px;
   object-fit: contain;
 }
-.task-row.done .tick {
+.task-row.is-done .task-row__tick {
   background-color: var(--btn-green-solid);
   background-image: var(--btn-green);
   box-shadow: var(--shadow-chip);
 }
-.task-row.done .tick img {
+.task-row.is-done .task-row__tick img {
   display: block;
 }
 .task-row strong {
@@ -762,7 +763,7 @@
   font-weight: 600;
   color: rgba(53, 85, 63, 0.62);
 }
-.task-reward {
+.task-row__reward {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -771,7 +772,7 @@
   font-weight: 700;
   color: var(--note);
 }
-.task-reward img {
+.task-row__reward img {
   width: var(--size-star);
   height: var(--size-star);
   object-fit: contain;
@@ -806,7 +807,7 @@
   object-fit: contain;
   border-radius: var(--radius-thumb);
 }
-.sticker-price {
+.sticker-card__price {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -821,11 +822,11 @@
   min-width: 0;
   margin-top: 0;
 }
-.sticker-price b {
+.sticker-card__price b {
   font-size: var(--font-nav);
   line-height: 1;
 }
-.sticker-price img {
+.sticker-card__price img {
   width: var(--size-star);
   height: var(--size-star);
   object-fit: contain;

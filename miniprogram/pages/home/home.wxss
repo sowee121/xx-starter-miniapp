@@ -26,51 +26,6 @@
   padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
 
-.home-welcome {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--pad-card);
-  height: 144rpx;
-  padding: 16rpx var(--pad-card);
-  overflow: visible;
-  border-radius: var(--radius-card);
-  box-sizing: border-box;
-  flex-shrink: 0;
-}
-
-.home-welcome--pressed {
-  transform: scale(0.985);
-}
-
-.home-welcome__avatar-slot {
-  width: 112rpx;
-  height: 112rpx;
-  flex-shrink: 0;
-  transform: scale(1.2);
-  transform-origin: 50% 50%;
-}
-
-.home-welcome__avatar {
-  display: block;
-  width: 112rpx;
-  height: 112rpx;
-}
-
-.home-welcome__hello {
-  font-size: var(--font-title);
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--ink);
-}
-
-.home-welcome__deco {
-  width: 64rpx;
-  height: 101rpx; /* 雏菊 122×192 */
-  flex-shrink: 0;
-  pointer-events: none;
-}
-
 .home-page__block {
   display: block;
   flex-shrink: 0;

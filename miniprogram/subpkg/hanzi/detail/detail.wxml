@@ -6,19 +6,15 @@
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
-    <view
-      class="detail-big block tone-{{tone}}"
+    <detail-card
       data-kind="char"
+      tone="{{tone}}"
+      emoji="{{item.emoji}}"
+      glyph="{{item.char}}"
+      sub="{{item.pinyin}} · {{item.strokes}} 画"
+      playing="{{playingSrc === item.audio}}"
       bindtap="play"
-      hover-class="is-pressed"
-      hover-start-time="0"
-      hover-stay-time="80"
-    >
-      <view class="detail-emoji">{{item.emoji}}</view>
-      <view class="detail-big__glyph">{{item.char}}</view>
-      <view class="detail-big__sub">{{item.pinyin}} · {{item.strokes}} 画</view>
-      <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
-    </view>
+    />
     <view class="detail-pair">
       <word-line
         wx:for="{{item.words}}"

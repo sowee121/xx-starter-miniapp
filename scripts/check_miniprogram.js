@@ -319,7 +319,7 @@ function checkContentUsesFullShellWidth() {
   const targets = [
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.word-grid' },
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.sticker-grid' },
-    { file: path.join(MP, 'styles/learning.wxss'), selector: '.word-grid' },
+    { file: path.join(MP, 'styles/learn.wxss'), selector: '.word-grid' },
     { file: path.join(MP, 'subpkg/shop/shop.wxss'), selector: '.sticker-grid' },
   ]
 
@@ -364,7 +364,7 @@ function checkHomeTwoColumnSync() {
   const pairs = [
     {
       file: path.join(ROOT, 'docs/design/h5/css/home.css'),
-      selector: '.module',
+      selector: '.home-modules__cell',
       unit: 'px',
     },
     {
@@ -726,7 +726,7 @@ function checkH5FlexGapSync() {
     { name: '.duo', re: /\.duo\s*\{[^}]*\bgap\s*:/s },
     { name: '.options', re: /\.options\s*\{[^}]*\bgap\s*:/s },
     { name: '.detail-pair', re: /\.detail-pair\s*\{[^}]*\bgap\s*:/s },
-    { name: '.modules', re: /\.modules\s*\{[^}]*\bgap\s*:/s },
+    { name: '.home-modules', re: /\.home-modules\s*\{[^}]*\bgap\s*:/s },
     { name: '.count-stage', re: /\.count-stage\s*\{[^}]*(?:gap|row-gap|column-gap)\s*:/s },
   ]
   for (const item of required) {

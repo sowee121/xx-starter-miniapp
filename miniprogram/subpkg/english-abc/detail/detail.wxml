@@ -6,17 +6,14 @@
   bind:continue="closeFeedback"
 >
   <view wx:if="{{item}}" class="detail-stack">
-    <view
-      class="detail-big block tone-sky"
+    <detail-card
+      tone="sky"
+      image="{{item.image}}"
+      image-class="detail-card__image--wide"
+      sub="{{item.phonetic}}"
+      playing="{{playingSrc === item.audio}}"
       bindtap="play"
-      hover-class="is-pressed"
-      hover-start-time="0"
-      hover-stay-time="80"
-    >
-      <image class="pinyin-vowel-image" src="{{item.image}}" mode="aspectFit" lazy-load />
-      <view class="detail-big__sub">{{item.phonetic}}</view>
-      <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
-    </view>
+    />
     <trail-nav
       show="{{nav.total > 1}}"
       has-prev="{{nav.hasPrev}}"

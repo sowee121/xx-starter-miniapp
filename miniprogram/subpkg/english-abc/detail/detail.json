@@ -1,7 +1,7 @@
 {
   "usingComponents": {
+    "detail-card": "/components/detail-card/detail-card",
     "app-shell": "/components/app-shell/app-shell",
-    "play-button": "/components/play-button/play-button",
     "trail-nav": "/components/trail-nav/trail-nav"
   }
 }

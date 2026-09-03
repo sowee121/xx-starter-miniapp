@@ -4,15 +4,12 @@ const { HOME_ASSETS, ICONS } = require('../../content/mascots')
 const { getModule, homeModuleEntries } = require('../../content/modules')
 const dailyTasks = require('../../utils/daily-tasks')
 const { goTo } = require('../../utils/page')
-const { tap } = require('../../utils/tap-guard')
 
 Page({
   data: {
     stars: 0,
     headerHeight: 84,
     meadow: HOME_ASSETS.meadow,
-    avatar: HOME_ASSETS.avatar,
-    daisy: HOME_ASSETS.daisy,
     bigStar: ICONS.bigStar,
     check: ICONS.check,
     task: getModule('task'),
@@ -60,9 +57,4 @@ Page({
     if (!url) return
     goTo(url)
   },
-
-  /** 打开家长区 */
-  onOpenParent: tap(function () {
-    goTo('/pages/parent/parent')
-  }),
 })

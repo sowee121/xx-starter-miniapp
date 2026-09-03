@@ -19,8 +19,8 @@
 }
 
 .media-main__body,
-.welcome__body,
-.wide__body,
+.home-welcome-card__body,
+.home-feature-card__body,
 .setting-head__body {
   display: flex;
   flex-direction: column;
@@ -40,12 +40,12 @@
 }
 
 .media-main__body span,
-.welcome-sub,
-.wide-sub,
+.home-welcome-card__sub,
+.home-feature-card__sub,
 .hero p,
 .hero__sub,
 .duo-card span,
-.detail-big p,
+.detail-card__sub,
 .inner-head p,
 .setting-head__body span {
   font-size: var(--font-hint);
@@ -54,7 +54,7 @@
 }
 
 .media-main__body strong,
-.wide-title,
+.home-feature-card__title,
 .duo-card strong,
 .hero h2,
 .hero__title,

@@ -4,7 +4,7 @@
  * 迁 WXSS 约束：卡片组优先 flex + gap；不用 grid / filter / 伪元素承载内容
  */
 
-/* 首页贴视口，避免 1624 画板最小高把审查页撑出滚动条；nav 已在文档流，不再垫一层 header padding */
+/* 首页贴视口，避免 1624 画板最小高把审查页撑出滚动条；custom-header__row 已在文档流，不再垫一层 header padding */
 .page {
   min-height: 100vh;
   min-height: 100dvh;
@@ -26,28 +26,28 @@
   object-position: center bottom;
 }
 
-/* 首页导航：左标题、无回首页钮；间距走 shell .nav 的 gap */
-.nav-title {
+/* 首页导航：左标题、无回首页钮；间距走 shell .custom-header__row 的 gap */
+.custom-header__title {
   text-align: left;
   line-height: 1.2;
   color: var(--ink);
 }
-.nav-right {
+.custom-header__right {
   flex-shrink: 0;
 }
-.star-pill-icon {
+.star-bar__icon {
   width: var(--size-star);
   height: var(--size-star);
   object-fit: contain;
 }
-.star-pill-num {
+.star-bar__count {
   font-size: var(--font-nav);
   font-weight: 700;
   color: var(--ink);
 }
 
 /* —— 欢迎卡 —— */
-.welcome {
+.home-welcome-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -60,26 +60,26 @@
   border-radius: var(--radius-card);
   overflow: visible;
 }
-.welcome-avatar-slot {
+.home-welcome-card__avatar-slot {
   width: 112px;
   height: 112px;
   flex-shrink: 0;
   transform: scale(1.2);
   transform-origin: 50% 50%;
 }
-.welcome-avatar {
+.home-welcome-card__avatar {
   display: block;
   width: 112px;
   height: 112px;
   object-fit: contain;
 }
-.welcome-hello {
+.home-welcome-card__hello {
   font-size: var(--font-title);
   font-weight: 700;
   line-height: 1.2;
   color: var(--ink);
 }
-.welcome-deco {
+.home-welcome-card__deco {
   width: 64px;
   height: 101px; /* 雏菊 122×192 */
   object-fit: contain;
@@ -88,7 +88,7 @@
 }
 
 /* —— 通栏积木 —— */
-.wide {
+.home-feature-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -97,19 +97,19 @@
   padding: 0 var(--pad-card) 0 0;
   flex-shrink: 0;
 }
-.wide-mascot {
+.home-feature-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }
-.wide-title {
+.home-feature-card__title {
   font-size: var(--font-title);
 }
-.wide-sub {
+.home-feature-card__sub {
   white-space: nowrap;
 }
-.wide-deco {
+.home-feature-card__deco {
   width: 64px;
   height: 64px; /* 勾勾 / 星星 均为正方形 */
   object-fit: contain;
@@ -118,13 +118,13 @@
 }
 
 /* 星星凹槽：圆钮加大，星图略超出以吃掉 PNG 透明边 */
-.sockets {
+.home-feature-card__sockets {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-text);
 }
-.socket {
+.home-feature-card__socket {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -137,11 +137,11 @@
   box-shadow: var(--shadow-socket);
   transition: var(--motion-tap);
 }
-.socket-on {
+.home-feature-card__socket.is-on {
   background: rgba(255, 255, 255, 0.55);
   box-shadow: var(--shadow-socket-on);
 }
-.socket-star {
+.home-feature-card__socket-star {
   width: 56px;
   height: 56px;
   object-fit: contain;
@@ -149,7 +149,7 @@
 }
 
 /* —— 六个学习积木 —— */
-.modules {
+.home-modules {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -157,25 +157,27 @@
   gap: var(--gap-grid);
   flex-shrink: 0;
 }
-.module {
+.home-modules__cell {
+  width: var(--col-2);
+}
+.home-module-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   gap: var(--gap-text);
-  width: var(--col-2);
   height: 256px;
   padding: var(--pad-card-sm);
   box-sizing: border-box;
   border-radius: var(--radius-card);
 }
-.module-mascot {
+.home-module-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }
-.module-label {
+.home-module-card__label {
   font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;

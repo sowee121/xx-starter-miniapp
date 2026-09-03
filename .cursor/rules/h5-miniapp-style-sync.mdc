@@ -15,7 +15,7 @@ alwaysApply: true
 2. **映射关系**（优先对照）：
    - `tokens.wxss` ↔ `h5/css/tokens.css`
    - `cards.wxss` / tones ↔ `h5/css/blocks.css`
-   - `learning.wxss` ↔ `h5/css/pages.css`
+   - `learn.wxss` ↔ `h5/css/pages.css`
    - `layout.wxss` ↔ `h5/css/layout.css`
    - `components/app-shell` ↔ `h5/css/shell.css`
    - `pages/home/*` ↔ `h5/css/home.css` + `h5/home.html`
