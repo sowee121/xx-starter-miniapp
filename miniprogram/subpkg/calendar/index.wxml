@@ -1,4 +1,12 @@
-<app-shell title="日历" hint="" stars="{{stars}}" background="{{background}}" night="{{isNight}}">
+<app-shell
+  title="日历"
+  hint=""
+  stars="{{stars}}"
+  background="{{background}}"
+  night="{{isNight}}"
+  feedback="{{feedback}}"
+  bind:continue="closeFeedback"
+>
   <view class="detail-stack">
     <view
       class="calendar-scene block {{isNight ? 'tone-night calendar-scene--night' : 'tone-butter'}}"
@@ -23,13 +31,4 @@
       night="{{isNight}}"
     />
   </view>
-  <praise-sun
-    show="{{feedback.show}}"
-    closing="{{feedback.closing}}"
-    variant="{{feedback.variant}}"
-    title="{{feedback.title}}"
-    desc="{{feedback.desc}}"
-    action="{{feedback.action}}"
-    bind:continue="closePraise"
-  />
 </app-shell>

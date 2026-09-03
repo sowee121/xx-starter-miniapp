@@ -1,7 +1,6 @@
 {
   "navigationStyle": "custom",
   "usingComponents": {
-    "app-shell": "/components/app-shell/app-shell",
-    "praise-sun": "/components/praise-sun/praise-sun"
+    "app-shell": "/components/app-shell/app-shell"
   }
 }

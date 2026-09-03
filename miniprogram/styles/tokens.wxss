@@ -34,9 +34,9 @@ page {
   --size-canvas: 750rpx; /* 设计画板宽 */
   --size-canvas-min: 1624rpx; /* 设计画板最小高 */
   --size-meadow: 390rpx; /* 页底草地高 */
-  --size-praise: calc(100% - var(--pad-page) * 2); /* 表扬弹层卡片宽，左右各留页边 */
-  --size-praise-min: 760rpx; /* 表扬弹层卡片最小高 */
-  --size-praise-icon: 288rpx; /* 表扬弹层主图 */
+  --size-layer: calc(100% - var(--pad-page) * 2); /* 反馈层卡片宽，左右各留页边 */
+  --size-layer-min: 760rpx; /* 反馈层卡片最小高 */
+  --size-layer-icon: 288rpx; /* 反馈层主图 */
   --size-slot: 112rpx; /* 通栏钮 / 清除槽 / 音量档 / 切题条 / 大号播放 */
   --size-mascot: 168rpx; /* 首页通栏吉祥物 / 模块卡吉祥物 / 商城贴纸大图 */
   --size-word: 210rpx; /* 英语/识字列表字卡高 */
@@ -72,7 +72,7 @@ page {
   --shadow-clay-lo: inset -8rpx -10rpx 18rpx rgba(198, 182, 146, 0.2); /* 奶油面下右压暗 */
   --shadow-clay: /* 标准奶油鹅卵石：高光 + 压暗 + 外托 */
     var(--shadow-clay-hi), var(--shadow-clay-lo), var(--shadow-lift);
-  --shadow-clay-praise: /* 表扬弹层：加厚鼓边 + 柔和外托，强化鹅卵石感 */
+  --shadow-clay-layer: /* 反馈层：加厚鼓边 + 柔和外托，强化鹅卵石感 */
     inset 10rpx 9rpx 20rpx rgba(255, 255, 255, 0.18),
     inset -12rpx -14rpx 28rpx rgba(198, 182, 146, 0.3), 0 10rpx 18rpx rgba(96, 122, 96, 0.14),
     0 24rpx 44rpx rgba(96, 122, 96, 0.16), 0 44rpx 80rpx rgba(96, 122, 96, 0.1);
@@ -203,7 +203,7 @@ page {
   --gap-snug: 10rpx; /* 欢迎卡内、音量轨内边距 */
   --gap-text: 12rpx; /* 标题与说明 */
   --gap-row: 16rpx; /* 行内：文案与播放钮 */
-  --gap-soft: 18rpx; /* 绿钮内、表扬卡内 */
+  --gap-soft: 18rpx; /* 绿钮内、反馈卡内 */
   --gap-trail: 22rpx; /* 拼音石子径圆面间距 */
   --gap-inset: 24rpx; /* 导航内、字卡内 */
   --gap-grid: 30rpx; /* 列表卡片、两列/三列网格 */

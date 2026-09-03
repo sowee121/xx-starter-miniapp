@@ -1,6 +1,7 @@
 const stickers = require('./content/stickers')
 const starsUtil = require('../../utils/stars')
 const feedback = require('../../utils/feedback')
+const feedbackBehavior = feedback.feedbackBehavior
 const { LAYERS } = require('../../content/feedback')
 const { tap } = require('../../utils/tap-guard')
 
@@ -37,12 +38,13 @@ function easeScrollTop(page) {
 }
 
 Page({
+  behaviors: [feedbackBehavior],
+
   data: {
     stars: 0,
     mine: [],
     shop: [],
     exchanging: false,
-    feedback: { show: false, closing: false },
   },
 
   onShow() {
@@ -102,11 +104,6 @@ Page({
       this.setData({ exchanging: false })
     }
   }),
-
-  /** 关闭表扬层 */
-  closePraise() {
-    feedback.hideLayer(this)
-  },
 
   onUnload() {
     this._destroyed = true

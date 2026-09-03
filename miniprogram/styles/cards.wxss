@@ -16,7 +16,7 @@
 .chip,
 .big-btn,
 .custom-header__home,
-.praise-sun__continue,
+.feedback-layer__continue,
 .volume-option,
 .home-welcome,
 .home-feature-card,
@@ -30,7 +30,7 @@
 .play-btn:active,
 .trail-nav__item:active,
 .custom-header__home:active,
-.praise-sun__continue:active,
+.feedback-layer__continue:active,
 .volume-option:active {
   transform: scale(0.985);
 }

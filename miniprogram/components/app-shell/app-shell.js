@@ -16,6 +16,10 @@ Component({
       type: String,
       value: require('../../config/media').mediaUrl('/static/shared/meadow.png'),
     },
+    feedback: { type: Object, value: {} }, // { show, closing, variant, title, desc, action }
+    softNote: { type: String, value: '' },
+    noteType: { type: String, value: 'warning' }, // success=绿条，warning=黄条
+    noteShake: { type: Boolean, value: false },
   },
 
   data: {
@@ -38,6 +42,11 @@ Component({
         // ignore
       }
       goTo('/pages/home/home', { mode: 'reLaunch' })
+    },
+
+    /** 转发反馈层的「继续」点击，页面绑 closeFeedback 或 next */
+    onFeedbackContinue() {
+      this.triggerEvent('continue')
     },
   },
 })

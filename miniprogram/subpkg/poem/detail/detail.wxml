@@ -1,4 +1,10 @@
-<app-shell title="古诗" stars="{{stars}}">
+<app-shell
+  title="古诗"
+  stars="{{stars}}"
+  feedback="{{feedback}}"
+  soft-note="{{softNote}}"
+  bind:continue="closeFeedback"
+>
   <view class="page-list" wx:if="{{poem}}">
     <view
       class="hero block tone-{{poem.tone}}"
@@ -46,15 +52,5 @@
       bind:prev="goPrev"
       bind:next="goNext"
     />
-    <feedback-note wx:if="{{softNote}}" text="{{softNote}}" />
   </view>
-  <praise-sun
-    show="{{feedback.show}}"
-    closing="{{feedback.closing}}"
-    variant="{{feedback.variant}}"
-    title="{{feedback.title}}"
-    desc="{{feedback.desc}}"
-    action="{{feedback.action}}"
-    bind:continue="closePraise"
-  />
 </app-shell>

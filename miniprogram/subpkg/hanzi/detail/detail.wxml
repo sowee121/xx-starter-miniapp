@@ -1,4 +1,10 @@
-<app-shell title="识字" stars="{{stars}}">
+<app-shell
+  title="识字"
+  stars="{{stars}}"
+  feedback="{{feedback}}"
+  soft-note="{{softNote}}"
+  bind:continue="closeFeedback"
+>
   <view wx:if="{{item}}" class="detail-stack">
     <view
       class="detail-big block tone-{{tone}}"
@@ -43,15 +49,5 @@
       bind:prev="goPrev"
       bind:next="goNext"
     />
-    <feedback-note wx:if="{{softNote}}" text="{{softNote}}" />
   </view>
-  <praise-sun
-    show="{{feedback.show}}"
-    closing="{{feedback.closing}}"
-    variant="{{feedback.variant}}"
-    title="{{feedback.title}}"
-    desc="{{feedback.desc}}"
-    action="{{feedback.action}}"
-    bind:continue="closePraise"
-  />
 </app-shell>

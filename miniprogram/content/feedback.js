@@ -1,4 +1,4 @@
-/** 全屏表扬层文案 */
+/** 全屏反馈层文案 */
 const LAYERS = {
   taskDone: {
     variant: 'success',

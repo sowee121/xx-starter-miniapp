@@ -18,5 +18,20 @@
       <view wx:if="{{subHint}}" class="inner-head__sub">{{subHint}}</view>
     </view>
     <slot />
+    <feedback-note
+      wx:if="{{softNote}}"
+      text="{{softNote}}"
+      type="{{noteType}}"
+      shake="{{noteShake}}"
+    />
   </view>
+  <feedback-layer
+    show="{{feedback.show}}"
+    closing="{{feedback.closing}}"
+    variant="{{feedback.variant}}"
+    title="{{feedback.title}}"
+    desc="{{feedback.desc}}"
+    action="{{feedback.action}}"
+    bind:continue="onFeedbackContinue"
+  />
 </view>

@@ -15,7 +15,7 @@ Component({
     shaking: false,
   },
   observers: {
-    'type'(type) {
+    type(type) {
       this.setData({ toneClass: type === 'success' ? 'tone-matcha' : 'tone-butter' })
     },
     /** 文案变化或重播信号到达（同文案连续答错）都要重走晃动 */

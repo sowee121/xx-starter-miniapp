@@ -1,5 +1,6 @@
 const stars = require('../../utils/stars')
 const feedback = require('../../utils/feedback')
+const feedbackBehavior = feedback.feedbackBehavior
 const { INLINE } = require('../../content/feedback')
 const { clearAdvanceTimer, handleCorrect } = require('./quiz-flow')
 const { tap } = require('../../utils/tap-guard')
@@ -41,13 +42,14 @@ function stampChoices(page, patch) {
  */
 function createQuizPage({ extraData, makeQuestion, snapshot }) {
   return {
+    behaviors: [feedbackBehavior],
+
     data: {
       stars: 0,
       question: null,
       choices: [],
       ...resetPick(),
       nav: navState(1, false),
-      feedback: { show: false, closing: false },
       ...extraData,
     },
 

@@ -1,4 +1,4 @@
-.praise-sun {
+.feedback-layer {
   position: fixed;
   top: 0;
   right: 0;
@@ -11,84 +11,86 @@
   letter-spacing: var(--letter-btn); /* 全站字距；弹层样式隔离需自写 */
   background: rgba(65, 87, 75, 0.22);
   perspective: 800rpx; /* 透视越近，rotateX 立起的纵深越夸张 */
-  animation: praise-sun-in 320ms ease-out; /* 不留 fill：播完回落静态显示态，出场走纯静态 transition */
+  animation: feedback-layer-in 320ms ease-out; /* 不留 fill：播完回落静态显示态，出场走纯静态 transition */
   transition: opacity 460ms ease-in-out; /* 出场淡出走 transition，避免动画替换不重播 */
 }
 
-.praise-sun__card {
+.feedback-layer__card {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--gap-block);
-  width: var(--size-praise);
-  min-height: var(--size-praise-min);
+  width: var(--size-layer);
+  min-height: var(--size-layer-min);
   padding: var(--pad-card-xl);
   border-radius: var(--radius-card);
   box-sizing: border-box;
   overflow: hidden;
   text-align: center;
   background: var(--tone-cream);
-  box-shadow: var(--shadow-clay-praise);
+  box-shadow: var(--shadow-clay-layer);
   /* 基础态=显示态：出场收起由 transition 从显示态过渡，不依赖动画 fill 状态 */
   transform-origin: center 50%; /* 翻转轴在卡片高度一半，上下对称翻出 */
   /* opacity 与 transform 拆开：fade 320ms 快速落满，rise 单区间缓落翻正。
      不去中间帧就不会产生区间速度跳变（前段减速近停→后段猛启动），翻转全程连续丝滑 */
   animation:
-    praise-card-fade 320ms ease-out,
-    praise-card-rise 800ms cubic-bezier(0.4, 0, 0.2, 1); /* 不留 fill：播完回落静态显示态 */
-  transition: transform 460ms ease-in-out, opacity 460ms ease-in-out; /* 出场原路翻回走 transition */
+    feedback-card-fade 320ms ease-out,
+    feedback-card-rise 800ms cubic-bezier(0.4, 0, 0.2, 1); /* 不留 fill：播完回落静态显示态 */
+  transition:
+    transform 460ms ease-in-out,
+    opacity 460ms ease-in-out; /* 出场原路翻回走 transition */
 }
 
 /* 出场走「终态类 + transition」：解除入场动画 fill 后改到收起终值，
    由基础 transition 过渡，不依赖动画替换重播，真机表现稳定 */
-.praise-sun.is-closing {
+.feedback-layer.is-closing {
   animation: none;
   opacity: 0;
 }
 
-.praise-sun.is-closing .praise-sun__card {
+.feedback-layer.is-closing .feedback-layer__card {
   animation: none; /* 摘掉入场动画，让 transform/opacity 交给 transition */
   opacity: 0;
   transform: rotateX(88deg) translateY(70rpx) scale(0.92); /* 原路翻回垂直成缝 */
 }
 
-.praise-sun__card.is-soft-fail {
+.feedback-layer__card.is-soft-fail {
   background: var(--tone-soft-fail);
 }
 
-.praise-sun__card.is-soft-fail .praise-sun__text {
+.feedback-layer__card.is-soft-fail .feedback-layer__text {
   color: var(--note);
 }
 
-.praise-sun__card.is-exchange {
+.feedback-layer__card.is-exchange {
   background: var(--tone-rose);
 }
 
-.praise-sun__card.is-exchange .praise-sun__text {
+.feedback-layer__card.is-exchange .feedback-layer__text {
   color: #7a4f63;
 }
 
-.praise-sun__icon-slot {
+.feedback-layer__icon-slot {
   position: relative;
   z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--size-praise-icon);
-  height: var(--size-praise-icon);
+  width: var(--size-layer-icon);
+  height: var(--size-layer-icon);
   flex-shrink: 0;
 }
 
-.praise-sun__icon {
+.feedback-layer__icon {
   display: block;
-  width: var(--size-praise-icon);
-  height: var(--size-praise-icon);
+  width: var(--size-layer-icon);
+  height: var(--size-layer-icon);
   vertical-align: middle;
 }
 
-.praise-sun__body {
+.feedback-layer__body {
   position: relative;
   z-index: 1;
   display: flex;
@@ -97,20 +99,20 @@
   gap: var(--gap-soft);
 }
 
-.praise-sun__text {
+.feedback-layer__text {
   font-size: var(--font-display);
   color: var(--ink);
   font-weight: 700;
   line-height: 1.2;
 }
 
-.praise-sun__desc {
+.feedback-layer__desc {
   color: var(--muted);
   font-size: var(--font-hint);
   line-height: 1.3;
 }
 
-.praise-sun__continue {
+.feedback-layer__continue {
   position: relative;
   z-index: 1;
   display: flex;
@@ -127,7 +129,7 @@
   box-shadow: var(--shadow-chip);
 }
 
-.praise-sun__cloud {
+.feedback-layer__cloud {
   position: absolute;
   z-index: 0;
   top: 16rpx;
@@ -137,7 +139,7 @@
   pointer-events: none;
 }
 
-.praise-sun__grass {
+.feedback-layer__grass {
   position: absolute;
   z-index: 0;
   bottom: -6rpx;
@@ -147,7 +149,7 @@
   pointer-events: none;
 }
 
-@keyframes praise-sun-in {
+@keyframes feedback-layer-in {
   0% {
     opacity: 0;
   }
@@ -156,7 +158,7 @@
   }
 }
 
-@keyframes praise-card-fade {
+@keyframes feedback-card-fade {
   0% {
     opacity: 0;
   }
@@ -164,7 +166,7 @@
     opacity: 1;
   }
 }
-@keyframes praise-card-rise {
+@keyframes feedback-card-rise {
   0% {
     transform: rotateX(88deg) translateY(70rpx) scale(0.92); /* 垂直屏幕成一条缝 */
   }
@@ -172,4 +174,3 @@
     transform: rotateX(0) translateY(0) scale(1); /* 单区间缓落，速度连续不卡顿 */
   }
 }
-

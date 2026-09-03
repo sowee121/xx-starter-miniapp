@@ -3,6 +3,7 @@ const { mediaUrl } = require('../../config/media')
 const { trackDaily, getToday, readToday } = require('../../utils/daily-tasks')
 const activity = require('../../utils/activity')
 const feedback = require('../../utils/feedback')
+const feedbackBehavior = feedback.feedbackBehavior
 
 /** 表头星期文案，索引与 Date.getDay() 对齐 */
 const WEEKDAYS = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
@@ -14,6 +15,8 @@ function calendarCheckedIn() {
 }
 
 Page({
+  behaviors: [feedbackBehavior],
+
   data: {
     stars: 0,
     dateText: '',
@@ -23,7 +26,6 @@ Page({
     skyIcon: mediaUrl('/subpkg/calendar/static/sun.png'),
     background: mediaUrl('/static/shared/meadow.png'),
     heat: activity.monthBoard(),
-    feedback: { show: false, closing: false },
   },
 
   onShow() {
@@ -69,10 +71,5 @@ Page({
         })
         .catch(() => {})
     }
-  },
-
-  /** 关闭表扬层 */
-  closePraise() {
-    feedback.hideLayer(this)
   },
 })

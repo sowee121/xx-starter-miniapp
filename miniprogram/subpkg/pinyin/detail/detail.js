@@ -3,7 +3,7 @@ const stars = require('../../../utils/stars')
 const audioUtil = require('../../../utils/audio')
 const { mediaUrl } = require('../../../config/media')
 const { playPrimaryAndAward, playAfterRender, markPageReady } = require('../../../utils/read-award')
-const feedback = require('../../../utils/feedback')
+const { feedbackBehavior } = require('../../../utils/feedback')
 const { queryValue } = require('../../../utils/page')
 const { tap } = require('../../../utils/tap-guard')
 
@@ -28,13 +28,13 @@ function resolveItem(id) {
 }
 
 Page({
+  behaviors: [feedbackBehavior],
+
   data: {
     stars: 0,
     item: null,
     trail: [],
     buddyIcon: mediaUrl('/subpkg/pinyin/static/buddy-duckling.png'),
-    softNote: '',
-    feedback: { show: false, closing: false },
     playingSrc: '',
   },
 
@@ -93,11 +93,6 @@ Page({
       ref: item.letter,
     })
   }),
-
-  /** 关闭表扬层 */
-  closePraise() {
-    feedback.hideLayer(this)
-  },
 
   onUnload() {
     audioUtil.stop()

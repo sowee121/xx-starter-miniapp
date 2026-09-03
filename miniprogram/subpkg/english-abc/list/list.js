@@ -2,14 +2,16 @@ const { letters, songAudio } = require('../content/alphabet')
 const stars = require('../../../utils/stars')
 const { mediaUrl } = require('../../../config/media')
 const { toggleLongPlay, attachLongPlay, detachLongPlay } = require('../../../utils/read-award')
+const { feedbackBehavior } = require('../../../utils/feedback')
 const { goTo } = require('../../../utils/page')
 const { tap } = require('../../../utils/tap-guard')
 
 Page({
+  behaviors: [feedbackBehavior],
+
   data: {
     stars: 0,
     items: [],
-    softNote: '',
     songSrc: '',
     songImage: '',
     longPlaying: false,

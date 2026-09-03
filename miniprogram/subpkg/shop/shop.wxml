@@ -1,4 +1,11 @@
-<app-shell title="积分商城" hint="动物贴纸" sub-hint="用星星兑换喜欢的贴纸" stars="{{stars}}">
+<app-shell
+  title="积分商城"
+  hint="动物贴纸"
+  sub-hint="用星星兑换喜欢的贴纸"
+  stars="{{stars}}"
+  feedback="{{feedback}}"
+  bind:continue="closeFeedback"
+>
   <view class="section">
     <view class="section-title">我的贴纸</view>
     <view wx:if="{{mine.length}}" class="sticker-grid">
@@ -32,14 +39,4 @@
     </view>
     <view wx:else class="album-hint">全部集齐啦～</view>
   </view>
-
-  <praise-sun
-    show="{{feedback.show}}"
-    closing="{{feedback.closing}}"
-    variant="{{feedback.variant}}"
-    title="{{feedback.title}}"
-    desc="{{feedback.desc}}"
-    action="{{feedback.action}}"
-    bind:continue="closePraise"
-  />
 </app-shell>

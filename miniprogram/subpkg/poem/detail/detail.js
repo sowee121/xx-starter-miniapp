@@ -10,7 +10,7 @@ const {
   markPageReady,
 } = require('../../../utils/read-award')
 const audioUtil = require('../../../utils/audio')
-const feedback = require('../../../utils/feedback')
+const { feedbackBehavior } = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue } = require('../../../utils/page')
 const { tap } = require('../../../utils/tap-guard')
@@ -37,15 +37,15 @@ function fullAward(poem) {
 }
 
 Page({
+  behaviors: [feedbackBehavior],
+
   data: {
     stars: 0,
     poem: null,
     poemTitle: '古诗',
     poemAuthor: '',
     activeIndex: -1,
-    softNote: '',
     nav: stepNavState(0, 0),
-    feedback: { show: false, closing: false },
     fullAward: null,
     longPlaying: false,
     playingSrc: '',
@@ -124,11 +124,6 @@ Page({
     this.setData({ activeIndex: -1 })
     toggleLongPlay(this, { src: poem.fullAudio, award: this.data.fullAward })
   }),
-
-  /** 关闭表扬层 */
-  closePraise() {
-    feedback.hideLayer(this)
-  },
 
   onHide() {
     detachLongPlay(this)

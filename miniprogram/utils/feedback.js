@@ -1,7 +1,7 @@
 const { mediaUrl } = require('../config/media')
 const { LAYERS, INLINE } = require('../content/feedback')
 
-/** 浮层进出动画时长（ms），需与 praise-sun.wxss 出场动画保持一致 */
+/** 浮层进出动画时长（ms），需与 feedback-layer.wxss 出场动画保持一致 */
 const LAYER_TRANSITION = 480
 
 /** 规范化行内提示结构 */
@@ -34,7 +34,7 @@ function preloadVoiceAudio() {
   }
 }
 
-/** 弹出表扬层 */
+/** 弹出反馈层 */
 function showLayer(page, payload) {
   if (!page || typeof page.setData !== 'function' || !payload) return
   clearTimeout(page._feedbackTimer)
@@ -78,7 +78,7 @@ function showTaskAward(page, result, delay = SHOW_DELAY) {
   }, delay)
 }
 
-/** 关闭表扬层 */
+/** 关闭反馈层 */
 function hideLayer(page) {
   if (!page || typeof page.setData !== 'function') return
   clearTimeout(page._feedbackTimer)
@@ -134,8 +134,24 @@ function audioFallback(page) {
   return () => showInline(page, INLINE.audioUnavailable)
 }
 
+/** 反馈层与软提示的公共状态：页面接入后不再自持 feedback / softNote / closeFeedback */
+const feedbackBehavior = Behavior({
+  data: {
+    feedback: { show: false, closing: false },
+    softNote: '',
+    softNoteTone: 'tone-butter',
+  },
+  methods: {
+    /** 关闭反馈层 */
+    closeFeedback() {
+      hideLayer(this)
+    },
+  },
+})
+
 module.exports = {
   LAYER_TRANSITION,
+  feedbackBehavior,
   showLayer,
   showTaskAward,
   hideLayer,

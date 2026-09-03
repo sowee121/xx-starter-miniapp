@@ -2,6 +2,8 @@
   "component": true,
   "styleIsolation": "apply-shared",
   "usingComponents": {
-    "custom-header": "/components/custom-header/custom-header"
+    "custom-header": "/components/custom-header/custom-header",
+    "feedback-note": "/components/feedback-note/feedback-note",
+    "feedback-layer": "/components/feedback-layer/feedback-layer"
   }
 }

@@ -84,7 +84,7 @@
 - 水果 `orange`（橙子）与颜色 `orange`（橙色）同形异义，两类各保留一处；颜色词音频文件名为 `orange-color.mp3`，详情用 `?word=&cat=` 区分
 - **数字**：`one`…`nine`、`ten`、`hundred`、`thousand`；词图为纯黏土阿拉伯数字 `english-number-{one…nine,ten,hundred,thousand}.png`（十/百/千画 10 / 100 / 1000）；媒体在 `english-number`
 - **媒体分包**（单包 ≤2MB；真机禁止跨分包引用本地图/音频）：`english`（枢纽 A/苹果入口 320px + 128px 列表缩略图，缩略图从原子直接生成）· `english-{fruit,animal,color,body,transport,number,food,nature}`（各类详情 320px 大图/音频）· `english-abc`（字母表页 + 272px 字母图 + 字母音频 + 字母歌）。详情边长由 `scripts/sync_package_images.py` 从原子下采样，禁止再压到 160px
-- **共享 UI**：`praise-sun` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
+- **共享 UI**：`feedback-layer` / `media-card` / 播放钮等放主包 `components/`（勿再放 `subpkg/common`，避免跨分包组件未加载）
 - **页面背景**：天空用 token 渐变；底部用定稿草地裁切后的 PNG（`meadow.png`，750×390）。夜景用 CSS 压暗 + 蓝紫罩，不再另出夜景草地
 
 
@@ -142,7 +142,7 @@
 
 | 场景 | 形态 | 说明 |
 | --- | --- | --- |
-| 每日任务首次完成发星 | 弹层 `praise-sun` | 文案「宝贝真棒」+ 任务名；按钮「继续学」（日历打卡用「好的」）；禁 Toast |
+| 每日任务首次完成发星 | 弹层 `feedback-layer` | 文案「宝贝真棒」+ 任务名；按钮「继续学」（日历打卡用「好的」）；禁 Toast |
 | 贴纸兑换成功 / 失败 | 同弹层，`exchange` / `softFail` 变体 | 成功按钮「收下啦」，失败「再看看」；失败语气仍温柔正向 |
 | 算术答对 / 再试 | 行内 `soft-note` + 音效 | `answer-correct.mp3` / `answer-wrong.mp3` |
 | 点读音频缺失 | 行内 soft-note | 「语音准备中～」 |
@@ -229,7 +229,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
   - **卡面色统一为 `tone-*`**（全部入 token，颜色命名）：变量在 `tokens.css`/`tokens.wxss`，类在 `blocks.css`/`cards.wxss`，每个类 `background` 与 `box-shadow` 均引用变量、无内联渐变。家长区四卡：任务 `tone-matcha`（绿）/ 音量 `tone-sky`（蓝）/ 贴纸 `tone-rose`（玫红）/ 积分 `tone-apricot`（杏橙）。枢纽双卡：英语字母表 `tone-sky` + 单词 `tone-rose`；算术数一数 `tone-rose`（随英语苹果卡同色）+ 算一算 `tone-sand`（燕麦米，随小狗图）
     - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油，原 `tone-duckling` 并入）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米，.module/算一算 随小狗图）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分；动物命名（`duckling`/`bear`/`cat`/`rabbit`/`dog`/`penguin`）已全部改为颜色名
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
-- 反馈弹层 `praise-sun` 允许（非营销弹窗）；禁 Toast
+- 反馈弹层 `feedback-layer` 允许（非营销弹窗）；禁 Toast
 - 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）
 - 详情主卡（拼音/英语/识字 `.detail-big`）：卡内 `justify-content: center` + `gap`；主图 / 字母图按 H5；**padding 不动**；页底草地留白保留；古诗 hero 4:3 不动
 
@@ -250,7 +250,7 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 | 每日任务 | `miniprogram/utils/daily-tasks.js` |
 | 点读播放 | `miniprogram/utils/audio.js` |
 | 主点读发星 | `miniprogram/utils/read-award.js` |
-| 反馈弹层 / 行内 | `miniprogram/utils/feedback.js`、`miniprogram/content/feedback.js`、`components/praise-sun`、`components/play-button` |
+| 反馈弹层 / 行内 | `miniprogram/utils/feedback.js`、`miniprogram/content/feedback.js`、`components/feedback-layer`、`components/play-button` |
 | 家长区 | `miniprogram/pages/parent/` |
 | 云环境 ID | `miniprogram/config/cloud.js` → `CLOUD_ENV`（当前 `cloudbase-d7gygre2uc80dcd42`） |
 | 云函数部署 | [`cloudfunctions/README.md`](../../cloudfunctions/README.md) |

@@ -1,4 +1,10 @@
-<app-shell title="英语" hint="字母表" sub-hint="听一听字母" stars="{{stars}}">
+<app-shell
+  title="英语"
+  hint="字母表"
+  sub-hint="听一听字母"
+  stars="{{stars}}"
+  soft-note="{{softNote}}"
+>
   <view class="word-grid">
     <view
       wx:for="{{items}}"
@@ -24,5 +30,4 @@
       <play-button size="sm" passive="{{true}}" playing="{{playingSrc === songSrc}}" />
     </view>
   </view>
-  <feedback-note wx:if="{{softNote}}" text="{{softNote}}" />
 </app-shell>

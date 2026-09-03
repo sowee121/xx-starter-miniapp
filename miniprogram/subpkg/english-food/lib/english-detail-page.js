@@ -16,7 +16,7 @@ const {
   playAfterRender,
   markPageReady,
 } = require('../../../utils/read-award')
-const feedback = require('../../../utils/feedback')
+const { feedbackBehavior } = require('../../../utils/feedback')
 const { stepNavState } = require('../../../utils/navbar')
 const { queryValue, goTo } = require('../../../utils/page')
 const { tap } = require('../../../utils/tap-guard')
@@ -44,13 +44,13 @@ function createEnglishDetailPage(pkg) {
     throw new Error('createEnglishDetailPage(pkg) 必须传入当前分包名')
   }
   return {
+    behaviors: [feedbackBehavior],
+
     data: {
       stars: 0,
       item: null,
       tone: 'cream',
-      softNote: '',
       nav: stepNavState(0, 0),
-      feedback: { show: false, closing: false },
       playingSrc: '',
     },
 
@@ -138,11 +138,6 @@ function createEnglishDetailPage(pkg) {
         ref: item.word,
       })
     }),
-
-    /** 关闭表扬层 */
-    closePraise() {
-      feedback.hideLayer(this)
-    },
 
     onUnload() {
       audioUtil.stop()

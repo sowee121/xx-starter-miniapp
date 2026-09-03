@@ -1,4 +1,12 @@
-<app-shell title="数一数" stars="{{stars}}">
+<app-shell
+  title="数一数"
+  stars="{{stars}}"
+  feedback="{{feedback}}"
+  soft-note="{{softNote}}"
+  note-type="{{softNoteTone === 'tone-matcha' ? 'success' : 'warning'}}"
+  note-shake="{{wrongShake}}"
+  bind:continue="next"
+>
   <view wx:if="{{question}}" class="detail-stack">
     <view class="quiz-head block tone-rose">
       <view class="count-stage count-stage--{{count}}">
@@ -32,20 +40,5 @@
       bind:prev="goPrev"
       bind:next="goNext"
     />
-    <feedback-note
-      wx:if="{{softNote}}"
-      text="{{softNote}}"
-      type="{{softNoteTone === 'tone-matcha' ? 'success' : 'warning'}}"
-      shake="{{wrongShake}}"
-    />
   </view>
-  <praise-sun
-    show="{{feedback.show}}"
-    closing="{{feedback.closing}}"
-    variant="{{feedback.variant}}"
-    title="{{feedback.title}}"
-    desc="{{feedback.desc}}"
-    action="{{feedback.action}}"
-    bind:continue="next"
-  />
 </app-shell>

@@ -20,7 +20,7 @@
 | 设计稿 / 原子素材 | **H5 审查稿 + atoms 已确认可作视觉基准**（`docs/design/h5/`、`docs/design/atoms/`） |
 | 业务页代码      | **八大板块已接入**；样式与 H5 双向同步（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`） |
 | 每日任务       | **已实现**：自由学习按数量累计；数量每天随机（古诗 1～2，字/题/英语 1～5，拼音 1～6，日历固定 1「日历打卡」）；英语任务名「学 N 个英语」，字母名与单词计入同一条；实现 `miniprogram/utils/daily-tasks.js`（`SCHEMA = 10`） |
-| 反馈闭环       | **已实现**：任务/兑换弹层 `praise-sun`；算术 soft-note + 成败音效；禁 Toast（见 CONTENT §2.8） |
+| 反馈闭环       | **已实现**：任务/兑换弹层 `feedback-layer`；算术 soft-note + 成败音效；禁 Toast（见 CONTENT §2.8） |
 | 家长区         | **已实现**：欢迎卡进入；音量三档；长按 3 秒重置/清除每日任务 / 学习记录 / 星星 / 贴纸（每日任务走 `dailyTasks` reset，其余走 `resetProfile`） |
 | 点读音频       | 分包 MP3 + `utils/audio.js` + `read-award.js`；音色/语速见 [CONTENT §2.10](./CONTENT.md)；拼音喂注音「ㄚㄛㄜㄧㄨㄩ」；字母 Z=`zee`；文件名 ASCII slug；真机需 `setInnerAudioOption`；失败落「语音准备中～」 |
 | 设计 token     | `docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`；字号下限 28（`--font-nav`）；禁用态 opacity 0.68；答题选中 `--tone-picked` |
@@ -37,7 +37,7 @@
 - **人群**：幼儿园宝宝
 - **形态**：微信原生小程序，移动端优先，`750rpx` 设计/实现基准
 - **气质**：晨间草地柔光 + 圆角积木控件 + 全站黏土软萌素材/动物
-- **原则**：护眼低饱和、极简操作、低难度、全正向激励、零负面反馈、无广告/付费/营销弹窗、云端永久存储（任务与兑换反馈弹层 `praise-sun` 允许，禁 Toast）
+- **原则**：护眼低饱和、极简操作、低难度、全正向激励、零负面反馈、无广告/付费/营销弹窗、云端永久存储（任务与兑换反馈弹层 `feedback-layer` 允许，禁 Toast）
 
 ---
 

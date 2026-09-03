@@ -72,7 +72,7 @@ miniprogram/
 | 拼音 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only pinyin`（晓辰 `-10%`；注音 ㄚㄛㄜㄧㄨㄩ） |
 | 字母 TTS | `python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only alphabet`（Jenny `-10%`；Z=`zee`） |
 | 点读音色/语速 | 见仓库 `docs/design/CONTENT.md` §2.10 |
-| 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/praise-sun`（主包） |
+| 反馈弹层 / 行内 | `utils/feedback.js`、`content/feedback.js`、`components/feedback-layer`（主包） |
 | 列表媒体卡 | `components/media-card`（主包） |
 | 播放钮 | `components/play-button`（主包；各详情页共用） |
 | 家长区 | `pages/parent/`（首页欢迎卡进入；音量三档 + 长按 3 秒清除） |
@@ -89,7 +89,7 @@ miniprogram/
 | `big-button` | 大号主行动按钮，点击节流走 `utils/tap-guard` |
 | `media-card` | 列表/详情页通用媒体卡（图 + 标题 + 可选播放钮） |
 | `play-button` | 播放/停止切换钮，全局 stop 时会收回三角 |
-| `praise-sun` | 任务达成 / 兑换成功的太阳弹层 |
+| `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
 | `home-module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
 | `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
 | `activity-month` | 日历页月历热力网格（`title` / `weekdays` / `cells` / `night`） |

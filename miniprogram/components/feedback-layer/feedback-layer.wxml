@@ -1,24 +1,24 @@
-<view wx:if="{{visible}}" class="praise-sun {{closingState}}" bindtap="onContinue">
+<view wx:if="{{visible}}" class="feedback-layer {{closingState}}" bindtap="onContinue">
   <view
-    class="praise-sun__card {{variant === 'softFail' ? 'is-soft-fail' : ''}} {{variant === 'exchange' ? 'is-exchange' : ''}}"
+    class="feedback-layer__card {{variant === 'softFail' ? 'is-soft-fail' : ''}} {{variant === 'exchange' ? 'is-exchange' : ''}}"
     catchtap="onCardTap"
   >
-    <image class="praise-sun__cloud" src="{{cloudIcon}}" mode="aspectFit" />
-    <view class="praise-sun__icon-slot">
-      <image class="praise-sun__icon" src="{{image || starIcon}}" mode="aspectFit" />
+    <image class="feedback-layer__cloud" src="{{cloudIcon}}" mode="aspectFit" />
+    <view class="feedback-layer__icon-slot">
+      <image class="feedback-layer__icon" src="{{image || starIcon}}" mode="aspectFit" />
     </view>
-    <view class="praise-sun__body">
-      <view class="praise-sun__text">{{title}}</view>
-      <view class="praise-sun__desc">{{desc}}</view>
+    <view class="feedback-layer__body">
+      <view class="feedback-layer__text">{{title}}</view>
+      <view class="feedback-layer__desc">{{desc}}</view>
     </view>
     <view
-      class="praise-sun__continue"
+      class="feedback-layer__continue"
       catchtap="onContinue"
       hover-class="is-pressed"
       hover-start-time="0"
       hover-stay-time="80"
       >{{actionLabel}}</view
     >
-    <image class="praise-sun__grass" src="{{grassIcon}}" mode="aspectFit" />
+    <image class="feedback-layer__grass" src="{{grassIcon}}" mode="aspectFit" />
   </view>
 </view>
