@@ -25,25 +25,15 @@
       </view>
     </view>
 
-    <view
+    <word-line
       wx:for="{{poem.lines}}"
       wx:key="text"
-      class="poem-line block tone-cream {{activeIndex === index ? 'is-active' : ''}}"
+      text="{{item.text}}"
+      active="{{playingSrc === item.audio}}"
+      playing="{{playingSrc === item.audio}}"
       data-index="{{index}}"
       bindtap="onLineTap"
-      hover-class="is-pressed"
-      hover-start-time="0"
-      hover-stay-time="80"
-    >
-      <view class="poem-line__text">{{item.text}}</view>
-      <view class="media-play">
-        <play-button
-          compact="{{true}}"
-          passive="{{true}}"
-          playing="{{playingSrc === item.audio}}"
-        />
-      </view>
-    </view>
+    />
 
     <trail-nav
       show="{{nav.total > 1}}"

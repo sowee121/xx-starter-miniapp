@@ -1,4 +1,8 @@
-/* 单张入口卡（english/hub、math/hub 两列宫格共用） */
+:host {
+  display: block;
+}
+
+/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .hub-entry-cards__cell 控制 */
 
 .hub-entry-card {
   position: relative;
@@ -7,14 +11,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: var(--col-2);
+  width: 100%;
   min-height: 352rpx;
   gap: var(--gap-text);
   padding: var(--pad-card-sm);
   text-align: center;
   border-radius: var(--radius-tile);
   box-sizing: border-box;
-  flex-shrink: 0;
   transition: var(--motion-tap);
 }
 

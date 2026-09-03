@@ -1,4 +1,4 @@
-<app-shell title="英语" hint="单词" sub-hint="听一听，说一说" stars="{{stars}}">
+<app-shell title="英语" hint="单词" sub-hint="听一听，学单词" stars="{{stars}}">
   <view class="section" wx:for="{{categories}}" wx:key="id">
     <view class="section-title">{{item.title}}</view>
     <view class="word-grid">

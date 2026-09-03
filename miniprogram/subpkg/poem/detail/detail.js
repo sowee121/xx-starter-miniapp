@@ -44,7 +44,6 @@ Page({
     poem: null,
     poemTitle: '古诗',
     poemAuthor: '',
-    activeIndex: -1,
     nav: stepNavState(0, 0),
     fullAward: null,
     longPlaying: false,
@@ -78,7 +77,6 @@ Page({
         poem,
         poemTitle: poem.title || '古诗',
         poemAuthor: poem.author || '',
-        activeIndex: -1,
         softNote: '',
         fullAward: fullAward(poem),
         longPlaying: false,
@@ -113,7 +111,7 @@ Page({
     )
     const line = this.data.poem && this.data.poem.lines[index]
     if (!line) return
-    this.setData({ activeIndex: index })
+    // 行高亮由 playingSrc 驱动，此处无需额外状态
     playPreview(this, line.audio)
   }),
 
@@ -121,7 +119,6 @@ Page({
   onFullPlay: tap(function () {
     const poem = this.data.poem
     if (!poem) return
-    this.setData({ activeIndex: -1 })
     toggleLongPlay(this, { src: poem.fullAudio, award: this.data.fullAward })
   }),
 

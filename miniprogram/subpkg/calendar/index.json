@@ -2,7 +2,7 @@
   "navigationStyle": "custom",
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "big-button": "/components/big-button/big-button",
-    "activity-month": "/components/activity-month/activity-month"
+    "calendar-scene": "/subpkg/calendar/components/calendar-scene/calendar-scene",
+    "activity-month": "/subpkg/calendar/components/activity-month/activity-month"
   }
 }

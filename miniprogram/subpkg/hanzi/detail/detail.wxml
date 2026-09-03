@@ -20,27 +20,19 @@
       <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
     </view>
     <view class="detail-pair">
-      <view
+      <word-line
         wx:for="{{item.words}}"
         wx:for-item="word"
         wx:for-index="widx"
         wx:key="*this"
-        class="detail-pair__card block tone-cream"
+        half="{{true}}"
+        text="{{word}}"
+        active="{{playingSrc === item.wordAudios[widx]}}"
+        playing="{{playingSrc === item.wordAudios[widx]}}"
         data-kind="word"
         data-index="{{widx}}"
         bindtap="play"
-        hover-class="is-pressed"
-        hover-start-time="0"
-        hover-stay-time="80"
-      >
-        <view>{{word}}</view>
-        <play-button
-          compact="{{true}}"
-          size="sm"
-          passive="{{true}}"
-          playing="{{playingSrc === item.wordAudios[widx]}}"
-        />
-      </view>
+      />
     </view>
     <trail-nav
       show="{{nav.total > 1}}"

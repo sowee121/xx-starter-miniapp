@@ -12,3 +12,7 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+.hub-entry-cards__cell {
+  width: var(--col-2);
+}

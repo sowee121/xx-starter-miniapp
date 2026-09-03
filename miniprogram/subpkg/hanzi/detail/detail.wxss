@@ -1,1 +1,14 @@
-/* detail 样式由全局 learning.wxss 承担 */
+/* 组词卡双列容器（原全局 learning.wxss 迁入） */
+
+.detail-pair {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-block);
+  width: 100%;
+}
+
+/* 双卡各占一半：word-line 是自定义组件，flex 必须落在宿主标签上（内部根节点不参与外层 flex） */
+.detail-pair word-line {
+  flex: 1;
+  min-width: 0;
+}

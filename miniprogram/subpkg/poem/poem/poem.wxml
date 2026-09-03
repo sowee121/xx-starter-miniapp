@@ -1,4 +1,4 @@
-<app-shell title="古诗" hint="选一首来听" sub-hint="一首一首慢慢听" stars="{{stars}}">
+<app-shell title="古诗" hint="选一首古诗" sub-hint="听一听，读一读" stars="{{stars}}">
   <view class="poem-list page-list">
     <media-card
       wx:for="{{poems}}"

@@ -17,7 +17,7 @@ Page({
       {
         image: mediaUrl('/subpkg/english/static/english-fruit-apple.png'),
         title: '单词',
-        sub: '听一听，说一说',
+        sub: '生活常见词',
         tone: 'rose',
         to: 'words',
       },

@@ -20,22 +20,13 @@
       <view class="detail-big__meaning">{{item.meaning}}</view>
       <play-button size="lg" passive="{{true}}" playing="{{playingSrc === item.audio}}" />
     </view>
-    <view
-      class="poem-line block tone-cream"
+    <word-line
+      text="{{item.sentence}}"
+      active="{{playingSrc === item.sentenceAudio}}"
+      playing="{{playingSrc === item.sentenceAudio}}"
       data-kind="sentence"
       bindtap="play"
-      hover-class="is-pressed"
-      hover-start-time="0"
-      hover-stay-time="80"
-    >
-      <view class="poem-line__text">{{item.sentence}}</view>
-      <play-button
-        size="sm"
-        compact="{{true}}"
-        passive="{{true}}"
-        playing="{{playingSrc === item.sentenceAudio}}"
-      />
-    </view>
+    />
     <trail-nav
       show="{{nav.total > 1}}"
       has-prev="{{nav.hasPrev}}"

@@ -1,0 +1,61 @@
+:host {
+  display: block;
+}
+
+.calendar-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--pad-card);
+  padding: var(--pad-card-lg);
+  text-align: center;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.calendar-scene__sky {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240rpx;
+}
+
+.calendar-scene__sky-image {
+  width: 240rpx;
+  height: 242rpx; /* 太阳 445×448 */
+}
+
+.calendar-scene--night .calendar-scene__sky-image {
+  height: 176rpx; /* 月亮 448×328 */
+}
+
+.calendar-scene__today {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
+}
+
+.calendar-scene__date {
+  font-size: var(--font-hero);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.calendar-scene__week {
+  font-size: var(--font-hint);
+  color: var(--muted);
+}
+
+.calendar-scene--night {
+  color: var(--night-ink);
+}
+
+.calendar-scene--night .calendar-scene__date {
+  color: var(--night-ink);
+  text-shadow: 0 3rpx 8rpx rgba(12, 18, 46, 0.28);
+}
+
+.calendar-scene--night .calendar-scene__week {
+  color: var(--night-muted);
+}

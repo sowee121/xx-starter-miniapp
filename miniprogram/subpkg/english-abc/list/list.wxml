@@ -1,7 +1,7 @@
 <app-shell
   title="英语"
   hint="字母表"
-  sub-hint="听一听字母"
+  sub-hint="听一听，学字母"
   stars="{{stars}}"
   soft-note="{{softNote}}"
 >

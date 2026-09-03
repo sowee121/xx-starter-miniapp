@@ -55,6 +55,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
 
     onLoad() {
       this._history = []
+      this._future = []
       this._step = 1
       this.applyQuestion({ pushHistory: false })
     },
@@ -63,14 +64,15 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       this.setData({ stars: stars.getLocalStars() })
     },
 
-    /** 出下一题 */
+    /** 主动出新题（答对自动切 / 手动前进）；回看分支经 goPrev/goNext 走栈，不经过这里 */
     applyQuestion({ pushHistory } = { pushHistory: true }) {
       if (!this._history) this._history = []
       if (typeof this._step !== 'number') this._step = 1
-      if (pushHistory && this.data.question && snapshot) {
-        this._history.push(snapshot(this))
-      } else if (pushHistory && this.data.question) {
-        this._history.push(this.data.question)
+      if (pushHistory && this.data.question) {
+        // 主动前进即放弃回看分支，当前题存档到历史
+        this._future = []
+        this._history.push(snapshot ? snapshot(this) : this.data.question)
+        this._step += 1
       }
       this.setData({
         ...stampChoices(this, makeQuestion(this)),
@@ -84,7 +86,7 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       this.setData(resetPick())
     },
 
-    /** 上一题 */
+    /** 上一题：当前题存未来栈，之后点「下一题」能原样恢复 */
     goPrev() {
       if (!this._history || !this._history.length) return
       clearAdvanceTimer(this)
@@ -92,6 +94,9 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       feedback.hideLayer(this)
       feedback.clearInline(this)
       this.clearPick()
+      if (this.data.question) {
+        this._future.push(snapshot ? snapshot(this) : this.data.question)
+      }
       const prev = this._history.pop()
       this._step = Math.max(1, this._step - 1)
       const restored = snapshot ? prev : { question: prev }
@@ -102,14 +107,28 @@ function createQuizPage({ extraData, makeQuestion, snapshot }) {
       })
     },
 
-    /** 下一题 */
+    /** 下一题：有回看分支就恢复原题，没有才出全新题 */
     goNext() {
       clearAdvanceTimer(this)
       this._busy = false
       feedback.hideLayer(this)
       feedback.clearInline(this)
       this.clearPick()
-      this._step += 1
+      if (this._future && this._future.length) {
+        const next = this._future.pop()
+        // 当前题存回历史，保证还能再回看
+        if (this.data.question) {
+          this._history.push(snapshot ? snapshot(this) : this.data.question)
+          this._step += 1
+        }
+        const restored = snapshot ? next : { question: next }
+        this.setData({
+          ...stampChoices(this, restored),
+          ...resetPick(),
+          nav: navState(this._step, this._history.length > 0),
+        })
+        return
+      }
       this.applyQuestion({ pushHistory: true })
     },
 

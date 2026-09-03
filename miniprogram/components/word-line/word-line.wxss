@@ -1,0 +1,36 @@
+/* 点读行：诗行 / 组词卡 / 例句行共用，数值对齐原 learning.wxss */
+
+.word-line {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-row);
+  /* 76rpx 播放钮 + 上下 padding 28rpx×2；文本换行两行时随内容加高 */
+  min-height: 132rpx;
+  padding: var(--pad-card);
+  border-radius: var(--radius-bar);
+  box-sizing: border-box;
+  /* 高亮/按下过渡，对齐 H5 blocks.css .poem-line 等 */
+  transition: var(--motion-tap);
+}
+
+.word-line__text {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  font-size: var(--font-line);
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+/* 播放中高亮：覆盖 tone-cream，对齐 H5 .poem-line.active */
+.word-line.is-active {
+  background: linear-gradient(180deg, #fff8ee, #f9edc6) !important;
+}
+
+/* 双卡各占一半（hanzi 组词卡）：均分由宿主导页 .detail-pair word-line 控制，这里只保证根节点填满宿主 */
+.word-line.is-half {
+  width: 100%;
+}

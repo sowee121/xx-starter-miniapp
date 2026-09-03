@@ -55,9 +55,6 @@
 }
 
 .media-row .media-play,
-.poem-line .media-play,
-.poem-line .play-btn-hit,
-.detail-pair__card .play-btn-hit,
 .media-row .play-btn-hit {
   min-width: 0;
   min-height: 0;
@@ -245,32 +242,6 @@
   border-radius: var(--radius-thumb);
 }
 
-.poem-line {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: var(--gap-row);
-  padding: var(--pad-card);
-  border-radius: var(--radius-bar);
-  box-sizing: border-box;
-}
-
-.poem-line.is-active {
-  /* 覆盖 tone-cream，对齐 H5 .poem-line.active */
-  background: linear-gradient(180deg, #fff8ee, #f9edc6) !important;
-}
-
-.poem-line__text {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  min-width: 0;
-  font-size: var(--font-line);
-  font-weight: 700;
-  line-height: 1.4;
-  color: var(--ink);
-}
-
 .detail-big {
   display: flex;
   flex-direction: column;
@@ -379,25 +350,6 @@
   display: flex;
   flex-direction: row;
   gap: var(--gap-block);
-}
-
-.detail-pair__card.block {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--gap-row);
-  flex: 1;
-  width: auto;
-  min-width: 0;
-  min-height: 120rpx;
-  padding: var(--pad-card);
-  font-size: var(--font-line);
-  font-weight: 700;
-  line-height: 1.4;
-  color: var(--ink);
-  border-radius: var(--radius-bar);
-  box-sizing: border-box;
 }
 
 .quiz-head {
@@ -541,8 +493,8 @@
   color: var(--ink);
   border-radius: var(--radius-bar);
   box-sizing: border-box;
-  /* 切题时立刻摘掉选中环，只保留按下缩放 */
-  transition: transform 80ms ease-out;
+  /* 按下缩放 + 选中/答对颜色与阴影过渡，对齐 --motion-tap */
+  transition: var(--motion-tap);
 }
 
 .option:active {

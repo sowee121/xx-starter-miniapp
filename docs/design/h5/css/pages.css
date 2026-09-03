@@ -101,6 +101,8 @@
   flex-direction: row;
   align-items: center;
   gap: var(--gap-row);
+  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-line 对齐 */
+  min-height: 132px;
   padding: var(--pad-card);
   border-radius: var(--radius-bar);
 }
@@ -310,7 +312,8 @@
   flex: 1;
   width: auto;
   min-width: 0;
-  min-height: 120px;
+  /* 76px 播放钮 + 上下 padding 28px×2，与小程序 word-line 对齐 */
+  min-height: 132px;
   padding: var(--pad-card);
   font-size: var(--font-line);
   font-weight: 700;

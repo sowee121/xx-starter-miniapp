@@ -192,7 +192,7 @@ def make_poem():
         media(p["cover"], p["title"], p["author"], POEM_TONES[i % len(POEM_TONES)], wide=True)
         for i, p in enumerate(poems)
     )
-    write("poem/list.html", "古诗", f'<div class="inner-head"><h1>选一首来听</h1><p>一首一首慢慢听</p></div><div class="page-list">{cards}</div>')
+    write("poem/list.html", "古诗", f'<div class="inner-head"><h1>选一首古诗</h1><p>听一听，读一读</p></div><div class="page-list">{cards}</div>')
 
     sample_i, sample = next(
         (i, p) for i, p in enumerate(poems) if p["id"] == "deng-guan-que-lou"
@@ -257,7 +257,7 @@ def make_hanzi():
     write(
         "hanzi/list.html",
         "识字",
-        f'<div class="inner-head"><h1>生活里的字</h1><p>看一看，听一听</p></div>{"".join(sections)}',
+        f'<div class="inner-head"><h1>生活常见字</h1><p>听一听，认汉字</p></div>{"".join(sections)}',
     )
     sample = next(
         item
@@ -419,7 +419,7 @@ def make_english():
     write(
         "english/hub.html",
         "英语",
-        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A ~ Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>听一听，说一说</span></div></div>""",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="duo"><div class="duo-card block tone-sky"><img src="{ASSET}/english-letter-a.png" alt="" /><strong>字母表</strong><span>A ~ Z</span></div><div class="duo-card block tone-rose"><img src="{ASSET}/english-fruit-apple.png" alt="" /><strong>单词</strong><span>生活常见词</span></div></div>""",
     )
 
     abc_cards = "".join(
@@ -441,7 +441,7 @@ def make_english():
     write(
         "english/alphabet-list.html",
         "英语",
-        f'<div class="inner-head"><h1>字母表</h1><p>听一听字母</p></div><div class="word-grid">{abc_cards}{song_card}</div>'
+        f'<div class="inner-head"><h1>字母表</h1><p>听一听，学字母</p></div><div class="word-grid">{abc_cards}{song_card}</div>'
         + section("字母歌播放中", f'<div class="word-grid">{abc_cards}{song_card_stop}</div>'),
     )
 
@@ -479,7 +479,7 @@ def make_english():
     write(
         "english/list.html",
         "英语",
-        f'<div class="inner-head"><h1>单词</h1><p>听一听，说一说</p></div>{"".join(sections)}',
+        f'<div class="inner-head"><h1>单词</h1><p>听一听，学单词</p></div>{"".join(sections)}',
     )
 
     sample = data["categories"][0]["items"][0]
@@ -504,7 +504,7 @@ def make_pinyin():
     write(
         "pinyin/list.html",
         "拼音",
-        f'<div class="inner-head"><h1>单韵母</h1><p>听一听小声音</p></div><div class="word-grid">{cards}</div>',
+        f'<div class="inner-head"><h1>单韵母</h1><p>听一听，学发音</p></div><div class="word-grid">{cards}</div>',
     )
 
     sample = vowels[0]

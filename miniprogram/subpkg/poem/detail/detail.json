@@ -2,6 +2,7 @@
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
     "play-button": "/components/play-button/play-button",
+    "word-line": "/components/word-line/word-line",
     "trail-nav": "/components/trail-nav/trail-nav"
   },
   "navigationBarTitleText": "古诗详情"
