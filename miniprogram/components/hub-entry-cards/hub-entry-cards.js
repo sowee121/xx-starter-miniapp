@@ -7,9 +7,9 @@ Component({
     cards: { type: Array, value: [] },
   },
   methods: {
-    /** 点击某张入口卡，向页面抛出 go 事件（携带 to） */
-    onCardTap(e) {
-      this.triggerEvent('go', { to: e.currentTarget.dataset.to })
+    /** 转发单卡的 go 事件，向页面抛出（携带 to） */
+    onCardGo(e) {
+      this.triggerEvent('go', { to: e.detail.to })
     },
   },
 })

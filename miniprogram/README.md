@@ -20,7 +20,7 @@ miniprogram/
 ├── pages/
 │   ├── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
 │   └── parent/                    # 家长区：音量三档 + 长按 3 秒清除
-├── components/                    # 11 个主包通用组件
+├── components/                    # 14 个主包通用组件
 ├── utils/                         # 12 个通用模块（云端、发星、点读、进度、热力…）
 ├── content/                       # 静态内容配置：mascots / modules / feedback
 ├── styles/                        # tokens / reset / layout / cards / learning
@@ -94,6 +94,8 @@ miniprogram/
 | `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
 | `activity-month` | 日历页月历热力网格（`title` / `weekdays` / `cells` / `night`） |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
+| `hub-entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `hub-entry-card`，抛 `go` |
+| `hub-entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
 
 组件统一 `styleIsolation: 'apply-shared'`，`tone-*` 卡面色取自 `styles/cards.wxss`。
 

@@ -1,16 +1,12 @@
 <view class="hub-entry-cards">
-  <view
+  <hub-entry-card
     wx:for="{{cards}}"
     wx:key="to"
-    class="hub-entry-card hub-entry-card--{{item.tone}}"
-    data-to="{{item.to}}"
-    bindtap="onCardTap"
-    hover-class="is-pressed"
-    hover-start-time="0"
-    hover-stay-time="80"
-  >
-    <image class="hub-entry-card__image" src="{{item.image}}" mode="aspectFit" />
-    <view class="hub-entry-card__title">{{item.title}}</view>
-    <view class="hub-entry-card__sub">{{item.sub}}</view>
-  </view>
+    image="{{item.image}}"
+    title="{{item.title}}"
+    sub="{{item.sub}}"
+    tone="{{item.tone}}"
+    to="{{item.to}}"
+    bind:go="onCardGo"
+  />
 </view>
