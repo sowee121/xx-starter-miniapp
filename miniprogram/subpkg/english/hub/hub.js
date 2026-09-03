@@ -6,8 +6,22 @@ const { tap } = require('../../../utils/tap-guard')
 Page({
   data: {
     stars: 0,
-    abcImage: mediaUrl('/subpkg/english/static/english-letter-a.png'),
-    wordImage: mediaUrl('/subpkg/english/static/english-fruit-apple.png'),
+    entries: [
+      {
+        image: mediaUrl('/subpkg/english/static/english-letter-a.png'),
+        title: '字母表',
+        sub: 'A 到 Z',
+        tone: 'sky',
+        to: 'alphabet',
+      },
+      {
+        image: mediaUrl('/subpkg/english/static/english-fruit-apple.png'),
+        title: '单词',
+        sub: '听一听，说一说',
+        tone: 'rose',
+        to: 'words',
+      },
+    ],
   },
 
   onShow() {
@@ -16,7 +30,7 @@ Page({
 
   /** 打开下一页 */
   open: tap(function (e) {
-    const to = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.to
+    const to = e.detail && e.detail.to
     if (to === 'alphabet') {
       goTo('/subpkg/english-abc/list/list')
       return

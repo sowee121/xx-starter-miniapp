@@ -7,15 +7,29 @@ const { tap } = require('../../../utils/tap-guard')
 Page({
   data: {
     stars: 0,
-    fruitImage: mediaUrl(`/subpkg/math/static/${content.fruitImage}.png`),
-    calcImage: mediaUrl(`/subpkg/math/static/${content.calcImage}.png`),
+    entries: [
+      {
+        image: mediaUrl(`/subpkg/math/static/${content.fruitImage}.png`),
+        title: '数一数',
+        sub: '1 到 10',
+        tone: 'rose',
+        to: 'count',
+      },
+      {
+        image: mediaUrl(`/subpkg/math/static/${content.calcImage}.png`),
+        title: '算一算',
+        sub: '1 到 10',
+        tone: 'sand',
+        to: 'calc',
+      },
+    ],
   },
   onShow() {
     this.setData({ stars: stars.getLocalStars() })
   },
   /** 打开下一页 */
   open: tap(function (e) {
-    const to = e.currentTarget && e.currentTarget.dataset && e.currentTarget.dataset.to
+    const to = e.detail && e.detail.to
     if (to !== 'count' && to !== 'calc') return
     goTo(`/subpkg/math/${to}/${to}`)
   }),
