@@ -33,6 +33,31 @@
           <p>各模块共用 · 静态已打开态</p>
         </div>
         <div class="section">
+          <div class="section-title">动效演示 · 3D 立起（点按钮触发，点弹层 / 卡片按钮收起）</div>
+          <div class="feedback-demo">
+            <div class="feedback-demo__bar">
+              <button class="chip fb-demo-show" type="button">显示</button>
+              <button class="chip fb-demo-hide" type="button">隐藏</button>
+            </div>
+            <div class="feedback-demo__stage" id="fbDemoStage">
+              <div class="feedback-layer fb-demo-layer is-show" id="fbDemoLayer">
+                <div class="feedback-layer__card" id="fbDemoCard">
+                  <img class="feedback-layer__cloud" src="../../atoms/cloud.png" alt="" />
+                  <div class="feedback-layer__icon-slot">
+                    <img class="feedback-layer__icon" src="../../atoms/big-star.png" alt="" />
+                  </div>
+                  <div class="feedback-layer__body">
+                    <div class="feedback-layer__text">宝贝真棒</div>
+                    <div class="feedback-layer__desc">「读 2 首古诗」任务完成啦～</div>
+                  </div>
+                  <button class="feedback-layer__continue" id="fbDemoAction" type="button">继续学</button>
+                  <img class="feedback-layer__grass" src="../../atoms/grass-tuft.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section">
           <div class="section-title">古诗</div>
           <div class="feedback-frame">
             <div class="feedback-layer">
@@ -205,5 +230,44 @@
         </div>
       </div>
     </div>
+    <script>
+      /* 仅动效演示用；业务页反馈弹层走小程序 feedback-layer 组件 */
+      ;(function () {
+        var stage = document.getElementById('fbDemoStage')
+        var layer = document.getElementById('fbDemoLayer')
+        var hideTimer = null
+
+        function show() {
+          clearTimeout(hideTimer)
+          if (layer.classList.contains('is-closing')) {
+            /* 收起动画中途再点显示：取消收起，直接回到显示态 */
+            layer.classList.remove('is-closing')
+            return
+          }
+          if (layer.classList.contains('is-show')) return
+          /* 完全隐藏态（基础 opacity:0，无残留过渡）隔一帧挂 is-show，入场动画从 0% 干净重播。
+             不能先 remove('is-show')：摘掉入场动画的瞬间卡片会闪出完整静态态 */
+          requestAnimationFrame(function () {
+            layer.classList.add('is-show')
+          })
+        }
+
+        function hide() {
+          if (!layer.classList.contains('is-show') || layer.classList.contains('is-closing')) return
+          layer.classList.add('is-closing') /* 保留 is-show 的 opacity:1，否则层会瞬间透明 */
+          hideTimer = setTimeout(function () {
+            hideTimer = null
+            layer.classList.remove('is-show', 'is-closing')
+          }, 480)
+        }
+
+        document.querySelector('.fb-demo-show').addEventListener('click', show)
+        document.querySelector('.fb-demo-hide').addEventListener('click', hide)
+        document.getElementById('fbDemoAction').addEventListener('click', hide)
+        stage.addEventListener('click', function (e) {
+          if (e.target === stage || e.target === layer) hide()
+        })
+      })()
+    </script>
   </body>
 </html>
