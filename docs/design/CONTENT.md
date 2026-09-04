@@ -3,6 +3,8 @@
 > 本文件与 [PLAN.md](./PLAN.md)、`docs/design/content/*.json`、`docs/design/h5/` 审查稿一致。  
 > **已用户确认可作开发基准**；后续改内容先改本文件与 JSON，再重生成 H5。
 > 工程实现以 `miniprogram/` 为准；样式须与 H5 **同批双向同步**（见仓库 `.cursor/rules/h5-miniapp-style-sync.mdc`）。
+>
+> 2026-09-04 复核：详情主卡类名 `detail-big` 已统一为 `detail-card`；`--opacity-disabled` 0.68 → 0.86；石子径变量族精确化；首页模块卡旧类名 `.module` 表述已清除
 
 ---
 
@@ -215,17 +217,17 @@ python3 .cursor/skills/edge-tts-batch/scripts/generate_audio.py --force --only p
 - 列表媒体缩略图统一 **`--radius-thumb: 28`**（与卡内插图同档）；古诗封面统一为 4:3 横版黏土棚拍（左动物右诗意），禁止浮岛底座与旧图混用
 - 背景：天空渐变 + 底部黏土草地实图（`meadow-hill`）；夜景用 CSS 罩层，不另出图
 - 设计 token：`docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`（1px = 1rpx）
-  - 字号下限 `--font-nav: 28`（亦用于导航）；正文默认 `--font-body: 34`；禁用态 `--opacity-disabled: 0.68`
+  - 字号下限 `--font-nav: 28`（亦用于导航）；正文默认 `--font-body: 34`；禁用态 `--opacity-disabled: 0.86`
   - 答题选中 `--tone-picked` / `--ring-picked`（蜜黄高亮）；答对 `--tone-ok` / `--ring-ok`（叶绿）
-  - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；`--radius-cell: 16` 热力小方块；鼓边 `--shadow-clay*`；石子径 `--trail-*` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
+  - **鹅卵石面**：普通圆弧，不用 squircle。`--radius-card: 56` 大卡（首页全部卡片、通栏、详情）；`--radius-tile: 48` 内页小卡片（字卡/双卡/任务行）；`--radius-bar: 40` 矮条；`--radius-thumb: 28` 卡内图（`≈ card − pad-card`）；`--radius-cell: 16` 热力小方块；鼓边 `--shadow-clay*`；石子径 `--tone-trail` / `--font-trail` / `--shadow-trail*`；通用切题导航 `trail-nav`（见 PLAN §2.1.1）
   - 胶囊 **`--radius-pill: 999`**（chip、星条、气泡）
   - **尺寸族**：`--size-mascot: 168`（首页通栏 / 模块卡吉祥物、商城贴纸大图）；`--size-slot: 112`（通栏钮、清除槽、音量档、切题条、大号播放共用）；`--size-header: 88`（导航高、回首页钮、绿胶囊紧凑高）；`--size-tap-compact: 128`（紧凑热区 / 选项高）；`--size-word: 210`（词/字卡高）；`--size-play: 92` / `--size-play-sm: 76`（播放圆钮）
   - **卡面色统一为 `tone-*`**（全部入 token，颜色命名）：变量在 `tokens.css`/`tokens.wxss`，类在 `blocks.css`/`blocks.wxss`，每个类 `background` 与 `box-shadow` 均引用变量、无内联渐变。家长区：音量卡 `tone-sky`（蓝）；长按清除四卡——每日任务 `tone-matcha`（绿，重置）/ 学习记录 `tone-frost`（霜蓝，清除）/ 兑换贴纸 `tone-rose`（玫红，清空）/ 星星积分 `tone-apricot`（杏橙，清零）。枢纽双卡：英语字母表 `tone-sky` + 单词 `tone-rose`；算术数一数 `tone-rose`（随英语苹果卡同色）+ 算一算 `tone-sand`（燕麦米，随小狗图）
-    - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米，.module/算一算 随小狗图）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分
+    - 首页六模块卡面色：拼音/选项 `tone-butter`（黄油）、英语 `tone-tan`（茶棕）、识字 `tone-orange`（杏橘）、古诗 `tone-coral`（珊瑚，与拼音区分）、算术 `tone-sand`（燕麦米；入口与算一算随小狗图同色）、日历 `tone-frost`（霜蓝）。数一数入口卡与详情 quiz-head 统一 `tone-rose`，与英语入口苹果卡同图同色（见 §2.3 配图规则）。功能浅色：`tone-peach`（蜜桃，选项/古诗）、`tone-mint`（薄荷，已完成任务）、`tone-lilac`（丁香，选项/古诗列表）、`tone-cream`（奶油）、`tone-night`（夜景）。家长区「学习记录」用 `tone-frost`，与音量的 `tone-sky` 区分
 - 热区：默认 ≥ **152rpx**，紧凑点读 `--size-tap-compact`（128rpx）；导航回首页 / chip / 家长槽等见 PLAN §2.2 例外
 - 反馈弹层 `feedback-layer` 允许（非营销弹窗）；禁 Toast
 - 字体：H5 首页可用 Yuanti；小程序 PingFang（平台差，非 sync bug）
-- 详情主卡（拼音/英语/识字 `.detail-big`）：卡内 `justify-content: center` + `gap`；主图 / 字母图按 H5；**padding 不动**；页底草地留白保留；古诗 hero 4:3 不动
+- 详情主卡（拼音/英语/识字 `.detail-card`）：卡内 `justify-content: center` + `gap`；主图 / 字母图按 H5；**padding 不动**；页底草地留白保留；古诗 hero 4:3 不动
 
 ---
 

@@ -188,13 +188,13 @@ wx.cloud.callFunction({ name: 'initDb' }).then(console.log).catch(console.error)
 或直接调 `getProfile` / `login`（会按需建表）。
 也可在控制台对单个函数点 **云端测试**。
 
-**首次启用（owner 锁定）**：`initDb` 只放行 `OWNER_OPENIDS` 白名单（`initDb/index.js` 顶部，默认仅含本地单测身份 `test-openid`，即实际全拒）。先用自己的微信在模拟器/真机登录，再执行：
+**owner 锁定（已完成）**：`initDb` 只放行 `OWNER_OPENIDS` 白名单（`initDb/index.js` 顶部，保留 `'test-openid'` 勿删，本地单测依赖）。当前已含开发者本人 openid，仅本人可调用，他人一律返回 `{ ok: false, error: 'forbidden' }`。需要更换 / 新增 owner 时，先用自己的微信在模拟器/真机登录，再执行：
 
 ```js
 wx.cloud.callFunction({ name: 'initDb', data: { mode: 'whoami' } }).then(console.log)
 ```
 
-把返回的 `openid` 填入 `OWNER_OPENIDS` 数组（保留 `'test-openid'` 勿删，本地单测依赖），重新部署 `initDb` 即锁定为仅你可调用；他人调用一律返回 `{ ok: false, error: 'forbidden' }`。`whoami` 无副作用，仅回显调用者自身的 openid。
+把返回的 `openid` 填入 `OWNER_OPENIDS` 数组（保留 `'test-openid'` 勿删，本地单测依赖），重新部署 `initDb` 即完成锁定。`whoami` 无副作用，仅回显调用者自身的 openid。
 
 ---
 

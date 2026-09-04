@@ -153,7 +153,7 @@ miniprogram/
 | `styles/tokens.wxss` | 设计变量（色 / 间距 / 圆角 / 字号），1px = 1rpx 与 H5 `docs/design/h5/css/tokens.css` 对齐 |
 | `styles/reset.wxss` | 基础重置；正文字号最小 28rpx |
 | `styles/layout.wxss` | 布局原子：只管"怎么排"（页面栈 / 词卡网格 / 列表分组），不含颜色与阴影 |
-| `styles/blocks.wxss` | 积木与控件：`.block` 形体、`tone-*` 卡面色（与 H5 15 色同源）、`.chip`、交互原子类（`motion-tap` / `is-pressed` / `is-disabled`）、设置卡头与场景背景 |
+| `styles/blocks.wxss` | 积木与控件：`.block` 形体、`tone-*` 卡面色（16 个 `tone-*` 色面，与 H5 `blocks.css` 完全同源）、`.chip`、交互原子类（`motion-tap` / `is-pressed` / `is-disabled`）、设置卡头与场景背景 |
 
 ---
 

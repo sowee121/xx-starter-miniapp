@@ -5,6 +5,8 @@
 > - `[小程序需求优化版.md](../小程序需求优化版.md)`
 > - `[小程序开发核对清单.md](../小程序开发核对清单.md)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
+>
+> 复核：2026-09-04 已按 `miniprogram/` 现行实现同步（`.detail-card` / `--opacity-disabled: 0.86` / `.custom-header__home` / `--shadow-lift` / 算术两题型无固定题量）
 
 ---
 
@@ -21,7 +23,7 @@
 | 反馈闭环       | **已实现**：任务/兑换弹层 `feedback-layer`；算术 feedback-bar + 成败音效；禁 Toast（见 CONTENT §2.8） |
 | 家长区         | **已实现**：欢迎卡进入；音量三档；长按 3 秒重置/清除每日任务 / 学习记录 / 星星 / 贴纸（每日任务走 `dailyTasks` reset，其余走 `resetProfile`） |
 | 点读音频       | 分包 MP3 + `utils/audio.js` + `read-award.js`；音色/语速见 [CONTENT §2.10](./CONTENT.md)；拼音喂注音「ㄚㄛㄜㄧㄨㄩ」；字母 Z=`zee`；文件名 ASCII slug；真机需 `setInnerAudioOption`；失败落「语音准备中～」 |
-| 设计 token     | `docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`；字号下限 28（`--font-nav`）；禁用态 opacity 0.68；答题选中 `--tone-picked` |
+| 设计 token     | `docs/design/h5/css/tokens.css` ↔ `miniprogram/styles/tokens.wxss`；字号下限 28（`--font-nav`）；禁用态 opacity 0.86（`--opacity-disabled`）；答题选中 `--tone-picked` |
 | 云端存储（图片） | 环境已配置；默认 `USE_CLOUD = false`（免费套餐 ACL）；手动/自动化见 [`../../cloud-assets/README.md`](../../cloud-assets/README.md) |
 | 云函数         | **已部署并对齐本地**：`login` / `getProfile` / `getProgress` / `addStars`（含 `letter_done`）/ `checkinTask` / `dailyTasks` / `completeProgress` / `bumpHeat` / `exchangeReward` / `resetProfile` / `initDb`。启动同步积分/进度；云为主存，加星/进度失败时本地队列兜底并冲刷 |
 
@@ -59,10 +61,10 @@
 | --- | --- | --- |
 | 轮廓 | 卡片用**普通圆弧** `border-radius`（**不用** `corner-shape: squircle`，小程序 WebView 无法稳定还原）；**石子径单字正圆**（`999`）；切题用矮条卡 + 黏土箭头 | `--radius-card` / `--radius-tile` / `--radius-bar` / `--radius-thumb` / `--radius-cell` / `--radius-pill`、`.trail-nav__item` / `.is-step` |
 | 鼓边 | **对角 inset**：上左高光 + 下右压暗；禁止只写 `inset 0 ±N` 的「扁按钮」阴影冒充鹅卵石 | `--shadow-clay-hi` / `--shadow-clay-lo` / `--shadow-clay`；各 `tone-*` 可换色压暗 |
-| 外托 | 多层柔外阴影托起厚度 | `--shadow`；石子径用 `--shadow-trail` |
+| 外托 | 多层柔外阴影托起厚度 | `--shadow-lift`；石子径用 `--shadow-trail` |
 | 选中环 | 石子径当前项：与答题答对相同的叶绿面 + 6px 绿环鼓边（无同心环） | `--shadow-trail-current`、`--tone-ok` / `--ring-ok` |
 | 切题导航 | 通用组件 `trail-nav` / `trail-nav__item` | `blocks.css` ↔ `blocks.wxss` |
-| 例外（可正圆 / 扁边） | chip CTA、星条、气泡、音量档、导航回首页圆钮（**无描边**，仅鼓边阴影）、播放钮（绿底 + 小三角 + `--shadow-chip`） | `--radius-pill`（`999`）、`.play-btn`、`.nav-home` |
+| 例外（可正圆 / 扁边） | chip CTA、星条、气泡、音量档、导航回首页圆钮（**无描边**，仅鼓边阴影）、播放钮（绿底 + 小三角 + `--shadow-chip`） | `--radius-pill`（`999`）、`.play-btn`、`.custom-header__home` |
 
 新增「面」级容器：优先 `block` + `tone-*`，或复用 `--shadow-clay` / `--shadow-trail`；禁止另起一套扁平阴影。
 
@@ -93,7 +95,7 @@
   - 播放钮为绿底圆 + 奶油小三角图标 + 鹅卵石鼓边
 - 模块间距约 **30rpx**（`--gap-grid`；详情页积木间距 `--gap-block: 38`），留白宽松
 - 列表缩略图圆角用 **`--radius-thumb: 28`**（与卡内插图同一档，见上嵌套公式）
-- 详情主卡（`.detail-big`）：卡内 flex 居中 + `gap`；**不靠加 padding、不整页 flex 吃满**；页底草地保留；主卡亦须鹅卵石鼓边（`tone-*`）
+- 详情主卡（`.detail-card`，H5 稿与小程序公共组件 `detail-card` 同款）：卡内 flex 居中 + `gap`；**不靠加 padding、不整页 flex 吃满**；页底草地保留；主卡亦须鹅卵石鼓边（`tone-*`）
 - 适配刘海/底部安全区；有效操作避开系统 UI
 
 
@@ -150,7 +152,7 @@
 | --- | ---- | -------------------------------------------------------- |
 | 1   | 古诗   | 6 首指定（咏鹅、静夜思、悯农、春晓、登鹳雀楼、望庐山瀑布）；大字原文；逐句点读 + 全文朗读；4:3 黏土场景封面；**无白话字段/展示** |
 | 2   | 识字   | 生活常见字 96（数字/颜色/动物/家人/身体/自然/方位/出行各 12，好认先学；类内连读序）；列表上 emoji 下汉字；详情系统 emoji；点读 + 1～2 组词 |
-| 3   | 算术   | 数一数 10 题：固定苹果图拼接，每行尽量均分（5=3+2，6=3×2，7=4+3，10=5×2）；算一算 10 题：固定狗拿算盘图 |
+| 3   | 算术   | 数一数：固定苹果图拼接，每行尽量均分（5=3+2，6=3×2，7=4+3，10=5×2）；算一算：固定狗拿算盘图（加减结果 1～10）；两题型均答对自动出下一题、自由连续刷题，**无固定题量** |
 | 4   | 英语   | 枢纽：字母表（26 大写点读 + 字母歌）/ 单词 96（数字/颜色/动物/身体/水果/食物/自然/交通各 12；数字 one→nine 后接 ten / hundred / thousand，其余类内 A–Z）+ 超短句；黏土词图与字母图；词/句/字母名独立点读 |
 | 5   | 拼音   | **仅单韵母** a o e i u ü；纯黏土字母图；点读；无声母、无拼读；TTS 用注音「ㄚㄛㄜㄧㄨㄩ」合成（见 CONTENT §2.5） |
 | 6   | 日历   | 日期、星期、昼夜；晨间草地 + 黏土日/月/云/动物；**日期卡内「打卡」按钮**，每天一次（进页不自动完成）；卡下为本月学习热力 |
