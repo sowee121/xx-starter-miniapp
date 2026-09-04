@@ -11,6 +11,8 @@ const path = require('node:path')
 
 const ROOT = path.join(__dirname, '..')
 const OPENID = 'test-openid'
+/** 当前调用者身份；默认取 OPENID，鉴权用例可临时切换后还原 */
+let CURRENT_OPENID = OPENID
 const db = new Map()
 
 /** 浅拷贝对象 */
@@ -26,6 +28,14 @@ function matchValue(actual, expected) {
     const list = expected.value || []
     const owned = Array.isArray(actual) ? actual : actual === undefined ? [] : [actual]
     return !owned.some((item) => list.includes(item))
+  }
+  if (expected.__command === 'in') {
+    const list = expected.value || []
+    return list.includes(actual)
+  }
+  if (expected.__command === 'exists') {
+    // 只用于空集合清空（where({ _id: _.exists(true) })），任意文档均视为命中
+    return actual !== undefined
   }
   throw new Error(`mock 未支持的查询指令：${expected.__command}`)
 }
@@ -60,14 +70,16 @@ const cloud = {
   DYNAMIC_CURRENT_ENV: 'test-env',
   /** 初始化假云环境 */
   init() {},
-  getWXContext: () => ({ OPENID }),
+  getWXContext: () => ({ OPENID: CURRENT_OPENID }),
   database: () => ({
     command: {
       inc: (value) => command('inc', value),
       push: (value) => command('push', value),
       gte: (value) => command('gte', value),
+      in: (value) => command('in', value),
       nin: (value) => command('nin', value),
       set: (value) => command('set', value),
+      exists: (value) => command('exists', value),
     },
     /** 创建集合 */
     async createCollection(name) {
@@ -141,6 +153,16 @@ const cloud = {
               applyPatch(item, data)
               return { stats: { updated: 1 } }
             },
+            /** 整体替换（不存在则创建，与云端 set 语义一致） */
+            async set({ data }) {
+              const item = docs.find((doc) => doc._id === id)
+              if (item) {
+                for (const [key, value] of Object.entries(data)) item[key] = clone(value)
+                return { stats: { updated: 1 } }
+              }
+              docs.push({ ...clone(data), _id: id })
+              return { stats: { created: 1 } }
+            },
           }
         },
       }
@@ -172,9 +194,14 @@ function records(name) {
   return db.get(name) || []
 }
 
-/** 测建库 */
+/** 测建库与 owner 鉴权 */
 async function testInitDb() {
   reset()
+  // whoami：只回显调用者自身 openid，不产生建表副作用
+  const whoami = await fn('initDb')({ mode: 'whoami' })
+  assert.deepEqual(whoami, { ok: true, openid: OPENID })
+  assert.equal(records('users').length, 0)
+
   const result = await fn('initDb')()
   assert.equal(result.ok, true)
   assert.deepEqual(result.results.map((item) => item.name).sort(), [
@@ -186,6 +213,28 @@ async function testInitDb() {
     'users',
   ])
   assert.ok(result.results.every((item) => item.status === 'created'))
+
+  // 非 owner 调 reset 被拒，预置文档保留
+  records('users').push({ _id: 'u-1', _openid: OPENID, stars: 5 })
+  const before = clone(records('users'))
+  CURRENT_OPENID = 'stranger-openid'
+  try {
+    const denied = await fn('initDb')({ mode: 'reset' })
+    assert.deepEqual(denied, { ok: false, error: 'forbidden' })
+  } finally {
+    CURRENT_OPENID = OPENID
+  }
+  assert.deepEqual(records('users'), before)
+
+  // owner reset：清空业务集合并写全局重置纪元（app_meta/reset），供每日任务作废旧本地
+  const resetted = await fn('initDb')({ mode: 'reset' })
+  assert.equal(resetted.ok, true)
+  assert.equal(records('users').length, 0)
+  assert.equal(records('daily_tasks').length, 0)
+  const meta = records('app_meta')
+  assert.equal(meta.length, 1)
+  assert.equal(meta[0]._id, 'reset')
+  assert.equal(typeof meta[0].resetAt, 'number')
 }
 
 /** 测登录与档案 */
@@ -314,7 +363,7 @@ async function testProgressAndTasks() {
 async function testDailyTasks() {
   const dailyTasks = fn('dailyTasks')
   const seedTasks = [
-    { id: 'poem', target: 1, reward: 2, title: '读 1 首古诗', url: '/subpkg/poem/poem/poem' },
+    { id: 'poem', target: 1, reward: 2, title: '读 1 首古诗', url: '/subpkg/poem/list/list' },
     { id: 'hanzi', target: 2, reward: 2, title: '认 2 个汉字', url: '/subpkg/hanzi/list/list' },
     { id: 'math', target: 3, reward: 3, title: '做 3 道算术题', url: '/subpkg/math/hub/hub' },
     { id: 'english', target: 4, reward: 4, title: '学 4 个英语', url: '/subpkg/english/hub/hub' },
@@ -432,6 +481,88 @@ async function testDailyTasks() {
   assert.equal(records('daily_tasks').length, 0, 'reset 应清空当天任务文档')
   assert.equal(records('task_logs').length, 1, 'reset 应只删当天打卡')
   assert.equal(records('task_logs')[0].date, '2026-08-30')
+}
+
+/** 每日任务重置纪元：initDb reset 后，旧本地 seed / sync 不得把已清数据回写复活。 */
+async function testDailyResetEpoch() {
+  const dailyTasks = fn('dailyTasks')
+  const seedTasks = [
+    { id: 'poem', target: 1, reward: 2, title: '读 1 首古诗', url: '/subpkg/poem/list/list' },
+    { id: 'hanzi', target: 2, reward: 2, title: '认 2 个汉字', url: '/subpkg/hanzi/list/list' },
+    { id: 'math', target: 3, reward: 3, title: '做 3 道算术题', url: '/subpkg/math/hub/hub' },
+    { id: 'english', target: 4, reward: 4, title: '学 4 个英语', url: '/subpkg/english/hub/hub' },
+    { id: 'pinyin', target: 5, reward: 5, title: '读 5 个拼音', url: '/subpkg/pinyin/list/list' },
+    { id: 'calendar', target: 1, reward: 1, title: '日历打卡', url: '/subpkg/calendar/index' },
+  ]
+  const resetAt = Date.now() - 1000
+
+  // get 携带 reset 前旧 seed（updatedAt < 纪元）：seed 被忽略、全新空进度、纪元透传
+  reset()
+  db.set('app_meta', [{ _id: 'reset', resetAt }])
+  const oldSeed = await dailyTasks({
+    action: 'get',
+    date: '2026-08-31',
+    seed: { tasks: seedTasks, updatedAt: resetAt - 60000 },
+  })
+  assert.equal(oldSeed.ok, true)
+  assert.equal(oldSeed.resetAt, resetAt)
+  assert.deepEqual(oldSeed.day.progress, {})
+  assert.ok(oldSeed.day.updatedAt >= resetAt, 'reset 后应生成全新文档')
+
+  // reset 后新本地（updatedAt >= 纪元）且云端无文档 → seed 正常采用（不误伤正常路径）
+  reset()
+  db.set('app_meta', [{ _id: 'reset', resetAt }])
+  const freshSeed = await dailyTasks({
+    action: 'get',
+    date: '2026-08-31',
+    seed: { tasks: seedTasks, updatedAt: resetAt + 1000 },
+  })
+  assert.equal(freshSeed.ok, true)
+  assert.deepEqual(freshSeed.day.tasks, seedTasks)
+
+  // sync 拒收 reset 前旧本地（updatedAt < 纪元）：不回写、不覆盖云端新文档
+  reset()
+  await fn('initDb')() // 先建业务集合，records 的 push 才落库
+  db.set('app_meta', [{ _id: 'reset', resetAt }])
+  records('daily_tasks').push({
+    _id: 'dt-new',
+    _openid: OPENID,
+    date: '2026-08-31',
+    tasks: seedTasks,
+    progress: { poem: ['cloud'] },
+    done: {},
+    awarded: {},
+    updatedAt: resetAt + 5000,
+  })
+  const staleSync = await dailyTasks({
+    action: 'sync',
+    date: '2026-08-31',
+    day: {
+      schema: 10,
+      tasks: seedTasks,
+      progress: { poem: ['old'] },
+      updatedAt: resetAt - 60000,
+    },
+  })
+  assert.equal(staleSync.ok, true)
+  assert.equal(staleSync.ignored, true)
+  assert.equal(records('daily_tasks').length, 1)
+  assert.deepEqual(
+    records('daily_tasks')[0].progress.poem,
+    ['cloud'],
+    '旧本地进度不得覆盖 reset 后云端文档',
+  )
+
+  // 从未 reset（无纪元）→ 行为与历史一致：seed 采用、resetAt=0
+  reset()
+  const noEpoch = await dailyTasks({
+    action: 'get',
+    date: '2026-08-31',
+    seed: { tasks: seedTasks, updatedAt: 1 },
+  })
+  assert.equal(noEpoch.ok, true)
+  assert.equal(noEpoch.resetAt, 0)
+  assert.deepEqual(noEpoch.day.tasks, seedTasks)
 }
 
 /** 所有落库记录都必须带 _openid，否则按用户查询会全空（云函数 add 不自动注入）。 */
@@ -605,18 +736,84 @@ async function testResetProfile() {
   assert.equal(records('users')[0].stars, 3, '清星后新完成的每日任务奖励应正常发放')
 }
 
+/** 多条同 openid 文档（并发「先查后插」残留）：合并字段进首条后再删多余档，不丢星星/贴纸/热力 */
+async function testMergeStaleUsers() {
+  // login/getProfile：stars 相加、贴纸/徽章并集去重、热力逐日取大、resetAt/updatedAt 取新
+  reset()
+  db.set('users', [
+    {
+      _id: 'uA',
+      _openid: OPENID,
+      stars: 3,
+      stickers: ['rabbit'],
+      badges: ['b1'],
+      heatDays: { '2026-08-01': 1 },
+      updatedAt: 1000,
+    },
+    {
+      _id: 'uB',
+      _openid: OPENID,
+      stars: 2,
+      stickers: ['cat', 'rabbit'],
+      badges: ['b1'],
+      heatDays: { '2026-08-01': 2, '2026-08-02': 1 },
+      starsResetAt: 5000,
+      updatedAt: 2000,
+    },
+  ])
+  const login = await fn('login')()
+  assert.equal(login.profile.stars, 5, '多档 stars 应相加')
+  const users = records('users')
+  assert.equal(users.length, 1, '合并后应只剩一条')
+  const merged = users[0]
+  assert.equal(merged._id, 'uA', '应保留首条为唯一档')
+  assert.deepEqual(merged.stickers, ['rabbit', 'cat'], '贴纸应并集去重')
+  assert.deepEqual(merged.badges, ['b1'], '徽章应并集去重')
+  assert.deepEqual(merged.heatDays, { '2026-08-01': 2, '2026-08-02': 1 }, '热力应逐日取大')
+  assert.equal(merged.starsResetAt, 5000, 'starsResetAt 应取最新')
+  assert.equal(merged.updatedAt, 2000, 'updatedAt 应取最新')
+
+  // addStars：合并后 inc 应落在唯一档上，不丢星
+  reset()
+  db.set('users', [
+    { _id: 'uA', _openid: OPENID, stars: 3, stickers: [], badges: [], heatDays: {}, updatedAt: 1000 },
+    { _id: 'uB', _openid: OPENID, stars: 2, stickers: [], badges: [], heatDays: {}, updatedAt: 2000 },
+  ])
+  const added = await fn('addStars')({ delta: 1, reason: 'math', ref: '1+1', clientId: 'merge-1' })
+  assert.equal(added.ok, true)
+  assert.equal(added.duplicated, false)
+  assert.equal(added.stars, 6, '合并(5)后再 +1 应为 6')
+  assert.equal(records('users').length, 1)
+  assert.equal(records('users')[0].stars, 6)
+
+  // exchangeReward：双档期先合并再判断，余额/贴纸以合并值为准，不误拒
+  reset()
+  db.set('users', [
+    { _id: 'uA', _openid: OPENID, stars: 3, stickers: [], badges: [], heatDays: {}, updatedAt: 1000 },
+    { _id: 'uB', _openid: OPENID, stars: 2, stickers: [], badges: [], heatDays: {}, updatedAt: 2000 },
+  ])
+  const traded = await fn('exchangeReward')({ rewardId: 'cat' })
+  assert.equal(traded.ok, true, '合并后余额 5 ≥ 2 应可兑换')
+  assert.equal(traded.stars, 3, '扣 2 后应剩 3')
+  assert.deepEqual(records('users')[0].stickers, ['cat'])
+  assert.equal(records('users').length, 1)
+  assert.equal(records('reward_logs').length, 1)
+}
+
 /** 云函数入口 */
 async function main() {
   const cases = [
-    ['initDb 创建全部集合', testInitDb],
+    ['initDb 建集合与 owner 鉴权', testInitDb],
     ['login 与 getProfile 用户档案', testLoginAndProfile],
     ['addStars 参数校验与幂等', testAddStars],
     ['completeProgress 与 checkinTask', testProgressAndTasks],
     ['dailyTasks 生成/幂等/同步/重置', testDailyTasks],
+    ['dailyTasks 重置纪元防旧本地回写', testDailyResetEpoch],
     ['bumpHeat 按日只增不减', testBumpHeat],
     ['exchangeReward 校验与扣星', testRewards],
     ['exchangeReward 并发只扣一次', testRewardRace],
     ['resetProfile 分作用域重置', testResetProfile],
+    ['多档 users 合并自愈', testMergeStaleUsers],
     ['落库记录均带 _openid', testOwnership],
   ]
   for (const [name, run] of cases) {

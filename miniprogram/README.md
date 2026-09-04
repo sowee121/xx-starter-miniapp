@@ -36,7 +36,7 @@ miniprogram/
 
 | 分包 | 页面 | 内容源 |
 | --- | --- | --- |
-| `poem` | `poem/poem`、`detail/detail` | `subpkg/poem/content/poems.js`（6 首） |
+| `poem` | `list/list`、`detail/detail` | `subpkg/poem/content/poems.js`（6 首） |
 | `hanzi` | `list/list`、`detail/detail` | `subpkg/hanzi/content/hanzi.js`（96 字 · 八类各 12） |
 | `math` | `hub/hub`、`count/count`、`calc/calc` | 题目在页面内生成（结果 1～10），共用 `quiz-page.js` |
 | `english` | `hub/hub`、`list/list`、`detail/detail` | `subpkg/english/content/english-words.js`（8 类 × 12） |
@@ -44,9 +44,9 @@ miniprogram/
 | `english-abc` | `list/list`、`detail/detail` | 26 个大写字母 |
 | `pinyin` | `list/list`、`detail/detail` | 6 个单韵母 |
 | `calendar` | `index` | 月历热力（`utils/activity.js` 供数） |
-| `task` | `list` | 每日任务（`utils/daily-tasks.js`） |
-| `shop` | `shop` | 积分商城（`subpkg/shop/content/stickers.js`，24 款） |
-| `parent` | `parent/parent` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
+| `task` | `index` | 每日任务（`utils/daily-tasks.js`） |
+| `shop` | `index` | 积分商城（`subpkg/shop/content/stickers.js`，24 款） |
+| `parent` | `index` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
 
 > 改英语分类页时只改 `subpkg/english/lib/*` 与 `subpkg/english/detail/detail.{wxml,json}`，`npm test` 会自动同步到 8 个分类包；直接改分类包会被检查拦回。
 
@@ -90,7 +90,7 @@ miniprogram/
 | `app-shell` | 页面外壳：自定义导航 + 背景草地 + 内容区（纵向 `gap` 由它提供） |
 | `custom-header` | 胶囊按钮下方对齐的自定义标题栏（含返回） |
 | `star-bar` | 顶栏星星数，订阅 `utils/stars.js` 刷新 |
-| `block-button` | 大号主行动按钮，点击节流走 `utils/tap-guard`（由 `big-button` 改名） |
+| `block-button` | 大号主行动按钮，点击节流走 `utils/tap-guard` |
 | `play-button` | 播放/停止切换钮，全局 stop 时会收回三角 |
 | `detail-card` | 详情页学习主卡（图/emoji/字形/词/注音/释义组合 + 播放钮 + 整卡可点，抛 `tap`） |
 | `word-card` | 字卡网格单元（图/emoji/label + 可选播放钮 + 整卡可点，抛 `tap`） |
@@ -98,7 +98,7 @@ miniprogram/
 | `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
 | `feedback-bar` | 行内轻反馈条（语音准备中 / 答对啦等提示） |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
-| `entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `entry-card`，抛 `go` |
+| `entry-grid` | 双卡入口容器（flex 两列宫格），迭代渲染 `entry-card`，抛 `go` |
 | `entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
 
 ### 首页 `pages/home/components/`（3）

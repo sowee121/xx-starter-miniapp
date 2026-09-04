@@ -1,8 +1,8 @@
-const audioUtil = require('../../../utils/audio')
-const mascots = require('../../../content/mascots')
-const progressUtil = require('../../../utils/progress')
-const starsUtil = require('../../../utils/stars')
-const dailyTasksUtil = require('../../../utils/daily-tasks')
+const audioUtil = require('../../utils/audio')
+const mascots = require('../../content/mascots')
+const progressUtil = require('../../utils/progress')
+const starsUtil = require('../../utils/stars')
+const dailyTasksUtil = require('../../utils/daily-tasks')
 
 /** 家长区各清除操作的动词：清零 / 清空 / 重置 / 清除 */
 const ACTION_VERBS = {

@@ -1,4 +1,4 @@
-/* 学习主卡样式：由 styles/learn.wxss、layout.wxss 迁入并按组件更名，数值不变 */
+/* 学习主卡样式：详情大图 / 标题 / 释义 */
 
 .detail-card {
   display: flex;
@@ -17,7 +17,7 @@
   height: 320rpx;
 }
 
-/* 韵母 / 字母宽图（原 .pinyin-vowel-image） */
+/* 韵母 / 字母宽图：卡图超出默认 320rpx 的加宽尺寸 */
 .detail-card__image--wide {
   width: 360rpx;
   height: 360rpx;

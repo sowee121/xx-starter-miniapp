@@ -4,7 +4,7 @@
     {
       "root": "subpkg/poem",
       "name": "poem",
-      "pages": ["poem/poem", "detail/detail"]
+      "pages": ["list/list", "detail/detail"]
     },
     {
       "root": "subpkg/hanzi",
@@ -79,17 +79,17 @@
     {
       "root": "subpkg/task",
       "name": "task",
-      "pages": ["list"]
+      "pages": ["index"]
     },
     {
       "root": "subpkg/shop",
       "name": "shop",
-      "pages": ["shop"]
+      "pages": ["index"]
     },
     {
       "root": "subpkg/parent",
       "name": "parent",
-      "pages": ["parent/parent"]
+      "pages": ["index"]
     }
   ],
   "window": {

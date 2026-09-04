@@ -163,7 +163,7 @@
 
 /* 圆钮视觉在 components/play-button；此处只保留按下过渡 */
 
-/* 设置卡头部：clear-card / volume-card 共用（字号与行高由 parent.wxss 补充） */
+/* 设置卡头部：clear-card / volume-card 共用（字号与行高由 subpkg/parent/index.wxss 补充） */
 .setting-head__body {
   display: flex;
   flex-direction: column;

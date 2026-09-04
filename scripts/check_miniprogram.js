@@ -320,7 +320,7 @@ function checkContentUsesFullShellWidth() {
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.word-grid' },
     { file: path.join(ROOT, 'docs/design/h5/css/pages.css'), selector: '.sticker-grid' },
     { file: path.join(MP, 'styles/layout.wxss'), selector: '.word-grid' },
-    { file: path.join(MP, 'subpkg/shop/shop.wxss'), selector: '.sticker-grid' },
+    { file: path.join(MP, 'subpkg/shop/index.wxss'), selector: '.sticker-grid' },
   ]
 
   for (const { file, selector } of targets) {
@@ -421,7 +421,7 @@ function checkMainPackageContentOwnership() {
   if (!fs.existsSync(stickersShop)) {
     errors.push('subpkg/shop/content/stickers.js 缺失')
   }
-  const shop = path.join(MP, 'subpkg/shop/shop.js')
+  const shop = path.join(MP, 'subpkg/shop/index.js')
   if (fs.existsSync(shop)) {
     const text = fs.readFileSync(shop, 'utf8')
     if (/require\(['"]\.\.\/\.\.\/\.\.\/content\/stickers['"]\)/.test(text)) {
@@ -723,7 +723,7 @@ function checkH5FlexGapSync() {
   const required = [
     { name: '.word-grid', re: /\.word-grid\s*\{[^}]*\bgap\s*:/s },
     { name: '.sticker-grid', re: /\.sticker-grid\s*\{[^}]*\bgap\s*:/s },
-    { name: '.entry-cards', re: /\.entry-cards\s*\{[^}]*\bgap\s*:/s },
+    { name: '.entry-grid', re: /\.entry-grid\s*\{[^}]*\bgap\s*:/s },
     { name: '.options', re: /\.options\s*\{[^}]*\bgap\s*:/s },
     { name: '.detail-pair', re: /\.detail-pair\s*\{[^}]*\bgap\s*:/s },
     { name: '.home-modules', re: /\.home-modules\s*\{[^}]*\bgap\s*:/s },

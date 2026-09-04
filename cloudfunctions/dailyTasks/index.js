@@ -16,7 +16,7 @@ const TEMPLATES = [
     id: 'poem',
     min: 1,
     max: 2,
-    url: '/subpkg/poem/poem/poem',
+    url: '/subpkg/poem/list/list',
     titleOf: (n) => `读 ${n} 首古诗`,
     rewardOf: (n) => n + 1,
   },
@@ -127,10 +127,22 @@ async function createDay(openid, date, seedTasks) {
   return { ...doc, _id: added._id }
 }
 
+/** 读全局重置纪元（initDb reset 写入 app_meta/reset），从未 reset 过则 0 */
+async function readResetAt() {
+  try {
+    const res = await db.collection('app_meta').doc('reset').get()
+    return (res.data && res.data.resetAt) || 0
+  } catch (error) {
+    return 0
+  }
+}
+
 /**
  * 每日任务云端存取。
- * - action='get'：拉当天文档；无则生成（seed 有效时用客户端生成结果，避免双随机漂移）入库并返回
- * - action='sync'：整体 upsert 当天文档（last-write-wins，儿童单设备场景可接受）
+ * - action='get'：拉当天文档；无则生成（seed 有效且不早于重置纪元时用客户端结果，
+ *   避免双随机漂移；reset 后旧 seed 被忽略改全新随机，防清库后本地回写复活）入库并返回
+ * - action='sync'：整体 upsert 当天文档（last-write-wins，儿童单设备场景可接受）；
+ *   reset 前生成的旧本地（updatedAt 早于重置纪元）拒收，防把已清数据带回来
  * - action='reset'：删除当天 daily_tasks 文档 + 当天 task_logs 打卡记录（task_logs 无前端读取方）
  */
 exports.main = async (event = {}) => {
@@ -139,12 +151,16 @@ exports.main = async (event = {}) => {
 
   if (action === 'get') {
     const date = event.date || getToday()
+    const resetAt = await readResetAt()
     let day = await findDay(OPENID, date)
     if (!day) {
-      const seedTasks = validSeed(event.seed) ? event.seed.tasks : null
+      // reset 后本地 seed 若早于重置纪元即为清库前残留，作废改全新随机，不沿用旧任务/进度
+      const seedFresh =
+        !resetAt || (event.seed && event.seed.updatedAt && event.seed.updatedAt >= resetAt)
+      const seedTasks = seedFresh && validSeed(event.seed) ? event.seed.tasks : null
       day = await createDay(OPENID, date, seedTasks)
     }
-    return { ok: true, action, day }
+    return { ok: true, action, day, resetAt }
   }
 
   if (action === 'sync') {
@@ -152,6 +168,12 @@ exports.main = async (event = {}) => {
     const payload = event.day
     if (!payload || !Array.isArray(payload.tasks) || payload.tasks.length !== TEMPLATES.length) {
       return { ok: false, error: 'invalid_params' }
+    }
+    // 重置纪元后：reset 前生成的旧本地（无云端时间戳或早于纪元）整体拒收，
+    // 防旧设备把已清空的每日任务/进度回写复活；正常设备同步前会先 get 拉到 reset 后新文档
+    const resetAt = await readResetAt()
+    if (resetAt && (!payload.updatedAt || payload.updatedAt < resetAt)) {
+      return { ok: true, action, ignored: true }
     }
     const col = db.collection('daily_tasks')
     const existing = await findDay(OPENID, date)

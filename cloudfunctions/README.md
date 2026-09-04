@@ -27,8 +27,9 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 | `task_logs` | 任务打卡 | 同上 |
 | `reward_logs` | 贴纸兑换 | 同上 |
 | `daily_tasks` | 每日任务当天文档（任务列表/进度/已发星状态，openid+date 一条） | 同上，或首次 `dailyTasks` get |
+| `app_meta` | 全局元信息：`reset` 文档存重置纪元 `resetAt`（`initDb reset` 写入，每日任务据此作废各设备旧本地缓存，实现真全清） | `initDb reset` 自动建 |
 
-集合**不必**在控制台手建；调 `initDb` 或首次登录相关函数即可 `createCollection`（已存在则跳过）。
+集合**不必**在控制台手建；调 `initDb` 或首次登录相关函数即可 `createCollection`（已存在则跳过）。`app_meta` 仅由 `initDb reset` 自动建，其余流程不需要它。
 
 ### `users` 主要字段
 
@@ -61,14 +62,14 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
 | 函数 | 入参 | 返回 | 说明 |
 | --- | --- | --- | --- |
-| `initDb` | — 或 `{ mode: 'reset' }` | `{ ok, results[] }` | 默认按需建 6 个集合（已存在记 `exists`）；`mode: 'reset'` 会**清空全部文档**（仅开发期清脏数据用） |
+| `initDb` | — 或 `{ mode: 'reset' \| 'whoami' }` | `{ ok, results[] }` \| `{ ok, openid }` | **owner-only**：非 `OWNER_OPENIDS` 白名单（`initDb/index.js`）一律 `forbidden`。默认按需建 6 个集合（已存在记 `exists`）；`mode: 'reset'` 清空业务集合全部文档并在 `app_meta` 写重置纪元（各设备每日任务本地缓存随后自动作废，见「开发环境重置」）；`mode: 'whoami'` 回显调用者 openid（首次 owner 锁定用，见「初始化集合」） |
 | `login` | — | `{ ok, profile, serverDate, weekday }` | 首个入口：建集合 + 幂等建档 |
 | `getProfile` | — | `{ ok, profile, serverDate, weekday, todayTasks: [] }` | 读档案，不存在则建；`todayTasks` 保留字段恒为空数组 |
 | `getProgress` | `{ module? }` | `{ ok, items: [{ module, itemId, done }] }` | 只返回 `done: true` 的记录；传 `module` 则按模块过滤；分页读取上限 500 |
 | `completeProgress` | `{ module, itemId }` | `{ ok }` | 缺参返回 `invalid_params`；已存在则更新，不存在则新建（显式写 `_openid`） |
 | `addStars` | `{ clientId, delta, reason, ref? }` | `{ ok, stars, duplicated, stale? }` | 见下方「加星」小节 |
 | `checkinTask` | `{ taskId }` | `{ ok, duplicated, date }` | 当天 `task_logs` 里追加打卡；同 `taskId` 重复打卡返回 `duplicated: true` |
-| `dailyTasks` | `{ action: 'get' \| 'sync' \| 'reset', date?, seed?, day? }` | `{ ok, action, day? }` | `get`：无则生成（seed 有效时沿用客户端结果，避免双随机漂移）；`sync`：整体 upsert（last-write-wins）；`reset`：删当天 `daily_tasks` 文档 + 当天 `task_logs` |
+| `dailyTasks` | `{ action: 'get' \| 'sync' \| 'reset', date?, seed?, day? }` | `{ ok, action, day?, resetAt? }` | `get`：无则生成（seed 有效且不早于重置纪元时沿用客户端结果，避免双随机漂移），返回附全局 `resetAt`；`sync`：整体 upsert（last-write-wins），早于重置纪元的旧本地拒收（回 `ignored: true`）；`reset`：删当天 `daily_tasks` 文档 + 当天 `task_logs` |
 | `bumpHeat` | `{ day, count, since }` | `{ ok, heatDays, stale? }` | `day` 必须 `YYYY-MM-DD`，`count` 取 0–99；同日只增不减；`since < heatResetAt` 时整笔丢弃并回 `stale` |
 | `exchangeReward` | `{ rewardId }` | `{ ok, stars, stickerId }` | 见下方「兑换」小节 |
 | `resetProfile` | `{ scope: 'progress' \| 'stars' \| 'stickers' }` | `{ ok, scope, … }` | 家长区清除；见下方「重置」小节 |
@@ -96,7 +97,7 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
   客户端新增 reason 必须同时加进这张表，否则线上全部 `invalid_params`。
 
-- **清零作废**：`clientId` 需携带真实发起时刻。普通加星为 `${Date.now()}-xxx`；每日任务为 `daily-{13 位时间戳}-{日期}-{taskId}`。`issuedAt < starsResetAt` 时返回 `{ ok: true, duplicated: true, stale: true }`，不发星。旧的 `daily-YYYY-MM-DD-taskId` 格式取当天 0 点，会把清零当天的新奖励误吞，已弃用，仅对在途旧请求兜底。
+- **清零作废**：`clientId` 需携带真实发起时刻。普通加星为 `${Date.now()}-xxx`；每日任务为 `daily-{13 位时间戳}-{日期}-{taskId}`。`issuedAt < starsResetAt` 时返回 `{ ok: true, duplicated: true, stale: true }`，不发星。
 
 ### 兑换 `exchangeReward`
 
@@ -187,6 +188,14 @@ wx.cloud.callFunction({ name: 'initDb' }).then(console.log).catch(console.error)
 或直接调 `getProfile` / `login`（会按需建表）。
 也可在控制台对单个函数点 **云端测试**。
 
+**首次启用（owner 锁定）**：`initDb` 只放行 `OWNER_OPENIDS` 白名单（`initDb/index.js` 顶部，默认仅含本地单测身份 `test-openid`，即实际全拒）。先用自己的微信在模拟器/真机登录，再执行：
+
+```js
+wx.cloud.callFunction({ name: 'initDb', data: { mode: 'whoami' } }).then(console.log)
+```
+
+把返回的 `openid` 填入 `OWNER_OPENIDS` 数组（保留 `'test-openid'` 勿删，本地单测依赖），重新部署 `initDb` 即锁定为仅你可调用；他人调用一律返回 `{ ok: false, error: 'forbidden' }`。`whoami` 无副作用，仅回显调用者自身的 openid。
+
 ---
 
 ## 二、自动化流程（推荐日常 / Agent）
@@ -272,11 +281,12 @@ npm run test:cloud
 
 | 用例 | 覆盖点 |
 | --- | --- |
-| `initDb` 创建全部集合 | 六个集合全部 `created` |
+| `initDb` 建集合与 owner 鉴权 | 六个集合全部 `created`；`whoami` 回显自身 openid 且无副作用；非 owner 调 `reset` 被 `forbidden` 且不清库；owner `reset` 清空业务集合并写 `app_meta` 重置纪元 |
 | `login` 与 `getProfile` 用户档案 | 首次建档、已有用户读取、日期返回 |
 | `addStars` 参数校验与幂等 | 参数拒绝、加星、`clientId` 幂等去重、清零标记 `starsResetAt` 作废清零前在途请求（`daily-时间戳-日期-taskId` 携带真实发起时刻）、`letter_done` 合法 / 未知 reason 拒绝 |
 | `completeProgress` 与 `checkinTask` | 参数拒绝、首次完成、重复完成不重复建档、首次打卡、同任务重复打卡 |
 | `dailyTasks` 生成/幂等/同步/重置 | 六模块生成、同 openid+date 多条保留首条、`sync` upsert、`reset` 只删当天 `daily_tasks` 与当天 `task_logs` |
+| `dailyTasks` 重置纪元防旧本地回写 | reset 后旧 seed 被忽略全新生成、旧本地 `sync` 拒收（`ignored`）、新本地正常采用 seed |
 | `bumpHeat` 按日只增不减 | 参数拒绝、按日只增不减、覆盖写入 `users.heatDays` |
 | `exchangeReward` 校验与扣星 | 非法奖励、无用户、余额不足、贴纸兑换 |
 | `exchangeReward` 并发只扣一次 | 并发连点只扣一次 |
@@ -321,15 +331,14 @@ wx.cloud.callFunction({ name: 'addStars', data: { clientId: `${Date.now()}-test`
 
 ## 脏数据与自愈
 
-历史踩过的坑（均已修复，留档备忘）：
-
 | 问题 | 根因 | 修复 |
 | --- | --- | --- |
-| `users` 空壳堆积（226 条） | `getOrCreateUser` 并发「先查后插」竞态：两个请求都查不到、各 `add` 一条；早年版本 `add` 漏写 `_openid` | 新版 `getOrCreateUser` 幂等：同 openid 多条时保留第一条、删除其余，下次调用自动自愈 |
-| 热力 `heatDays` 清不掉 | 旧版 `resetProfile` 用 `update({ heatDays: {} })`，**空对象被云端忽略**，`heatResetAt` 写了但热力残留 | 改用 `_.set({})` + `where({ _openid })` 覆盖同 openid 全部文档 |
-| `progress` / `task_logs` 空壳（39 + 10 条） | 历史版本 `add` 漏写 `_openid`，按用户查询永远匹配不到 | 当前所有 `add` 均显式写 `_openid`；存量已清理 |
+| `users` 空壳堆积（226 条） | `getOrCreateUser` 并发「先查后插」竞态：两个请求都查不到、各 `add` 一条 | `getOrCreateUser` 幂等：同 openid 多条时**先把分散字段合并进首条**（`stars` 相加——clientId 幂等保证不双计；贴纸/徽章并集去重；热力逐日取大；resetAt 取新）再删除其余，下次调用自动收敛 |
+| 热力 `heatDays` 清不掉 | `update({ heatDays: {} })` 携带的空对象被云端忽略，清空不生效 | 改用 `_.set({})` + `where({ _openid })` 覆盖同 openid 全部文档 |
+| `progress` / `task_logs` 空壳（39 + 10 条） | `add` 未写 `_openid` 的文档按 `_openid` 查询永远匹配不到 | 所有 `add` 均显式写 `_openid`；存量已清理 |
 
 涉及幂等 `getOrCreateUser` 的函数：`login` / `getProfile` / `addStars` / `bumpHeat` / `resetProfile`。
+`exchangeReward` 读档处同款合并：多档时先合并再判断余额/贴纸，无档仍返回 `no_user`。
 `bumpHeat` 写热力用 `where` + `_.set` 覆盖全部文档，避免多文档时残留旧热力。
 
 **并发写入三条铁律**
@@ -338,11 +347,13 @@ wx.cloud.callFunction({ name: 'addStars', data: { clientId: `${Date.now()}-test`
 2. 余额扣减用**条件更新**（`stars: _.gte(cost)`）而不是「先读后写」
 3. 幂等靠业务键做 `_id`（`star_logs`）或条件认领（`credited`）
 
-**开发环境重置**（会删掉所有用户数据）：
+**开发环境重置**（会删掉所有用户数据；**owner-only**，未完成上方首次启用锁定前调 `reset` 会被 `forbidden`）：
 
 ```js
 wx.cloud.callFunction({ name: 'initDb', data: { mode: 'reset' } }).then(console.log)
 ```
+
+reset 会清空 6 个业务集合的全部文档，并在 `app_meta` 写入新的重置纪元。各设备下一次打开小程序时，每日任务检测到本地缓存早于纪元即整份作废（任务重新随机、进度归零），已清空的数据不会被旧本地缓存回写复活——「清库」即「各设备全清」。
 
 ---
 
@@ -369,4 +380,4 @@ wx.cloud.callFunction({ name: 'initDb', data: { mode: 'reset' } }).then(console.
 | 上传成功但小程序仍调不通 | 核对 `CLOUD_ENV`、工具当前环境、控制台是否同一 env |
 | `addStars` 一直 `invalid_params` | `clientId` 缺失、`reason` 不在白名单、或 `delta` 不在 1～6 |
 | 清了学习记录热力还在 | 检查 `resetProfile` 是否用 `_.set({})`；旧数据在途写入靠 `heatResetAt` 丢弃 |
-| 同 openid 出现多条 `users` | 幂等 `getOrCreateUser` 会自愈：同 openid 多条时保留第一条、删除其余，下次调用自动收敛 |
+| 同 openid 出现多条 `users` | 幂等 `getOrCreateUser` 会自愈：先把分散字段合并进首条（`stars` 相加）再删除多余文档，下次调用自动收敛 |

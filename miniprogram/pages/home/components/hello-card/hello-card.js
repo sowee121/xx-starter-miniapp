@@ -14,7 +14,7 @@ Component({
     deco: { type: String, value: HOME_ASSETS.daisy },
     tone: { type: String, value: 'cream' },
     /** 点击落地页，默认家长区 */
-    url: { type: String, value: '/subpkg/parent/parent/parent' },
+    url: { type: String, value: '/subpkg/parent/index' },
   },
   methods: {
     /** 点击整卡进落地页 */

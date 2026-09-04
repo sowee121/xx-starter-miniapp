@@ -1,4 +1,4 @@
-/* H5 pages.css · 家长区音量卡 1px = 1rpx；卡面 / 卡头共用类仍在 parent.wxss */
+/* H5 pages.css · 家长区音量卡 1px = 1rpx；卡面 / 卡头共用类仍在 subpkg/parent/index.wxss */
 
 .volume-options {
   position: relative;

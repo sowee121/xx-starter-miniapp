@@ -370,7 +370,7 @@ a.block:active,
   justify-content: flex-end;
 }
 
-.entry-cards {
+.entry-grid {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

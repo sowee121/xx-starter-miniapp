@@ -19,7 +19,7 @@
   box-sizing: border-box;
 }
 
-/* 已拥有贴纸：加深原阴影，不加描边（原全局 cards.wxss） */
+/* 已拥有贴纸：加深原阴影，不加描边 */
 .sticker-card.block.is-owned {
   box-shadow:
     var(--shadow-clay-hi),

@@ -14,7 +14,7 @@ alwaysApply: true
 - 长文件：标路径 + 只贴改动片段，省略未改部分
 
 ```
-file: miniprogram/pages/parent/parent.wxss
+file: miniprogram/subpkg/parent/index.wxss
 .clear-icon-slot { transform: scale(1.3); }
 ```
 

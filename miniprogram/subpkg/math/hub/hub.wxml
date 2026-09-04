@@ -1,3 +1,3 @@
 <app-shell title="算术" hint="小小数学家" sub-hint="数一数，算一算" stars="{{stars}}">
-  <entry-cards cards="{{entries}}" bind:go="open" />
+  <entry-grid cards="{{entries}}" bind:go="open" />
 </app-shell>

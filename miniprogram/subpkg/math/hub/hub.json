@@ -1,6 +1,6 @@
 {
   "usingComponents": {
     "app-shell": "/components/app-shell/app-shell",
-    "entry-cards": "/components/entry-cards/entry-cards"
+    "entry-grid": "/components/entry-grid/entry-grid"
   }
 }

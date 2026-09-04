@@ -23,11 +23,7 @@ const HOME_ASSETS = {
   unicorn: mediaUrl(`${HOME_BASE}/unicorn.png`),
 }
 
-/**
- * 全站图标与吉祥物
- * 首页入口统一走 HOME_ASSETS；旧页仍可能引用其它路径。
- */
-
+/** 全站入口图标：模块/奖励取 HOME_ASSETS 吉祥物图，播放/停止等通用钮取 SHARED_BASE */
 const ICONS = {
   home: mediaUrl(`${ICON_BASE}/home.png`),
   poem: HOME_ASSETS.rabbit,

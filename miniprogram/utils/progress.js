@@ -1,6 +1,8 @@
 const cloud = require('./cloud')
-// 静态引入 activity：动态 require 一旦失败会被 catch 静默吞掉，
-/** 表现为「清除学习记录后热力图毫无反应」，且线上不留任何痕迹。 */
+/**
+ * 静态引入 activity：动态 require 一旦失败会被 catch 静默吞掉，
+ * 表现为「清除学习记录后热力图毫无反应」，且线上不留任何痕迹。
+ */
 const activity = require('./activity')
 
 /** 本地学习进度表：{ 'module::itemId': true } */

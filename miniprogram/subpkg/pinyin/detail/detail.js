@@ -54,6 +54,8 @@ Page({
   /** 渲染当前条目 */
   applyItem(item, autoPlay) {
     if (!item || !item.asset) return
+    // 切到新韵母后可再领一次点读星，与 english/hanzi/poem 各详情页保持一致
+    this._visitStarAwarded = false
     this.setData(
       {
         item: {

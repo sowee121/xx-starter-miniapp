@@ -1,4 +1,4 @@
-/* 数学分包局部样式：题头 / 数一数舞台 / 选项容器（原全局 learn.wxss） */
+/* 数学分包局部样式：题头 / 数一数舞台 / 选项容器 */
 .quiz-head {
   display: flex;
   flex-direction: column;
@@ -127,7 +127,7 @@
   gap: var(--gap-block);
 }
 
-/* 选项：仅在算术分包 quiz-frame 内使用（原主包 learn.wxss 残留，迁回本分包） */
+/* 选项：仅在算术分包 quiz-frame 内使用 */
 .option {
   display: flex;
   align-items: center;

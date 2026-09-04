@@ -1,4 +1,4 @@
-/* 列表样式由全局 learn.wxss / media-card 承担 */
+/* 列表页局部样式；卡片样式由 media-card 组件承担 */
 .poem-list {
   padding-bottom: 12rpx;
 }

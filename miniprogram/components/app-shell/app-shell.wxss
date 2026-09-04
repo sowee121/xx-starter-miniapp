@@ -35,7 +35,7 @@
   padding-bottom: calc(var(--pad-page) + env(safe-area-inset-bottom, 0px));
 }
 
-/* 内页标题区（原全局 cards.wxss，仅本组件渲染） */
+/* 内页标题区，仅本组件渲染 */
 .inner-head {
   display: flex;
   flex-direction: column;

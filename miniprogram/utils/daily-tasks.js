@@ -18,7 +18,7 @@ const TEMPLATES = [
     id: 'poem',
     min: 1,
     max: 2,
-    url: '/subpkg/poem/poem/poem',
+    url: '/subpkg/poem/list/list',
     titleOf: (n) => `读 ${n} 首古诗`,
     rewardOf: (n) => n + 1,
   },
@@ -381,7 +381,9 @@ function mergeCloudDay(cloudDay) {
 async function syncFromCloud() {
   const date = getToday()
   const local = readToday()
-  const seed = local && local.date === date ? { tasks: local.tasks } : null
+  // 携带本地文档时间戳：云端据此识别「清库前残留」的 seed（早于重置纪元则忽略）
+  const seed =
+    local && local.date === date ? { tasks: local.tasks, updatedAt: local.updatedAt || 0 } : null
   const { ok, data } = await cloud.call('dailyTasks', { action: 'get', date, seed })
   if (!ok || !data || !data.day) return false
   const cloudDay = data.day
@@ -392,11 +394,16 @@ async function syncFromCloud() {
   ) {
     return false
   }
-  const merged = mergeCloudDay(cloudDay)
+  // initDb reset（云端全局清库）后：本地当天文档早于重置纪元即清库前残留，
+  // 整份作废改用云端全新任务，不合并本地增量、也不回传（seed 云端已忽略）
+  const resetAt = data.resetAt || 0
+  const staleLocal =
+    !!local && local.date === date && resetAt > 0 && (local.updatedAt || 0) < resetAt
+  const merged = staleLocal ? cloudDay : mergeCloudDay(cloudDay)
   merged.schema = SCHEMA
   saveToday(merged)
   // 合并结果回传云端，保证两端一致（本地增量不丢失）
-  if (seed) {
+  if (!staleLocal && seed) {
     pushToCloud()
   }
   return true

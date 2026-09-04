@@ -1,5 +1,5 @@
-<view class="entry-cards">
-  <view wx:for="{{cards}}" wx:key="to" class="entry-cards__cell">
+<view class="entry-grid">
+  <view wx:for="{{cards}}" wx:key="to" class="entry-grid__cell">
     <entry-card
       image="{{item.image}}"
       title="{{item.title}}"

@@ -7,7 +7,7 @@ const MODULES = {
     title: '古诗',
     icon: MODULE_ICONS.poem,
     tint: tintOf('poem'),
-    url: '/subpkg/poem/poem/poem',
+    url: '/subpkg/poem/list/list',
   },
   hanzi: {
     id: 'hanzi',
@@ -49,7 +49,7 @@ const MODULES = {
     title: '每日任务',
     icon: MODULE_ICONS.task,
     tint: tintOf('task'),
-    url: '/subpkg/task/list',
+    url: '/subpkg/task/index',
     subtitle: '今天的任务，慢慢完成吧',
   },
   reward: {
@@ -57,7 +57,7 @@ const MODULES = {
     title: '积分商城',
     icon: MODULE_ICONS.reward,
     tint: tintOf('reward'),
-    url: '/subpkg/shop/shop',
+    url: '/subpkg/shop/index',
     subtitle: '星星兑换动物贴纸',
     actionText: '兑换贴纸',
   },

@@ -1,4 +1,4 @@
-/* H5 pages.css · 家长区清除卡 1px = 1rpx；卡面 / 卡头共用类仍在 parent.wxss */
+/* H5 pages.css · 家长区清除卡 1px = 1rpx；卡面 / 卡头共用类仍在 subpkg/parent/index.wxss */
 
 .clear-block {
   padding: var(--pad-card);

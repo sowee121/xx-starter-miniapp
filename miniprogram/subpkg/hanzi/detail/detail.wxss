@@ -1,4 +1,4 @@
-/* 组词卡双列容器（原全局 learn.wxss 迁入） */
+/* 组词卡双列容器 */
 
 .detail-pair {
   display: flex;

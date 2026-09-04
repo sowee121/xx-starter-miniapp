@@ -120,7 +120,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 
 | 分包 | 页面 | 说明 |
 | --- | --- | --- |
-| `poem` | `poem/poem`、`detail/detail` | 古诗列表 + 点读详情 |
+| `poem` | `list/list`、`detail/detail` | 古诗列表 + 点读详情 |
 | `hanzi` | `list/list`、`detail/detail` | 识字列表 + 点读详情 |
 | `math` | `hub/hub`、`count/count`、`calc/calc` | 算术枢纽：数一数 / 算一算 |
 | `english` | `hub/hub`、`list/list`、`detail/detail` | 英语枢纽（字母表 + 单词） |
@@ -128,9 +128,9 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 | `english-abc` | `list/list`、`detail/detail` | 字母表 26 大写点读 |
 | `pinyin` | `list/list`、`detail/detail` | 6 个单韵母 |
 | `calendar` | `index` | 月历热力 + 打卡 |
-| `task` | `list` | 每日任务 |
-| `shop` | `shop` | 积分商城（24 款贴纸） |
-| `parent` | `parent/parent` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
+| `task` | `index` | 每日任务 |
+| `shop` | `index` | 积分商城（24 款贴纸） |
+| `parent` | `index` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
 
 首页预下载 `task` / `shop` / `calendar` / `math`；英语枢纽页预下载 `english-abc`（`preloadRule` 由 `npm test` 校验总量 ≤ 2MB）。
 

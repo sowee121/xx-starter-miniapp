@@ -42,7 +42,7 @@ cloud://cloudbase-d7gygre2uc80dcd42.636c-cloudbase-d7gygre2uc80dcd42-1469407935/
 
 在**仓库根目录**执行（不是本目录）。
 
-### A. tcb（原路径）
+### A. tcb
 
 ```bash
 npm install

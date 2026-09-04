@@ -38,7 +38,7 @@
   --size-slot: 112px; /* 通栏钮 / 清除槽 / 音量档 / 切题条 / 大号播放 */
   --size-mascot: 168px; /* 首页通栏吉祥物 / 模块卡吉祥物 / 商城贴纸大图 */
   --size-word: 210px; /* 英语/识字列表字卡高 */
-  --size-word-thumb: 88px; /* 字卡缩略图 */
+  --size-word-thumb: 100px; /* 字卡缩略图 */
   --size-play: 92px; /* 播放圆钮默认边长 */
   --size-play-sm: 76px; /* 播放圆钮小号 */
   --size-play-icon: 44px; /* 播放 / 停止图标默认 */

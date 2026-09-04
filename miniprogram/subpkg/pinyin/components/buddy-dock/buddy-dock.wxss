@@ -1,4 +1,4 @@
-/* 伙伴气泡：吉祥物 + 提示语，样式收拢于此（原在 learn.wxss） */
+/* 伙伴气泡：吉祥物 + 提示语 */
 .buddy-dock {
   display: flex;
   flex-direction: row;

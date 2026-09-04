@@ -1,4 +1,4 @@
-/* 整诗封面主卡：由 styles/learn.wxss 迁入并按组件更名，数值不变 */
+/* 整诗封面主卡样式 */
 
 .hero-card {
   display: flex;

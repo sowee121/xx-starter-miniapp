@@ -1,9 +1,9 @@
 :host {
-  /* 宿主做块级占位，宽度由父容器 .entry-cards__cell 控制 */
+  /* 宿主做块级占位，宽度由父容器 .entry-grid__cell 控制 */
   display: block;
 }
 
-/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .entry-cards__cell 控制 */
+/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .entry-grid__cell 控制 */
 
 .entry-card {
   position: relative;
