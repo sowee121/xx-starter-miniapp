@@ -1,11 +1,11 @@
 :host {
-  /* 宿主做块级占位，宽度由父容器 .hub-entry-cards__cell 控制 */
+  /* 宿主做块级占位，宽度由父容器 .entry-cards__cell 控制 */
   display: block;
 }
 
-/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .hub-entry-cards__cell 控制 */
+/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .entry-cards__cell 控制 */
 
-.hub-entry-card {
+.entry-card {
   position: relative;
   overflow: hidden;
   display: flex;
@@ -22,34 +22,34 @@
 }
 
 /* 色面：取值对齐全局 tone-sky/rose/sand；新增色调需在此补充 */
-.hub-entry-card--sky {
+.entry-card--sky {
   background: var(--tone-sky);
   box-shadow: var(--shadow-tone-sky);
 }
 
-.hub-entry-card--rose {
+.entry-card--rose {
   background: var(--tone-rose);
   box-shadow: var(--shadow-tone-rose);
 }
 
-.hub-entry-card--sand {
+.entry-card--sand {
   background: var(--tone-sand);
   box-shadow: var(--shadow-tone-sand);
 }
 
-.hub-entry-card__image {
+.entry-card__image {
   width: 188rpx;
   height: 188rpx;
 }
 
-.hub-entry-card__title {
+.entry-card__title {
   font-size: var(--font-card);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.2;
 }
 
-.hub-entry-card__sub {
+.entry-card__sub {
   font-size: var(--font-hint);
   color: var(--muted);
   line-height: 1.3;

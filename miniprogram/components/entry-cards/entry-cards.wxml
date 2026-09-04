@@ -1,6 +1,6 @@
-<view class="hub-entry-cards">
-  <view wx:for="{{cards}}" wx:key="to" class="hub-entry-cards__cell">
-    <hub-entry-card
+<view class="entry-cards">
+  <view wx:for="{{cards}}" wx:key="to" class="entry-cards__cell">
+    <entry-card
       image="{{item.image}}"
       title="{{item.title}}"
       sub="{{item.sub}}"

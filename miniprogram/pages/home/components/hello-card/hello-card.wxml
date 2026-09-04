@@ -1,0 +1,16 @@
+<view
+  class="hello-card motion-tap tone-{{tone}}"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <view class="hello-card__avatar-slot">
+    <image class="hello-card__avatar" src="{{avatar}}" mode="aspectFit" />
+  </view>
+  <view class="hello-card__body">
+    <view class="hello-card__hello">{{title}}</view>
+    <view wx:if="{{subtitle}}" class="hello-card__sub">{{subtitle}}</view>
+  </view>
+  <image wx:if="{{deco}}" class="hello-card__deco" src="{{deco}}" mode="aspectFit" />
+</view>

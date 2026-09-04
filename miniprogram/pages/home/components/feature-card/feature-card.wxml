@@ -1,0 +1,28 @@
+<view
+  class="feature-card motion-tap tone-{{tone}}"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <image class="feature-card__mascot" src="{{image}}" mode="aspectFit" />
+  <view class="feature-card__body">
+    <view class="feature-card__title">{{title}}</view>
+    <view wx:if="{{subtitle}}" class="feature-card__sub">{{subtitle}}</view>
+    <view wx:if="{{type === 'task'}}" class="feature-card__sockets">
+      <view
+        wx:for="{{sockets}}"
+        wx:key="index"
+        class="feature-card__socket motion-tap {{item ? 'is-on' : ''}}"
+      >
+        <image
+          wx:if="{{item}}"
+          class="feature-card__socket-star"
+          src="{{starIcon}}"
+          mode="aspectFit"
+        />
+      </view>
+    </view>
+  </view>
+  <image wx:if="{{deco}}" class="feature-card__deco" src="{{deco}}" mode="aspectFit" />
+</view>

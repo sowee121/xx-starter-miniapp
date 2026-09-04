@@ -98,16 +98,16 @@ miniprogram/
 | `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
 | `feedback-bar` | 行内轻反馈条（语音准备中 / 答对啦等提示） |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
-| `hub-entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `hub-entry-card`，抛 `go` |
-| `hub-entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
+| `entry-cards` | 双卡入口容器（flex 两列宫格），迭代渲染 `entry-card`，抛 `go` |
+| `entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
 
 ### 首页 `pages/home/components/`（3）
 
 | 组件 | 用途 |
 | --- | --- |
-| `home-welcome-card` | 首页欢迎卡（头像 + 问候语，点整卡进家长区；`title` / `subtitle` / `avatar` / `deco` / `tone` / `url` 均可覆盖） |
-| `home-module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
-| `home-feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
+| `hello-card` | 首页欢迎卡（头像 + 问候语，点整卡进家长区；`title` / `subtitle` / `avatar` / `deco` / `tone` / `url` 均可覆盖） |
+| `module-card` | 首页六宫格模块卡（吉祥物 + `tone-*` 面色） |
+| `feature-card` | 首页任务 / 商城功能卡（进度星槽、行动文案） |
 
 ### 分包下沉 `subpkg/<pkg>/components/`
 

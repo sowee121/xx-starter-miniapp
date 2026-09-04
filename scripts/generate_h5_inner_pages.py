@@ -294,7 +294,7 @@ def make_math():
     write(
         "math/hub.html",
         "算术",
-        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="hub-entry-cards"><div class="hub-entry-card block tone-rose"><img class="hub-entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="hub-entry-card__title">数一数</strong><span class="hub-entry-card__sub">1 ~ 10</span></div><div class="hub-entry-card block tone-pink"><img class="hub-entry-card__image" src="{ASSET}/dog.png" alt="" /><strong class="hub-entry-card__title">算一算</strong><span class="hub-entry-card__sub">1 ~ 10</span></div></div>""",
+        f"""<div class="inner-head"><h1>小小数学家</h1><p>数一数，算一算</p></div><div class="entry-cards"><div class="entry-card block tone-rose"><img class="entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="entry-card__title">数一数</strong><span class="entry-card__sub">1 ~ 10</span></div><div class="entry-card block tone-pink"><img class="entry-card__image" src="{ASSET}/dog.png" alt="" /><strong class="entry-card__title">算一算</strong><span class="entry-card__sub">1 ~ 10</span></div></div>""",
     )
 
     def options_html(choices, tones, picked=None, correct=None, wrong=False):
@@ -419,7 +419,7 @@ def make_english():
     write(
         "english/hub.html",
         "英语",
-        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="hub-entry-cards"><div class="hub-entry-card block tone-sky"><img class="hub-entry-card__image" src="{ASSET}/english-letter-a.png" alt="" /><strong class="hub-entry-card__title">字母表</strong><span class="hub-entry-card__sub">A ~ Z</span></div><div class="hub-entry-card block tone-rose"><img class="hub-entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="hub-entry-card__title">单词</strong><span class="hub-entry-card__sub">生活常见词</span></div></div>""",
+        f"""<div class="inner-head"><h1>英语小天地</h1><p>字母表，学单词</p></div><div class="entry-cards"><div class="entry-card block tone-sky"><img class="entry-card__image" src="{ASSET}/english-letter-a.png" alt="" /><strong class="entry-card__title">字母表</strong><span class="entry-card__sub">A ~ Z</span></div><div class="entry-card block tone-rose"><img class="entry-card__image" src="{ASSET}/english-fruit-apple.png" alt="" /><strong class="entry-card__title">单词</strong><span class="entry-card__sub">生活常见词</span></div></div>""",
     )
 
     abc_cards = "".join(

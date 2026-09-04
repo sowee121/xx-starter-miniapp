@@ -7,10 +7,10 @@
   <custom-header variant="home" title="嘻嘻启蒙乐园" stars="{{stars}}" show-home="{{false}}" />
 
   <view class="home-page__shell" style="padding-top: calc({{headerHeight}}px + 30rpx);">
-    <home-welcome-card />
+    <hello-card />
 
     <view class="home-page__block">
-      <home-feature-card
+      <feature-card
         type="task"
         module-id="{{task.id}}"
         title="{{task.title}}"
@@ -24,7 +24,7 @@
     </view>
 
     <view class="home-page__block">
-      <home-feature-card
+      <feature-card
         type="reward"
         module-id="{{reward.id}}"
         title="{{reward.title}}"
@@ -39,7 +39,7 @@
 
     <view class="home-modules">
       <view class="home-modules__cell" wx:for="{{modules}}" wx:key="id">
-        <home-module-card
+        <module-card
           module-id="{{item.id}}"
           title="{{item.title}}"
           image="{{item.icon}}"

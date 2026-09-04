@@ -47,7 +47,7 @@
 }
 
 /* —— 欢迎卡 —— */
-.home-welcome-card {
+.hello-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -60,26 +60,26 @@
   border-radius: var(--radius-card);
   overflow: visible;
 }
-.home-welcome-card__avatar-slot {
+.hello-card__avatar-slot {
   width: 112px;
   height: 112px;
   flex-shrink: 0;
   transform: scale(1.2);
   transform-origin: 50% 50%;
 }
-.home-welcome-card__avatar {
+.hello-card__avatar {
   display: block;
   width: 112px;
   height: 112px;
   object-fit: contain;
 }
-.home-welcome-card__hello {
+.hello-card__hello {
   font-size: var(--font-title);
   font-weight: 700;
   line-height: 1.2;
   color: var(--ink);
 }
-.home-welcome-card__deco {
+.hello-card__deco {
   width: 64px;
   height: 101px; /* 雏菊 122×192 */
   object-fit: contain;
@@ -88,7 +88,7 @@
 }
 
 /* —— 通栏积木 —— */
-.home-feature-card {
+.feature-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -97,19 +97,19 @@
   padding: 0 var(--pad-card) 0 0;
   flex-shrink: 0;
 }
-.home-feature-card__mascot {
+.feature-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }
-.home-feature-card__title {
+.feature-card__title {
   font-size: var(--font-title);
 }
-.home-feature-card__sub {
+.feature-card__sub {
   white-space: nowrap;
 }
-.home-feature-card__deco {
+.feature-card__deco {
   width: 64px;
   height: 64px; /* 勾勾 / 星星 均为正方形 */
   object-fit: contain;
@@ -118,13 +118,13 @@
 }
 
 /* 星星凹槽：圆钮加大，星图略超出以吃掉 PNG 透明边 */
-.home-feature-card__sockets {
+.feature-card__sockets {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-text);
 }
-.home-feature-card__socket {
+.feature-card__socket {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -137,11 +137,11 @@
   box-shadow: var(--shadow-socket);
   transition: var(--motion-tap);
 }
-.home-feature-card__socket.is-on {
+.feature-card__socket.is-on {
   background: rgba(255, 255, 255, 0.55);
   box-shadow: var(--shadow-socket-on);
 }
-.home-feature-card__socket-star {
+.feature-card__socket-star {
   width: 56px;
   height: 56px;
   object-fit: contain;
@@ -160,7 +160,7 @@
 .home-modules__cell {
   width: var(--col-2);
 }
-.home-module-card {
+.module-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,13 +171,13 @@
   box-sizing: border-box;
   border-radius: var(--radius-card);
 }
-.home-module-card__mascot {
+.module-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   object-fit: contain;
   flex-shrink: 0;
 }
-.home-module-card__label {
+.module-card__label {
   font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;

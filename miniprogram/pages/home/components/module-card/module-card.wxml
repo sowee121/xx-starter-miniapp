@@ -1,0 +1,10 @@
+<view
+  class="module-card motion-tap {{cardTone}}"
+  bindtap="onTap"
+  hover-class="is-pressed"
+  hover-start-time="0"
+  hover-stay-time="80"
+>
+  <image class="module-card__mascot" src="{{image}}" mode="aspectFit" lazy-load />
+  <view class="module-card__label">{{title}}</view>
+</view>

@@ -1,4 +1,4 @@
-.home-welcome-card {
+.hello-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,7 +13,7 @@
   flex-shrink: 0;
 }
 
-.home-welcome-card__body {
+.hello-card__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -22,7 +22,7 @@
   min-width: 0;
 }
 
-.home-welcome-card__avatar-slot {
+.hello-card__avatar-slot {
   width: 112rpx;
   height: 112rpx;
   flex-shrink: 0;
@@ -30,26 +30,26 @@
   transform-origin: 50% 50%;
 }
 
-.home-welcome-card__avatar {
+.hello-card__avatar {
   display: block;
   width: 112rpx;
   height: 112rpx;
 }
 
-.home-welcome-card__hello {
+.hello-card__hello {
   font-size: var(--font-title);
   font-weight: 700;
   line-height: 1.2;
   color: var(--ink);
 }
 
-.home-welcome-card__sub {
+.hello-card__sub {
   font-size: var(--font-hint);
   color: var(--muted);
   line-height: 1.3;
 }
 
-.home-welcome-card__deco {
+.hello-card__deco {
   width: 64rpx;
   height: 101rpx; /* 雏菊 122×192 */
   flex-shrink: 0;

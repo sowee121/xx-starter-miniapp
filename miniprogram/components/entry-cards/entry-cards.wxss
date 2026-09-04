@@ -3,9 +3,9 @@
   display: block;
 }
 
-/* hub-entry-cards：双卡入口容器（english/hub 与 math/hub 共用），卡面样式见 hub-entry-card */
+/* entry-cards：双卡入口容器（english/hub 与 math/hub 共用），卡面样式见 entry-card */
 
-.hub-entry-cards {
+.entry-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -14,6 +14,6 @@
   box-sizing: border-box;
 }
 
-.hub-entry-cards__cell {
+.entry-cards__cell {
   width: var(--col-2);
 }

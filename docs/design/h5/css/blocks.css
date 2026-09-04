@@ -14,12 +14,12 @@
 .feedback-layer__continue,
 .volume-option,
 a.block,
-.home-welcome-card,
-.home-feature-card,
-.home-module-card,
+.hello-card,
+.feature-card,
+.module-card,
 .media-card,
 .word-card,
-.hub-entry-card,
+.entry-card,
 .word-row,
 .hero,
 .detail-card {
@@ -34,12 +34,12 @@ a.block,
 
 /* 仅可点积木与控件按下；题干/日历场景/伙伴坞等静态卡不要缩放 */
 a.block:active,
-.home-welcome-card:active,
-.home-feature-card:active,
-.home-module-card:active,
+.hello-card:active,
+.feature-card:active,
+.module-card:active,
 .media-card:active,
 .word-card:active,
-.hub-entry-card:active,
+.entry-card:active,
 .word-row:active,
 .hero:active,
 .detail-card:active,
@@ -370,13 +370,13 @@ a.block:active,
   justify-content: flex-end;
 }
 
-.hub-entry-cards {
+.entry-cards {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--gap-grid);
 }
-.hub-entry-card {
+.entry-card {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -389,15 +389,15 @@ a.block:active,
   box-sizing: border-box;
   border-radius: var(--radius-tile);
 }
-.hub-entry-card__image {
+.entry-card__image {
   width: 188px;
   height: 188px;
   object-fit: contain;
 }
-.hub-entry-card__title {
+.entry-card__title {
   font-size: var(--font-card);
 }
-.hub-entry-card__sub {
+.entry-card__sub {
   font-size: var(--font-hint);
   color: var(--muted);
 }

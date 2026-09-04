@@ -1,4 +1,4 @@
-.home-feature-card {
+.feature-card {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -11,13 +11,13 @@
   flex-shrink: 0;
 }
 
-.home-feature-card__mascot {
+.feature-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   flex-shrink: 0;
 }
 
-.home-feature-card__body {
+.feature-card__body {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -26,28 +26,28 @@
   min-width: 0;
 }
 
-.home-feature-card__title {
+.feature-card__title {
   font-size: var(--font-title);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.2;
 }
 
-.home-feature-card__sub {
+.feature-card__sub {
   white-space: nowrap;
   font-size: var(--font-hint);
   color: var(--muted);
   line-height: 1.3;
 }
 
-.home-feature-card__sockets {
+.feature-card__sockets {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: var(--gap-text);
 }
 
-.home-feature-card__socket {
+.feature-card__socket {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -60,17 +60,17 @@
   box-shadow: var(--shadow-socket);
 }
 
-.home-feature-card__socket.is-on {
+.feature-card__socket.is-on {
   background: rgba(255, 255, 255, 0.55);
   box-shadow: var(--shadow-socket-on);
 }
 
-.home-feature-card__socket-star {
+.feature-card__socket-star {
   width: 56rpx;
   height: 56rpx;
 }
 
-.home-feature-card__deco {
+.feature-card__deco {
   width: 64rpx;
   height: 64rpx; /* 勾勾 / 星星 均为正方形 */
   flex-shrink: 0;

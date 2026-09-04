@@ -1,9 +1,9 @@
 {
   "usingComponents": {
     "custom-header": "/components/custom-header/custom-header",
-    "home-module-card": "/pages/home/components/home-module-card/home-module-card",
-    "home-feature-card": "/pages/home/components/home-feature-card/home-feature-card",
-    "home-welcome-card": "/pages/home/components/home-welcome-card/home-welcome-card"
+    "module-card": "/pages/home/components/module-card/module-card",
+    "feature-card": "/pages/home/components/feature-card/feature-card",
+    "hello-card": "/pages/home/components/hello-card/hello-card"
   },
   "navigationBarTitleText": "嘻嘻启蒙乐园",
   "navigationStyle": "custom"

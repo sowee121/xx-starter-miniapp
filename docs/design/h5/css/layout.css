@@ -19,8 +19,8 @@
 }
 
 .media-main__body,
-.home-welcome-card__body,
-.home-feature-card__body,
+.hello-card__body,
+.feature-card__body,
 .setting-head__body {
   display: flex;
   flex-direction: column;
@@ -40,11 +40,11 @@
 }
 
 .media-main__body span,
-.home-welcome-card__sub,
-.home-feature-card__sub,
+.hello-card__sub,
+.feature-card__sub,
 .hero p,
 .hero__sub,
-.hub-entry-card__sub,
+.entry-card__sub,
 .detail-card__sub,
 .inner-head p,
 .setting-head__body span {
@@ -54,8 +54,8 @@
 }
 
 .media-main__body strong,
-.home-feature-card__title,
-.hub-entry-card__title,
+.feature-card__title,
+.entry-card__title,
 .hero h2,
 .hero__title,
 .setting-head__body strong {

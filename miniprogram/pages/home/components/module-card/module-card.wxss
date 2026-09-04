@@ -1,4 +1,4 @@
-.home-module-card {
+.module-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -14,13 +14,13 @@
   flex-shrink: 0;
 }
 
-.home-module-card__mascot {
+.module-card__mascot {
   width: var(--size-mascot);
   height: var(--size-mascot);
   flex-shrink: 0;
 }
 
-.home-module-card__label {
+.module-card__label {
   font-size: var(--font-body);
   font-weight: 700;
   line-height: 1.15;
