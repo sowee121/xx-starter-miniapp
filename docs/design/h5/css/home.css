@@ -32,6 +32,19 @@
   line-height: 1.2;
   color: var(--ink);
 }
+/* 首页用品牌名占位（子页用 custom-header__title）；对齐子页标题视觉：占满中间、大字、左对齐 */
+.custom-header__brand {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-size: var(--font-title);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .custom-header__right {
   flex-shrink: 0;
 }

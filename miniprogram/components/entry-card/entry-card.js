@@ -7,6 +7,8 @@ Component({
     image: { type: String, value: '' },
     title: { type: String, value: '' },
     sub: { type: String, value: '' },
+    /** 三级说明文案（如英语单词的分类拼接） */
+    desc: { type: String, value: '' },
     /** 色面：sky / rose / sand，对应 tone-* token */
     tone: { type: String, value: 'sky' },
     /** 点击后跳转的页面路径 */

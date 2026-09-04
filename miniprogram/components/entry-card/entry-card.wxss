@@ -3,7 +3,7 @@
   display: block;
 }
 
-/* 单张入口卡（english/hub、math/hub 两列宫格共用），宽度由父容器 .entry-grid__cell 控制 */
+/* 单张入口卡（english/hub、math/hub 共用），单列整行大卡，对齐 H5 blocks.css .entry-card */
 
 .entry-card {
   position: relative;
@@ -13,11 +13,11 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 352rpx;
-  gap: var(--gap-text);
-  padding: var(--pad-card-sm);
+  min-height: 420rpx;
+  gap: var(--gap-row);
+  padding: var(--pad-card);
   text-align: center;
-  border-radius: var(--radius-tile);
+  border-radius: var(--radius-card);
   box-sizing: border-box;
 }
 
@@ -38,19 +38,25 @@
 }
 
 .entry-card__image {
-  width: 188rpx;
-  height: 188rpx;
+  width: 240rpx;
+  height: 240rpx;
 }
 
 .entry-card__title {
-  font-size: var(--font-card);
+  font-size: var(--font-note);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.2;
 }
 
 .entry-card__sub {
-  font-size: var(--font-hint);
+  font-size: var(--font-title);
   color: var(--muted);
   line-height: 1.3;
+}
+
+.entry-card__desc {
+  font-size: var(--font-hint);
+  color: var(--muted);
+  line-height: 1.4;
 }

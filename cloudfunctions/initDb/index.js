@@ -67,7 +67,10 @@ exports.main = async (event) => {
       results.push(await emptyCollection(name))
     }
     await ensureCollection(META_COLLECTION)
-    await db.collection(META_COLLECTION).doc('reset').set({ data: { resetAt: Date.now() } })
+    await db
+      .collection(META_COLLECTION)
+      .doc('reset')
+      .set({ data: { resetAt: Date.now() } })
     return { ok: true, mode: 'reset', results }
   }
   const results = []

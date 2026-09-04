@@ -3,7 +3,7 @@ Component({
     styleIsolation: 'apply-shared',
   },
   properties: {
-    /** 入口卡列表：{ image, title, sub, tone, to } */
+    /** 入口卡列表：{ image, title, sub, desc, tone, to } */
     cards: { type: Array, value: [] },
   },
   methods: {

@@ -1,19 +1,18 @@
 :host {
-  /* 宿主做块级占位，内部双卡网格自管布局 */
+  /* 宿主做块级占位，内部单列入口列表自管布局 */
   display: block;
 }
 
-/* entry-grid：双卡入口容器（english/hub 与 math/hub 共用），卡面样式见 entry-card */
+/* entry-grid：单列整行入口容器（english/hub 与 math/hub 共用），卡面样式见 entry-card */
 
 .entry-grid {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--gap-grid);
   width: 100%;
   box-sizing: border-box;
 }
 
 .entry-grid__cell {
-  width: var(--col-2);
+  width: 100%;
 }

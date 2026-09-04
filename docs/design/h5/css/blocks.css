@@ -252,11 +252,12 @@ a.block:active,
   transform: none;
 }
 
-/* 拼音石子径：6 个单韵母纵向侧边导航 */
+/* 拼音石子径：6 个单韵母横向石子路，对齐小程序 pinyin-trail */
 .trail-nav.is-pinyin {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 
 .chip,
@@ -372,8 +373,7 @@ a.block:active,
 
 .entry-grid {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--gap-grid);
 }
 .entry-card {
@@ -381,25 +381,30 @@ a.block:active,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-text);
-  width: var(--col-2);
-  min-height: 352px;
-  padding: var(--pad-card-sm);
+  gap: var(--gap-row);
+  width: 100%;
+  min-height: 420px;
+  padding: var(--pad-card);
   text-align: center;
   box-sizing: border-box;
-  border-radius: var(--radius-tile);
+  border-radius: var(--radius-card);
 }
 .entry-card__image {
-  width: 188px;
-  height: 188px;
+  width: 240px;
+  height: 240px;
   object-fit: contain;
 }
 .entry-card__title {
-  font-size: var(--font-card);
+  font-size: var(--font-note);
 }
 .entry-card__sub {
+  font-size: var(--font-title);
+  color: var(--muted);
+}
+.entry-card__desc {
   font-size: var(--font-hint);
   color: var(--muted);
+  line-height: 1.4;
 }
 
 /* 公共反馈弹层（对齐小程序 feedback-layer；审查稿静态展示已打开态） */

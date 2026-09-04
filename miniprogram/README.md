@@ -98,8 +98,8 @@ miniprogram/
 | `feedback-layer` | 任务达成 / 兑换成功的太阳弹层 |
 | `feedback-bar` | 行内轻反馈条（语音准备中 / 答对啦等提示） |
 | `trail-nav` | 上一题 / 下一题切换（`hasPrev` / `hasNext`，抛 `prev` / `next`） |
-| `entry-grid` | 双卡入口容器（flex 两列宫格），迭代渲染 `entry-card`，抛 `go` |
-| `entry-card` | 单张入口卡（图 + 标题 + 副文案 + `tone-*` 色面），抛 `go` |
+| `entry-grid` | 入口容器（flex 单列整行堆叠），迭代渲染 `entry-card`，抛 `go` |
+| `entry-card` | 单张入口大卡（图 + 标题 + 副文案 + 说明文案 + `tone-*` 色面），抛 `go` |
 
 ### 首页 `pages/home/components/`（3）
 

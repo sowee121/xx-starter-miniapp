@@ -4,6 +4,7 @@
   "scripts": {
     "format": "prettier --write \"miniprogram/**/*.{js,wxml,wxss,json}\" \"cloudfunctions/**/*.{js,json}\" \"scripts/**/*.js\" \"docs/design/h5/**/*.{html,css}\"",
     "sync:english": "node scripts/sync_english_runtime.js",
+    "h5:serve": "node scripts/serve_h5.js",
 
     "assets:sync-images": "python3 scripts/sync_package_images.py",
     "assets:optimize-png": "python3 scripts/optimize_package_png.py",

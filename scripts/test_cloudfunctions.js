@@ -776,8 +776,24 @@ async function testMergeStaleUsers() {
   // addStars：合并后 inc 应落在唯一档上，不丢星
   reset()
   db.set('users', [
-    { _id: 'uA', _openid: OPENID, stars: 3, stickers: [], badges: [], heatDays: {}, updatedAt: 1000 },
-    { _id: 'uB', _openid: OPENID, stars: 2, stickers: [], badges: [], heatDays: {}, updatedAt: 2000 },
+    {
+      _id: 'uA',
+      _openid: OPENID,
+      stars: 3,
+      stickers: [],
+      badges: [],
+      heatDays: {},
+      updatedAt: 1000,
+    },
+    {
+      _id: 'uB',
+      _openid: OPENID,
+      stars: 2,
+      stickers: [],
+      badges: [],
+      heatDays: {},
+      updatedAt: 2000,
+    },
   ])
   const added = await fn('addStars')({ delta: 1, reason: 'math', ref: '1+1', clientId: 'merge-1' })
   assert.equal(added.ok, true)
@@ -789,8 +805,24 @@ async function testMergeStaleUsers() {
   // exchangeReward：双档期先合并再判断，余额/贴纸以合并值为准，不误拒
   reset()
   db.set('users', [
-    { _id: 'uA', _openid: OPENID, stars: 3, stickers: [], badges: [], heatDays: {}, updatedAt: 1000 },
-    { _id: 'uB', _openid: OPENID, stars: 2, stickers: [], badges: [], heatDays: {}, updatedAt: 2000 },
+    {
+      _id: 'uA',
+      _openid: OPENID,
+      stars: 3,
+      stickers: [],
+      badges: [],
+      heatDays: {},
+      updatedAt: 1000,
+    },
+    {
+      _id: 'uB',
+      _openid: OPENID,
+      stars: 2,
+      stickers: [],
+      badges: [],
+      heatDays: {},
+      updatedAt: 2000,
+    },
   ])
   const traded = await fn('exchangeReward')({ rewardId: 'cat' })
   assert.equal(traded.ok, true, '合并后余额 5 ≥ 2 应可兑换')

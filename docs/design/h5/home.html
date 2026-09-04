@@ -23,12 +23,12 @@
               <img class="star-bar__icon" src="../atoms/star.png" alt="" />
               <span class="star-bar__count">128</span>
             </div>
-            <div class="capsule-slot"></div>
+            <div class="capsule-slot" data-href="index.html"></div>
           </div>
         </div>
 
         <!-- 首页独有欢迎卡 -->
-        <a class="hello-card block tone-cream" href="parent.html" aria-label="打开家长区">
+        <div class="hello-card block tone-cream" data-href="parent.html">
           <div class="hello-card__avatar-slot">
             <img class="hello-card__avatar" src="../atoms/avatar.png" alt="" />
           </div>
@@ -37,10 +37,10 @@
             <div class="hello-card__sub">一起快乐学习吧～</div>
           </div>
           <img class="hello-card__deco" src="../atoms/daisy-sprig.png" alt="" />
-        </a>
+        </div>
 
         <!-- 通栏：每日任务（星星凹槽进度） -->
-        <div class="feature-card block tone-matcha">
+        <div class="feature-card block tone-matcha" data-href="task/list.html">
           <img class="feature-card__mascot" src="../atoms/dino.png" alt="" />
           <div class="feature-card__body">
             <div class="feature-card__title">每日任务</div>
@@ -63,7 +63,7 @@
         </div>
 
         <!-- 通栏：积分商城 -->
-        <div class="feature-card feature-card--shop block tone-rose">
+        <div class="feature-card feature-card--shop block tone-rose" data-href="reward/shop.html">
           <img class="feature-card__mascot" src="../atoms/unicorn.png" alt="" />
           <div class="feature-card__body">
             <div class="feature-card__title">积分商城</div>
@@ -74,32 +74,39 @@
 
         <!-- 六个学习积木：一卡一色 -->
         <div class="home-modules">
-          <div class="home-modules__cell module-card block tone-butter">
+          <div
+            class="home-modules__cell module-card block tone-butter"
+            data-href="pinyin/list.html"
+          >
             <img class="module-card__mascot" src="../atoms/duckling.png" alt="" />
             <div class="module-card__label">拼音</div>
           </div>
-          <div class="home-modules__cell module-card block tone-tan">
+          <div class="home-modules__cell module-card block tone-tan" data-href="english/hub.html">
             <img class="module-card__mascot" src="../atoms/bear.png" alt="" />
             <div class="module-card__label">英语</div>
           </div>
-          <div class="home-modules__cell module-card block tone-orange">
+          <div class="home-modules__cell module-card block tone-orange" data-href="hanzi/list.html">
             <img class="module-card__mascot" src="../atoms/cat.png" alt="" />
             <div class="module-card__label">识字</div>
           </div>
-          <div class="home-modules__cell module-card block tone-coral">
+          <div class="home-modules__cell module-card block tone-coral" data-href="poem/list.html">
             <img class="module-card__mascot" src="../atoms/rabbit.png" alt="" />
             <div class="module-card__label">古诗</div>
           </div>
-          <div class="home-modules__cell module-card block tone-sand">
+          <div class="home-modules__cell module-card block tone-sand" data-href="math/hub.html">
             <img class="module-card__mascot" src="../atoms/dog.png" alt="" />
             <div class="module-card__label">算术</div>
           </div>
-          <div class="home-modules__cell module-card block tone-frost">
+          <div
+            class="home-modules__cell module-card block tone-frost"
+            data-href="calendar/day.html"
+          >
             <img class="module-card__mascot" src="../atoms/penguin.png" alt="" />
             <div class="module-card__label">日历</div>
           </div>
         </div>
       </div>
     </div>
+    <script src="js/nav.js"></script>
   </body>
 </html>

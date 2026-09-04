@@ -4,6 +4,7 @@
       image="{{item.image}}"
       title="{{item.title}}"
       sub="{{item.sub}}"
+      desc="{{item.desc}}"
       tone="{{item.tone}}"
       to="{{item.to}}"
       bind:go="onCardGo"

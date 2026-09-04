@@ -14,7 +14,7 @@
       </div>
       <div class="shell">
         <div class="custom-header__row">
-          <div class="custom-header__home" aria-label="返回首页">
+          <div class="custom-header__home" aria-label="返回首页" data-href="../home.html">
             <img class="custom-header__home-icon" src="../../atoms/home-clay.png" alt="" />
           </div>
           <div class="custom-header__title">算术</div>
@@ -25,7 +25,7 @@
                 >128</b
               >
             </div>
-            <div class="capsule-slot"></div>
+            <div class="capsule-slot" data-href="../index.html"></div>
           </div>
         </div>
         <div class="inner-head">
@@ -33,18 +33,21 @@
           <p>数一数，算一算</p>
         </div>
         <div class="entry-grid">
-          <div class="entry-card block tone-rose">
+          <div class="entry-card block tone-rose" data-href="count.html">
             <img class="entry-card__image" src="../../atoms/english-fruit-apple.png" alt="" />
             <strong class="entry-card__title">数一数</strong>
             <span class="entry-card__sub">1 ~ 10</span>
+            <span class="entry-card__desc">数苹果，认数字</span>
           </div>
-          <div class="entry-card block tone-pink">
+          <div class="entry-card block tone-sand" data-href="calc.html">
             <img class="entry-card__image" src="../../atoms/dog.png" alt="" />
             <strong class="entry-card__title">算一算</strong>
             <span class="entry-card__sub">1 ~ 10</span>
+            <span class="entry-card__desc">算多少，学加减</span>
           </div>
         </div>
       </div>
     </div>
+    <script src="../js/nav.js"></script>
   </body>
 </html>

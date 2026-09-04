@@ -14,7 +14,7 @@
       </div>
       <div class="shell">
         <div class="custom-header__row">
-          <div class="custom-header__home" aria-label="返回首页">
+          <div class="custom-header__home" aria-label="返回首页" data-href="../home.html">
             <img class="custom-header__home-icon" src="../../atoms/home-clay.png" alt="" />
           </div>
           <div class="custom-header__title">公共反馈弹窗</div>
@@ -25,7 +25,7 @@
                 >128</b
               >
             </div>
-            <div class="capsule-slot"></div>
+            <div class="capsule-slot" data-href="../index.html"></div>
           </div>
         </div>
         <div class="inner-head">
@@ -50,7 +50,9 @@
                     <div class="feedback-layer__text">宝贝真棒</div>
                     <div class="feedback-layer__desc">「读 2 首古诗」任务完成啦～</div>
                   </div>
-                  <button class="feedback-layer__continue" id="fbDemoAction" type="button">继续学</button>
+                  <button class="feedback-layer__continue" id="fbDemoAction" type="button">
+                    继续学
+                  </button>
                   <img class="feedback-layer__grass" src="../../atoms/grass-tuft.png" alt="" />
                 </div>
               </div>
@@ -269,5 +271,6 @@
         })
       })()
     </script>
+    <script src="../js/nav.js"></script>
   </body>
 </html>
