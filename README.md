@@ -35,7 +35,8 @@
 | 用 CI 预览 / 上传 / 部署 | [`docs/ci-miniprogram.md`](docs/ci-miniprogram.md) |
 | 查题库、音色、配色定稿 | [`docs/design/CONTENT.md`](docs/design/CONTENT.md) |
 | 查分期与待办 | [`docs/design/PLAN.md`](docs/design/PLAN.md) |
-| H5 视觉审查稿 | `docs/design/h5/`（只出静态 UI，交互只在小程序做） |
+| H5 视觉审查稿 | `docs/design/h5/`（只出静态 UI，交互只在小程序做；本地预览 `npm run h5:serve`） |
+| 需求原文 / 验收清单 | [`docs/小程序需求优化版.md`](docs/小程序需求优化版.md) · [`docs/小程序开发核对清单.md`](docs/小程序开发核对清单.md) |
 | 小程序申请 / 上架文案 | [`docs/apply/miniprogram-intro.md`](docs/apply/miniprogram-intro.md) |
 
 ---
@@ -73,6 +74,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 | --- | --- | --- |
 | `npm run format` | Prettier 格式化小程序 / 云函数 / scripts / H5 | — |
 | `npm run sync:english` | 单独同步英语分类包运行时 | — |
+| `npm run h5:serve` | 本地预览 H5 静态审查稿（`scripts/serve_h5.js` → `docs/design/h5/`） | — |
 | `npm run assets:sync-images` | `docs/design/atoms` → 分包图片同步 | Python |
 | `npm run assets:optimize-png` | PNG 压缩 | Python |
 | `npm run assets:trim-audio` / `audio-16k` | 音频裁剪（首尾静音）/ 降到 16kbps | Python |

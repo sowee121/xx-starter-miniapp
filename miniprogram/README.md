@@ -18,7 +18,7 @@
 miniprogram/
 ├── app.js / app.json / app.wxss   # 启动链、分包与预下载注册、全局样式
 ├── pages/
-│   └── home/                      # 首页：欢迎卡 + 每日任务 + 六宫格（唯一主包业务页）
+│   └── home/                      # 首页：欢迎卡 + 任务/商城功能卡 + 六宫格（唯一主包业务页）
 ├── components/                    # 13 个主包通用组件
 ├── utils/                         # 12 个通用模块（云端、发星、点读、进度、热力…）
 ├── content/                       # 静态内容配置：mascots / modules / feedback

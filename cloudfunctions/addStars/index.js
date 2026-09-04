@@ -12,11 +12,9 @@ const REASONS = new Set([
   'word_done',
   'letter_done',
   'pinyin_done',
-  'game_clear',
   'task_done',
   'daily_task',
   'math',
-  'sport_done',
   'calendar_done',
 ])
 

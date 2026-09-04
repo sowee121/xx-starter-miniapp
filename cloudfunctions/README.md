@@ -82,6 +82,7 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
 
   | reason | 用途 | 客户端是否已用 |
   | --- | --- | --- |
+  | `answer_ok` | 通用答对 | 预留 |
   | `poem_done` | 古诗全文播完 | ✅ `subpkg/poem/detail` |
   | `char_done` | 识字点读 | ✅ `subpkg/hanzi/detail` |
   | `word_done` | 英语单词点读 | ✅ `subpkg/english*/detail` |
@@ -89,10 +90,7 @@ AppID：`wx61ad70ac766e4a04`（见 `project.config.json`）
   | `pinyin_done` | 拼音韵母点读 | ✅ `subpkg/pinyin/detail` |
   | `math` | 算术答对 | ✅ `subpkg/math/quiz-flow` |
   | `daily_task` | 每日任务奖励 | ✅ `utils/daily-tasks.js` |
-  | `answer_ok` | 通用答对 | 预留 |
-  | `game_clear` | 小游戏通关 | 预留 |
   | `task_done` | 通用任务完成 | 预留 |
-  | `sport_done` | 运动打卡 | 预留 |
   | `calendar_done` | 日历打卡 | 预留（当前日历走 `checkinTask`） |
 
   客户端新增 reason 必须同时加进这张表，否则线上全部 `invalid_params`。
