@@ -126,7 +126,7 @@
           "char": "白",
           "strokes": 5,
           "pinyin": "bai",
-          "emoji": "⬜",
+          "emoji": "⚪",
           "words": ["小白", "白云"]
         },
         {
@@ -154,7 +154,7 @@
           "char": "青",
           "strokes": 8,
           "pinyin": "qing",
-          "emoji": "🌿",
+          "emoji": "🍏",
           "words": ["青草", "青天"]
         },
         {
@@ -278,63 +278,63 @@
           "char": "人",
           "strokes": 2,
           "pinyin": "ren",
-          "emoji": "👤",
+          "emoji": "🧑🏻",
           "words": ["大人", "小人"]
         },
         {
           "char": "爸",
           "strokes": 8,
           "pinyin": "ba",
-          "emoji": "👨",
+          "emoji": "👨🏻",
           "words": ["爸爸", "老爸"]
         },
         {
           "char": "妈",
           "strokes": 6,
           "pinyin": "ma",
-          "emoji": "👩",
+          "emoji": "👩🏻",
           "words": ["妈妈", "老妈"]
         },
         {
           "char": "爷",
           "strokes": 6,
           "pinyin": "ye",
-          "emoji": "👴",
+          "emoji": "👴🏻",
           "words": ["爷爷", "姥爷"]
         },
         {
           "char": "奶",
           "strokes": 5,
           "pinyin": "nai",
-          "emoji": "👵",
+          "emoji": "👵🏻",
           "words": ["奶奶", "姥姥"]
         },
         {
           "char": "哥",
           "strokes": 10,
           "pinyin": "ge",
-          "emoji": "👦",
+          "emoji": "👦🏻",
           "words": ["哥哥", "大哥"]
         },
         {
           "char": "姐",
           "strokes": 8,
           "pinyin": "jie",
-          "emoji": "👧",
+          "emoji": "👧🏻",
           "words": ["姐姐", "大姐"]
         },
         {
           "char": "弟",
           "strokes": 7,
           "pinyin": "di",
-          "emoji": "🧒",
+          "emoji": "🧒🏻",
           "words": ["弟弟", "小弟"]
         },
         {
           "char": "妹",
           "strokes": 8,
           "pinyin": "mei",
-          "emoji": "👧🏻",
+          "emoji": "👧🏼",
           "words": ["妹妹", "小妹"]
         },
         {
@@ -355,7 +355,7 @@
           "char": "他",
           "strokes": 5,
           "pinyin": "ta",
-          "emoji": "🙋",
+          "emoji": "😀",
           "words": ["他的", "他们"]
         }
       ]
@@ -368,7 +368,7 @@
           "char": "头",
           "strokes": 5,
           "pinyin": "tou",
-          "emoji": "🗣️",
+          "emoji": "👶",
           "words": ["头头", "头发"]
         },
         {
@@ -410,7 +410,7 @@
           "char": "身",
           "strokes": 7,
           "pinyin": "shen",
-          "emoji": "🧍",
+          "emoji": "🧍🏻",
           "words": ["身体", "身上"]
         },
         {
@@ -431,7 +431,7 @@
           "char": "肚",
           "strokes": 7,
           "pinyin": "du",
-          "emoji": "🤰",
+          "emoji": "🤰🏻",
           "words": ["肚子", "肚肚"]
         },
         {
@@ -555,7 +555,7 @@
           "char": "小",
           "strokes": 3,
           "pinyin": "xiao",
-          "emoji": "🐱",
+          "emoji": "🐭",
           "words": ["小孩", "小鸟"]
         },
         {
@@ -604,14 +604,14 @@
           "char": "里",
           "strokes": 7,
           "pinyin": "li",
-          "emoji": "🏠",
+          "emoji": "📦",
           "words": ["家里", "里面"]
         },
         {
           "char": "外",
           "strokes": 5,
           "pinyin": "wai",
-          "emoji": "🚪",
+          "emoji": "🪟",
           "words": ["外面", "门外"]
         },
         {
@@ -652,14 +652,14 @@
           "char": "出",
           "strokes": 5,
           "pinyin": "chu",
-          "emoji": "🚪",
+          "emoji": "📤",
           "words": ["出门", "出来"]
         },
         {
           "char": "走",
           "strokes": 7,
           "pinyin": "zou",
-          "emoji": "🚶",
+          "emoji": "🚶🏻",
           "words": ["走路", "走开"]
         },
         {

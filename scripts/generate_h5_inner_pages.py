@@ -504,7 +504,7 @@ def make_pinyin():
     write(
         "pinyin/list.html",
         "拼音",
-        f'<div class="inner-head"><h1>单韵母</h1><p>听一听，学发音</p></div><div class="word-grid">{cards}</div>',
+        f'<div class="inner-head"><h1>单韵母</h1><p>听一听，练发音</p></div><div class="word-grid">{cards}</div>',
     )
 
     sample = vowels[0]

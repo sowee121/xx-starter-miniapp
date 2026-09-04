@@ -27,9 +27,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 160rpx;
-  height: 160rpx;
-  font-size: 100rpx;
+  width: var(--size-emoji-lg);
+  height: var(--size-emoji-lg);
+  font-size: var(--font-emoji-lg);
   line-height: 1;
 }
 

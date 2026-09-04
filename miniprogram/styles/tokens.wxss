@@ -41,6 +41,8 @@ page {
   --size-mascot: 168rpx; /* 首页通栏吉祥物 / 模块卡吉祥物 / 商城贴纸大图 */
   --size-word: 210rpx; /* 英语/识字列表字卡高 */
   --size-word-thumb: 100rpx; /* 字卡缩略图 */
+  --size-emoji: 100rpx; /* 列表字卡 emoji 容器 */
+  --size-emoji-lg: 150rpx; /* 详情大卡 emoji 容器 */
   --size-play: 92rpx; /* 播放圆钮默认边长 */
   --size-play-sm: 76rpx; /* 播放圆钮小号 */
   --size-play-icon: 44rpx; /* 播放 / 停止图标默认 */
@@ -195,6 +197,8 @@ page {
   --font-inner: 46rpx; /* 详情内页大标题 */
   --font-hero: 48rpx; /* 古诗封面题名、日历日期 */
   --font-display: 58rpx; /* 选项数字、字卡 */
+  --font-emoji: 80rpx; /* 列表字卡 emoji 字号 */
+  --font-emoji-lg: 120rpx; /* 详情大卡 emoji 字号 */
   --letter-btn: 2rpx; /* 全站字距；所有文字继承 */
   --font-family:
     'Yuanti SC', 'Yuanti TC', 'PingFang SC', 'Hiragino Sans GB', 'Heiti SC', sans-serif; /* 有圆体用圆体，否则苹方 */

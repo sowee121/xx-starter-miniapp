@@ -15,7 +15,7 @@
   </view>
   <view class="task-row__body">
     <view class="task-row__title">{{title}}</view>
-    <view wx:if="{{showProgress}}" class="task-row__progress">{{current}}/{{target}}</view>
+    <view class="task-row__progress">{{current}}/{{target}}</view>
   </view>
   <view class="task-row__reward">
     <view>+{{reward}}</view>

@@ -42,7 +42,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--gap-row);
+  gap: var(--gap-inset);
   padding: var(--pad-card);
   text-align: left;
 }
@@ -184,12 +184,12 @@
   height: var(--size-word);
 }
 .word-card__emoji {
-  width: var(--size-word-thumb);
-  height: var(--size-word-thumb);
+  width: var(--size-emoji);
+  height: var(--size-emoji);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 62px;
+  font-size: var(--font-emoji);
   line-height: 1;
   flex-shrink: 0;
 }
@@ -221,9 +221,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 160px;
-  height: 160px;
-  font-size: 100px;
+  width: var(--size-emoji-lg);
+  height: var(--size-emoji-lg);
+  font-size: var(--font-emoji-lg);
   line-height: 1;
 }
 .detail-card__glyph {

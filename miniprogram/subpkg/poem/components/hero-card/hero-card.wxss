@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: var(--gap-row);
+  gap: var(--gap-inset);
   padding: var(--pad-card);
   text-align: left;
   border-radius: var(--radius-card);

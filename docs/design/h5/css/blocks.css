@@ -381,13 +381,21 @@ a.block:active,
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--gap-row);
+  gap: var(--gap-inset);
   width: 100%;
-  min-height: 420px;
+  /* 56 padding + 240 图 + 组间 24 + 文字组（50+12+47+12+45）≈ 486，取整留余 */
+  min-height: 490px;
   padding: var(--pad-card);
   text-align: center;
   box-sizing: border-box;
   border-radius: var(--radius-card);
+}
+/* 图 / 文字两区块：组间 gap 走外层 gap-inset，三行文字在组内收细为 gap-text */
+.entry-card__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
 }
 .entry-card__image {
   width: 240px;

@@ -11,8 +11,6 @@ Component({
     title: { type: String, value: '' },
     /** 是否已完成 */
     done: { type: Boolean, value: false },
-    /** 是否展示进度（如 2/3） */
-    showProgress: { type: Boolean, value: false },
     /** 当前进度 */
     current: { type: Number, value: 0 },
     /** 目标进度 */

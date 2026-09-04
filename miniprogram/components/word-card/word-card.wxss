@@ -66,12 +66,12 @@
 }
 
 .word-card__emoji {
-  width: var(--size-word-thumb);
-  height: var(--size-word-thumb);
+  width: var(--size-emoji);
+  height: var(--size-emoji);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 62rpx;
+  font-size: var(--font-emoji);
   line-height: 1;
   flex-shrink: 0;
 }

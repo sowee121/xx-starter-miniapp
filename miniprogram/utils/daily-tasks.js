@@ -178,7 +178,7 @@ function nextUrl(taskId) {
   return task ? task.url : ''
 }
 
-/** 今日任务列表 */
+/** 今日任务列表；进度恒展示（含完成态，如 3/3），current 已封顶到 target */
 function taskList() {
   const day = ensureToday()
   return day.tasks.map((task) => {
@@ -188,7 +188,6 @@ function taskList() {
       ...task,
       done: !!day.done[task.id],
       current,
-      showProgress: task.target === 1 ? true : !day.done[task.id],
       openUrl: nextUrl(task.id),
     }
   })

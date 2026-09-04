@@ -1,4 +1,4 @@
-<app-shell title="拼音" hint="单韵母" sub-hint="听一听，学发音" stars="{{stars}}">
+<app-shell title="拼音" hint="单韵母" sub-hint="听一听，练发音" stars="{{stars}}">
   <view class="word-grid">
     <word-card
       wx:for="{{items}}"

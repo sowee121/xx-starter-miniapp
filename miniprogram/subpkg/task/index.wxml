@@ -6,7 +6,6 @@
       task-id="{{item.id}}"
       title="{{item.title}}"
       done="{{item.done}}"
-      show-progress="{{item.showProgress}}"
       current="{{item.current}}"
       target="{{item.target}}"
       reward="{{item.reward}}"

@@ -6,7 +6,9 @@
   hover-stay-time="80"
 >
   <image class="entry-card__image" src="{{image}}" mode="aspectFit" />
-  <view class="entry-card__title">{{title}}</view>
-  <view class="entry-card__sub">{{sub}}</view>
-  <view class="entry-card__desc">{{desc}}</view>
+  <view class="entry-card__text">
+    <view class="entry-card__title">{{title}}</view>
+    <view class="entry-card__sub">{{sub}}</view>
+    <view class="entry-card__desc">{{desc}}</view>
+  </view>
 </view>

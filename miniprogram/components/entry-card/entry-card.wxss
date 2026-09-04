@@ -13,12 +13,21 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 420rpx;
-  gap: var(--gap-row);
+  /* 56 padding + 240 图 + 组间 24 + 文字组（50+12+47+12+45）≈ 486，取整留余 */
+  min-height: 490rpx;
+  gap: var(--gap-inset);
   padding: var(--pad-card);
   text-align: center;
   border-radius: var(--radius-card);
   box-sizing: border-box;
+}
+
+/* 图 / 文字两区块：组间 gap 走外层 gap-inset，三行文字在组内收细为 gap-text */
+.entry-card__text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-text);
 }
 
 /* 色面：取值对齐全局 tone-sky/rose/sand；新增色调需在此补充 */

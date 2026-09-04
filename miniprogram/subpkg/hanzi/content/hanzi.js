@@ -206,7 +206,7 @@ module.exports = {
           char: '白',
           strokes: 5,
           pinyin: 'bai',
-          emoji: '⬜',
+          emoji: '⚪',
           words: ['小白', '白云'],
           audio: '/subpkg/hanzi/static/audio/bai-767d.mp3',
           wordAudios: [
@@ -254,7 +254,7 @@ module.exports = {
           char: '青',
           strokes: 8,
           pinyin: 'qing',
-          emoji: '🌿',
+          emoji: '🍏',
           words: ['青草', '青天'],
           audio: '/subpkg/hanzi/static/audio/qing-9752.mp3',
           wordAudios: [
@@ -458,7 +458,7 @@ module.exports = {
           char: '人',
           strokes: 2,
           pinyin: 'ren',
-          emoji: '👤',
+          emoji: '🧑🏻',
           words: ['大人', '小人'],
           audio: '/subpkg/hanzi/static/audio/ren-4eba.mp3',
           wordAudios: [
@@ -470,7 +470,7 @@ module.exports = {
           char: '爸',
           strokes: 8,
           pinyin: 'ba',
-          emoji: '👨',
+          emoji: '👨🏻',
           words: ['爸爸', '老爸'],
           audio: '/subpkg/hanzi/static/audio/ba-7238.mp3',
           wordAudios: [
@@ -482,7 +482,7 @@ module.exports = {
           char: '妈',
           strokes: 6,
           pinyin: 'ma',
-          emoji: '👩',
+          emoji: '👩🏻',
           words: ['妈妈', '老妈'],
           audio: '/subpkg/hanzi/static/audio/ma-5988.mp3',
           wordAudios: [
@@ -494,7 +494,7 @@ module.exports = {
           char: '爷',
           strokes: 6,
           pinyin: 'ye',
-          emoji: '👴',
+          emoji: '👴🏻',
           words: ['爷爷', '姥爷'],
           audio: '/subpkg/hanzi/static/audio/ye-7237.mp3',
           wordAudios: [
@@ -506,7 +506,7 @@ module.exports = {
           char: '奶',
           strokes: 5,
           pinyin: 'nai',
-          emoji: '👵',
+          emoji: '👵🏻',
           words: ['奶奶', '姥姥'],
           audio: '/subpkg/hanzi/static/audio/nai-5976.mp3',
           wordAudios: [
@@ -518,7 +518,7 @@ module.exports = {
           char: '哥',
           strokes: 10,
           pinyin: 'ge',
-          emoji: '👦',
+          emoji: '👦🏻',
           words: ['哥哥', '大哥'],
           audio: '/subpkg/hanzi/static/audio/ge-54e5.mp3',
           wordAudios: [
@@ -530,7 +530,7 @@ module.exports = {
           char: '姐',
           strokes: 8,
           pinyin: 'jie',
-          emoji: '👧',
+          emoji: '👧🏻',
           words: ['姐姐', '大姐'],
           audio: '/subpkg/hanzi/static/audio/jie-59d0.mp3',
           wordAudios: [
@@ -542,7 +542,7 @@ module.exports = {
           char: '弟',
           strokes: 7,
           pinyin: 'di',
-          emoji: '🧒',
+          emoji: '🧒🏻',
           words: ['弟弟', '小弟'],
           audio: '/subpkg/hanzi/static/audio/di-5f1f.mp3',
           wordAudios: [
@@ -554,7 +554,7 @@ module.exports = {
           char: '妹',
           strokes: 8,
           pinyin: 'mei',
-          emoji: '👧🏻',
+          emoji: '👧🏼',
           words: ['妹妹', '小妹'],
           audio: '/subpkg/hanzi/static/audio/mei-59b9.mp3',
           wordAudios: [
@@ -590,7 +590,7 @@ module.exports = {
           char: '他',
           strokes: 5,
           pinyin: 'ta',
-          emoji: '🙋',
+          emoji: '😀',
           words: ['他的', '他们'],
           audio: '/subpkg/hanzi/static/audio/ta-4ed6.mp3',
           wordAudios: [
@@ -608,7 +608,7 @@ module.exports = {
           char: '头',
           strokes: 5,
           pinyin: 'tou',
-          emoji: '🗣️',
+          emoji: '👶',
           words: ['头头', '头发'],
           audio: '/subpkg/hanzi/static/audio/tou-5934.mp3',
           wordAudios: [
@@ -680,7 +680,7 @@ module.exports = {
           char: '身',
           strokes: 7,
           pinyin: 'shen',
-          emoji: '🧍',
+          emoji: '🧍🏻',
           words: ['身体', '身上'],
           audio: '/subpkg/hanzi/static/audio/shen-8eab.mp3',
           wordAudios: [
@@ -716,7 +716,7 @@ module.exports = {
           char: '肚',
           strokes: 7,
           pinyin: 'du',
-          emoji: '🤰',
+          emoji: '🤰🏻',
           words: ['肚子', '肚肚'],
           audio: '/subpkg/hanzi/static/audio/du-809a.mp3',
           wordAudios: [
@@ -920,7 +920,7 @@ module.exports = {
           char: '小',
           strokes: 3,
           pinyin: 'xiao',
-          emoji: '🐱',
+          emoji: '🐭',
           words: ['小孩', '小鸟'],
           audio: '/subpkg/hanzi/static/audio/xiao-5c0f.mp3',
           wordAudios: [
@@ -1004,7 +1004,7 @@ module.exports = {
           char: '里',
           strokes: 7,
           pinyin: 'li',
-          emoji: '🏠',
+          emoji: '📦',
           words: ['家里', '里面'],
           audio: '/subpkg/hanzi/static/audio/li-91cc.mp3',
           wordAudios: [
@@ -1016,7 +1016,7 @@ module.exports = {
           char: '外',
           strokes: 5,
           pinyin: 'wai',
-          emoji: '🚪',
+          emoji: '🪟',
           words: ['外面', '门外'],
           audio: '/subpkg/hanzi/static/audio/wai-5916.mp3',
           wordAudios: [
@@ -1082,7 +1082,7 @@ module.exports = {
           char: '出',
           strokes: 5,
           pinyin: 'chu',
-          emoji: '🚪',
+          emoji: '📤',
           words: ['出门', '出来'],
           audio: '/subpkg/hanzi/static/audio/chu-51fa.mp3',
           wordAudios: [
@@ -1094,7 +1094,7 @@ module.exports = {
           char: '走',
           strokes: 7,
           pinyin: 'zou',
-          emoji: '🚶',
+          emoji: '🚶🏻',
           words: ['走路', '走开'],
           wordAudios: [
             '/subpkg/hanzi/static/audio/zou-8d70-word-1.mp3',
