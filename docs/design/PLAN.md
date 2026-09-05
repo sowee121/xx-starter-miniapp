@@ -6,7 +6,7 @@
 > - `[小程序开发核对清单.md](../小程序开发核对清单.md)`
 > - 内容与视觉定稿：[CONTENT.md](./CONTENT.md) + `docs/design/h5/` + `docs/design/atoms/`
 >
-> 复核：2026-09-04 已按 `miniprogram/` 现行实现同步（`.detail-card` / `--opacity-disabled: 0.86` / `.custom-header__home` / `--shadow-lift` / 算术两题型无固定题量）
+> 复核：2026-09-05 已按 `miniprogram/` 现行实现同步（首页预加载 task/shop/calendar/parent，`english-abc` 不再随枢纽预下载）；此前 2026-09-04 已同步 `.detail-card` / `--opacity-disabled: 0.86` / `.custom-header__home` / `--shadow-lift` / 算术两题型无固定题量
 
 ---
 
@@ -220,7 +220,7 @@ flowchart LR
 | P3 互动 | 数物拼接 + 加减（结果 1～10）；仅选择；正向反馈   | §五 3、§四    | 完成 |
 | P4 配套 | 日历打卡、每日任务、贴纸商城、家长区、反馈闭环 | §五 6/7/8、§四 | 完成（任务数量每日随机；日历按钮打卡；弹层 + feedback-bar + 音效，禁 Toast；家长区音量/清除） |
 | P5 云端 | 云函数：积分/打卡/进度/贴纸/清除；云端为主存 | §六         | **完成**：积分/打卡/贴纸/学习进度/`resetProfile` 已接通；`addStars` 含 `letter_done`；贴纸兑换仅云端。加星与进度在云失败时本地队列兜底、云通畅后冲刷 |
-| P6 收尾 | 懒加载、机型与安全区、少儿纯净项            | §一         | 完成：内容图懒加载；首页预加载 task/shop/calendar/math（`network: all`）、英语枢纽预加载 english-abc；底部安全区；锁定竖屏；无广告/付费/授权链路 |
+| P6 收尾 | 懒加载、机型与安全区、少儿纯净项            | §一         | 完成：内容图懒加载；首页预加载 task/shop/calendar/parent（`network: all`）；底部安全区；锁定竖屏；无广告/付费/授权链路 |
 
 
 ---

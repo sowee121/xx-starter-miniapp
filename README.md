@@ -134,7 +134,7 @@ npm test           # 小程序静态检查（先自动同步英语分类包，�
 | `shop` | `index` | 积分商城（24 款贴纸） |
 | `parent` | `index` | 家长区（欢迎卡进入；音量三档 + 四类长按清除） |
 
-首页预下载 `task` / `shop` / `calendar` / `math`；英语枢纽页预下载 `english-abc`（`preloadRule` 由 `npm test` 校验总量 ≤ 2MB）。
+首页预下载 `task` / `shop` / `calendar` / `parent`（`preloadRule` 由 `npm test` 校验总量 ≤ 2MB；`english-abc` 不再随枢纽预下载）。
 
 ---
 

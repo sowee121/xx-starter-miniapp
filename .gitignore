@@ -25,6 +25,14 @@ miniprogram_npm/
 __pycache__/
 *.pyc
 
+# Python 虚拟环境与工具缓存（scripts/*.py 依赖 Pillow/numpy/edge-tts）
+venv/
+.venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
 # ---------- 密钥 / 凭据（切勿入库）----------
 # miniprogram-ci 代码上传私钥目录（保留空目录占位）
 secrets/**
