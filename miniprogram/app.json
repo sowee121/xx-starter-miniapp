@@ -107,7 +107,7 @@
   "preloadRule": {
     "pages/home/home": {
       "network": "all",
-      "packages": ["task", "shop", "calendar"]
+      "packages": ["task", "shop", "calendar", "parent"]
     }
   }
 }
