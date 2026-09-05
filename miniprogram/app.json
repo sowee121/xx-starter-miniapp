@@ -107,11 +107,7 @@
   "preloadRule": {
     "pages/home/home": {
       "network": "all",
-      "packages": ["task", "shop", "calendar", "math"]
-    },
-    "subpkg/english/hub/hub": {
-      "network": "all",
-      "packages": ["english-abc"]
+      "packages": ["task", "shop", "calendar"]
     }
   }
 }
