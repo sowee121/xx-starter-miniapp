@@ -37,6 +37,7 @@
 | 查分期与待办 | [`docs/design/PLAN.md`](docs/design/PLAN.md) |
 | H5 视觉审查稿 | `docs/design/h5/`（只出静态 UI，交互只在小程序做；本地预览 `npm run h5:serve`） |
 | 需求原文 / 验收清单 | [`docs/小程序需求优化版.md`](docs/小程序需求优化版.md) · [`docs/小程序开发核对清单.md`](docs/小程序开发核对清单.md) |
+| 最佳实践 / 复用检索 | [`docs/最佳实践手册.md`](docs/最佳实践手册.md)（架构边界、并发幂等、门禁、部署、视觉与素材、SOP、排障） |
 | 小程序申请 / 上架文案 | [`docs/apply/miniprogram-intro.md`](docs/apply/miniprogram-intro.md) |
 
 ---
